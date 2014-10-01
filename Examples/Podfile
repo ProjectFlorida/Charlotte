@@ -1,2 +1,5 @@
+source 'git@github.com:ProjectFlorida/CocoaPods-Private-Specs.git'
+source 'https://github.com/CocoaPods/Specs.git'
+
 pod 'Charlotte', :path => '..'
 
