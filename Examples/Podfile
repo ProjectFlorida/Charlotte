@@ -1,0 +1,2 @@
+pod 'Charlotte', :path => '..'
+

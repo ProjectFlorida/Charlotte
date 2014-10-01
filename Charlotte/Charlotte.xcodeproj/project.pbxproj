@@ -7,11 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		96121DD819DCA44E00E95207 /* CHChartPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 96121DD619DCA44E00E95207 /* CHChartPage.h */; };
+		96121DD919DCA44E00E95207 /* CHChartPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 96121DD719DCA44E00E95207 /* CHChartPage.m */; };
 		96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 96DDD67C19DC9CE8005CCD07 /* Charlotte.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96DDD68719DC9CE8005CCD07 /* CharlotteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD68619DC9CE8005CCD07 /* CharlotteTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		96121DD619DCA44E00E95207 /* CHChartPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartPage.h; sourceTree = "<group>"; };
+		96121DD719DCA44E00E95207 /* CHChartPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartPage.m; sourceTree = "<group>"; };
 		96DDD67719DC9CE8005CCD07 /* Charlotte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charlotte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD67B19DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD67C19DC9CE8005CCD07 /* Charlotte.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Charlotte.h; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 			isa = PBXGroup;
 			children = (
 				96DDD67C19DC9CE8005CCD07 /* Charlotte.h */,
+				96121DD619DCA44E00E95207 /* CHChartPage.h */,
+				96121DD719DCA44E00E95207 /* CHChartPage.m */,
 				96DDD67A19DC9CE8005CCD07 /* Supporting Files */,
 			);
 			path = Charlotte;
@@ -98,6 +104,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
+				96121DD819DCA44E00E95207 /* CHChartPage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +203,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96121DD919DCA44E00E95207 /* CHChartPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,6 +381,7 @@
 				96DDD68C19DC9CE8005CCD07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		96DDD68D19DC9CE8005CCD07 /* Build configuration list for PBXNativeTarget "CharlotteTests" */ = {
 			isa = XCConfigurationList;
@@ -381,6 +390,7 @@
 				96DDD68F19DC9CE8005CCD07 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
