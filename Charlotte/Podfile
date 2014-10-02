@@ -1,0 +1,8 @@
+source 'https://github.com/CocoaPods/Specs.git'
+
+target "CharlotteTests", :exclusive => true do
+    # this commit fixes the Xcode 6 compile failure (XCTest framework not found)
+    # note: the XCTest subspec has been removed...kiwi is now XCTest only (SenTestKit is deprecated)
+    # updating commit to include fix for testing on devices.
+    pod 'Kiwi', :git => 'https://github.com/kiwi-bdd/Kiwi.git', :commit => 'df32fa1'
+end

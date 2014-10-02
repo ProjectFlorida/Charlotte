@@ -7,21 +7,46 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E3D11027877B559D03C14B0 /* libPods-CharlotteTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */; };
 		96121DD819DCA44E00E95207 /* CHChartPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 96121DD619DCA44E00E95207 /* CHChartPage.h */; };
 		96121DD919DCA44E00E95207 /* CHChartPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 96121DD719DCA44E00E95207 /* CHChartPage.m */; };
+		9644BC3A19DD9D6700E59434 /* CHChartPageValue.h in Headers */ = {isa = PBXBuildFile; fileRef = 9644BC3819DD9D6700E59434 /* CHChartPageValue.h */; };
+		9644BC3B19DD9D6700E59434 /* CHChartPageValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 9644BC3919DD9D6700E59434 /* CHChartPageValue.m */; };
+		965D9A4319DDA77F00BE9A02 /* CHChartPageValueSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 965D9A4219DDA77F00BE9A02 /* CHChartPageValueSpec.m */; };
+		965D9A4619DDAB2100BE9A02 /* CHChartPageViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 965D9A4419DDAB2100BE9A02 /* CHChartPageViewController.h */; };
+		965D9A4719DDAB2100BE9A02 /* CHChartPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 965D9A4519DDAB2100BE9A02 /* CHChartPageViewController.m */; };
+		9696A02E19DD9F290085A508 /* CHChartPageSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 9696A02D19DD9F290085A508 /* CHChartPageSpec.m */; };
+		9696A03319DDA20D0085A508 /* Charlotte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DDD67719DC9CE8005CCD07 /* Charlotte.framework */; };
 		96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 96DDD67C19DC9CE8005CCD07 /* Charlotte.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		96DDD68719DC9CE8005CCD07 /* CharlotteTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD68619DC9CE8005CCD07 /* CharlotteTests.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		9696A03119DDA0D80085A508 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 96DDD66E19DC9CE8005CCD07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 96DDD67619DC9CE8005CCD07;
+			remoteInfo = Charlotte;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		58113B0BC0B1A30968254A1C /* Pods-CharlotteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CharlotteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests.release.xcconfig"; sourceTree = "<group>"; };
 		96121DD619DCA44E00E95207 /* CHChartPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartPage.h; sourceTree = "<group>"; };
 		96121DD719DCA44E00E95207 /* CHChartPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartPage.m; sourceTree = "<group>"; };
+		9644BC3819DD9D6700E59434 /* CHChartPageValue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartPageValue.h; sourceTree = "<group>"; };
+		9644BC3919DD9D6700E59434 /* CHChartPageValue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartPageValue.m; sourceTree = "<group>"; };
+		965D9A4219DDA77F00BE9A02 /* CHChartPageValueSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartPageValueSpec.m; sourceTree = "<group>"; };
+		965D9A4419DDAB2100BE9A02 /* CHChartPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartPageViewController.h; sourceTree = "<group>"; };
+		965D9A4519DDAB2100BE9A02 /* CHChartPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartPageViewController.m; sourceTree = "<group>"; };
+		9696A02D19DD9F290085A508 /* CHChartPageSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartPageSpec.m; sourceTree = "<group>"; };
 		96DDD67719DC9CE8005CCD07 /* Charlotte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charlotte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD67B19DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD67C19DC9CE8005CCD07 /* Charlotte.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Charlotte.h; sourceTree = "<group>"; };
 		96DDD68219DC9CE8005CCD07 /* CharlotteTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CharlotteTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD68519DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		96DDD68619DC9CE8005CCD07 /* CharlotteTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CharlotteTests.m; sourceTree = "<group>"; };
+		A1B103F3F5490C4C888EB57F /* Pods-CharlotteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CharlotteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CharlotteTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,18 +61,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9696A03319DDA20D0085A508 /* Charlotte.framework in Frameworks */,
+				5E3D11027877B559D03C14B0 /* libPods-CharlotteTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E18DAB0AC519804EA72488C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		96DDD66D19DC9CE8005CCD07 = {
 			isa = PBXGroup;
 			children = (
 				96DDD67919DC9CE8005CCD07 /* Charlotte */,
 				96DDD68319DC9CE8005CCD07 /* CharlotteTests */,
 				96DDD67819DC9CE8005CCD07 /* Products */,
+				A5F8EEDC56D4D2E8D3D0F607 /* Pods */,
+				5E18DAB0AC519804EA72488C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -64,8 +101,12 @@
 			isa = PBXGroup;
 			children = (
 				96DDD67C19DC9CE8005CCD07 /* Charlotte.h */,
+				965D9A4419DDAB2100BE9A02 /* CHChartPageViewController.h */,
+				965D9A4519DDAB2100BE9A02 /* CHChartPageViewController.m */,
 				96121DD619DCA44E00E95207 /* CHChartPage.h */,
 				96121DD719DCA44E00E95207 /* CHChartPage.m */,
+				9644BC3819DD9D6700E59434 /* CHChartPageValue.h */,
+				9644BC3919DD9D6700E59434 /* CHChartPageValue.m */,
 				96DDD67A19DC9CE8005CCD07 /* Supporting Files */,
 			);
 			path = Charlotte;
@@ -82,7 +123,8 @@
 		96DDD68319DC9CE8005CCD07 /* CharlotteTests */ = {
 			isa = PBXGroup;
 			children = (
-				96DDD68619DC9CE8005CCD07 /* CharlotteTests.m */,
+				9696A02D19DD9F290085A508 /* CHChartPageSpec.m */,
+				965D9A4219DDA77F00BE9A02 /* CHChartPageValueSpec.m */,
 				96DDD68419DC9CE8005CCD07 /* Supporting Files */,
 			);
 			path = CharlotteTests;
@@ -96,6 +138,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		A5F8EEDC56D4D2E8D3D0F607 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A1B103F3F5490C4C888EB57F /* Pods-CharlotteTests.debug.xcconfig */,
+				58113B0BC0B1A30968254A1C /* Pods-CharlotteTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -103,7 +154,9 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9644BC3A19DD9D6700E59434 /* CHChartPageValue.h in Headers */,
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
+				965D9A4619DDAB2100BE9A02 /* CHChartPageViewController.h in Headers */,
 				96121DD819DCA44E00E95207 /* CHChartPage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -133,13 +186,16 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 96DDD68D19DC9CE8005CCD07 /* Build configuration list for PBXNativeTarget "CharlotteTests" */;
 			buildPhases = (
+				3D176293B0E84B41BB4C84C0 /* Check Pods Manifest.lock */,
 				96DDD67E19DC9CE8005CCD07 /* Sources */,
 				96DDD67F19DC9CE8005CCD07 /* Frameworks */,
 				96DDD68019DC9CE8005CCD07 /* Resources */,
+				AB26C2F022EF98DE4854CC40 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				9696A03219DDA0D80085A508 /* PBXTargetDependency */,
 			);
 			name = CharlotteTests;
 			productName = CharlotteTests;
@@ -198,11 +254,46 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3D176293B0E84B41BB4C84C0 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AB26C2F022EF98DE4854CC40 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		96DDD67219DC9CE8005CCD07 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				965D9A4719DDAB2100BE9A02 /* CHChartPageViewController.m in Sources */,
+				9644BC3B19DD9D6700E59434 /* CHChartPageValue.m in Sources */,
 				96121DD919DCA44E00E95207 /* CHChartPage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -211,11 +302,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				96DDD68719DC9CE8005CCD07 /* CharlotteTests.m in Sources */,
+				9696A02E19DD9F290085A508 /* CHChartPageSpec.m in Sources */,
+				965D9A4319DDA77F00BE9A02 /* CHChartPageValueSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9696A03219DDA0D80085A508 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 96DDD67619DC9CE8005CCD07 /* Charlotte */;
+			targetProxy = 9696A03119DDA0D80085A508 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		96DDD68819DC9CE8005CCD07 /* Debug */ = {
@@ -334,6 +434,7 @@
 		};
 		96DDD68E19DC9CE8005CCD07 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1B103F3F5490C4C888EB57F /* Pods-CharlotteTests.debug.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -351,6 +452,7 @@
 		};
 		96DDD68F19DC9CE8005CCD07 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 58113B0BC0B1A30968254A1C /* Pods-CharlotteTests.release.xcconfig */;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 //! Project version number for Charlotte.
 FOUNDATION_EXPORT double CharlotteVersionNumber;

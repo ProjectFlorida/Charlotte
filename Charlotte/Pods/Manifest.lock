@@ -1,0 +1,15 @@
+PODS:
+  - Kiwi (2.3.0)
+
+DEPENDENCIES:
+  - Kiwi (from `https://github.com/kiwi-bdd/Kiwi.git`, commit `df32fa1`)
+
+EXTERNAL SOURCES:
+  Kiwi:
+    :commit: df32fa1
+    :git: https://github.com/kiwi-bdd/Kiwi.git
+
+SPEC CHECKSUMS:
+  Kiwi: 9bf937c3c7be7e8121c3db7c2d289893722d6f16
+
+COCOAPODS: 0.34.1
