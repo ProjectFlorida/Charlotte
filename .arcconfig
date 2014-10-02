@@ -1,0 +1,4 @@
+{
+    "arc.land.onto.default": "develop",
+    "base": "git:merge-base(origin/develop), arc:prompt"
+}
