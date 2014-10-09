@@ -14,5 +14,5 @@ FOUNDATION_EXPORT double CharlotteVersionNumber;
 //! Project version string for Charlotte.
 FOUNDATION_EXPORT const unsigned char CharlotteVersionString[];
 
-// In this header, you should import all the public headers of your framework using statements like #import <Charlotte/PublicHeader.h>
-
+#import <Charlotte/CHChartViewController.h>
+#import <Charlotte/CHChartView.h>
