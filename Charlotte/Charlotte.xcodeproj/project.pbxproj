@@ -14,6 +14,10 @@
 		964D233319E71AE90096F3FD /* CHReversePagingChartLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 964D233119E71AE90096F3FD /* CHReversePagingChartLayout.m */; };
 		964D233619E7510E0096F3FD /* CHChartPointCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 964D233419E7510E0096F3FD /* CHChartPointCell.h */; };
 		964D233719E7510E0096F3FD /* CHChartPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 964D233519E7510E0096F3FD /* CHChartPointCell.m */; };
+		968D2FB519E81EC40071306C /* CHChartHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 968D2FB319E81EC40071306C /* CHChartHeaderView.h */; };
+		968D2FB619E81EC40071306C /* CHChartHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D2FB419E81EC40071306C /* CHChartHeaderView.m */; };
+		968D2FB919E81ED00071306C /* CHChartFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 968D2FB719E81ED00071306C /* CHChartFooterView.h */; };
+		968D2FBA19E81ED00071306C /* CHChartFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D2FB819E81ED00071306C /* CHChartFooterView.m */; };
 		9696A03319DDA20D0085A508 /* Charlotte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DDD67719DC9CE8005CCD07 /* Charlotte.framework */; };
 		96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 96DDD67C19DC9CE8005CCD07 /* Charlotte.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
@@ -36,6 +40,10 @@
 		964D233119E71AE90096F3FD /* CHReversePagingChartLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHReversePagingChartLayout.m; sourceTree = "<group>"; };
 		964D233419E7510E0096F3FD /* CHChartPointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartPointCell.h; sourceTree = "<group>"; };
 		964D233519E7510E0096F3FD /* CHChartPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartPointCell.m; sourceTree = "<group>"; };
+		968D2FB319E81EC40071306C /* CHChartHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartHeaderView.h; sourceTree = "<group>"; };
+		968D2FB419E81EC40071306C /* CHChartHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartHeaderView.m; sourceTree = "<group>"; };
+		968D2FB719E81ED00071306C /* CHChartFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartFooterView.h; sourceTree = "<group>"; };
+		968D2FB819E81ED00071306C /* CHChartFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartFooterView.m; sourceTree = "<group>"; };
 		96DDD67719DC9CE8005CCD07 /* Charlotte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charlotte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD67B19DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD67C19DC9CE8005CCD07 /* Charlotte.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Charlotte.h; sourceTree = "<group>"; };
@@ -101,6 +109,10 @@
 				964D233519E7510E0096F3FD /* CHChartPointCell.m */,
 				964D232819E708FE0096F3FD /* CHChartView.h */,
 				964D232919E708FE0096F3FD /* CHChartView.m */,
+				968D2FB319E81EC40071306C /* CHChartHeaderView.h */,
+				968D2FB419E81EC40071306C /* CHChartHeaderView.m */,
+				968D2FB719E81ED00071306C /* CHChartFooterView.h */,
+				968D2FB819E81ED00071306C /* CHChartFooterView.m */,
 				964D233019E71AE90096F3FD /* CHReversePagingChartLayout.h */,
 				964D233119E71AE90096F3FD /* CHReversePagingChartLayout.m */,
 				96DDD67A19DC9CE8005CCD07 /* Supporting Files */,
@@ -148,10 +160,12 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				968D2FB919E81ED00071306C /* CHChartFooterView.h in Headers */,
 				964D233219E71AE90096F3FD /* CHReversePagingChartLayout.h in Headers */,
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
 				964D233619E7510E0096F3FD /* CHChartPointCell.h in Headers */,
+				968D2FB519E81EC40071306C /* CHChartHeaderView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,8 +301,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				964D233719E7510E0096F3FD /* CHChartPointCell.m in Sources */,
+				968D2FBA19E81ED00071306C /* CHChartFooterView.m in Sources */,
 				964D233319E71AE90096F3FD /* CHReversePagingChartLayout.m in Sources */,
 				964D232B19E708FE0096F3FD /* CHChartView.m in Sources */,
+				968D2FB619E81EC40071306C /* CHChartHeaderView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

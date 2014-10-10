@@ -10,4 +10,7 @@
 
 @interface CHReversePagingChartLayout : UICollectionViewFlowLayout
 
+@property (nonatomic, assign) CGFloat headerHeight;
+@property (nonatomic, assign) CGFloat footerHeight;
+
 @end

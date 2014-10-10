@@ -8,9 +8,15 @@
 
 #import "CHChartView.h"
 #import "CHChartPointCell.h"
+#import "CHChartHeaderView.h"
+#import "CHChartFooterView.h"
 #import "CHReversePagingChartLayout.h"
 
 NSString *const kCHChartPointCellReuseId = @"ChartPointCell";
+NSString *const kCHChartHeaderViewReuseId = @"ChartHeaderView";
+NSString *const kCHChartFooterViewReuseId = @"ChartFooterView";
+NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
+NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 
 @interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -59,6 +65,12 @@ NSString *const kCHChartPointCellReuseId = @"ChartPointCell";
     _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.showsHorizontalScrollIndicator = NO;
     [_collectionView registerClass:[CHChartPointCell class] forCellWithReuseIdentifier:kCHChartPointCellReuseId];
+    [_collectionView registerClass:[CHChartHeaderView class]
+        forSupplementaryViewOfKind:CHChartViewElementKindHeader
+               withReuseIdentifier:kCHChartHeaderViewReuseId];
+    [_collectionView registerClass:[CHChartFooterView class]
+        forSupplementaryViewOfKind:CHChartViewElementKindFooter
+               withReuseIdentifier:kCHChartFooterViewReuseId];
 
     [self addSubview:_collectionView];
     NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView);
@@ -101,7 +113,31 @@ NSString *const kCHChartPointCellReuseId = @"ChartPointCell";
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHChartPointCellReuseId
                                                                            forIndexPath:indexPath];
     cell.backgroundColor = [UIColor greenColor];
+    cell.layer.borderWidth = 1;
+    cell.layer.borderColor = [UIColor grayColor].CGColor;
     return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
+           viewForSupplementaryElementOfKind:(NSString *)kind
+                                 atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *view;
+    if (kind == CHChartViewElementKindHeader) {
+        CHChartHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindHeader
+                                                                       withReuseIdentifier:kCHChartHeaderViewReuseId
+                                                                              forIndexPath:indexPath];
+        header.backgroundColor = [UIColor blueColor];
+        view = header;
+    }
+    else if (kind == CHChartViewElementKindFooter) {
+        CHChartFooterView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindFooter
+                                                                       withReuseIdentifier:kCHChartFooterViewReuseId
+                                                                              forIndexPath:indexPath];
+        footer.backgroundColor = [UIColor blueColor];
+        view = footer;
+    }
+    return view;
 }
 
 #pragma mark - UICollectionViewDelegate
