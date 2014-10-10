@@ -1,5 +1,5 @@
 //
-//  CHChartViewController.h
+//  CHChartPointCell.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/9/14.
@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHChartViewController : UIViewController
+@interface CHChartPointCell : UICollectionViewCell
 
 @end

@@ -15,6 +15,7 @@
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
 - (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
 
+- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page;
 // point indices increase from left to right.
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
@@ -35,5 +36,10 @@
 @end
 
 @interface CHChartView : UIView
+
+@property (nonatomic, weak) id<CHChartViewDataSource> dataSource;
+@property (nonatomic, weak) id<CHChartViewDelegate> delegate;
+
+- (void)reloadData;
 
 @end

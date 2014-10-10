@@ -7,7 +7,6 @@
 //
 
 #import "FirstViewController.h"
-#import <Charlotte/Charlotte.h>
 
 @interface FirstViewController () <CHChartViewDataSource, CHChartViewDelegate>
 
@@ -24,6 +23,9 @@
     self.minValues = @[@1, @2, @0, @1, @2, @1];
     self.maxValues = @[@5, @4, @7, @5, @8, @5];
     self.currentIndex = 0;
+    self.chartView.delegate = self;
+    self.chartView.dataSource = self;
+    [self.chartView reloadData];
 }
 
 #pragma mark CHChartViewDataSource
@@ -37,6 +39,11 @@
 - (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
     return [self.maxValues[self.currentIndex] integerValue];
+}
+
+- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
+{
+    return self.minValues.count;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page

@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <Charlotte/Charlotte.h>
 
 @interface FirstViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet CHChartView *chartView;
 
 @end
 

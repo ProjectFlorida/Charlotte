@@ -14,5 +14,4 @@ FOUNDATION_EXPORT double CharlotteVersionNumber;
 //! Project version string for Charlotte.
 FOUNDATION_EXPORT const unsigned char CharlotteVersionString[];
 
-#import <Charlotte/CHChartViewController.h>
 #import <Charlotte/CHChartView.h>
