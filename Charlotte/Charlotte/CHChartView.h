@@ -14,15 +14,15 @@ extern NSString *const CHChartViewElementKindFooter;
 @class CHChartView;
 @protocol CHChartViewDataSource <NSObject>
 
-// page indices increase from right to left. the rightmost page has index 0.
+- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
+
+- (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page;
+- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+// return nil for no label
+- (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
 - (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
-
-- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
-- (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page;
-// point indices increase from left to right.
-- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
-
 // the total number of distinct horizontal gridlines that may be displayed, across all possible pages
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView;
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
@@ -44,5 +44,6 @@ extern NSString *const CHChartViewElementKindFooter;
 @property (nonatomic, weak) id<CHChartViewDelegate> delegate;
 
 - (void)reloadData;
+- (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;
 
 @end

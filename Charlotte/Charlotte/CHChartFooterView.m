@@ -8,6 +8,8 @@
 
 #import "CHChartFooterView.h"
 
+NSString *const kCHChartFooterViewReuseId = @"ChartFooterView";
+
 @implementation CHChartFooterView
 
 @end

@@ -8,6 +8,8 @@
 
 #import "CHChartHeaderView.h"
 
+NSString *const kCHChartHeaderViewReuseId = @"ChartHeaderView";
+
 @implementation CHChartHeaderView
 
 @end

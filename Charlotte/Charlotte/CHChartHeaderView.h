@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const kCHChartHeaderViewReuseId;
+
 @interface CHChartHeaderView : UICollectionReusableView
 
 @end

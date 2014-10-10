@@ -12,9 +12,6 @@
 #import "CHChartFooterView.h"
 #import "CHPagingChartFlowLayout.h"
 
-NSString *const kCHChartPointCellReuseId = @"ChartPointCell";
-NSString *const kCHChartHeaderViewReuseId = @"ChartHeaderView";
-NSString *const kCHChartFooterViewReuseId = @"ChartFooterView";
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 
@@ -122,9 +119,21 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
     return self.scrollView;
 }
 
+- (NSInteger)currentPage
+{
+    return floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+}
+
 - (void)reloadData
 {
     [self.collectionView reloadData];
+}
+
+- (void)scrollToPage:(NSInteger)page animated:(BOOL)animated
+{
+    CGRect visible = self.scrollView.bounds;
+    visible.origin.x = self.scrollView.bounds.size.width*page;
+    [self.scrollView scrollRectToVisible:visible animated:animated];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -132,11 +141,6 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     self.collectionView.contentOffset = scrollView.contentOffset;
-}
-
-- (NSInteger)currentPage
-{
-    return floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -160,13 +164,16 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
     return [self.dataSource chartView:self numberOfPointsInPage:section];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHChartPointCellReuseId
+    CHChartPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHChartPointCellReuseId
                                                                            forIndexPath:indexPath];
     cell.backgroundColor = [UIColor greenColor];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
+    cell.xAxisLabelText = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
+                                             atIndex:indexPath.row];
     return cell;
 }
 
@@ -179,14 +186,14 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
         CHChartHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindHeader
                                                                        withReuseIdentifier:kCHChartHeaderViewReuseId
                                                                               forIndexPath:indexPath];
-        header.backgroundColor = [UIColor lightGrayColor];
+        header.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
         view = header;
     }
     else if (kind == CHChartViewElementKindFooter) {
         CHChartFooterView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindFooter
                                                                        withReuseIdentifier:kCHChartFooterViewReuseId
                                                                               forIndexPath:indexPath];
-        footer.backgroundColor = [UIColor lightGrayColor];
+        footer.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];;
         view = footer;
     }
     view.layer.borderWidth = 1;

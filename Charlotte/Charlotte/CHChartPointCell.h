@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const kCHChartPointCellReuseId;
+
 @interface CHChartPointCell : UICollectionViewCell
+
+/// defaults to nil
+@property (nonatomic, strong) NSString *xAxisLabelText;
 
 @end
