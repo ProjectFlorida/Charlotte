@@ -17,14 +17,19 @@ extern NSString *const CHChartViewElementKindFooter;
 - (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page;
+
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
-// return nil for no label
+
+// Return nil for no label
 - (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
+
 - (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
-// the total number of distinct horizontal gridlines that may be displayed, across all possible pages
+
+/// The total number of distinct horizontal gridlines that may be displayed
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView;
+
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @optional

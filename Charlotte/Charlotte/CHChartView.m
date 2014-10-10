@@ -154,6 +154,7 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 }
 
 #pragma mark - UICollectionViewDataSource
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return [self.dataSource numberOfPagesInChartView:self];
