@@ -18,9 +18,10 @@ NSString *const kCHChartFooterViewReuseId = @"ChartFooterView";
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 
-@interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 
 @end
@@ -64,6 +65,9 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
     _collectionView.backgroundColor = [UIColor magentaColor];
     _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.bounces = NO;
+    _collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
+    _collectionView.scrollEnabled = NO;
     [_collectionView registerClass:[CHChartPointCell class] forCellWithReuseIdentifier:kCHChartPointCellReuseId];
     [_collectionView registerClass:[CHChartHeaderView class]
         forSupplementaryViewOfKind:CHChartViewElementKindHeader
@@ -71,30 +75,61 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
     [_collectionView registerClass:[CHChartFooterView class]
         forSupplementaryViewOfKind:CHChartViewElementKindFooter
                withReuseIdentifier:kCHChartFooterViewReuseId];
-
     [self addSubview:_collectionView];
-    NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView);
-    NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-    NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_collectionView]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-    [self addConstraints:constraintsH];
-    [self addConstraints:constraintsV];
+
+    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    _scrollView.backgroundColor = [UIColor clearColor];
+    _scrollView.delegate = self;
+    _scrollView.scrollEnabled = YES;
+    _scrollView.pagingEnabled = YES;
+    [self addSubview:_scrollView];
+
+    NSArray *collectionViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
+                                                                       options:0
+                                                                       metrics:nil
+                                                                         views:NSDictionaryOfVariableBindings(_collectionView)];
+    NSArray *collectionViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_collectionView]|"
+                                                                       options:0
+                                                                       metrics:nil
+                                                                         views:NSDictionaryOfVariableBindings(_collectionView)];
+    // TODO: parameterize page inset
+    NSArray *scrollViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftInset)-[_scrollView]-(rightInset)-|"
+                                                                   options:0
+                                                                   metrics:@{@"leftInset": @(_collectionViewLayout.pageInset.left),
+                                                                             @"rightInset": @(_collectionViewLayout.pageInset.right)}
+                                                                     views:NSDictionaryOfVariableBindings(_scrollView)];
+    NSArray *scrollViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView]|"
+                                                                   options:0
+                                                                   metrics:nil
+                                                                     views:NSDictionaryOfVariableBindings(_scrollView)];
+    [self addConstraints:collectionViewH];
+    [self addConstraints:collectionViewV];
+    [self addConstraints:scrollViewH];
+    [self addConstraints:scrollViewV];
 }
 
 - (void)layoutSubviews
 {
     [self.collectionViewLayout invalidateLayout];
     [super layoutSubviews];
+    [self.scrollView setContentSize:self.collectionView.contentSize];
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
+    return self.scrollView;
 }
 
 - (void)reloadData
 {
     [self.collectionView reloadData];
+}
+
+#pragma mark - UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    self.collectionView.contentOffset = scrollView.contentOffset;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -127,16 +162,18 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
         CHChartHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindHeader
                                                                        withReuseIdentifier:kCHChartHeaderViewReuseId
                                                                               forIndexPath:indexPath];
-        header.backgroundColor = [UIColor blueColor];
+        header.backgroundColor = [UIColor lightGrayColor];
         view = header;
     }
     else if (kind == CHChartViewElementKindFooter) {
         CHChartFooterView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindFooter
                                                                        withReuseIdentifier:kCHChartFooterViewReuseId
                                                                               forIndexPath:indexPath];
-        footer.backgroundColor = [UIColor blueColor];
+        footer.backgroundColor = [UIColor lightGrayColor];
         view = footer;
     }
+    view.layer.borderWidth = 1;
+    view.layer.borderColor = [UIColor grayColor].CGColor;
     return view;
 }
 
@@ -149,13 +186,14 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CHPagingChartFlowLayout *layout = (CHPagingChartFlowLayout *)collectionViewLayout;
-    CGFloat height = self.collectionView.bounds.size.height;
-    NSInteger pageCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
+    CGFloat itemHeight = self.collectionView.bounds.size.height;
+    NSInteger itemCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
     CGFloat sectionInsetWidth = layout.sectionInset.left + layout.sectionInset.right;
     CGFloat pageInsetWidth = layout.pageInset.left + layout.pageInset.right;
-    CGFloat width = (collectionView.bounds.size.width - sectionInsetWidth - pageInsetWidth) / pageCount;
-    return CGSizeMake(width, height);
+    CGFloat itemWidth = (collectionView.bounds.size.width - sectionInsetWidth - pageInsetWidth) / itemCount;
+    return CGSizeMake(itemWidth, itemHeight);
 }
+
 
 
 

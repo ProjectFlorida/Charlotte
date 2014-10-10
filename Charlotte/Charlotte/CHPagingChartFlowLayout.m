@@ -48,6 +48,7 @@
             [self layoutAttributesForSupplementaryViewOfKind:CHChartViewElementKindFooter atIndexPath:indexPath];
         [attributesArray addObject:headerAttributes];
         [attributesArray addObject:footerAttributes];
+        
         for (int i = 0; i < [self.collectionView numberOfItemsInSection:idx]; i++) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:idx];
             UICollectionViewLayoutAttributes *itemAttributes = [self layoutAttributesForItemAtIndexPath:indexPath];
@@ -85,7 +86,7 @@
         CGPoint origin = attributes.frame.origin;
         CGSize size = attributes.frame.size;
         size.width = (firstCellAttrs.size.width*numberOfItemsInSection) + self.sectionInset.left + self.sectionInset.right;
-        origin.x = firstCellAttrs.frame.origin.x - self.sectionInset.left;
+        origin.x = firstCellAttrs.frame.origin.x - self.sectionInset.left + self.pageInset.left;
         if (attributes.representedElementKind == CHChartViewElementKindHeader) {
             origin.y = 0;
             size.height = self.headerHeight;
@@ -98,11 +99,6 @@
         attributes.zIndex = firstCellAttrs.zIndex + 1;
     }
     return attributes;
-}
-
-- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
-{
-
 }
 
 
