@@ -1,15 +1,15 @@
 //
-//  CHReversePagingChartLayout.m
+//  CHPagingChartFlowLayout.m
 //  Charlotte
 //
 //  Created by Ben Guo on 10/9/14.
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "CHReversePagingChartLayout.h"
+#import "CHPagingChartFlowLayout.h"
 #import "CHChartView.h"
 
-@implementation CHReversePagingChartLayout
+@implementation CHPagingChartFlowLayout
 
 - (instancetype)init
 {
@@ -23,6 +23,7 @@
         self.footerReferenceSize = CGSizeZero;
         self.headerHeight = 30;
         self.footerHeight = 30;
+        self.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
     }
     return self;
 }
@@ -47,7 +48,21 @@
             [self layoutAttributesForSupplementaryViewOfKind:CHChartViewElementKindFooter atIndexPath:indexPath];
         [attributesArray addObject:headerAttributes];
         [attributesArray addObject:footerAttributes];
+        for (int i = 0; i < [self.collectionView numberOfItemsInSection:idx]; i++) {
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:idx];
+            UICollectionViewLayoutAttributes *itemAttributes = [self layoutAttributesForItemAtIndexPath:indexPath];
+            [attributesArray addObject:itemAttributes];
+        }
     }];
+
+    for (UICollectionViewLayoutAttributes *attributes in attributesArray) {
+        // move cells to the right by page offset
+        if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
+            CGPoint origin = attributes.frame.origin;
+            origin.x = origin.x + self.pageInset.left;
+            attributes.frame = (CGRect){ .origin = origin, .size = attributes.frame.size };
+        }
+    }
 
     return attributesArray;
 }
@@ -85,17 +100,10 @@
     return attributes;
 }
 
-//- (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    UICollectionViewLayoutAttributes *attributes = [super layoutAttributesForItemAtIndexPath:indexPath];
-//
-//    if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
-//        CGPoint origin = attributes.frame.origin;
-//        origin.x = origin.x - self.headerReferenceSize.width;
-//        attributes.frame = (CGRect){ .origin = origin, .size = attributes.frame.size };
-//    }
-//
-//    return attributes;
-//}
+- (CGPoint)targetContentOffsetForProposedContentOffset:(CGPoint)proposedContentOffset withScrollingVelocity:(CGPoint)velocity
+{
+
+}
+
 
 @end

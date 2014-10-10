@@ -1,5 +1,5 @@
 //
-//  CHReversePagingChartLayout.h
+//  CHPagingChartFlowLayout.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/9/14.
@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHReversePagingChartLayout : UICollectionViewFlowLayout
+@interface CHPagingChartFlowLayout : UICollectionViewFlowLayout
 
 @property (nonatomic, assign) CGFloat headerHeight;
 @property (nonatomic, assign) CGFloat footerHeight;
+@property (nonatomic, assign) UIEdgeInsets pageInset;
 
 @end

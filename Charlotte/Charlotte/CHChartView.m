@@ -10,7 +10,7 @@
 #import "CHChartPointCell.h"
 #import "CHChartHeaderView.h"
 #import "CHChartFooterView.h"
-#import "CHReversePagingChartLayout.h"
+#import "CHPagingChartFlowLayout.h"
 
 NSString *const kCHChartPointCellReuseId = @"ChartPointCell";
 NSString *const kCHChartHeaderViewReuseId = @"ChartHeaderView";
@@ -21,7 +21,7 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 @interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) CHReversePagingChartLayout *collectionViewLayout;
+@property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 
 @end
 
@@ -56,7 +56,7 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 
 - (void)initialize
 {
-    _collectionViewLayout = [[CHReversePagingChartLayout alloc] init];
+    _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _collectionView.dataSource = self;
@@ -148,11 +148,12 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewFlowLayout *layout = (UICollectionViewFlowLayout *)collectionViewLayout;
+    CHPagingChartFlowLayout *layout = (CHPagingChartFlowLayout *)collectionViewLayout;
     CGFloat height = self.collectionView.bounds.size.height;
     NSInteger pageCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
     CGFloat sectionInsetWidth = layout.sectionInset.left + layout.sectionInset.right;
-    CGFloat width = (collectionView.bounds.size.width - sectionInsetWidth) / pageCount;
+    CGFloat pageInsetWidth = layout.pageInset.left + layout.pageInset.right;
+    CGFloat width = (collectionView.bounds.size.width - sectionInsetWidth - pageInsetWidth) / pageCount;
     return CGSizeMake(width, height);
 }
 
