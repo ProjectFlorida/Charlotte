@@ -79,10 +79,7 @@
         NSInteger section = indexPath.section;
         NSInteger numberOfItemsInSection = [self.collectionView numberOfItemsInSection:section];
         NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
-        NSIndexPath *lastCellIndexPath = [NSIndexPath indexPathForItem:MAX(0, (numberOfItemsInSection - 1))
-                                                             inSection:section];
         UICollectionViewLayoutAttributes *firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
-        UICollectionViewLayoutAttributes *lastCellAttrs = [self layoutAttributesForItemAtIndexPath:lastCellIndexPath];
         CGPoint origin = attributes.frame.origin;
         CGSize size = attributes.frame.size;
         size.width = (firstCellAttrs.size.width*numberOfItemsInSection) + self.sectionInset.left + self.sectionInset.right;

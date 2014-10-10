@@ -30,7 +30,6 @@
 
 #pragma mark CHChartViewDataSource
 
-// page indices increase from right to left. the rightmost page has index 0.
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
     return [self.minValues[self.currentIndex] integerValue];
@@ -51,13 +50,11 @@
     return 5;
 }
 
-// point indices increase from left to right.
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return 3;
 }
 
-// the total number of distinct horizontal gridlines that may be displayed, across all possible pages
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
 {
     return 5;

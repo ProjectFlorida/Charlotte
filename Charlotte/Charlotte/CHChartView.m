@@ -83,6 +83,8 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
     _scrollView.delegate = self;
     _scrollView.scrollEnabled = YES;
     _scrollView.pagingEnabled = YES;
+    _scrollView.showsVerticalScrollIndicator = NO;
+    _scrollView.showsHorizontalScrollIndicator = NO;
     [self addSubview:_scrollView];
 
     NSArray *collectionViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
@@ -130,6 +132,21 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     self.collectionView.contentOffset = scrollView.contentOffset;
+}
+
+- (NSInteger)currentPage
+{
+    return floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    [self.delegate chartView:self didTransitionToPage:[self currentPage]];
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    [self.delegate chartView:self didTransitionToPage:[self currentPage]];
 }
 
 #pragma mark - UICollectionViewDataSource
