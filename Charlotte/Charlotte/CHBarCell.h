@@ -22,6 +22,10 @@ extern NSString *const kCHBarCellReuseId;
 @property (nonatomic, assign) CGFloat maxValue;
 
 @property (nonatomic, strong) UIColor *barColor;
+
+/// The bar's color when its value is 0.
+@property (nonatomic, strong) UIColor *darkBarColor;
+
 @property (nonatomic, strong) UIColor *xAxisLabelColor;
 @property (nonatomic, strong) UIColor *valueLabelColor;
 

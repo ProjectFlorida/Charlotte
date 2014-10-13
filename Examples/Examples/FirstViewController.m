@@ -60,12 +60,12 @@
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
-    return [self.minValues[self.currentIndex] integerValue];
+    return [self.minValues[page] integerValue];
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return [self.maxValues[self.currentIndex] integerValue];
+    return [self.maxValues[page] integerValue];
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
