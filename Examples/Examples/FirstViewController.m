@@ -21,12 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.minValues = @[@0, @0, @(-1), @0, @0 , @0];
-    self.maxValues = @[@7, @8, @7   , @9, @10, @11];
+    self.minValues = @[@0, @0,  @(-7), @0, @(-4), @0];
+    self.maxValues = @[@7, @14, @14,   @9, @13,   @11];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
+    self.chartView.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
     [self.chartView reloadData];
 }
 

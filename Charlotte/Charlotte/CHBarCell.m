@@ -144,18 +144,20 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
-// TODO: animation option
-- (void)updateBar
+- (void)updateBarAnimated:(BOOL)animated
 {
     CGFloat relativeValue = [self relativeValue];
-    if (relativeValue == 0) {
-        self.barView.backgroundColor = _darkBarColor;
-        self.valueLabel.hidden = YES;
-    }
-    else {
-        self.barView.backgroundColor = _barColor;
-        self.valueLabel.hidden = NO;
-    }
+
+    void (^finalUpdateBlock)() = ^() {
+        if (relativeValue == 0) {
+            self.barView.backgroundColor = _darkBarColor;
+            self.valueLabel.alpha = 0;
+        }
+        else {
+            self.barView.backgroundColor = _barColor;
+            self.valueLabel.alpha = 1;
+        }
+    };
 
     [self removeConstraint:self.barViewTopConstraint];
     // clamp the bar's min height to its width
@@ -176,6 +178,20 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     }
     [self addConstraint:self.barViewTopConstraint];
     [self setNeedsUpdateConstraints];
+
+    if (animated) {
+        [UIView animateWithDuration:0.6 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [self layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.2 animations:^{
+                finalUpdateBlock();
+            }];
+        }];
+    }
+    else {
+        [self layoutIfNeeded];
+        finalUpdateBlock();
+    }
 }
 
 #pragma mark - Setters
@@ -186,14 +202,14 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     if (!self.valueLabelString) {
         self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
     }
-    [self updateBar];
+    [self updateBarAnimated:animated];
 }
 
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated
 {
     self.minValue = minValue;
     self.maxValue = maxValue;
-    [self updateBar];
+    [self updateBarAnimated:animated];
 }
 
 - (void)setValueLabelString:(NSString *)valueLabelString
