@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 extern NSString *const CHChartViewElementKindHeader;
-extern NSString *const CHChartViewElementKindFooter;
 
 @class CHChartView;
 @protocol CHChartViewDataSource <NSObject>

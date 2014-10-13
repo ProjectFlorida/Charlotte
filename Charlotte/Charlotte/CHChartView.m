@@ -9,11 +9,9 @@
 #import "CHChartView.h"
 #import "CHChartPointCell.h"
 #import "CHChartHeaderView.h"
-#import "CHChartFooterView.h"
 #import "CHPagingChartFlowLayout.h"
 
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
-NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
 
 @interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
@@ -69,9 +67,6 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
     [_collectionView registerClass:[CHChartHeaderView class]
         forSupplementaryViewOfKind:CHChartViewElementKindHeader
                withReuseIdentifier:kCHChartHeaderViewReuseId];
-    [_collectionView registerClass:[CHChartFooterView class]
-        forSupplementaryViewOfKind:CHChartViewElementKindFooter
-               withReuseIdentifier:kCHChartFooterViewReuseId];
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -189,13 +184,6 @@ NSString *const CHChartViewElementKindFooter = @"ChartViewElementKindFooter";
                                                                               forIndexPath:indexPath];
         header.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
         view = header;
-    }
-    else if (kind == CHChartViewElementKindFooter) {
-        CHChartFooterView *footer = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindFooter
-                                                                       withReuseIdentifier:kCHChartFooterViewReuseId
-                                                                              forIndexPath:indexPath];
-        footer.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];;
-        view = footer;
     }
     view.layer.borderWidth = 1;
     view.layer.borderColor = [UIColor grayColor].CGColor;

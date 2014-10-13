@@ -39,16 +39,13 @@
         }
     }
 
-    // add missing attributes for header and footer
+    // add missing attributes for header
     [sections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
         UICollectionViewLayoutAttributes *headerAttributes =
             [self layoutAttributesForSupplementaryViewOfKind:CHChartViewElementKindHeader atIndexPath:indexPath];
-        UICollectionViewLayoutAttributes *footerAttributes =
-            [self layoutAttributesForSupplementaryViewOfKind:CHChartViewElementKindFooter atIndexPath:indexPath];
         [attributesArray addObject:headerAttributes];
-        [attributesArray addObject:footerAttributes];
-        
+
         for (int i = 0; i < [self.collectionView numberOfItemsInSection:idx]; i++) {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:idx];
             UICollectionViewLayoutAttributes *itemAttributes = [self layoutAttributesForItemAtIndexPath:indexPath];
@@ -57,11 +54,13 @@
     }];
 
     for (UICollectionViewLayoutAttributes *attributes in attributesArray) {
-        // move cells to the right by page offset
         if (attributes.representedElementCategory == UICollectionElementCategoryCell) {
             CGPoint origin = attributes.frame.origin;
+            CGSize size = attributes.frame.size;
             origin.x = origin.x + self.pageInset.left;
-            attributes.frame = (CGRect){ .origin = origin, .size = attributes.frame.size };
+            origin.y = self.headerHeight;
+            size.height -= self.headerHeight;
+            attributes.frame = (CGRect){ .origin = origin, .size = size };
         }
     }
 
@@ -75,7 +74,7 @@
     if (!attributes) {
         attributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
     }
-    if (elementKind == CHChartViewElementKindHeader || elementKind == CHChartViewElementKindFooter) {
+    if (elementKind == CHChartViewElementKindHeader) {
         NSInteger section = indexPath.section;
         NSInteger numberOfItemsInSection = [self.collectionView numberOfItemsInSection:section];
         NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
@@ -84,14 +83,8 @@
         CGSize size = attributes.frame.size;
         size.width = (firstCellAttrs.size.width*numberOfItemsInSection) + self.sectionInset.left + self.sectionInset.right;
         origin.x = firstCellAttrs.frame.origin.x - self.sectionInset.left + self.pageInset.left;
-        if (attributes.representedElementKind == CHChartViewElementKindHeader) {
-            origin.y = 0;
-            size.height = self.headerHeight;
-        }
-        else if (attributes.representedElementKind == CHChartViewElementKindFooter) {
-            origin.y = self.collectionView.bounds.size.height - self.footerHeight;
-            size.height = self.footerHeight;
-        }
+        origin.y = 0;
+        size.height = self.headerHeight;
         attributes.frame = (CGRect){ .origin = origin, .size = size };
         attributes.zIndex = firstCellAttrs.zIndex + 1;
     }
