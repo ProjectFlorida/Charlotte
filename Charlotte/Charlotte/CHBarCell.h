@@ -21,14 +21,16 @@ extern NSString *const kCHBarCellReuseId;
 /// The bar's color when its value is 0.
 @property (nonatomic, strong) UIColor *darkBarColor;
 
-@property (nonatomic, strong) UIColor *xAxisLabelColor;
-@property (nonatomic, strong) UIColor *valueLabelColor;
 
 /// Default is nil.
 @property (nonatomic, strong) NSString *xAxisLabelString;
+@property (nonatomic, strong) UIColor *xAxisLabelColor;
+@property (nonatomic, strong) UIFont *xAxisLabelFont;
 
 /// Default is nil.
 @property (nonatomic, assign) NSString *valueLabelString;
+@property (nonatomic, strong) UIColor *valueLabelColor;
+@property (nonatomic, strong) UIFont *valueLabelFont;
 
 - (void)setValue:(CGFloat)value animated:(BOOL)animated;
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated;

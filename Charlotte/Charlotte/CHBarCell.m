@@ -37,6 +37,8 @@ NSString *const kCHBarCellReuseId = @"BarCell";
         _darkBarColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
         _xAxisLabelColor = [UIColor whiteColor];
         _valueLabelColor = [UIColor whiteColor];
+        _xAxisLabelFont = [UIFont systemFontOfSize:14];
+        _valueLabelFont = [UIFont systemFontOfSize:14];
         _value = 0;
         _minValue = 0;
         _maxValue = 1;
@@ -45,12 +47,14 @@ NSString *const kCHBarCellReuseId = @"BarCell";
         _xAxisLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _xAxisLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _xAxisLabel.textColor = _xAxisLabelColor;
+        _xAxisLabel.font = _xAxisLabelFont;
         _barView = [[UIView alloc] initWithFrame:CGRectZero];
         _barView.backgroundColor = _barColor;
         _barView.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel.textColor = _valueLabelColor;
+        _valueLabel.font = _valueLabelFont;
         _valueLabel.text = @"foo";
         [_valueLabel sizeToFit];
 
@@ -79,7 +83,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
                                                                         attribute:NSLayoutAttributeWidth
                                                                        multiplier:_barViewRelativeWidth
                                                                          constant:0];
-        NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_barView][_xAxisLabel]|"
+        NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_barView]-[_xAxisLabel]-|"
                                                                         options:0
                                                                         metrics:nil
                                                                           views:NSDictionaryOfVariableBindings(_barView, _xAxisLabel)];
@@ -101,7 +105,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
                                                                           toItem:_barView
                                                                        attribute:NSLayoutAttributeTop
                                                                       multiplier:1
-                                                                        constant:0];
+                                                                        constant:-4];
         [_barView addConstraints:@[valueLabelX, valueLabelY]];
 
     }
@@ -131,11 +135,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self.value = 0;
     self.minValue = 0;
     self.maxValue = 1;
-}
-
-- (void)updateConstraints
-{
-    [super updateConstraints];
+    [self updateBarAnimated:NO];
 }
 
 /// Returns the bar's value relative to its min and max value
@@ -212,11 +212,26 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     [self updateBarAnimated:animated];
 }
 
+- (void)setValueLabelFont:(UIFont *)valueLabelFont
+{
+    _valueLabelFont = valueLabelFont;
+    self.valueLabel.font = valueLabelFont;
+    [self.valueLabel sizeToFit];
+}
+
 - (void)setValueLabelString:(NSString *)valueLabelString
 {
     _valueLabelString = valueLabelString;
     self.valueLabel.text = valueLabelString;
     [self.valueLabel sizeToFit];
+}
+
+
+- (void)setXAxisLabelFont:(UIFont *)xAxisLabelFont
+{
+    _xAxisLabelFont = xAxisLabelFont;
+    self.xAxisLabel.font = xAxisLabelFont;
+    [self.xAxisLabel sizeToFit];
 }
 
 - (void)setXAxisLabelString:(NSString *)xAxisLabelString
@@ -231,6 +246,5 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     _barColor = barColor;
     self.barView.backgroundColor = barColor;
 }
-
 
 @end
