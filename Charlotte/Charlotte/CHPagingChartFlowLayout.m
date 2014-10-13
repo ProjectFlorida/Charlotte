@@ -22,10 +22,21 @@
         self.headerReferenceSize = CGSizeZero;
         self.footerReferenceSize = CGSizeZero;
         self.headerHeight = 30;
-        self.footerHeight = 30;
         self.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
     }
     return self;
+}
+
+- (void)setHeaderHeight:(CGFloat)headerHeight
+{
+    _headerHeight = headerHeight;
+    [self invalidateLayout];
+}
+
+- (void)setPageInset:(UIEdgeInsets)pageInset
+{
+    _pageInset = pageInset;
+    [self invalidateLayout];
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
