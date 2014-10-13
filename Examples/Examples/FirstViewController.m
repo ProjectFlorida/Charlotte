@@ -82,7 +82,6 @@
 
 - (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
 {
-    NSLog(@"%d", page);
     self.currentIndex = page;
 }
 

@@ -133,6 +133,12 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 - (void)setCurrentPage:(NSInteger)currentPage
 {
     _currentPage = currentPage;
+    for (CHBarCell *cell in self.collectionView.visibleCells) {
+        CGFloat minValue = [self.dataSource chartView:self minValueForPage:currentPage];
+        CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:currentPage];
+        [cell setMinValue:minValue maxValue:maxValue animated:YES];
+    }
+
     [self.delegate chartView:self didTransitionToPage:currentPage];
 }
 
@@ -176,9 +182,11 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     cell.xAxisLabelString = [self.dataSource chartView:self
                               xAxisLabelForPointInPage:indexPath.section
                                                atIndex:indexPath.row];
-    cell.minValue = [self.dataSource chartView:self minValueForPage:[self currentPage]];
-    cell.maxValue = [self.dataSource chartView:self maxValueForPage:[self currentPage]];
-    cell.value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
+    CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
+    [cell setMinValue:minValue maxValue:maxValue animated:NO];
+    [cell setValue:value animated:NO];
     return cell;
 }
 
@@ -215,8 +223,5 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     CGFloat itemWidth = (collectionView.bounds.size.width - sectionInsetWidth - pageInsetWidth) / itemCount;
     return CGSizeMake(itemWidth, itemHeight);
 }
-
-
-
 
 @end

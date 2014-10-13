@@ -12,6 +12,9 @@ NSString *const kCHBarCellReuseId = @"BarCell";
 
 @interface CHBarCell ()
 
+@property (nonatomic, readwrite) CGFloat value;
+@property (nonatomic, readwrite) CGFloat minValue;
+@property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) UILabel *xAxisLabel;
 @property (nonatomic, strong) UIView *barView;
 @property (nonatomic, strong) UILabel *valueLabel;
@@ -128,34 +131,11 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self.value = 0;
     self.minValue = 0;
     self.maxValue = 1;
-    [self setNeedsUpdateConstraints];
 }
 
 - (void)updateConstraints
 {
     [super updateConstraints];
-    [self removeConstraint:self.barViewTopConstraint];
-
-    CGFloat relativeValue = [self relativeValue];
-    CGFloat multiplier = 1 - relativeValue;
-    // clamp the bar's min height to its width
-    CGFloat desiredHeight = (self.bounds.size.height - self.xAxisLabel.bounds.size.height)*relativeValue;
-    CGFloat barWidth = self.bounds.size.width * self.barViewRelativeWidth;
-    if (desiredHeight < barWidth) {
-        self.barViewTopConstraint = [NSLayoutConstraint constraintWithItem:_barView
-                                                                 attribute:NSLayoutAttributeHeight
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_barView
-                                                                 attribute:NSLayoutAttributeWidth
-                                                                multiplier:1
-                                                                  constant:0];
-    }
-    else {
-        self.barViewTopConstraint = [self barViewTopConstraintWithMultiplier:multiplier];
-    }
-
-    [self addConstraint:self.barViewTopConstraint];
-    [self layoutIfNeeded];
 }
 
 /// Returns the bar's value relative to its min and max value
@@ -176,31 +156,43 @@ NSString *const kCHBarCellReuseId = @"BarCell";
         self.barView.backgroundColor = _barColor;
         self.valueLabel.hidden = NO;
     }
+
+    [self removeConstraint:self.barViewTopConstraint];
+    // clamp the bar's min height to its width
+    CGFloat desiredHeight = (self.bounds.size.height - self.xAxisLabel.bounds.size.height)*relativeValue;
+    CGFloat barWidth = self.bounds.size.width * self.barViewRelativeWidth;
+    if (desiredHeight < barWidth) {
+        self.barViewTopConstraint = [NSLayoutConstraint constraintWithItem:_barView
+                                                                 attribute:NSLayoutAttributeHeight
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:_barView
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                multiplier:1
+                                                                  constant:0];
+    }
+    else {
+        CGFloat multiplier = 1 - relativeValue;
+        self.barViewTopConstraint = [self barViewTopConstraintWithMultiplier:multiplier];
+    }
+    [self addConstraint:self.barViewTopConstraint];
+    [self setNeedsUpdateConstraints];
 }
 
-#pragma mark - Custom setters
+#pragma mark - Setters
 
-- (void)setValue:(CGFloat)value
+- (void)setValue:(CGFloat)value animated:(BOOL)animated
 {
-    _value = value;
+    self.value = value;
     if (!self.valueLabelString) {
         self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
     }
-    [self setNeedsUpdateConstraints];
     [self updateBar];
 }
 
-- (void)setMinValue:(CGFloat)minValue
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated
 {
-    _minValue = minValue;
-    [self setNeedsUpdateConstraints];
-    [self updateBar];
-}
-
-- (void)setMaxValue:(CGFloat)maxValue
-{
-    _maxValue = maxValue;
-    [self setNeedsUpdateConstraints];
+    self.minValue = minValue;
+    self.maxValue = maxValue;
     [self updateBar];
 }
 
