@@ -1,22 +1,22 @@
 //
-//  CHChartPointCell.m
+//  CHBarCell.m
 //  Charlotte
 //
 //  Created by Ben Guo on 10/9/14.
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "CHChartPointCell.h"
+#import "CHBarCell.h"
 
-NSString *const kCHChartPointCellReuseId = @"ChartPointCell";
+NSString *const kCHBarCellReuseId = @"BarCell";
 
-@interface CHChartPointCell ()
+@interface CHBarCell ()
 
 @property (nonatomic, strong) UILabel *xAxisLabel;
 
 @end
 
-@implementation CHChartPointCell
+@implementation CHBarCell
 
 - (instancetype)initWithFrame:(CGRect)frame
 {

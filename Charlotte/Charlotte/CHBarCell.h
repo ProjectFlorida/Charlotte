@@ -1,5 +1,5 @@
 //
-//  CHChartPointCell.h
+//  CHBarCell.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/9/14.
@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kCHChartPointCellReuseId;
+extern NSString *const kCHBarCellReuseId;
 
-@interface CHChartPointCell : UICollectionViewCell
+@interface CHBarCell : UICollectionViewCell
 
 /// defaults to nil
 @property (nonatomic, strong) NSString *xAxisLabelString;

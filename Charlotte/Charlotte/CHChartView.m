@@ -7,7 +7,7 @@
 //
 
 #import "CHChartView.h"
-#import "CHChartPointCell.h"
+#import "CHBarCell.h"
 #import "CHChartHeaderView.h"
 #import "CHPagingChartFlowLayout.h"
 
@@ -63,7 +63,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     _collectionView.bounces = NO;
     _collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
     _collectionView.scrollEnabled = NO;
-    [_collectionView registerClass:[CHChartPointCell class] forCellWithReuseIdentifier:kCHChartPointCellReuseId];
+    [_collectionView registerClass:[CHBarCell class] forCellWithReuseIdentifier:kCHBarCellReuseId];
     [_collectionView registerClass:[CHChartHeaderView class]
         forSupplementaryViewOfKind:CHChartViewElementKindHeader
                withReuseIdentifier:kCHChartHeaderViewReuseId];
@@ -163,7 +163,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CHChartPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHChartPointCellReuseId
+    CHBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHBarCellReuseId
                                                                            forIndexPath:indexPath];
     cell.backgroundColor = [UIColor greenColor];
     cell.layer.borderWidth = 1;
