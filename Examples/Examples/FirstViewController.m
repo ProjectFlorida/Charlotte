@@ -21,8 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.minValues = @[@0, @0, @0, @0, @0, @0];
-    self.maxValues = @[@7, @7, @7, @7, @7, @7];
+    self.minValues = @[@0, @0, @(-1), @0, @0 , @0];
+    self.maxValues = @[@7, @8, @7   , @9, @10, @11];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
@@ -82,6 +82,7 @@
 
 - (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
 {
+    NSLog(@"%d", page);
     self.currentIndex = page;
 }
 

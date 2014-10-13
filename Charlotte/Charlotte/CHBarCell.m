@@ -164,6 +164,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
+// TODO: animation option
 - (void)updateBar
 {
     CGFloat relativeValue = [self relativeValue];

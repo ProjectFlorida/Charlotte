@@ -18,6 +18,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
+@property (assign, nonatomic) NSInteger currentPage;
 
 @end
 
@@ -52,6 +53,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
 - (void)initialize
 {
+    _currentPage = 0;
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -114,11 +116,6 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     return self.scrollView;
 }
 
-- (NSInteger)currentPage
-{
-    return floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
-}
-
 - (void)reloadData
 {
     [self.collectionView reloadData];
@@ -129,6 +126,14 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     CGRect visible = self.scrollView.bounds;
     visible.origin.x = self.scrollView.bounds.size.width*page;
     [self.scrollView scrollRectToVisible:visible animated:animated];
+    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+}
+
+#pragma mark - Custom setters
+- (void)setCurrentPage:(NSInteger)currentPage
+{
+    _currentPage = currentPage;
+    [self.delegate chartView:self didTransitionToPage:currentPage];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -140,12 +145,12 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self.delegate chartView:self didTransitionToPage:[self currentPage]];
+    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    [self.delegate chartView:self didTransitionToPage:[self currentPage]];
+    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -171,8 +176,8 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     cell.xAxisLabelString = [self.dataSource chartView:self
                               xAxisLabelForPointInPage:indexPath.section
                                                atIndex:indexPath.row];
-    cell.minValue = [self.dataSource chartView:self minValueForPage:indexPath.section];
-    cell.maxValue = [self.dataSource chartView:self maxValueForPage:indexPath.section];
+    cell.minValue = [self.dataSource chartView:self minValueForPage:[self currentPage]];
+    cell.maxValue = [self.dataSource chartView:self maxValueForPage:[self currentPage]];
     cell.value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     return cell;
 }
