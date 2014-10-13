@@ -12,7 +12,23 @@ extern NSString *const kCHBarCellReuseId;
 
 @interface CHBarCell : UICollectionViewCell
 
-/// defaults to nil
+/// Default is 0.
+@property (nonatomic, assign) CGFloat value;
+
+/// Default is 0.
+@property (nonatomic, assign) CGFloat minValue;
+
+/// Default is 1.
+@property (nonatomic, assign) CGFloat maxValue;
+
+@property (nonatomic, strong) UIColor *barColor;
+@property (nonatomic, strong) UIColor *xAxisLabelColor;
+@property (nonatomic, strong) UIColor *valueLabelColor;
+
+/// Default is nil.
 @property (nonatomic, strong) NSString *xAxisLabelString;
+
+/// Default is nil.
+@property (nonatomic, assign) NSString *valueLabelString;
 
 @end

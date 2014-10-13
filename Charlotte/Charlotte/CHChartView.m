@@ -164,12 +164,12 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CHBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHBarCellReuseId
-                                                                           forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor greenColor];
+                                                                forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor purpleColor];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
     cell.xAxisLabelString = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
-                                             atIndex:indexPath.row];
+                                               atIndex:indexPath.row];
     return cell;
 }
 
