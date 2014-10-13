@@ -168,8 +168,12 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     cell.backgroundColor = [UIColor purpleColor];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
-    cell.xAxisLabelString = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
+    cell.xAxisLabelString = [self.dataSource chartView:self
+                              xAxisLabelForPointInPage:indexPath.section
                                                atIndex:indexPath.row];
+    cell.minValue = [self.dataSource chartView:self minValueForPage:indexPath.section];
+    cell.maxValue = [self.dataSource chartView:self maxValueForPage:indexPath.section];
+    cell.value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     return cell;
 }
 

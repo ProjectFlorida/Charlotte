@@ -63,7 +63,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
                                                                     attribute:NSLayoutAttributeCenterX
                                                                    multiplier:1
                                                                      constant:0];
-        _barViewTopConstraint = [self barViewTopConstraintWithMultiplier:0.5];
+        _barViewTopConstraint = [self barViewTopConstraintWithMultiplier:0];
         NSLayoutConstraint *barViewWidth = [NSLayoutConstraint constraintWithItem:_barView
                                                                         attribute:NSLayoutAttributeWidth
                                                                         relatedBy:NSLayoutRelationEqual
@@ -105,8 +105,8 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     return [NSLayoutConstraint constraintWithItem:_barView
                                         attribute:NSLayoutAttributeTop
                                         relatedBy:NSLayoutRelationEqual
-                                           toItem:self
-                                        attribute:NSLayoutAttributeBottom
+                                           toItem:_xAxisLabel
+                                        attribute:NSLayoutAttributeTop
                                        multiplier:multiplier
                                          constant:0];
 }
@@ -120,11 +120,17 @@ NSString *const kCHBarCellReuseId = @"BarCell";
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+    self.value = 0;
+    self.minValue = 0;
+    self.maxValue = 1;
+    [self setNeedsUpdateConstraints];
 }
 
-- (void)updateConstraintsAnimated:(BOOL)animated
+- (void)updateConstraints
 {
-    CGFloat multiplier = (self.value - self.minValue)/(self.maxValue - self.minValue);
+    [super updateConstraints];
+    CGFloat relativeValue = (self.value - self.minValue)/(self.maxValue - self.minValue);
+    CGFloat multiplier = 1 - relativeValue;
     [self removeConstraint:self.barViewTopConstraint];
     self.barViewTopConstraint = [self barViewTopConstraintWithMultiplier:multiplier];
     [self addConstraint:self.barViewTopConstraint];
@@ -136,16 +142,19 @@ NSString *const kCHBarCellReuseId = @"BarCell";
 - (void)setValue:(CGFloat)value
 {
     _value = value;
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setMinValue:(CGFloat)minValue
 {
     _minValue = minValue;
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setMaxValue:(CGFloat)maxValue
 {
     _maxValue = maxValue;
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setXAxisLabelString:(NSString *)text

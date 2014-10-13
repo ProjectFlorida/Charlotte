@@ -21,8 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.minValues = @[@1, @2, @0, @1, @2, @1];
-    self.maxValues = @[@5, @4, @7, @5, @8, @5];
+    self.minValues = @[@0, @0, @0, @0, @0, @0];
+    self.maxValues = @[@7, @7, @7, @7, @7, @7];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
@@ -55,7 +55,7 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return 3;
+    return index;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
