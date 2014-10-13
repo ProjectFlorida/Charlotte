@@ -13,6 +13,6 @@ extern NSString *const kCHChartPointCellReuseId;
 @interface CHChartPointCell : UICollectionViewCell
 
 /// defaults to nil
-@property (nonatomic, strong) NSString *xAxisLabelText;
+@property (nonatomic, strong) NSString *xAxisLabelString;
 
 @end

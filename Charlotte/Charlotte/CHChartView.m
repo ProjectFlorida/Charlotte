@@ -168,7 +168,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     cell.backgroundColor = [UIColor greenColor];
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor grayColor].CGColor;
-    cell.xAxisLabelText = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
+    cell.xAxisLabelString = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
                                              atIndex:indexPath.row];
     return cell;
 }

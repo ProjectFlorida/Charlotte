@@ -47,7 +47,7 @@ NSString *const kCHChartPointCellReuseId = @"ChartPointCell";
     [super prepareForReuse];
 }
 
-- (void)setXAxisLabelText:(NSString *)text
+- (void)setXAxisLabelString:(NSString *)text
 {
     self.xAxisLabel.text = text;
     [self.xAxisLabel sizeToFit];
