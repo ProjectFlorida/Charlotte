@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) NSArray *minValues;
 @property (nonatomic, strong) NSArray *maxValues;
+@property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, assign) NSInteger currentIndex;
 
 @end
@@ -22,15 +23,41 @@
     [super viewDidLoad];
     self.minValues = @[@1, @2, @0, @1, @2, @1];
     self.maxValues = @[@5, @4, @7, @5, @8, @5];
+    self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
     [self.chartView reloadData];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.chartView scrollToPage:3 animated:NO];
+}
+
 #pragma mark CHChartViewDataSource
 
-// page indices increase from right to left. the rightmost page has index 0.
+- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
+{
+    return self.minValues.count;
+}
+
+- (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    return self.xAxisLabels[index];
+}
+
+- (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
+{
+    return 7;
+}
+
+- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    return 3;
+}
+
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
     return [self.minValues[self.currentIndex] integerValue];
@@ -41,23 +68,6 @@
     return [self.maxValues[self.currentIndex] integerValue];
 }
 
-- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
-{
-    return self.minValues.count;
-}
-
-- (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
-{
-    return 5;
-}
-
-// point indices increase from left to right.
-- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    return 3;
-}
-
-// the total number of distinct horizontal gridlines that may be displayed, across all possible pages
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
 {
     return 5;
