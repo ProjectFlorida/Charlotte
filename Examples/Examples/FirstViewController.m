@@ -21,12 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.minValues = @[@1, @2, @0, @1, @2, @1];
-    self.maxValues = @[@5, @4, @7, @5, @8, @5];
+    self.minValues = @[@0, @0,  @(-7), @0, @(-4), @0];
+    self.maxValues = @[@7, @14, @14,   @9, @13,   @11];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
+    self.chartView.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
     [self.chartView reloadData];
 }
 
@@ -55,17 +56,17 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return 3;
+    return index;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
-    return [self.minValues[self.currentIndex] integerValue];
+    return [self.minValues[page] integerValue];
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return [self.maxValues[self.currentIndex] integerValue];
+    return [self.maxValues[page] integerValue];
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView

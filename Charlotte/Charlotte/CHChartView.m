@@ -7,7 +7,7 @@
 //
 
 #import "CHChartView.h"
-#import "CHChartPointCell.h"
+#import "CHBarCell.h"
 #import "CHChartHeaderView.h"
 #import "CHPagingChartFlowLayout.h"
 
@@ -18,6 +18,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
+@property (assign, nonatomic) NSInteger currentPage;
 
 @end
 
@@ -52,18 +53,21 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
 - (void)initialize
 {
+    self.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1.0];
+
+    _currentPage = 0;
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    _collectionView.backgroundColor = [UIColor magentaColor];
+    _collectionView.backgroundColor = [UIColor clearColor];
     _collectionView.showsVerticalScrollIndicator = NO;
     _collectionView.showsHorizontalScrollIndicator = NO;
     _collectionView.bounces = NO;
     _collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
     _collectionView.scrollEnabled = NO;
-    [_collectionView registerClass:[CHChartPointCell class] forCellWithReuseIdentifier:kCHChartPointCellReuseId];
+    [_collectionView registerClass:[CHBarCell class] forCellWithReuseIdentifier:kCHBarCellReuseId];
     [_collectionView registerClass:[CHChartHeaderView class]
         forSupplementaryViewOfKind:CHChartViewElementKindHeader
                withReuseIdentifier:kCHChartHeaderViewReuseId];
@@ -114,11 +118,6 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     return self.scrollView;
 }
 
-- (NSInteger)currentPage
-{
-    return floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
-}
-
 - (void)reloadData
 {
     [self.collectionView reloadData];
@@ -129,6 +128,22 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     CGRect visible = self.scrollView.bounds;
     visible.origin.x = self.scrollView.bounds.size.width*page;
     [self.scrollView scrollRectToVisible:visible animated:animated];
+    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+}
+
+- (void)updateVisibleCells {
+    for (CHBarCell *cell in self.collectionView.visibleCells) {
+        CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
+        CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+        [cell setMinValue:minValue maxValue:maxValue animated:YES];
+    }
+}
+
+#pragma mark - Custom setters
+- (void)setCurrentPage:(NSInteger)currentPage
+{
+    _currentPage = currentPage;
+    [self.delegate chartView:self didTransitionToPage:currentPage];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -140,12 +155,14 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self.delegate chartView:self didTransitionToPage:[self currentPage]];
+    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+    [self updateVisibleCells];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    [self.delegate chartView:self didTransitionToPage:[self currentPage]];
+    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+    [self updateVisibleCells];
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -163,13 +180,16 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CHChartPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHChartPointCellReuseId
-                                                                           forIndexPath:indexPath];
-    cell.backgroundColor = [UIColor greenColor];
-    cell.layer.borderWidth = 1;
-    cell.layer.borderColor = [UIColor grayColor].CGColor;
-    cell.xAxisLabelString = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
-                                             atIndex:indexPath.row];
+    CHBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHBarCellReuseId
+                                                                forIndexPath:indexPath];
+    cell.xAxisLabelString = [self.dataSource chartView:self
+                              xAxisLabelForPointInPage:indexPath.section
+                                               atIndex:indexPath.row];
+    CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
+    [cell setMinValue:minValue maxValue:maxValue animated:NO];
+    [cell setValue:value animated:NO];
     return cell;
 }
 
@@ -182,11 +202,8 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
         CHChartHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindHeader
                                                                        withReuseIdentifier:kCHChartHeaderViewReuseId
                                                                               forIndexPath:indexPath];
-        header.backgroundColor = [[UIColor lightGrayColor] colorWithAlphaComponent:0.2];
         view = header;
     }
-    view.layer.borderWidth = 1;
-    view.layer.borderColor = [UIColor grayColor].CGColor;
     return view;
 }
 
@@ -206,8 +223,5 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     CGFloat itemWidth = (collectionView.bounds.size.width - sectionInsetWidth - pageInsetWidth) / itemCount;
     return CGSizeMake(itemWidth, itemHeight);
 }
-
-
-
 
 @end
