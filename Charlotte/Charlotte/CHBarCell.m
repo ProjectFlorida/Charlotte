@@ -32,6 +32,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self = [super initWithFrame:frame];
     if (self) {
         // Set default values
+        _footerHeight = 30;
         _barViewRelativeWidth = 0.5;
         _primaryBarColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
         _secondaryBarColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
@@ -83,11 +84,16 @@ NSString *const kCHBarCellReuseId = @"BarCell";
                                                                         attribute:NSLayoutAttributeWidth
                                                                        multiplier:_barViewRelativeWidth
                                                                          constant:0];
-        NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_barView]-[_xAxisLabel]-|"
+        NSArray *xAxisLabelV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[label]-|"
+                                                                       options:0
+                                                                       metrics:nil
+                                                                         views:@{@"label": _xAxisLabel}];
+        NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[barView]-(h)-|"
                                                                         options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(_barView, _xAxisLabel)];
+                                                                        metrics:@{@"h": @(_footerHeight)}
+                                                                          views:@{@"barView": _barView}];
         [self addConstraints:@[xAxisLabelX, barViewX, _barViewTopConstraint, barViewWidth]];
+        [self addConstraints:xAxisLabelV];
         [self addConstraints:constraintsV];
 
         // Add constraints for value label
@@ -110,6 +116,11 @@ NSString *const kCHBarCellReuseId = @"BarCell";
 
     }
     return self;
+}
+
+- (void)updateConstraints
+{
+    [super updateConstraints];
 }
 
 - (NSLayoutConstraint *)barViewTopConstraintWithMultiplier:(CGFloat)multiplier
@@ -210,6 +221,12 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self.minValue = minValue;
     self.maxValue = maxValue;
     [self updateBarAnimated:animated];
+}
+
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    _footerHeight = footerHeight;
+    [self setNeedsUpdateConstraints];
 }
 
 - (void)setValueLabelFont:(UIFont *)valueLabelFont

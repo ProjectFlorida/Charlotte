@@ -15,6 +15,7 @@ extern NSString *const kCHBarCellReuseId;
 @property (nonatomic, readonly) CGFloat value;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
+@property (nonatomic, readonly) CGFloat footerHeight;
 
 @property (nonatomic, strong) UIColor *primaryBarColor;
 

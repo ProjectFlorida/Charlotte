@@ -10,6 +10,7 @@
 #import "CHBarCell.h"
 #import "CHChartHeaderView.h"
 #import "CHPagingChartFlowLayout.h"
+#import "CHGridlineView.h"
 
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
@@ -19,6 +20,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (assign, nonatomic) NSInteger currentPage;
+@property (strong, nonatomic) NSMutableArray *gridlineViews;
 
 @end
 
@@ -56,6 +58,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     self.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1.0];
 
     _currentPage = 0;
+    _gridlineViews = [NSMutableArray array];
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -83,28 +86,57 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     _scrollView.showsHorizontalScrollIndicator = NO;
     [self addSubview:_scrollView];
 
+    NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView, _scrollView);
     NSArray *collectionViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
                                                                        options:0
                                                                        metrics:nil
-                                                                         views:NSDictionaryOfVariableBindings(_collectionView)];
+                                                                         views:views];
     NSArray *collectionViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_collectionView]|"
                                                                        options:0
                                                                        metrics:nil
-                                                                         views:NSDictionaryOfVariableBindings(_collectionView)];
-    // TODO: parameterize page inset
-    NSArray *scrollViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(leftInset)-[_scrollView]-(rightInset)-|"
+                                                                         views:views];
+    NSDictionary *metrics = @{@"left": @(_collectionViewLayout.pageInset.left),
+                              @"right": @(_collectionViewLayout.pageInset.right)};
+    NSArray *scrollViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_scrollView]-(right)-|"
                                                                    options:0
-                                                                   metrics:@{@"leftInset": @(_collectionViewLayout.pageInset.left),
-                                                                             @"rightInset": @(_collectionViewLayout.pageInset.right)}
-                                                                     views:NSDictionaryOfVariableBindings(_scrollView)];
+                                                                   metrics:metrics
+                                                                     views:views];
     NSArray *scrollViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView]|"
                                                                    options:0
                                                                    metrics:nil
-                                                                     views:NSDictionaryOfVariableBindings(_scrollView)];
+                                                                     views:views];
     [self addConstraints:collectionViewH];
     [self addConstraints:collectionViewV];
     [self addConstraints:scrollViewH];
     [self addConstraints:scrollViewV];
+}
+
+- (void)updateConstraints
+{
+    if (self.dataSource && !self.gridlineViews.count) {
+        NSInteger gridlineCount = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
+        for (int i = 0; i < gridlineCount; i++) {
+            CHGridlineView *gridline = [[CHGridlineView alloc] initWithFrame:CGRectZero];
+            gridline.translatesAutoresizingMaskIntoConstraints = NO;
+            [self insertSubview:gridline atIndex:0];
+            [self.gridlineViews addObject:gridline];
+            NSDictionary *views = NSDictionaryOfVariableBindings(gridline);
+            NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[gridline]|"
+                                                                            options:0
+                                                                            metrics:nil
+                                                                              views:views];
+            NSLayoutConstraint *y = [NSLayoutConstraint constraintWithItem:gridline
+                                                                         attribute:NSLayoutAttributeCenterY
+                                                                         relatedBy:NSLayoutRelationEqual
+                                                                            toItem:self
+                                                                         attribute:NSLayoutAttributeCenterY
+                                                                        multiplier:1
+                                                                          constant:0];
+            [self addConstraint:y];
+            [self addConstraints:constraintsH];
+        }
+    }
+    [super updateConstraints];
 }
 
 - (void)layoutSubviews
