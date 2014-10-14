@@ -76,7 +76,7 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
 {
-    return index;
+    return index + 1;
 }
 
 #pragma mark CHChartViewDelegate

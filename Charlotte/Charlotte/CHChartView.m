@@ -129,7 +129,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 {
     CGFloat relativeValue = (value - min)/(max - min);
     CGFloat viewHeight = self.bounds.size.height;
-    CGFloat barHeight = viewHeight - self.footerHeight - self.collectionViewLayout.headerHeight;
+    CGFloat barHeight = viewHeight - self.collectionViewLayout.headerHeight;
     CGFloat relativeBarHeight = barHeight / viewHeight;
     return (1 - relativeValue*relativeBarHeight);
 }
@@ -158,9 +158,9 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
                                                                       attribute:NSLayoutAttributeBottom
                                                                      multiplier:multiplier
                                                                        constant:-self.footerHeight];
+            [self.gridlines addObject:gridline];
             [self addConstraint:gridline.centerYConstraint];
             [self addConstraints:constraintsH];
-            [self.gridlines addObject:gridline];
         }
     }
     [super updateConstraints];
@@ -188,6 +188,9 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     visible.origin.x = self.scrollView.bounds.size.width*page;
     [self.scrollView scrollRectToVisible:visible animated:animated];
     self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+    if (!animated) {
+        [self updateGridlinesAnimated:NO];
+    }
 }
 
 - (void)updateVisibleCells {
@@ -198,7 +201,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     }
 }
 
-- (void)updateGridlines {
+- (void)updateGridlinesAnimated:(BOOL)animated {
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     NSInteger count = self.gridlines.count;
@@ -215,7 +218,14 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
                                                                    constant:-self.footerHeight];
         [self addConstraint:gridline.centerYConstraint];
         [self setNeedsUpdateConstraints];
-        [self layoutIfNeeded];
+        if (animated) {
+            [UIView animateWithDuration:0.6 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                [self layoutIfNeeded];
+            } completion:nil];
+        }
+        else {
+            [self layoutIfNeeded];
+        }
     }
 }
 
@@ -237,14 +247,14 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 {
     self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
     [self updateVisibleCells];
-    [self updateGridlines];
+    [self updateGridlinesAnimated:YES];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
     self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
     [self updateVisibleCells];
-    [self updateGridlines];
+    [self updateGridlinesAnimated:YES];
 }
 
 #pragma mark - UICollectionViewDataSource
