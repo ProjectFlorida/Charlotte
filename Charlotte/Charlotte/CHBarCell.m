@@ -35,6 +35,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     self = [super initWithFrame:frame];
     if (self) {
         // Set default values
+        _valueLabelString = nil;
         _footerHeight = 30;
         _barViewRelativeWidth = 0.5;
         _primaryBarColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];

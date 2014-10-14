@@ -198,10 +198,11 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
     self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
     if (!animated) {
         [self updateGridlinesAnimated:NO];
+        [self updateAlphaInVisibleCells];
     }
 }
 
-- (void)updateVisibleCells {
+- (void)updateRangeInVisibleCells {
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHBarCell *cell in self.collectionView.visibleCells) {
@@ -209,6 +210,27 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
         [cell setMinValue:minValue maxValue:maxValue animated:YES completion:^{
             self.numberOfAnimationsInProgress--;
         }];
+    }
+}
+
+- (void)updateAlphaInVisibleCells {
+    CGFloat collectionViewWidth = self.collectionView.bounds.size.width;
+    NSInteger count = self.collectionView.visibleCells.count;
+    CGFloat minAlpha = 0.4;
+    CGFloat alphaMargin = 30;
+    for (int i = 0; i < count; i++) {
+        CHBarCell *cell = self.collectionView.visibleCells[i];
+        CGFloat distanceFromLeftEdge = cell.center.x - self.collectionView.contentOffset.x;
+        CGFloat distanceFromRightEdge = collectionViewWidth - distanceFromLeftEdge;
+        CGFloat alpha = 1;
+        if (distanceFromLeftEdge < alphaMargin) {
+            alpha = MAX(distanceFromLeftEdge/alphaMargin, minAlpha);
+        }
+        else if (distanceFromRightEdge < alphaMargin) {
+            alpha = MAX(distanceFromRightEdge/alphaMargin, minAlpha);
+        }
+        cell.primaryBarColor = [cell.primaryBarColor colorWithAlphaComponent:alpha];
+        cell.secondaryBarColor = [cell.secondaryBarColor colorWithAlphaComponent:alpha];
     }
 }
 
@@ -265,21 +287,28 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    self.collectionView.contentOffset = scrollView.contentOffset;
+    if (scrollView == self.scrollView) {
+        self.collectionView.contentOffset = scrollView.contentOffset;
+        [self updateAlphaInVisibleCells];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
-    [self updateVisibleCells];
-    [self updateGridlinesAnimated:YES];
+    if (scrollView == self.scrollView) {
+        self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self updateRangeInVisibleCells];
+        [self updateGridlinesAnimated:YES];
+    }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
-    [self updateVisibleCells];
-    [self updateGridlinesAnimated:YES];
+    if (scrollView == self.scrollView) {
+        self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
+        [self updateRangeInVisibleCells];
+        [self updateGridlinesAnimated:YES];
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
