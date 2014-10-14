@@ -16,10 +16,10 @@ extern NSString *const kCHBarCellReuseId;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 
-@property (nonatomic, strong) UIColor *primaryBarColor;
+@property (nonatomic, strong) UIColor *barColor;
 
 /// The bar's color when its value is 0.
-@property (nonatomic, strong) UIColor *secondaryBarColor;
+@property (nonatomic, strong) UIColor *zeroValueBarColor;
 
 
 /// Default is nil.
