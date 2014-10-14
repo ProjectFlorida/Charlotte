@@ -126,10 +126,10 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     return [NSLayoutConstraint constraintWithItem:_barView
                                         attribute:NSLayoutAttributeTop
                                         relatedBy:NSLayoutRelationEqual
-                                           toItem:_xAxisLabel
-                                        attribute:NSLayoutAttributeTop
+                                           toItem:self
+                                        attribute:NSLayoutAttributeBottom
                                        multiplier:multiplier
-                                         constant:0];
+                                         constant:-self.footerHeight];
 }
 
 - (void)layoutSubviews
@@ -243,7 +243,6 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self.valueLabel.text = valueLabelString;
     [self.valueLabel sizeToFit];
 }
-
 
 - (void)setXAxisLabelFont:(UIFont *)xAxisLabelFont
 {

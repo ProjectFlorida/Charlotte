@@ -14,13 +14,25 @@
 
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
+@interface CHGridlineContainer : NSObject
+@property (strong, nonatomic) CHGridlineView *view;
+@property (strong, nonatomic) NSLayoutConstraint *centerYConstraint;
+@end
+
+@implementation CHGridlineContainer
+@end
+
 @interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (assign, nonatomic) NSInteger currentPage;
-@property (strong, nonatomic) NSMutableArray *gridlineViews;
+
+// An array of CHGridlineContainer objects
+@property (strong, nonatomic) NSMutableArray *gridlines;
+
+@property (assign, nonatomic) CGFloat footerHeight;
 
 @end
 
@@ -58,7 +70,8 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     self.backgroundColor = [UIColor colorWithWhite:0.15 alpha:1.0];
 
     _currentPage = 0;
-    _gridlineViews = [NSMutableArray array];
+    _footerHeight = 30;
+    _gridlines = [NSMutableArray array];
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -113,27 +126,27 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
 - (void)updateConstraints
 {
-    if (self.dataSource && !self.gridlineViews.count) {
-        NSInteger gridlineCount = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
-        for (int i = 0; i < gridlineCount; i++) {
-            CHGridlineView *gridline = [[CHGridlineView alloc] initWithFrame:CGRectZero];
-            gridline.translatesAutoresizingMaskIntoConstraints = NO;
-            [self insertSubview:gridline atIndex:0];
-            [self.gridlineViews addObject:gridline];
-            NSDictionary *views = NSDictionaryOfVariableBindings(gridline);
-            NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[gridline]|"
+    if (self.dataSource && !self.gridlines.count) {
+        NSInteger count = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
+        for (int i = 0; i < count; i++) {
+            CHGridlineContainer *gridline = [[CHGridlineContainer alloc] init];
+            gridline.view = [[CHGridlineView alloc] initWithFrame:CGRectZero];
+            gridline.view.translatesAutoresizingMaskIntoConstraints = NO;
+            [self insertSubview:gridline.view atIndex:0];
+            NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[g]|"
                                                                             options:0
                                                                             metrics:nil
-                                                                              views:views];
-            NSLayoutConstraint *y = [NSLayoutConstraint constraintWithItem:gridline
-                                                                         attribute:NSLayoutAttributeCenterY
-                                                                         relatedBy:NSLayoutRelationEqual
-                                                                            toItem:self
-                                                                         attribute:NSLayoutAttributeCenterY
-                                                                        multiplier:1
-                                                                          constant:0];
-            [self addConstraint:y];
+                                                                              views:@{@"g": gridline.view}];
+            gridline.centerYConstraint = [NSLayoutConstraint constraintWithItem:gridline.view
+                                                                      attribute:NSLayoutAttributeCenterY
+                                                                      relatedBy:NSLayoutRelationEqual
+                                                                         toItem:self
+                                                                      attribute:NSLayoutAttributeBottom
+                                                                     multiplier:1
+                                                                       constant:0];
+            [self addConstraint:gridline.centerYConstraint];
             [self addConstraints:constraintsH];
+            [self.gridlines addObject:gridline];
         }
     }
     [super updateConstraints];
@@ -168,6 +181,21 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
         CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
         CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
         [cell setMinValue:minValue maxValue:maxValue animated:YES];
+    }
+}
+
+- (void)updateGridlines {
+    for (CHGridlineContainer *gridline in self.gridlines) {
+        [self removeConstraint:gridline.centerYConstraint];
+        gridline.centerYConstraint = [NSLayoutConstraint constraintWithItem:gridline.view
+                                                                  attribute:NSLayoutAttributeCenterY
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:self
+                                                                  attribute:NSLayoutAttributeBottom
+                                                                 multiplier:1
+                                                                   constant:0];
+        [self addConstraint:gridline.centerYConstraint];
+        [self.gridlines addObject:gridline];
     }
 }
 
@@ -220,6 +248,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
+    cell.footerHeight = self.footerHeight;
     [cell setMinValue:minValue maxValue:maxValue animated:NO];
     [cell setValue:value animated:NO];
     return cell;
