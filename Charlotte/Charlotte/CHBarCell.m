@@ -37,8 +37,8 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         // Set default values
         _footerHeight = 30;
         _barViewRelativeWidth = 0.5;
-        _barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
-        _zeroValueBarColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
+        _primaryBarColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
+        _secondaryBarColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
         _xAxisLabelColor = [UIColor whiteColor];
         _valueLabelColor = [UIColor whiteColor];
         _xAxisLabelFont = [UIFont systemFontOfSize:14];
@@ -53,7 +53,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         _xAxisLabel.textColor = _xAxisLabelColor;
         _xAxisLabel.font = _xAxisLabelFont;
         _barView = [[UIView alloc] initWithFrame:CGRectZero];
-        _barView.backgroundColor = _barColor;
+        _barView.backgroundColor = _primaryBarColor;
         _barView.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -165,11 +165,11 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
     void (^finalUpdateBlock)() = ^() {
         if (relativeValue == 0) {
-            self.barView.backgroundColor = _zeroValueBarColor;
+            self.barView.backgroundColor = _secondaryBarColor;
             self.valueLabel.alpha = 0;
         }
         else {
-            self.barView.backgroundColor = _barColor;
+            self.barView.backgroundColor = _primaryBarColor;
             self.valueLabel.alpha = 1;
         }
     };
@@ -278,9 +278,9 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     [self.xAxisLabel sizeToFit];
 }
 
-- (void)setBarColor:(UIColor *)barColor
+- (void)setPrimaryBarColor:(UIColor *)barColor
 {
-    _barColor = barColor;
+    _primaryBarColor = barColor;
     self.barView.backgroundColor = barColor;
 }
 
