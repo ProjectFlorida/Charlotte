@@ -31,7 +31,7 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) CGFloat footerHeight;
-@property (assign, nonatomic) BOOL isAnimating;
+@property (assign, nonatomic) NSInteger numberOfAnimationsInProgress;
 
 // An array of CHGridlineContainer objects
 @property (strong, nonatomic) NSMutableArray *gridlines;
@@ -73,7 +73,7 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 
     _currentPage = 0;
     _footerHeight = 30;
-    _isAnimating = NO;
+    _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
@@ -205,9 +205,9 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHBarCell *cell in self.collectionView.visibleCells) {
-        self.isAnimating = YES;
+        self.numberOfAnimationsInProgress++;
         [cell setMinValue:minValue maxValue:maxValue animated:YES completion:^{
-            self.isAnimating = NO;
+            self.numberOfAnimationsInProgress--;
         }];
     }
 }
@@ -230,14 +230,14 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
         [self addConstraint:gridline.centerYConstraint];
         [self setNeedsUpdateConstraints];
         if (animated) {
-            self.isAnimating = YES;
+            self.numberOfAnimationsInProgress++;
             [UIView animateWithDuration:kCHPageTransitionAnimationDuration
                                   delay:0
                                 options:UIViewAnimationOptionCurveEaseInOut
                              animations:^{
                                  [self layoutIfNeeded];
                              } completion:^(BOOL finished) {
-                                 self.isAnimating = NO;
+                                 self.numberOfAnimationsInProgress--;
                              }];
         }
         else {
@@ -253,10 +253,12 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
     [self.delegate chartView:self didTransitionToPage:currentPage];
 }
 
-- (void)setIsAnimating:(BOOL)isAnimating
-{
-    _isAnimating = isAnimating;
-    self.scrollView.scrollEnabled = !isAnimating;
+- (void)setNumberOfAnimationsInProgress:(NSInteger)numberOfAnimationsInProgress {
+    if (numberOfAnimationsInProgress < 0) {
+        numberOfAnimationsInProgress = 0;
+    }
+    _numberOfAnimationsInProgress = numberOfAnimationsInProgress;
+    self.scrollView.scrollEnabled = numberOfAnimationsInProgress == 0;
 }
 
 #pragma mark - UIScrollViewDelegate
