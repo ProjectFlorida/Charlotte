@@ -13,6 +13,7 @@
 #import "CHGridlineView.h"
 
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
+CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 
 @interface CHGridlineContainer : NSObject
 @property (strong, nonatomic) CHGridlineView *view;
@@ -29,11 +30,11 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (assign, nonatomic) NSInteger currentPage;
+@property (assign, nonatomic) CGFloat footerHeight;
+@property (assign, nonatomic) BOOL isAnimating;
 
 // An array of CHGridlineContainer objects
 @property (strong, nonatomic) NSMutableArray *gridlines;
-
-@property (assign, nonatomic) CGFloat footerHeight;
 
 @end
 
@@ -72,6 +73,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
     _currentPage = 0;
     _footerHeight = 30;
+    _isAnimating = NO;
     _gridlines = [NSMutableArray array];
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
@@ -145,6 +147,12 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
             gridline.view = [[CHGridlineView alloc] initWithFrame:CGRectZero];
             gridline.view.translatesAutoresizingMaskIntoConstraints = NO;
             gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
+            if ([self.dataSource respondsToSelector:@selector(chartView:textForHorizontalGridlineAtIndex:)]) {
+                gridline.view.labelText = [self.dataSource chartView:self textForHorizontalGridlineAtIndex:i];
+            }
+            if (!gridline.view.labelText) {
+                gridline.view.labelText = [NSString stringWithFormat:@"%d", (int)roundf(gridline.value)];
+            }
             CGFloat multiplier = [self multiplierForValue:gridline.value minValue:min maxValue:max];
             [self insertSubview:gridline.view atIndex:0];
             NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[g]|"
@@ -197,7 +205,10 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHBarCell *cell in self.collectionView.visibleCells) {
-        [cell setMinValue:minValue maxValue:maxValue animated:YES];
+        self.isAnimating = YES;
+        [cell setMinValue:minValue maxValue:maxValue animated:YES completion:^{
+            self.isAnimating = NO;
+        }];
     }
 }
 
@@ -219,9 +230,15 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
         [self addConstraint:gridline.centerYConstraint];
         [self setNeedsUpdateConstraints];
         if (animated) {
-            [UIView animateWithDuration:0.6 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                [self layoutIfNeeded];
-            } completion:nil];
+            self.isAnimating = YES;
+            [UIView animateWithDuration:kCHPageTransitionAnimationDuration
+                                  delay:0
+                                options:UIViewAnimationOptionCurveEaseInOut
+                             animations:^{
+                                 [self layoutIfNeeded];
+                             } completion:^(BOOL finished) {
+                                 self.isAnimating = NO;
+                             }];
         }
         else {
             [self layoutIfNeeded];
@@ -234,6 +251,12 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 {
     _currentPage = currentPage;
     [self.delegate chartView:self didTransitionToPage:currentPage];
+}
+
+- (void)setIsAnimating:(BOOL)isAnimating
+{
+    _isAnimating = isAnimating;
+    self.scrollView.scrollEnabled = !isAnimating;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -281,8 +304,8 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     cell.footerHeight = self.footerHeight;
-    [cell setMinValue:minValue maxValue:maxValue animated:NO];
-    [cell setValue:value animated:NO];
+    [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];
+    [cell setValue:value animated:NO completion:nil];
     return cell;
 }
 

@@ -34,7 +34,7 @@ extern NSString *const kCHBarCellReuseId;
 
 @property (nonatomic, assign) CGFloat footerHeight;
 
-- (void)setValue:(CGFloat)value animated:(BOOL)animated;
-- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated;
+- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end

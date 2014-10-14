@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern CGFloat const kCHPageTransitionAnimationDuration;
+
 extern NSString *const CHChartViewElementKindHeader;
 
 @class CHChartView;
@@ -32,7 +34,7 @@ extern NSString *const CHChartViewElementKindHeader;
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @optional
-- (NSInteger)chartView:(CHChartView *)chartView textForHorizontalGridlineAtIndex:(NSInteger)index;
+- (NSString *)chartView:(CHChartView *)chartView textForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @end
 

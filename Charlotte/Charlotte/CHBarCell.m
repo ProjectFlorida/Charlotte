@@ -7,8 +7,10 @@
 //
 
 #import "CHBarCell.h"
+#import "CHChartView.h"
 
 NSString *const kCHBarCellReuseId = @"BarCell";
+CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
 @interface CHBarCell ()
 
@@ -146,7 +148,9 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self.maxValue = 1;
     self.footerHeight = 30;
     self.barViewBottomConstraint.constant = -self.footerHeight;
-    [self updateBarAnimated:NO];
+    self.barView.backgroundColor = self.primaryBarColor;
+    [self.layer removeAllAnimations];
+    [self updateBarAnimated:NO completion:nil];
 }
 
 /// Returns the bar's value relative to its min and max value
@@ -155,7 +159,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
-- (void)updateBarAnimated:(BOOL)animated
+- (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
     CGFloat relativeValue = [self relativeValue];
 
@@ -190,43 +194,60 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     [self setNeedsUpdateConstraints];
 
     if (animated) {
-        [UIView animateWithDuration:0.6 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [self layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.2 animations:^{
-                finalUpdateBlock();
-            }];
-        }];
+        [UIView animateWithDuration:kCHPageTransitionAnimationDuration
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [self layoutIfNeeded];
+                         } completion:^(BOOL finished) {
+                             if (!finished) {
+                                 return;
+                             }
+                             [UIView animateWithDuration:kCHZeroValueAnimationDuration
+                                                   delay:0
+                                                 options:UIViewAnimationOptionCurveEaseIn
+                                              animations:^{
+                                 finalUpdateBlock();
+                             } completion:^(BOOL finished) {
+                                 if (completion) {
+                                     completion();
+                                 }
+                             }];
+                         }];
     }
     else {
         [self layoutIfNeeded];
         finalUpdateBlock();
+        if (completion) {
+            completion();
+        }
     }
 }
 
 #pragma mark - Setters
 
-- (void)setValue:(CGFloat)value animated:(BOOL)animated
+- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
 {
     self.value = value;
     if (!self.valueLabelString) {
         self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
     }
-    [self updateBarAnimated:animated];
+    [self updateBarAnimated:animated completion:completion];
 }
 
-- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue
+           animated:(BOOL)animated completion:(void (^)(void))completion
 {
     self.minValue = minValue;
     self.maxValue = maxValue;
-    [self updateBarAnimated:animated];
+    [self updateBarAnimated:animated completion:completion];
 }
 
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
     self.barViewBottomConstraint.constant = -footerHeight;
-    [self updateBarAnimated:NO];
+    [self updateBarAnimated:NO completion:nil];
 }
 
 - (void)setValueLabelFont:(UIFont *)valueLabelFont

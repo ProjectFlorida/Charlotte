@@ -16,7 +16,7 @@
     self = [super init];
     if (self) {
         self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        self.sectionInset = UIEdgeInsetsMake(0, 10, 0, 10);
+        self.sectionInset = UIEdgeInsetsMake(0, 12, 0, 12);
         self.minimumInteritemSpacing = 0;
         self.minimumLineSpacing = 0;
         self.headerReferenceSize = CGSizeZero;

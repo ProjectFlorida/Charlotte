@@ -10,4 +10,8 @@
 
 @interface CHGridlineView : UIView
 
+@property (nonatomic, strong) UIFont *labelFont;
+@property (nonatomic, strong) UIColor *labelColor;
+@property (nonatomic, strong) NSString *labelText;
+
 @end
