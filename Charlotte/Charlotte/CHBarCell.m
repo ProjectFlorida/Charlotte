@@ -184,8 +184,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
                                                                   constant:0];
     }
     else {
-        CGFloat multiplier = 1 - relativeValue;
-        self.barViewTopConstraint = [self barViewTopConstraintWithMultiplier:multiplier];
+        self.barViewTopConstraint = [self barViewTopConstraintWithMultiplier:(1 - relativeValue)];
     }
     [self addConstraint:self.barViewTopConstraint];
     [self setNeedsUpdateConstraints];

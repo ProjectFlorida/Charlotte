@@ -16,6 +16,7 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 
 @interface CHGridlineContainer : NSObject
 @property (strong, nonatomic) CHGridlineView *view;
+@property (assign, nonatomic) CGFloat value;
 @property (strong, nonatomic) NSLayoutConstraint *centerYConstraint;
 @end
 
@@ -124,14 +125,27 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
     [self addConstraints:scrollViewV];
 }
 
+- (CGFloat)multiplierForValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
+{
+    CGFloat relativeValue = (value - min)/(max - min);
+    CGFloat viewHeight = self.bounds.size.height;
+    CGFloat barHeight = viewHeight - self.footerHeight - self.collectionViewLayout.headerHeight;
+    CGFloat relativeBarHeight = barHeight / viewHeight;
+    return (1 - relativeValue*relativeBarHeight);
+}
+
 - (void)updateConstraints
 {
     if (self.dataSource && !self.gridlines.count) {
+        CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
+        CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
         NSInteger count = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
         for (int i = 0; i < count; i++) {
             CHGridlineContainer *gridline = [[CHGridlineContainer alloc] init];
             gridline.view = [[CHGridlineView alloc] initWithFrame:CGRectZero];
             gridline.view.translatesAutoresizingMaskIntoConstraints = NO;
+            gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
+            CGFloat multiplier = [self multiplierForValue:gridline.value minValue:min maxValue:max];
             [self insertSubview:gridline.view atIndex:0];
             NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[g]|"
                                                                             options:0
@@ -142,8 +156,8 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
                                                                       relatedBy:NSLayoutRelationEqual
                                                                          toItem:self
                                                                       attribute:NSLayoutAttributeBottom
-                                                                     multiplier:1
-                                                                       constant:0];
+                                                                     multiplier:multiplier
+                                                                       constant:-self.footerHeight];
             [self addConstraint:gridline.centerYConstraint];
             [self addConstraints:constraintsH];
             [self.gridlines addObject:gridline];
@@ -177,25 +191,31 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 }
 
 - (void)updateVisibleCells {
+    CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHBarCell *cell in self.collectionView.visibleCells) {
-        CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
-        CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
         [cell setMinValue:minValue maxValue:maxValue animated:YES];
     }
 }
 
 - (void)updateGridlines {
-    for (CHGridlineContainer *gridline in self.gridlines) {
+    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    NSInteger count = self.gridlines.count;
+    for (int i = 0; i < count; i++) {
+        CHGridlineContainer *gridline = self.gridlines[i];
         [self removeConstraint:gridline.centerYConstraint];
+        CGFloat multiplier = [self multiplierForValue:gridline.value minValue:min maxValue:max];
         gridline.centerYConstraint = [NSLayoutConstraint constraintWithItem:gridline.view
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self
                                                                   attribute:NSLayoutAttributeBottom
-                                                                 multiplier:1
-                                                                   constant:0];
+                                                                 multiplier:multiplier
+                                                                   constant:-self.footerHeight];
         [self addConstraint:gridline.centerYConstraint];
-        [self.gridlines addObject:gridline];
+        [self setNeedsUpdateConstraints];
+        [self layoutIfNeeded];
     }
 }
 
@@ -217,12 +237,14 @@ NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 {
     self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
     [self updateVisibleCells];
+    [self updateGridlines];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
     self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
     [self updateVisibleCells];
+    [self updateGridlines];
 }
 
 #pragma mark - UICollectionViewDataSource

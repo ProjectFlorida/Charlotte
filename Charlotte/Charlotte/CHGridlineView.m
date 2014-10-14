@@ -44,6 +44,11 @@
     return self;
 }
 
+- (CGSize)intrinsicContentSize
+{
+    return CGSizeMake(UIViewNoIntrinsicMetric, 1);
+}
+
 - (void)initialize
 {
     _lineView = [[UIView alloc] initWithFrame:CGRectZero];
