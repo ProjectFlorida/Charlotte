@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2ABFA9EEFB0AE0575F01FB39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF6BB140587CBE8F591CA018 /* libPods.a */; };
+		9654B42D19EF0BBD00B38898 /* ChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9654B42C19EF0BBD00B38898 /* ChartViewController.m */; };
 		96DDD69F19DC9DA9005CCD07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD69E19DC9DA9005CCD07 /* main.m */; };
 		96DDD6A219DC9DA9005CCD07 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD6A119DC9DA9005CCD07 /* AppDelegate.m */; };
 		96DDD6A519DC9DA9005CCD07 /* BarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD6A419DC9DA9005CCD07 /* BarChartViewController.m */; };
@@ -30,6 +31,8 @@
 
 /* Begin PBXFileReference section */
 		5967F1C6EDCDAF3721E10F26 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		9654B42B19EF0BBD00B38898 /* ChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChartViewController.h; sourceTree = "<group>"; };
+		9654B42C19EF0BBD00B38898 /* ChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChartViewController.m; sourceTree = "<group>"; };
 		96DDD69919DC9DA9005CCD07 /* Examples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Examples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD69D19DC9DA9005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD69E19DC9DA9005CCD07 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -105,6 +108,8 @@
 				96DDD6A419DC9DA9005CCD07 /* BarChartViewController.m */,
 				96DDD6A619DC9DA9005CCD07 /* LineChartViewController.h */,
 				96DDD6A719DC9DA9005CCD07 /* LineChartViewController.m */,
+				9654B42B19EF0BBD00B38898 /* ChartViewController.h */,
+				9654B42C19EF0BBD00B38898 /* ChartViewController.m */,
 				96DDD6A919DC9DA9005CCD07 /* Main.storyboard */,
 				96DDD6AC19DC9DA9005CCD07 /* Images.xcassets */,
 				96DDD6AE19DC9DA9005CCD07 /* LaunchScreen.xib */,
@@ -283,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9654B42D19EF0BBD00B38898 /* ChartViewController.m in Sources */,
 				96DDD6A819DC9DA9005CCD07 /* LineChartViewController.m in Sources */,
 				96DDD6A219DC9DA9005CCD07 /* AppDelegate.m in Sources */,
 				96DDD6A519DC9DA9005CCD07 /* BarChartViewController.m in Sources */,

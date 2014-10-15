@@ -83,23 +83,24 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         }
     };
 
-    [self removeConstraint:self.pointViewTopConstraint];
+    [self removeConstraint:self.pointViewPositionConstraint];
     // clamp the bar's min height to its width
     CGFloat desiredHeight = (self.bounds.size.height - self.footerHeight)*relativeValue;
     CGFloat barWidth = self.bounds.size.width * self.barViewRelativeWidth;
     if (desiredHeight < barWidth) {
-        self.pointViewTopConstraint = [NSLayoutConstraint constraintWithItem:self.pointView
-                                                                   attribute:NSLayoutAttributeHeight
-                                                                   relatedBy:NSLayoutRelationEqual
-                                                                      toItem:self.pointView
-                                                                   attribute:NSLayoutAttributeWidth
-                                                                  multiplier:1
-                                                                    constant:0];
+        self.pointViewPositionConstraint = [NSLayoutConstraint constraintWithItem:self.pointView
+                                                                        attribute:NSLayoutAttributeHeight
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:self.pointView
+                                                                        attribute:NSLayoutAttributeWidth
+                                                                       multiplier:1
+                                                                         constant:0];
     }
     else {
-        self.pointViewTopConstraint = [self pointViewTopConstraintWithMultiplier:(1 - relativeValue)];
+        self.pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeTop
+                                                                               multiplier:(1 - relativeValue)];
     }
-    [self addConstraint:self.pointViewTopConstraint];
+    [self addConstraint:self.pointViewPositionConstraint];
     [self setNeedsUpdateConstraints];
 
     if (animated) {

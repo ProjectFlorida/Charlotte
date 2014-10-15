@@ -1,14 +1,14 @@
 //
-//  BarChartViewController.m
+//  ChartViewController.m
 //  Examples
 //
-//  Created by Ben Guo on 10/1/14.
+//  Created by Ben Guo on 10/15/14.
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "BarChartViewController.h"
+#import "ChartViewController.h"
 
-@interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate>
+@interface ChartViewController () <CHChartViewDataSource, CHChartViewDelegate>
 
 @property (nonatomic, strong) NSArray *minValues;
 @property (nonatomic, strong) NSArray *maxValues;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation BarChartViewController
+@implementation ChartViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -27,7 +27,7 @@
     self.currentIndex = 0;
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
-    self.chartView.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
+    self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
     [self.chartView reloadData];
     [self.chartView scrollToPage:3 animated:NO];
 }

@@ -7,15 +7,15 @@
 //
 
 #import "CHLineChartView.h"
-
-@interface CHChartView ()
-- (void)initialize;
-@end
+#import "CHPointCell.h"
+#import "CHChartView_Private.h"
 
 @implementation CHLineChartView
 
 - (void)initialize
 {
+    self.cellReuseId = kCHPointCellReuseId;
+    self.cellClass = [CHPointCell class];
     [super initialize];
 }
 

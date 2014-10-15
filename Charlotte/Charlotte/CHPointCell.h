@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const kCHPointCellReuseId;
+
 @interface CHPointCell : UICollectionViewCell
 
 @property (nonatomic, readonly) CGFloat value;
@@ -18,9 +20,10 @@
 @property (nonatomic, strong) UIColor *xAxisLabelColor;
 @property (nonatomic, strong) UIFont *xAxisLabelFont;
 
-@property (nonatomic, assign) NSString *valueLabelString;
+@property (nonatomic, strong) NSString *valueLabelString;
 @property (nonatomic, strong) UIColor *valueLabelColor;
 @property (nonatomic, strong) UIFont *valueLabelFont;
+@property (nonatomic, assign) BOOL valueLabelHidden;
 
 @property (nonatomic, strong) UIColor *pointColor;
 

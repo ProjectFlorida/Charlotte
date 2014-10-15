@@ -31,6 +31,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (strong, nonatomic) NSString *cellReuseId;
+@property (strong, nonatomic) Class cellClass;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) CGFloat footerHeight;
 @property (assign, nonatomic) NSInteger numberOfAnimationsInProgress;
@@ -88,6 +89,15 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _collectionView.bounces = NO;
     _collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
     _collectionView.scrollEnabled = NO;
+
+    // When overriding initialize, subclasses may set cellClass and cellReuseId before calling super.
+    if (!_cellClass) {
+        _cellClass = [CHPointCell class];
+    }
+    if (!_cellReuseId) {
+        _cellReuseId = kCHPointCellReuseId;
+    }
+    [_collectionView registerClass:_cellClass forCellWithReuseIdentifier:_cellReuseId];
     [_collectionView registerClass:[CHChartHeaderView class]
         forSupplementaryViewOfKind:CHChartViewElementKindHeader
                withReuseIdentifier:kCHChartHeaderViewReuseId];
@@ -137,7 +147,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     return (1 - relativeValue*relativeBarHeight);
 }
 
-- (void)updateConstraints
+- (void)initializeGridlines
 {
     if (self.dataSource && !self.gridlines.count) {
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
@@ -172,7 +182,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             [self addConstraints:constraintsH];
         }
     }
-    [super updateConstraints];
+    [self layoutIfNeeded];
 }
 
 - (void)layoutSubviews
@@ -189,6 +199,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 - (void)reloadData
 {
     [self.collectionView reloadData];
+    [self updateGridlinesAnimated:NO];
 }
 
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated
@@ -200,6 +211,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     if (!animated) {
         [self updateGridlinesAnimated:NO];
         [self updateAlphaInVisibleCells];
+        [self updateRangeInVisibleCells];
     }
 }
 
@@ -251,7 +263,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                  multiplier:multiplier
                                                                    constant:-self.footerHeight];
         [self addConstraint:gridline.centerYConstraint];
-        [self setNeedsUpdateConstraints];
         if (animated) {
             self.numberOfAnimationsInProgress++;
             [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
@@ -269,6 +280,12 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 }
 
 #pragma mark - Custom setters
+- (void)setDataSource:(id<CHChartViewDataSource>)dataSource
+{
+    _dataSource = dataSource;
+    [self initializeGridlines];
+}
+
 - (void)setCurrentPage:(NSInteger)currentPage
 {
     CGFloat maxPage = [self.dataSource numberOfPagesInChartView:self] - 1;
@@ -342,6 +359,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     cell.footerHeight = self.footerHeight;
+    cell.valueLabelHidden = YES;
     [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];
     [cell setValue:value animated:NO completion:nil];
     return cell;

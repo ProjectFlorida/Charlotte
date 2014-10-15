@@ -7,6 +7,9 @@
 //
 
 #import "CHPointCell.h"
+#import "CHChartView.h"
+
+NSString *const kCHPointCellReuseId = @"PointCell";
 
 @interface CHPointCell ()
 
@@ -16,7 +19,7 @@
 @property (nonatomic, strong) UILabel *xAxisLabel;
 @property (nonatomic, strong) UIView *pointView;
 @property (nonatomic, strong) UILabel *valueLabel;
-@property (nonatomic, strong) NSLayoutConstraint *pointViewTopConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *pointViewPositionConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewWidthConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewHeightConstraint;
 
@@ -33,6 +36,7 @@
         _footerHeight = 30;
         _xAxisLabelColor = [UIColor whiteColor];
         _valueLabelColor = [UIColor whiteColor];
+        _pointColor = [UIColor whiteColor];
         _xAxisLabelFont = [UIFont systemFontOfSize:14];
         _valueLabelFont = [UIFont systemFontOfSize:14];
         _value = 0;
@@ -45,7 +49,7 @@
         _xAxisLabel.textColor = _xAxisLabelColor;
         _xAxisLabel.font = _xAxisLabelFont;
         _pointView = [[UIView alloc] initWithFrame:CGRectZero];
-        _pointView.backgroundColor = [UIColor greenColor];
+        _pointView.backgroundColor = _pointColor;
         _pointView.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -76,7 +80,8 @@
                                                                        metrics:nil
                                                                          views:@{@"label": _xAxisLabel}];
 
-        _pointViewTopConstraint = [self pointViewTopConstraintWithMultiplier:0];
+        _pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeCenterY
+                                                                           multiplier:0];
         _pointViewWidthConstraint = [NSLayoutConstraint constraintWithItem:_pointView
                                                                  attribute:NSLayoutAttributeWidth
                                                                  relatedBy:NSLayoutRelationEqual
@@ -93,7 +98,7 @@
                                                                    constant:0];
         [self addConstraints:@[xAxisLabelCenterX, barViewCenterX]];
         [self addConstraints:xAxisLabelV];
-        [self addConstraints:@[_pointViewWidthConstraint, _pointViewHeightConstraint, _pointViewTopConstraint]];
+        [self addConstraints:@[_pointViewWidthConstraint, _pointViewHeightConstraint, _pointViewPositionConstraint]];
 
         // Add constraints for value label
         [_pointView addSubview:_valueLabel];
@@ -134,10 +139,11 @@
     [self updateBarAnimated:NO completion:nil];
 }
 
-- (NSLayoutConstraint *)pointViewTopConstraintWithMultiplier:(CGFloat)multiplier
+- (NSLayoutConstraint *)pointViewPositionConstraintWithAttribute:(NSLayoutAttribute)attribute
+                                                      multiplier:(CGFloat)multiplier
 {
     return [NSLayoutConstraint constraintWithItem:_pointView
-                                        attribute:NSLayoutAttributeTop
+                                        attribute:attribute
                                         relatedBy:NSLayoutRelationEqual
                                            toItem:self
                                         attribute:NSLayoutAttributeBottom
@@ -152,7 +158,28 @@
 
 - (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
-
+    CGFloat relativeValue = [self relativeValue];
+    [self removeConstraint:self.pointViewPositionConstraint];
+    self.pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeCenterY
+                                                                           multiplier:(1 - relativeValue)];
+    [self addConstraint:self.pointViewPositionConstraint];
+    [self setNeedsUpdateConstraints];
+    if (animated) {
+        [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
+             usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
+              initialSpringVelocity:0 options:0 animations:^{
+                  [self layoutIfNeeded];
+              } completion:^(BOOL finished) {
+                  if (completion) {
+                      completion();
+                  }
+              }];
+    }
+    else {
+        if (completion) {
+            completion();
+        }
+    }
 }
 
 #pragma mark - Setters
@@ -174,6 +201,12 @@
     [self updateBarAnimated:animated completion:completion];
 }
 
+- (void)setPointColor:(UIColor *)pointColor
+{
+    _pointColor = pointColor;
+    self.pointView.backgroundColor = pointColor;
+}
+
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
@@ -192,6 +225,12 @@
     _valueLabelString = valueLabelString;
     self.valueLabel.text = valueLabelString;
     [self.valueLabel sizeToFit];
+}
+
+- (void)setValueLabelHidden:(BOOL)valueLabelHidden
+{
+    _valueLabelHidden = valueLabelHidden;
+    self.valueLabel.hidden = valueLabelHidden;
 }
 
 - (void)setXAxisLabelFont:(UIFont *)xAxisLabelFont

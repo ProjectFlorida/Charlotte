@@ -14,9 +14,20 @@
 
 - (void)initialize
 {
-    [super initialize];
     self.cellReuseId = kCHBarCellReuseId;
-    [self.collectionView registerClass:[CHBarCell class] forCellWithReuseIdentifier:kCHBarCellReuseId];
+    self.cellClass = [CHBarCell class];
+
+    [super initialize];
+}
+
+#pragma mark - UICollectionViewDataSource
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CHBarCell *cell = (CHBarCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    cell.valueLabelHidden = NO;
+    return cell;
 }
 
 @end
