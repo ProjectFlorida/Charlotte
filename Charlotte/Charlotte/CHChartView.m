@@ -7,10 +7,10 @@
 //
 
 #import "CHChartView.h"
-#import "CHBarCell.h"
 #import "CHChartHeaderView.h"
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
+#import "CHPointCell.h"
 
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 CGFloat const kCHPageTransitionAnimationDuration = 0.5;
@@ -30,6 +30,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
+@property (strong, nonatomic) NSString *cellReuseId;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) CGFloat footerHeight;
 @property (assign, nonatomic) NSInteger numberOfAnimationsInProgress;
@@ -87,7 +88,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _collectionView.bounces = NO;
     _collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
     _collectionView.scrollEnabled = NO;
-    [_collectionView registerClass:[CHBarCell class] forCellWithReuseIdentifier:kCHBarCellReuseId];
     [_collectionView registerClass:[CHChartHeaderView class]
         forSupplementaryViewOfKind:CHChartViewElementKindHeader
                withReuseIdentifier:kCHChartHeaderViewReuseId];
@@ -206,7 +206,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 - (void)updateRangeInVisibleCells {
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-    for (CHBarCell *cell in self.collectionView.visibleCells) {
+    for (CHPointCell *cell in self.collectionView.visibleCells) {
         self.numberOfAnimationsInProgress++;
         [cell setMinValue:minValue maxValue:maxValue animated:YES completion:^{
             self.numberOfAnimationsInProgress--;
@@ -221,7 +221,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat leftMargin = self.collectionViewLayout.pageInset.left;
     CGFloat rightMargin = self.collectionViewLayout.pageInset.right;
     for (int i = 0; i < count; i++) {
-        CHBarCell *cell = self.collectionView.visibleCells[i];
+        CHPointCell *cell = self.collectionView.visibleCells[i];
         CGFloat distanceFromLeftEdge = cell.center.x - self.collectionView.contentOffset.x;
         CGFloat distanceFromRightEdge = collectionViewWidth - distanceFromLeftEdge;
         CGFloat alpha = 1;
@@ -333,8 +333,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CHBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:kCHBarCellReuseId
-                                                                forIndexPath:indexPath];
+    CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
+                                                                  forIndexPath:indexPath];
     cell.xAxisLabelString = [self.dataSource chartView:self
                               xAxisLabelForPointInPage:indexPath.section
                                                atIndex:indexPath.row];

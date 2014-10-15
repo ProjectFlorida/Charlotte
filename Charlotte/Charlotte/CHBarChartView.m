@@ -7,17 +7,16 @@
 //
 
 #import "CHBarChartView.h"
-
-@interface CHChartView ()
-- (void)initialize;
-@end
+#import "CHBarCell.h"
+#import "CHChartView_Private.h"
 
 @implementation CHBarChartView
 
 - (void)initialize
 {
     [super initialize];
-
+    self.cellReuseId = kCHBarCellReuseId;
+    [self.collectionView registerClass:[CHBarCell class] forCellWithReuseIdentifier:kCHBarCellReuseId];
 }
 
 @end
