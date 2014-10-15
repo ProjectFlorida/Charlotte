@@ -14,17 +14,17 @@
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) UILabel *xAxisLabel;
-@property (nonatomic, strong) UIView *barView;
+@property (nonatomic, strong) UIView *pointView;
 @property (nonatomic, strong) UILabel *valueLabel;
-@property (nonatomic, strong) NSLayoutConstraint *barViewTopConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *barViewWidthConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *barViewHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *pointViewTopConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *pointViewWidthConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *pointViewHeightConstraint;
 
 /// Returns the cell's value relative to its min and max value
 - (CGFloat)relativeValue;
 
 /// TODO: abstract out the multiplier
-- (NSLayoutConstraint *)barViewTopConstraintWithMultiplier:(CGFloat)multiplier;
+- (NSLayoutConstraint *)pointViewTopConstraintWithMultiplier:(CGFloat)multiplier;
 
 - (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion;
 

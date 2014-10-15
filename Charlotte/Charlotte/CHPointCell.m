@@ -14,11 +14,11 @@
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) UILabel *xAxisLabel;
-@property (nonatomic, strong) UIView *barView;
+@property (nonatomic, strong) UIView *pointView;
 @property (nonatomic, strong) UILabel *valueLabel;
-@property (nonatomic, strong) NSLayoutConstraint *barViewTopConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *barViewWidthConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *barViewHeightConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *pointViewTopConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *pointViewWidthConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *pointViewHeightConstraint;
 
 @end
 
@@ -44,9 +44,9 @@
         _xAxisLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _xAxisLabel.textColor = _xAxisLabelColor;
         _xAxisLabel.font = _xAxisLabelFont;
-        _barView = [[UIView alloc] initWithFrame:CGRectZero];
-        _barView.backgroundColor = [UIColor greenColor];
-        _barView.translatesAutoresizingMaskIntoConstraints = NO;
+        _pointView = [[UIView alloc] initWithFrame:CGRectZero];
+        _pointView.backgroundColor = [UIColor greenColor];
+        _pointView.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel.textColor = _valueLabelColor;
@@ -56,62 +56,62 @@
 
         // Add constraints for bar view and x-axis label
         [self addSubview:_xAxisLabel];
-        [self addSubview:_barView];
+        [self addSubview:_pointView];
         NSLayoutConstraint *xAxisLabelCenterX = [NSLayoutConstraint constraintWithItem:_xAxisLabel
-                                                                       attribute:NSLayoutAttributeCenterX
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:self
-                                                                       attribute:NSLayoutAttributeCenterX
-                                                                      multiplier:1
-                                                                        constant:0];
-        NSLayoutConstraint *barViewCenterX = [NSLayoutConstraint constraintWithItem:_barView
-                                                                    attribute:NSLayoutAttributeCenterX
-                                                                    relatedBy:NSLayoutRelationEqual
-                                                                       toItem:self
-                                                                    attribute:NSLayoutAttributeCenterX
-                                                                   multiplier:1
-                                                                     constant:0];
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self
+                                                                             attribute:NSLayoutAttributeCenterX
+                                                                            multiplier:1
+                                                                              constant:0];
+        NSLayoutConstraint *barViewCenterX = [NSLayoutConstraint constraintWithItem:_pointView
+                                                                          attribute:NSLayoutAttributeCenterX
+                                                                          relatedBy:NSLayoutRelationEqual
+                                                                             toItem:self
+                                                                          attribute:NSLayoutAttributeCenterX
+                                                                         multiplier:1
+                                                                           constant:0];
         NSArray *xAxisLabelV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[label]-|"
                                                                        options:0
                                                                        metrics:nil
                                                                          views:@{@"label": _xAxisLabel}];
 
-        _barViewTopConstraint = [self barViewTopConstraintWithMultiplier:0];
-        _barViewWidthConstraint = [NSLayoutConstraint constraintWithItem:_barView
-                                                               attribute:NSLayoutAttributeWidth
-                                                               relatedBy:NSLayoutRelationEqual
-                                                                  toItem:nil
-                                                               attribute:NSLayoutAttributeNotAnAttribute
-                                                              multiplier:1
-                                                                constant:2];
-        _barViewHeightConstraint = [NSLayoutConstraint constraintWithItem:_barView
-                                                                attribute:NSLayoutAttributeHeight
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:_barView
-                                                                attribute:NSLayoutAttributeWidth
-                                                               multiplier:1
-                                                                 constant:0];
+        _pointViewTopConstraint = [self pointViewTopConstraintWithMultiplier:0];
+        _pointViewWidthConstraint = [NSLayoutConstraint constraintWithItem:_pointView
+                                                                 attribute:NSLayoutAttributeWidth
+                                                                 relatedBy:NSLayoutRelationEqual
+                                                                    toItem:nil
+                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                multiplier:1
+                                                                  constant:2];
+        _pointViewHeightConstraint = [NSLayoutConstraint constraintWithItem:_pointView
+                                                                  attribute:NSLayoutAttributeHeight
+                                                                  relatedBy:NSLayoutRelationEqual
+                                                                     toItem:_pointView
+                                                                  attribute:NSLayoutAttributeWidth
+                                                                 multiplier:1
+                                                                   constant:0];
         [self addConstraints:@[xAxisLabelCenterX, barViewCenterX]];
         [self addConstraints:xAxisLabelV];
-        [self addConstraints:@[_barViewWidthConstraint, _barViewHeightConstraint, _barViewTopConstraint]];
+        [self addConstraints:@[_pointViewWidthConstraint, _pointViewHeightConstraint, _pointViewTopConstraint]];
 
         // Add constraints for value label
-        [_barView addSubview:_valueLabel];
+        [_pointView addSubview:_valueLabel];
         NSLayoutConstraint *valueLabelX = [NSLayoutConstraint constraintWithItem:_valueLabel
                                                                        attribute:NSLayoutAttributeCenterX
                                                                        relatedBy:NSLayoutRelationEqual
-                                                                          toItem:_barView
+                                                                          toItem:_pointView
                                                                        attribute:NSLayoutAttributeCenterX
                                                                       multiplier:1
                                                                         constant:0];
         NSLayoutConstraint *valueLabelY = [NSLayoutConstraint constraintWithItem:_valueLabel
                                                                        attribute:NSLayoutAttributeBottom
                                                                        relatedBy:NSLayoutRelationEqual
-                                                                          toItem:_barView
+                                                                          toItem:_pointView
                                                                        attribute:NSLayoutAttributeTop
                                                                       multiplier:1
                                                                         constant:-4];
-        [_barView addConstraints:@[valueLabelX, valueLabelY]];
+        [_pointView addConstraints:@[valueLabelX, valueLabelY]];
 
     }
     return self;
@@ -120,7 +120,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.barView.layer.cornerRadius = self.barView.bounds.size.width / 2.0;
+    self.pointView.layer.cornerRadius = self.pointView.bounds.size.width / 2.0;
 }
 
 - (void)prepareForReuse
@@ -134,9 +134,9 @@
     [self updateBarAnimated:NO completion:nil];
 }
 
-- (NSLayoutConstraint *)barViewTopConstraintWithMultiplier:(CGFloat)multiplier
+- (NSLayoutConstraint *)pointViewTopConstraintWithMultiplier:(CGFloat)multiplier
 {
-    return [NSLayoutConstraint constraintWithItem:_barView
+    return [NSLayoutConstraint constraintWithItem:_pointView
                                         attribute:NSLayoutAttributeTop
                                         relatedBy:NSLayoutRelationEqual
                                            toItem:self
@@ -156,6 +156,23 @@
 }
 
 #pragma mark - Setters
+
+- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
+{
+    self.value = value;
+    if (!self.valueLabelString) {
+        self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
+    }
+    [self updateBarAnimated:animated completion:completion];
+}
+
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue
+           animated:(BOOL)animated completion:(void (^)(void))completion
+{
+    self.minValue = minValue;
+    self.maxValue = maxValue;
+    [self updateBarAnimated:animated completion:completion];
+}
 
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
