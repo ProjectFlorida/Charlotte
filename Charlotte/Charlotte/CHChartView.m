@@ -271,6 +271,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 #pragma mark - Custom setters
 - (void)setCurrentPage:(NSInteger)currentPage
 {
+    CGFloat maxPage = [self.dataSource numberOfPagesInChartView:self] - 1;
+    if (currentPage < 0) {
+        currentPage = 0;
+    }
+    if (currentPage > maxPage) {
+        currentPage = maxPage;
+    }
     _currentPage = currentPage;
     [self.delegate chartView:self didTransitionToPage:currentPage];
 }
