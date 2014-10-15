@@ -7,8 +7,10 @@
 //
 
 #import "CHBarCell.h"
+#import "CHChartView.h"
 
 NSString *const kCHBarCellReuseId = @"BarCell";
+CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
 @interface CHBarCell ()
 
@@ -19,6 +21,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
 @property (nonatomic, strong) UIView *barView;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) NSLayoutConstraint *barViewTopConstraint;
+@property (nonatomic, strong) NSLayoutConstraint *barViewBottomConstraint;
 
 /// the width of the bar view relative to the bar cell's width
 @property (nonatomic, assign) CGFloat barViewRelativeWidth;
@@ -32,9 +35,10 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self = [super initWithFrame:frame];
     if (self) {
         // Set default values
+        _footerHeight = 30;
         _barViewRelativeWidth = 0.5;
-        _barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
-        _zeroValueBarColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
+        _primaryBarColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
+        _secondaryBarColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
         _xAxisLabelColor = [UIColor whiteColor];
         _valueLabelColor = [UIColor whiteColor];
         _xAxisLabelFont = [UIFont systemFontOfSize:14];
@@ -49,7 +53,7 @@ NSString *const kCHBarCellReuseId = @"BarCell";
         _xAxisLabel.textColor = _xAxisLabelColor;
         _xAxisLabel.font = _xAxisLabelFont;
         _barView = [[UIView alloc] initWithFrame:CGRectZero];
-        _barView.backgroundColor = _barColor;
+        _barView.backgroundColor = _primaryBarColor;
         _barView.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
@@ -83,12 +87,19 @@ NSString *const kCHBarCellReuseId = @"BarCell";
                                                                         attribute:NSLayoutAttributeWidth
                                                                        multiplier:_barViewRelativeWidth
                                                                          constant:0];
-        NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_barView]-[_xAxisLabel]-|"
-                                                                        options:0
-                                                                        metrics:nil
-                                                                          views:NSDictionaryOfVariableBindings(_barView, _xAxisLabel)];
-        [self addConstraints:@[xAxisLabelX, barViewX, _barViewTopConstraint, barViewWidth]];
-        [self addConstraints:constraintsV];
+        NSArray *xAxisLabelV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[label]-|"
+                                                                       options:0
+                                                                       metrics:nil
+                                                                         views:@{@"label": _xAxisLabel}];
+        _barViewBottomConstraint = [NSLayoutConstraint constraintWithItem:_barView
+                                                                attribute:NSLayoutAttributeBottom
+                                                                relatedBy:NSLayoutRelationEqual
+                                                                   toItem:self
+                                                                attribute:NSLayoutAttributeBottom
+                                                               multiplier:1
+                                                                 constant:-_footerHeight];
+        [self addConstraints:@[xAxisLabelX, barViewX, barViewWidth, _barViewTopConstraint, _barViewBottomConstraint]];
+        [self addConstraints:xAxisLabelV];
 
         // Add constraints for value label
         [_barView addSubview:_valueLabel];
@@ -117,10 +128,10 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     return [NSLayoutConstraint constraintWithItem:_barView
                                         attribute:NSLayoutAttributeTop
                                         relatedBy:NSLayoutRelationEqual
-                                           toItem:_xAxisLabel
-                                        attribute:NSLayoutAttributeTop
+                                           toItem:self
+                                        attribute:NSLayoutAttributeBottom
                                        multiplier:multiplier
-                                         constant:0];
+                                         constant:-self.footerHeight];
 }
 
 - (void)layoutSubviews
@@ -135,7 +146,11 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     self.value = 0;
     self.minValue = 0;
     self.maxValue = 1;
-    [self updateBarAnimated:NO];
+    self.footerHeight = 30;
+    self.barViewBottomConstraint.constant = -self.footerHeight;
+    self.barView.backgroundColor = self.primaryBarColor;
+    [self.layer removeAllAnimations];
+    [self updateBarAnimated:NO completion:nil];
 }
 
 /// Returns the bar's value relative to its min and max value
@@ -144,24 +159,24 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
-- (void)updateBarAnimated:(BOOL)animated
+- (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
     CGFloat relativeValue = [self relativeValue];
 
     void (^finalUpdateBlock)() = ^() {
         if (relativeValue == 0) {
-            self.barView.backgroundColor = _zeroValueBarColor;
+            self.barView.backgroundColor = _secondaryBarColor;
             self.valueLabel.alpha = 0;
         }
         else {
-            self.barView.backgroundColor = _barColor;
+            self.barView.backgroundColor = _primaryBarColor;
             self.valueLabel.alpha = 1;
         }
     };
 
     [self removeConstraint:self.barViewTopConstraint];
     // clamp the bar's min height to its width
-    CGFloat desiredHeight = (self.bounds.size.height - self.xAxisLabel.bounds.size.height)*relativeValue;
+    CGFloat desiredHeight = (self.bounds.size.height - self.footerHeight)*relativeValue;
     CGFloat barWidth = self.bounds.size.width * self.barViewRelativeWidth;
     if (desiredHeight < barWidth) {
         self.barViewTopConstraint = [NSLayoutConstraint constraintWithItem:_barView
@@ -173,43 +188,66 @@ NSString *const kCHBarCellReuseId = @"BarCell";
                                                                   constant:0];
     }
     else {
-        CGFloat multiplier = 1 - relativeValue;
-        self.barViewTopConstraint = [self barViewTopConstraintWithMultiplier:multiplier];
+        self.barViewTopConstraint = [self barViewTopConstraintWithMultiplier:(1 - relativeValue)];
     }
     [self addConstraint:self.barViewTopConstraint];
     [self setNeedsUpdateConstraints];
 
     if (animated) {
-        [UIView animateWithDuration:0.6 delay:0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-            [self layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.2 animations:^{
-                finalUpdateBlock();
-            }];
-        }];
+        [UIView animateWithDuration:kCHPageTransitionAnimationDuration
+                              delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             [self layoutIfNeeded];
+                         } completion:^(BOOL finished) {
+                             if (!finished) {
+                                 return;
+                             }
+                             [UIView animateWithDuration:kCHZeroValueAnimationDuration
+                                                   delay:0
+                                                 options:UIViewAnimationOptionCurveEaseIn
+                                              animations:^{
+                                 finalUpdateBlock();
+                             } completion:^(BOOL finished) {
+                                 if (completion) {
+                                     completion();
+                                 }
+                             }];
+                         }];
     }
     else {
         [self layoutIfNeeded];
         finalUpdateBlock();
+        if (completion) {
+            completion();
+        }
     }
 }
 
 #pragma mark - Setters
 
-- (void)setValue:(CGFloat)value animated:(BOOL)animated
+- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
 {
     self.value = value;
     if (!self.valueLabelString) {
         self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
     }
-    [self updateBarAnimated:animated];
+    [self updateBarAnimated:animated completion:completion];
 }
 
-- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue
+           animated:(BOOL)animated completion:(void (^)(void))completion
 {
     self.minValue = minValue;
     self.maxValue = maxValue;
-    [self updateBarAnimated:animated];
+    [self updateBarAnimated:animated completion:completion];
+}
+
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    _footerHeight = footerHeight;
+    self.barViewBottomConstraint.constant = -footerHeight;
+    [self updateBarAnimated:NO completion:nil];
 }
 
 - (void)setValueLabelFont:(UIFont *)valueLabelFont
@@ -226,7 +264,6 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     [self.valueLabel sizeToFit];
 }
 
-
 - (void)setXAxisLabelFont:(UIFont *)xAxisLabelFont
 {
     _xAxisLabelFont = xAxisLabelFont;
@@ -241,9 +278,9 @@ NSString *const kCHBarCellReuseId = @"BarCell";
     [self.xAxisLabel sizeToFit];
 }
 
-- (void)setBarColor:(UIColor *)barColor
+- (void)setPrimaryBarColor:(UIColor *)barColor
 {
-    _barColor = barColor;
+    _primaryBarColor = barColor;
     self.barView.backgroundColor = barColor;
 }
 

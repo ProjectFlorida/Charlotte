@@ -16,10 +16,10 @@ extern NSString *const kCHBarCellReuseId;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 
-@property (nonatomic, strong) UIColor *barColor;
+@property (nonatomic, strong) UIColor *primaryBarColor;
 
-/// The bar's color when its value is 0.
-@property (nonatomic, strong) UIColor *zeroValueBarColor;
+/// The color of the bar when its height is zero.
+@property (nonatomic, strong) UIColor *secondaryBarColor;
 
 
 /// Default is nil.
@@ -32,7 +32,9 @@ extern NSString *const kCHBarCellReuseId;
 @property (nonatomic, strong) UIColor *valueLabelColor;
 @property (nonatomic, strong) UIFont *valueLabelFont;
 
-- (void)setValue:(CGFloat)value animated:(BOOL)animated;
-- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated;
+@property (nonatomic, assign) CGFloat footerHeight;
+
+- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end
