@@ -199,26 +199,19 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     [self setNeedsUpdateConstraints];
 
     if (animated) {
-        [UIView animateWithDuration:kCHPageTransitionAnimationDuration
-                              delay:0
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             [self layoutIfNeeded];
-                         } completion:^(BOOL finished) {
-                             if (!finished) {
-                                 return;
-                             }
-                             [UIView animateWithDuration:kCHZeroValueAnimationDuration
-                                                   delay:0
-                                                 options:UIViewAnimationOptionCurveEaseIn
-                                              animations:^{
-                                 finalUpdateBlock();
-                             } completion:^(BOOL finished) {
-                                 if (completion) {
-                                     completion();
-                                 }
-                             }];
-                         }];
+        [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
+             usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
+              initialSpringVelocity:0 options:0 animations:^{
+                  [self layoutIfNeeded];
+              } completion:^(BOOL finished) {
+                  if (completion) {
+                      completion();
+                  }
+              }];
+        [UIView animateWithDuration:kCHZeroValueAnimationDuration delay:0
+                            options:UIViewAnimationOptionCurveEaseIn animations:^{
+                                finalUpdateBlock();
+                            } completion:nil];
     }
     else {
         [self layoutIfNeeded];

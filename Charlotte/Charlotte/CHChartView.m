@@ -14,6 +14,7 @@
 
 NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
 CGFloat const kCHPageTransitionAnimationDuration = 0.5;
+CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 @interface CHGridlineContainer : NSObject
 @property (strong, nonatomic) CHGridlineView *view;
@@ -253,14 +254,13 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
         [self setNeedsUpdateConstraints];
         if (animated) {
             self.numberOfAnimationsInProgress++;
-            [UIView animateWithDuration:kCHPageTransitionAnimationDuration
-                                  delay:0
-                                options:UIViewAnimationOptionCurveEaseInOut
-                             animations:^{
-                                 [self layoutIfNeeded];
-                             } completion:^(BOOL finished) {
-                                 self.numberOfAnimationsInProgress--;
-                             }];
+            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
+                 usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
+                  initialSpringVelocity:0 options:0 animations:^{
+                      [self layoutIfNeeded];
+                  } completion:^(BOOL finished) {
+                      self.numberOfAnimationsInProgress--;
+                  }];
         }
         else {
             [self layoutIfNeeded];
