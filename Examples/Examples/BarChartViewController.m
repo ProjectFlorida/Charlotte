@@ -1,14 +1,14 @@
 //
-//  FirstViewController.m
+//  BarChartViewController.m
 //  Examples
 //
 //  Created by Ben Guo on 10/1/14.
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "FirstViewController.h"
+#import "BarChartViewController.h"
 
-@interface FirstViewController () <CHChartViewDataSource, CHChartViewDelegate>
+@interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate>
 
 @property (nonatomic, strong) NSArray *minValues;
 @property (nonatomic, strong) NSArray *maxValues;
@@ -17,7 +17,7 @@
 
 @end
 
-@implementation FirstViewController
+@implementation BarChartViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

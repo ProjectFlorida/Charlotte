@@ -1,18 +1,18 @@
 //
-//  SecondViewController.m
+//  LineChartViewController.m
 //  Examples
 //
 //  Created by Ben Guo on 10/1/14.
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "SecondViewController.h"
+#import "LineChartViewController.h"
 
-@interface SecondViewController ()
+@interface LineChartViewController ()
 
 @end
 
-@implementation SecondViewController
+@implementation LineChartViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

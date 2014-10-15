@@ -1,0 +1,1 @@
+../../../../../Charlotte/Charlotte/CHBarChartView.h
