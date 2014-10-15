@@ -22,6 +22,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) NSLayoutConstraint *barViewTopConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *barViewBottomConstraint;
+@property (nonatomic, assign) BOOL hasZeroHeight;
 
 /// the width of the bar view relative to the bar cell's width
 @property (nonatomic, assign) CGFloat barViewRelativeWidth;
@@ -35,11 +36,12 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     self = [super initWithFrame:frame];
     if (self) {
         // Set default values
+        _hasZeroHeight = NO;
         _valueLabelString = nil;
         _footerHeight = 30;
         _barViewRelativeWidth = 0.5;
-        _primaryBarColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
-        _secondaryBarColor = [[UIColor grayColor] colorWithAlphaComponent:0.8];
+        _primaryBarColor = [UIColor whiteColor];
+        _secondaryBarColor = [UIColor grayColor];
         _xAxisLabelColor = [UIColor whiteColor];
         _valueLabelColor = [UIColor whiteColor];
         _xAxisLabelFont = [UIFont systemFontOfSize:14];
@@ -168,10 +170,12 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         if (relativeValue == 0) {
             self.barView.backgroundColor = _secondaryBarColor;
             self.valueLabel.alpha = 0;
+            self.hasZeroHeight = YES;
         }
         else {
             self.barView.backgroundColor = _primaryBarColor;
             self.valueLabel.alpha = 1;
+            self.hasZeroHeight = NO;
         }
     };
 
@@ -282,7 +286,17 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 - (void)setPrimaryBarColor:(UIColor *)barColor
 {
     _primaryBarColor = barColor;
-    self.barView.backgroundColor = barColor;
+    if (!self.hasZeroHeight) {
+        self.barView.backgroundColor = barColor;
+    }
+}
+
+- (void)setSecondaryBarColor:(UIColor *)barColor
+{
+    _secondaryBarColor = barColor;
+    if (self.hasZeroHeight) {
+        self.barView.backgroundColor = barColor;
+    }
 }
 
 @end

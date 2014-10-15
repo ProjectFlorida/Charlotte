@@ -216,21 +216,21 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 - (void)updateAlphaInVisibleCells {
     CGFloat collectionViewWidth = self.collectionView.bounds.size.width;
     NSInteger count = self.collectionView.visibleCells.count;
-    CGFloat minAlpha = 0.4;
-    CGFloat alphaMargin = 30;
+    CGFloat minAlpha = 0.3;
+    CGFloat leftMargin = self.collectionViewLayout.pageInset.left;
+    CGFloat rightMargin = self.collectionViewLayout.pageInset.right;
     for (int i = 0; i < count; i++) {
         CHBarCell *cell = self.collectionView.visibleCells[i];
         CGFloat distanceFromLeftEdge = cell.center.x - self.collectionView.contentOffset.x;
         CGFloat distanceFromRightEdge = collectionViewWidth - distanceFromLeftEdge;
         CGFloat alpha = 1;
-        if (distanceFromLeftEdge < alphaMargin) {
-            alpha = MAX(distanceFromLeftEdge/alphaMargin, minAlpha);
+        if (distanceFromLeftEdge < leftMargin) {
+            alpha = MAX(distanceFromLeftEdge/leftMargin, minAlpha);
         }
-        else if (distanceFromRightEdge < alphaMargin) {
-            alpha = MAX(distanceFromRightEdge/alphaMargin, minAlpha);
+        else if (distanceFromRightEdge < rightMargin) {
+            alpha = MAX(distanceFromRightEdge/rightMargin, minAlpha);
         }
-        cell.primaryBarColor = [cell.primaryBarColor colorWithAlphaComponent:alpha];
-        cell.secondaryBarColor = [cell.secondaryBarColor colorWithAlphaComponent:alpha];
+        cell.alpha = alpha;
     }
 }
 
