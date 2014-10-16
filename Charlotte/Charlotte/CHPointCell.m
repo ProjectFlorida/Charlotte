@@ -9,7 +9,7 @@
 #import "CHPointCell.h"
 #import "CHChartView.h"
 
-NSString *const kCHPointCellReuseId = @"PointCell";
+NSString *const kCHPointCellReuseId = @"CHPointCell";
 
 @interface CHPointCell ()
 

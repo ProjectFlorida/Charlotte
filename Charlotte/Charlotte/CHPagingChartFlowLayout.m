@@ -54,7 +54,7 @@
     [sections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
         UICollectionViewLayoutAttributes *headerAttributes =
-            [self layoutAttributesForSupplementaryViewOfKind:CHChartViewElementKindHeader atIndexPath:indexPath];
+            [self layoutAttributesForSupplementaryViewOfKind:CHSupplementaryElementKindHeader atIndexPath:indexPath];
         [attributesArray addObject:headerAttributes];
 
         for (int i = 0; i < [self.collectionView numberOfItemsInSection:idx]; i++) {
@@ -85,7 +85,7 @@
     if (!attributes) {
         attributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
     }
-    if (elementKind == CHChartViewElementKindHeader) {
+    if (elementKind == CHSupplementaryElementKindHeader) {
         NSInteger section = indexPath.section;
         NSInteger numberOfItemsInSection = [self.collectionView numberOfItemsInSection:section];
         NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];

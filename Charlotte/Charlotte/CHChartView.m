@@ -7,12 +7,12 @@
 //
 
 #import "CHChartView.h"
-#import "CHChartHeaderView.h"
+#import "CHHeaderView.h"
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
 #import "CHPointCell.h"
 
-NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
+NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
 CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
@@ -99,9 +99,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         _cellReuseId = kCHPointCellReuseId;
     }
     [_collectionView registerClass:_cellClass forCellWithReuseIdentifier:_cellReuseId];
-    [_collectionView registerClass:[CHChartHeaderView class]
-        forSupplementaryViewOfKind:CHChartViewElementKindHeader
-               withReuseIdentifier:kCHChartHeaderViewReuseId];
+    [_collectionView registerClass:[CHHeaderView class]
+        forSupplementaryViewOfKind:CHSupplementaryElementKindHeader
+               withReuseIdentifier:kCHHeaderViewReuseId];
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -382,10 +382,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                  atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *view;
-    if (kind == CHChartViewElementKindHeader) {
-        CHChartHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindHeader
-                                                                       withReuseIdentifier:kCHChartHeaderViewReuseId
-                                                                              forIndexPath:indexPath];
+    if (kind == CHSupplementaryElementKindHeader) {
+        CHHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
+                                                                  withReuseIdentifier:kCHHeaderViewReuseId
+                                                                         forIndexPath:indexPath];
         view = header;
     }
     return view;

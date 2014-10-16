@@ -1,5 +1,5 @@
 //
-//  CHChartHeaderView.h
+//  CHHeaderView.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/10/14.
@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kCHChartHeaderViewReuseId;
+extern NSString *const kCHHeaderViewReuseId;
 
-@interface CHChartHeaderView : UICollectionReusableView
+@interface CHHeaderView : UICollectionReusableView
 
 @end
