@@ -12,6 +12,11 @@ extern NSString *const kCHLineViewReuseId;
 
 @interface CHLineView : UICollectionReusableView
 
-- (void)drawLineWithPoints:(NSArray *)points;
+/**
+ *  Sets the line view's points. Points should be provided as relative values.
+ *
+ *  @param points An array of CGPoints (as NSValue objects)
+ */
+- (void)setPoints:(NSArray *)points;
 
 @end

@@ -57,15 +57,17 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
                                                          forIndexPath:indexPath];
         view.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.1];
 
-        CGFloat minValue = [self.dataSource chartView:self minValueForPage:page];
-        CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:page];
+        CGFloat min = [self.dataSource chartView:self minValueForPage:page];
+        CGFloat max = [self.dataSource chartView:self maxValueForPage:page];
         NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:page];
         NSMutableArray *points = [NSMutableArray arrayWithCapacity:pointCount];
         for (int i = 0; i < pointCount; i++) {
             CGFloat value = [self.dataSource chartView:self valueForPointInPage:page atIndex:i];
-            [points addObject:@(value)];
+            CGFloat relativeValue = [CHChartView relativeValue:value minValue:min maxValue:max];
+            CGPoint point = CGPointMake(i, relativeValue);
+            [points addObject:[NSValue valueWithCGPoint:point]];
         }
-        NSLog(@"%@", points);
+        [((CHLineView *)view) setPoints:points];
     }
     return view;
 }
