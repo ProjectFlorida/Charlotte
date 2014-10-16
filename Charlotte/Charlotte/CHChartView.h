@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 extern CGFloat const kCHPageTransitionAnimationDuration;
+extern CGFloat const kCHPageTransitionAnimationSpringDamping;
 
 extern NSString *const CHChartViewElementKindHeader;
 
