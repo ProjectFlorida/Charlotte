@@ -383,10 +383,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     UICollectionReusableView *view;
     if (kind == CHSupplementaryElementKindHeader) {
-        CHHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
-                                                                  withReuseIdentifier:kCHHeaderViewReuseId
-                                                                         forIndexPath:indexPath];
-        view = header;
+        view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
+                                                  withReuseIdentifier:kCHHeaderViewReuseId
+                                                         forIndexPath:indexPath];
     }
     return view;
 }

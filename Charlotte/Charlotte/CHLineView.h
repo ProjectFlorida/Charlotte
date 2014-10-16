@@ -12,4 +12,6 @@ extern NSString *const kCHLineViewReuseId;
 
 @interface CHLineView : UICollectionReusableView
 
+- (void)drawLineWithPoints:(NSArray *)points;
+
 @end
