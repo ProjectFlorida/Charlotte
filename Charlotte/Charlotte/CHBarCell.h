@@ -7,34 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHPointCell.h"
 
 extern NSString *const kCHBarCellReuseId;
 
-@interface CHBarCell : UICollectionViewCell
-
-@property (nonatomic, readonly) CGFloat value;
-@property (nonatomic, readonly) CGFloat minValue;
-@property (nonatomic, readonly) CGFloat maxValue;
+@interface CHBarCell : CHPointCell
 
 @property (nonatomic, strong) UIColor *primaryBarColor;
 
 /// The color of the bar when its height is zero.
 @property (nonatomic, strong) UIColor *secondaryBarColor;
-
-
-/// Default is nil.
-@property (nonatomic, strong) NSString *xAxisLabelString;
-@property (nonatomic, strong) UIColor *xAxisLabelColor;
-@property (nonatomic, strong) UIFont *xAxisLabelFont;
-
-/// Default is nil.
-@property (nonatomic, assign) NSString *valueLabelString;
-@property (nonatomic, strong) UIColor *valueLabelColor;
-@property (nonatomic, strong) UIFont *valueLabelFont;
-
-@property (nonatomic, assign) CGFloat footerHeight;
-
-- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
-- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end
