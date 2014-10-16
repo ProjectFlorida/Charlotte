@@ -232,11 +232,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 }
 
 - (void)updateRangeInVisibleCells {
-    CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
-    CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHPointCell *cell in self.collectionView.visibleCells) {
         self.numberOfAnimationsInProgress++;
-        [cell setMinValue:minValue maxValue:maxValue animated:YES completion:^{
+        [cell setMinValue:min maxValue:max animated:YES completion:^{
             self.numberOfAnimationsInProgress--;
         }];
     }

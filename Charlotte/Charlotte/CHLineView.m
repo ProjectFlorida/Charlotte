@@ -7,6 +7,7 @@
 //
 
 #import "CHLineView.h"
+#import "CHChartView_Private.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";
 
@@ -34,7 +35,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
 - (void)prepareForReuse
 {
-
+    [super prepareForReuse];
+    _shapeLayer.path = nil;
 }
 
 - (void)setPoints:(NSArray *)points
@@ -43,16 +45,13 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     if (!count) {
         return;
     }
-    CGFloat pointWidth = self.bounds.size.width / count;
     UIBezierPath *path = [UIBezierPath bezierPath];
-    [path moveToPoint:CGPointMake(0, 100)];
-    for (NSValue *pointValue in points) {
-        CGPoint point = [pointValue CGPointValue];
-        CGFloat x = point.x * pointWidth;
-        [path addLineToPoint:CGPointMake(x, 100)];
-        NSLog(@"%f", x);
+    CGPoint firstPoint = [points[0] CGPointValue];
+    [path moveToPoint:CGPointMake(firstPoint.x, firstPoint.y)];
+    for (int i = 1; i < count; i++) {
+        CGPoint point = [points[i] CGPointValue];
+        [path addLineToPoint:CGPointMake(point.x, point.y)];
     }
-    [path closePath];
     _shapeLayer.path = path.CGPath;
 }
 
