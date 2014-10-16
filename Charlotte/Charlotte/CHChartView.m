@@ -207,7 +207,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     [self.collectionViewLayout invalidateLayout];
     [super layoutSubviews];
-    [self.scrollView setContentSize:self.collectionView.contentSize];
+    [self.scrollView setContentSize:self.collectionViewLayout.collectionViewContentSize];
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {

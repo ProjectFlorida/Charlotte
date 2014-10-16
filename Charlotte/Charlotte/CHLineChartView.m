@@ -19,4 +19,14 @@
     [super initialize];
 }
 
+#pragma mark - UICollectionViewDataSource
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
+                  cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    cell.valueLabelHidden = YES;
+    return cell;
+}
+
 @end

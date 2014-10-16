@@ -29,12 +29,6 @@
     self.chartView.dataSource = self;
     self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
     [self.chartView reloadData];
-    [self.chartView scrollToPage:3 animated:NO];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 #pragma mark CHChartViewDataSource

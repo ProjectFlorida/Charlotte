@@ -37,12 +37,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="W5J-7L-Pyd" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-320"/>
+            <point key="canvasLocation" x="778" y="-291"/>
         </scene>
         <!--Line-->
         <scene sceneID="wg7-f3-ORb">
             <objects>
-                <viewController id="8rJ-Kc-sve" customClass="LineChartViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="8rJ-Kc-sve" customClass="LineChartViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="L7p-HK-0SC"/>
                         <viewControllerLayoutGuide type="bottom" id="Djb-ko-YwX"/>
@@ -73,44 +73,10 @@
             </objects>
             <point key="canvasLocation" x="771" y="489"/>
         </scene>
-        <!--Point-->
-        <scene sceneID="kbl-Pg-xj3">
-            <objects>
-                <viewController id="ibQ-hR-wqX" customClass="ChartViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="lOT-aI-0v3"/>
-                        <viewControllerLayoutGuide type="bottom" id="bdz-OB-kG3"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="sv8-Gf-ead">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FzE-dK-pPE" customClass="CHChartView">
-                                <rect key="frame" x="16" y="20" width="568" height="451"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="FzE-dK-pPE" firstAttribute="leading" secondItem="sv8-Gf-ead" secondAttribute="leadingMargin" id="769-Ig-2Sh"/>
-                            <constraint firstItem="FzE-dK-pPE" firstAttribute="trailing" secondItem="sv8-Gf-ead" secondAttribute="trailingMargin" id="SVN-bB-wv5"/>
-                            <constraint firstItem="bdz-OB-kG3" firstAttribute="top" secondItem="FzE-dK-pPE" secondAttribute="bottom" constant="80" id="jIA-dn-cr5"/>
-                            <constraint firstItem="FzE-dK-pPE" firstAttribute="top" secondItem="lOT-aI-0v3" secondAttribute="bottom" id="yod-pv-OXk"/>
-                        </constraints>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Point" image="second" id="9ql-WH-4tD"/>
-                    <connections>
-                        <outlet property="chartView" destination="FzE-dK-pPE" id="da7-X4-pIh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dRs-Zt-AdB" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="0.0" y="802"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
-                <tabBarController id="49e-Tb-3d3" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="49e-Tb-3d3" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -118,32 +84,13 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
                         <segue destination="8rJ-Kc-sve" kind="relationship" relationship="viewControllers" id="lzU-1b-eKA"/>
-                        <segue destination="ibQ-hR-wqX" kind="relationship" relationship="viewControllers" id="6rJ-vN-jOE"/>
+                        <segue destination="9pv-A4-QxB" kind="relationship" relationship="viewControllers" id="pFQ-0E-Y81"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="0.0" y="0.0"/>
-        </scene>
-        <!--Chart View Controller-->
-        <scene sceneID="dC4-1M-qK2">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="mFQ-iw-zC7" customClass="CHChartViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="hhX-pz-ZgQ"/>
-                        <viewControllerLayoutGuide type="bottom" id="Abj-Bl-MGj"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="xez-Vh-A9A">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="udr-o3-0YN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
         </scene>
     </scenes>
     <resources>
