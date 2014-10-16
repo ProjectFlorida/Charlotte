@@ -10,6 +10,7 @@
 #import "CHPointCell_Private.h"
 #import "CHLineView.h"
 #import "CHChartView_Private.h"
+#import "CHPagingLineChartFlowLayout.h"
 
 NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLine";
 
@@ -25,6 +26,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self.collectionView registerClass:[CHLineView class]
             forSupplementaryViewOfKind:CHSupplementaryElementKindLine
                    withReuseIdentifier:kCHLineViewReuseId];
+    self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
+    [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 }
 
 #pragma mark - UICollectionViewDataSource

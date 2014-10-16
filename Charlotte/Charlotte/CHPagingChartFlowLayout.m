@@ -8,7 +8,6 @@
 
 #import "CHPagingChartFlowLayout.h"
 #import "CHChartView.h"
-#import "CHLineChartView.h"
 #import "CHPointCell.h"
 
 @implementation CHPagingChartFlowLayout
@@ -52,21 +51,12 @@
         }
     }
 
-    // add missing attributes for custom supplementary views
+    // add missing attributes for header views
     [sections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
         UICollectionViewLayoutAttributes *headerAttributes =
             [self layoutAttributesForSupplementaryViewOfKind:CHSupplementaryElementKindHeader atIndexPath:indexPath];
-        UICollectionViewLayoutAttributes *lineAttributes =
-            [self layoutAttributesForSupplementaryViewOfKind:CHSupplementaryElementKindLine atIndexPath:indexPath];
         [attributesArray addObject:headerAttributes];
-        [attributesArray addObject:lineAttributes];
-
-        for (int i = 0; i < [self.collectionView numberOfItemsInSection:idx]; i++) {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:idx];
-            UICollectionViewLayoutAttributes *itemAttributes = [self layoutAttributesForItemAtIndexPath:indexPath];
-            [attributesArray addObject:itemAttributes];
-        }
     }];
 
     // shift cells to the right by the layout's left edge page inset
@@ -91,26 +81,17 @@
     if (!attributes) {
         attributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
     }
-    if (elementKind == CHSupplementaryElementKindHeader ||
-        elementKind == CHSupplementaryElementKindLine) {
+    if (elementKind == CHSupplementaryElementKindHeader) {
         NSInteger section = indexPath.section;
         NSInteger numberOfItemsInSection = [self.collectionView numberOfItemsInSection:section];
         NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
         UICollectionViewLayoutAttributes *firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
         CGPoint origin = attributes.frame.origin;
         CGSize size = attributes.frame.size;
-        if (elementKind == CHSupplementaryElementKindHeader) {
-            origin.x = firstCellAttrs.frame.origin.x - self.sectionInset.left + self.pageInset.left;
-            origin.y = 0;
-            size.height = self.headerHeight;
-            size.width = (firstCellAttrs.size.width*numberOfItemsInSection) + self.sectionInset.left + self.sectionInset.right;
-        }
-        else if (elementKind == CHSupplementaryElementKindLine) {
-            origin.x = firstCellAttrs.frame.origin.x + self.pageInset.left;
-            origin.y = firstCellAttrs.frame.origin.y;
-            size.height = firstCellAttrs.bounds.size.height;
-            size.width = (firstCellAttrs.size.width*numberOfItemsInSection);
-        }
+        origin.x = firstCellAttrs.frame.origin.x - self.sectionInset.left + self.pageInset.left;
+        origin.y = 0;
+        size.height = self.headerHeight;
+        size.width = (firstCellAttrs.size.width*numberOfItemsInSection) + self.sectionInset.left + self.sectionInset.right;
         attributes.frame = (CGRect){ .origin = origin, .size = size };
         attributes.zIndex = firstCellAttrs.zIndex + 1;
     }
