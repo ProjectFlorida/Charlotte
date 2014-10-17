@@ -14,6 +14,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 @interface CHLineView ()
 
 @property (nonatomic, strong) CAShapeLayer *shapeLayer;
+@property (nonatomic, assign) CGFloat footerHeight;
+@property (nonatomic, strong) NSArray *points;
 
 @end
 
@@ -23,15 +25,19 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _minValue = 0;
+        _maxValue = 1;
+        _footerHeight = 30;
         self.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.1];
+        /*
         _shapeLayer = [CAShapeLayer layer];
-        _shapeLayer.backgroundColor = [[UIColor magentaColor] colorWithAlphaComponent:0.2].CGColor;
         _shapeLayer.lineWidth = 1;
         _shapeLayer.fillColor = nil;
         _shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
         _shapeLayer.opacity = 1;
         _shapeLayer.frame = self.bounds;
         [self.layer addSublayer:_shapeLayer];
+         */
     }
     return self;
 }
@@ -39,7 +45,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    _shapeLayer.frame = self.bounds;
+    [self setPoints:self.points];
 }
 
 - (void)prepareForReuse
@@ -48,34 +54,61 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [_shapeLayer setPath:nil];
 }
 
-- (UIColor *)randomColor
+- (CGFloat)yPositionWithRelativeValue:(CGFloat)value
 {
-    CGFloat hue = ( arc4random() % 256 / 256.0 );
-    CGFloat saturation = ( arc4random() % 128 / 256.0 ) + 0.5;
-    CGFloat brightness = ( arc4random() % 128 / 256.0 ) + 0.5;
-    return [UIColor colorWithHue:hue saturation:saturation brightness:brightness alpha:1];
+    CGFloat displayHeight = self.bounds.size.height - self.footerHeight;
+    return (1 - value) * displayHeight - self.footerHeight;
 }
 
-- (void)setPoints:(NSArray *)points {
-    [self setPoints:points log:NO];
+- (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
+{
+    CGFloat cellWidth = self.bounds.size.width / count;
+    CGFloat leftMargin = cellWidth / 2.0;
+    return leftMargin + cellWidth*index;
 }
 
-- (void)setPoints:(NSArray *)points log:(BOOL)log
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion
 {
+    _minValue = minValue;
+    _maxValue = maxValue;
+}
+
+- (void)setPoints:(NSArray *)points
+{
+    _points = points;
     NSInteger count = points.count;
     if (!count) {
         return;
     }
+    CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];
     CGPoint firstPoint = [points[0] CGPointValue];
-    [path moveToPoint:CGPointMake(firstPoint.x, firstPoint.y)];
-    if (log) { NSLog(@"--o--"); }
+    CGFloat firstX = [self xPositionWithIndex:0 inCount:count];
+    CGFloat relativeFirstValue = [CHChartView relativeValue:firstPoint.y minValue:self.minValue maxValue:self.maxValue];
+    CGFloat firstY = [self yPositionWithRelativeValue:relativeFirstValue];
+    [path moveToPoint:CGPointMake(firstX, firstY)];
     for (int i = 1; i < count; i++) {
         CGPoint point = [points[i] CGPointValue];
-        [path addLineToPoint:CGPointMake(point.x, point.y)];
-        if (log) { NSLog(@"%f", point.y);}
+        CGFloat x = [self xPositionWithIndex:i inCount:count];
+        CGFloat relativeValue = [CHChartView relativeValue:point.y minValue:self.minValue maxValue:self.maxValue];
+        CGFloat y = [self yPositionWithRelativeValue:relativeValue];
+        [path addLineToPoint:CGPointMake(x, y)];
     }
-    [_shapeLayer setPath:path.CGPath];
+    [layer setPath:path.CGPath];
+    layer.lineWidth = 1;
+    layer.fillColor = nil;
+    layer.strokeColor = [UIColor whiteColor].CGColor;
+    layer.frame = self.bounds;
+    [self.shapeLayer removeFromSuperlayer];
+    self.shapeLayer = layer;
+    [self.layer addSublayer:layer];
+}
+
+#pragma mark - Setters
+
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    _footerHeight = footerHeight;
 }
 
 @end

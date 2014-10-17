@@ -12,12 +12,18 @@ extern NSString *const kCHLineViewReuseId;
 
 @interface CHLineView : UICollectionReusableView
 
+@property (nonatomic, readonly) CGFloat minValue;
+@property (nonatomic, readonly) CGFloat maxValue;
+
 /**
- *  Sets the line view's points. Points should be provided as relative values.
+ *  Sets the line view's points.
  *
  *  @param points An array of CGPoints (as NSValue objects)
  */
 - (void)setPoints:(NSArray *)points;
-- (void)setPoints:(NSArray *)points log:(BOOL)log;
+
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
+
+- (void)setFooterHeight:(CGFloat)footerHeight;
 
 @end
