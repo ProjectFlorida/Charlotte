@@ -8,14 +8,14 @@
 
 #import "CHLineView.h"
 #import "CHChartView_Private.h"
+#import "UIBezierPath+Interpolation.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
 @property (nonatomic, strong) CAShapeLayer *shapeLayer;
-@property (nonatomic, assign) CGFloat footerHeight;
-@property (nonatomic, strong) NSArray *points;
+@property (nonatomic, strong) NSArray *values;
 
 @end
 
@@ -25,11 +25,12 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _values = @[];
         _minValue = 0;
         _maxValue = 1;
         _footerHeight = 30;
-        self.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.1];
         _shapeLayer = [CAShapeLayer layer];
+        _shapeLayer.lineCap = kCALineCapRound;
         _shapeLayer.lineWidth = 1;
         _shapeLayer.fillColor = nil;
         _shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
@@ -43,7 +44,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self setPoints:self.points];
+    [self redrawWithValues:self.values];
 }
 
 - (void)prepareForReuse
@@ -69,30 +70,27 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self setPoints:self.points];
+    [self redrawWithValues:self.values];
 }
 
-- (void)setPoints:(NSArray *)points
+- (void)redrawWithValues:(NSArray *)values
 {
-    _points = points;
-    NSInteger count = points.count;
+    _values = values;
+    NSInteger count = values.count;
     if (!count) {
         return;
     }
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    CGPoint firstPoint = [points[0] CGPointValue];
-    CGFloat firstX = [self xPositionWithIndex:0 inCount:count];
-    CGFloat relativeFirstValue = [CHChartView relativeValue:firstPoint.y minValue:self.minValue maxValue:self.maxValue];
-    CGFloat firstY = [self yPositionWithRelativeValue:relativeFirstValue];
-    [path moveToPoint:CGPointMake(firstX, firstY)];
-    for (int i = 1; i < count; i++) {
-        CGPoint point = [points[i] CGPointValue];
+    NSMutableArray *points = [NSMutableArray arrayWithCapacity:count];
+    for (int i = 0; i < count; i++) {
         CGFloat x = [self xPositionWithIndex:i inCount:count];
-        CGFloat relativeValue = [CHChartView relativeValue:point.y minValue:self.minValue maxValue:self.maxValue];
+        CGFloat value = [values[i] floatValue];
+        CGFloat relativeValue = [CHChartView relativeValue:value minValue:self.minValue maxValue:self.maxValue];
         CGFloat y = [self yPositionWithRelativeValue:relativeValue];
-        [path addLineToPoint:CGPointMake(x, y)];
+        NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+        [points addObject:pointValue];
     }
-    [_shapeLayer setPath:path.CGPath];
+    UIBezierPath *path = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
+    [self.shapeLayer setPath:path.CGPath];
 }
 
 #pragma mark - Setters

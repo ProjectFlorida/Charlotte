@@ -14,16 +14,15 @@ extern NSString *const kCHLineViewReuseId;
 
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
+@property (nonatomic, assign) CGFloat footerHeight;
 
 /**
- *  Sets the line view's points.
+ *  Sets the line view's values
  *
- *  @param points An array of CGPoints (as NSValue objects)
+ *  @param points An array of boxed CGFloats.
  */
-- (void)setPoints:(NSArray *)points;
+- (void)redrawWithValues:(NSArray *)points;
 
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
-
-- (void)setFooterHeight:(CGFloat)footerHeight;
 
 @end

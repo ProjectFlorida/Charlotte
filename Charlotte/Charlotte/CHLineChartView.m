@@ -61,7 +61,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    cell.valueLabelHidden = NO;
+    cell.valueLabelHidden = YES;
+    cell.pointView.hidden = YES;
     return cell;
 }
 
@@ -79,17 +80,17 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
                                                                   withReuseIdentifier:kCHLineViewReuseId
                                                                          forIndexPath:indexPath];
+        lineView.footerHeight = self.footerHeight;
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-        NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
-        NSMutableArray *points = [NSMutableArray arrayWithCapacity:pointCount];
-        for (int i = 0; i < pointCount; i++) {
+        NSInteger count = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
+        NSMutableArray *points = [NSMutableArray arrayWithCapacity:count];
+        for (int i = 0; i < count; i++) {
             CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
-            CGPoint point = CGPointMake(i, value);
-            [points addObject:[NSValue valueWithCGPoint:point]];
+            [points addObject:@(value)];
         }
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        [lineView setPoints:points];
+        [lineView redrawWithValues:points];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

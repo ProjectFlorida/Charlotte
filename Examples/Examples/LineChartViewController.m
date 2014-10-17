@@ -40,17 +40,17 @@
 
 - (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return self.xAxisLabels[index];
+    return nil;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
 {
-    return 7;
+    return 100;
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return sin(index) + page + 1;
+    return sin(index*3)*sin(index*2) + page + 1;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
