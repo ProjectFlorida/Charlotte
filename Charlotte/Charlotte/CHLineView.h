@@ -18,5 +18,6 @@ extern NSString *const kCHLineViewReuseId;
  *  @param points An array of CGPoints (as NSValue objects)
  */
 - (void)setPoints:(NSArray *)points;
+- (void)setPoints:(NSArray *)points log:(BOOL)log;
 
 @end

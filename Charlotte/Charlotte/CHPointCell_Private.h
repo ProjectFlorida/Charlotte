@@ -26,6 +26,6 @@
 - (NSLayoutConstraint *)pointViewPositionConstraintWithAttribute:(NSLayoutAttribute)attribute
                                                       multiplier:(CGFloat)multiplier;
 
-- (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end

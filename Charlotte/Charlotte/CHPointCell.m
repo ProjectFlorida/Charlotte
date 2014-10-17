@@ -136,7 +136,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     self.maxValue = 1;
     self.footerHeight = 30;
     [self.layer removeAllAnimations];
-    [self updateBarAnimated:NO completion:nil];
+    [self updateAnimated:NO completion:nil];
 }
 
 - (NSLayoutConstraint *)pointViewPositionConstraintWithAttribute:(NSLayoutAttribute)attribute
@@ -156,7 +156,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
-- (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion
+- (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
     CGFloat relativeValue = [self relativeValue];
     [self removeConstraint:self.pointViewPositionConstraint];
@@ -190,7 +190,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     if (!self.valueLabelString) {
         self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
     }
-    [self updateBarAnimated:animated completion:completion];
+    [self updateAnimated:animated completion:completion];
 }
 
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue
@@ -198,7 +198,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 {
     self.minValue = minValue;
     self.maxValue = maxValue;
-    [self updateBarAnimated:animated completion:completion];
+    [self updateAnimated:animated completion:completion];
 }
 
 - (void)setPointColor:(UIColor *)pointColor
@@ -210,7 +210,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
-    [self updateBarAnimated:NO completion:nil];
+    [self updateAnimated:NO completion:nil];
 }
 
 - (void)setValueLabelFont:(UIFont *)valueLabelFont

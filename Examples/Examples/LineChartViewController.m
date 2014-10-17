@@ -50,7 +50,7 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return index;
+    return sin(index) + page + 3;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page

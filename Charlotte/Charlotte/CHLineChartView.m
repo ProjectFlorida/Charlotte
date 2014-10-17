@@ -24,7 +24,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)initialize
 {
-    _visibleLineViews = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableWeakMemory];
+    _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
     self.cellReuseId = kCHPointCellReuseId;
     self.cellClass = [CHPointCell class];
 
@@ -37,27 +37,50 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 }
 
-- (void)redrawVisibleLineViews
+- (void)setPointsInLineView:(CHLineView *)lineView atIndexPath:(NSIndexPath *)indexPath
 {
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-    for (CHLineView *lineView in [[self.visibleLineViews objectEnumerator] allObjects]) {
-        NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:self.currentPage]; //TODO use actual page
-        NSMutableArray *points = [NSMutableArray arrayWithCapacity:pointCount];
-        NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForRow:0 inSection:self.currentPage];
-        CGSize cellSize = [self collectionView:self.collectionView layout:self.collectionViewLayout
-                        sizeForItemAtIndexPath:firstCellIndexPath];
-        for (int i = 0; i < pointCount; i++) {
-            CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:i];
-            CGFloat relativeValue = [CHChartView relativeValue:value minValue:min maxValue:max];
-            CGFloat displayHeight = cellSize.height - self.footerHeight;
-            CGFloat centerXOffset = cellSize.width/2.0;
-            CGFloat x = (i*cellSize.width) + centerXOffset;
-            CGFloat y = (1 - relativeValue) * displayHeight - self.footerHeight;
-            CGPoint point = CGPointMake(x, y);
-            [points addObject:[NSValue valueWithCGPoint:point]];
+    NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
+    NSMutableArray *points = [NSMutableArray arrayWithCapacity:pointCount];
+    NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForRow:0 inSection:indexPath.section];
+    CGSize cellSize = [self collectionView:self.collectionView layout:self.collectionViewLayout
+                    sizeForItemAtIndexPath:firstCellIndexPath];
+    //*/
+    if (indexPath.section == self.currentPage) {
+        NSLog(@"-----");
+    }
+    //*/
+    for (int i = 0; i < pointCount; i++) {
+        CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
+        CGFloat relativeValue = [CHChartView relativeValue:value minValue:min maxValue:max];
+        CGFloat displayHeight = cellSize.height - self.footerHeight;
+        CGFloat centerXOffset = cellSize.width/2.0;
+        CGFloat x = (i*cellSize.width) + centerXOffset;
+        CGFloat y = (1 - relativeValue) * displayHeight - self.footerHeight;
+        //*/
+        if (indexPath.section == self.currentPage) {
+            NSLog(@"l: %f %f %f ", y, value, relativeValue);
         }
+        //*/
+        CGPoint point = CGPointMake(x, y);
+        [points addObject:[NSValue valueWithCGPoint:point]];
+    }
+    if (indexPath.section == self.currentPage) {
+        [lineView setPoints:points log:YES];
+    }
+    else {
         [lineView setPoints:points];
+    }
+}
+
+- (void)redrawVisibleLineViews
+{
+    NSEnumerator *keyEnumerator = [self.visibleLineViews keyEnumerator];
+    NSIndexPath *indexPath;
+    while ((indexPath = keyEnumerator.nextObject) && indexPath) {
+        CHLineView *lineView = [self.visibleLineViews objectForKey:indexPath];
+        [self setPointsInLineView:lineView atIndexPath:indexPath];
     }
 }
 
@@ -73,7 +96,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    cell.valueLabelHidden = YES;
+    cell.valueLabelHidden = NO;
     return cell;
 }
 
@@ -88,10 +111,12 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         return view;
     }
     if (kind == CHSupplementaryElementKindLine) {
-        view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
-                                                  withReuseIdentifier:kCHLineViewReuseId
-                                                         forIndexPath:indexPath];
-        [self.visibleLineViews setObject:view forKey:indexPath];
+        CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
+                                                                  withReuseIdentifier:kCHLineViewReuseId
+                                                                         forIndexPath:indexPath];
+//        [self setPointsInLineView:lineView atIndexPath:indexPath];
+        [self.visibleLineViews setObject:lineView forKey:indexPath];
+        view = lineView;
     }
     return view;
 }

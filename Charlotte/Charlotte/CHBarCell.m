@@ -66,7 +66,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     self.pointView.backgroundColor = self.primaryBarColor;
 }
 
-- (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion
+- (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
     CGFloat relativeValue = [self relativeValue];
 
