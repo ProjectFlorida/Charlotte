@@ -37,6 +37,35 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 }
 
+- (void)updateAlphaInVisibleLineViews
+{
+    CGFloat collectionViewWidth = self.collectionView.bounds.size.width;
+    CGFloat minAlpha = 0.3;
+    CGFloat leftMargin = collectionViewWidth/2;
+    CGFloat rightMargin = collectionViewWidth/2;
+    NSEnumerator *keyEnumerator = [self.visibleLineViews keyEnumerator];
+    NSIndexPath *indexPath;
+    while ((indexPath = keyEnumerator.nextObject) && indexPath) {
+        CHLineView *lineView = [self.visibleLineViews objectForKey:indexPath];
+        CGFloat distanceFromLeftEdge = lineView.center.x - self.collectionView.contentOffset.x;
+        CGFloat distanceFromRightEdge = collectionViewWidth - distanceFromLeftEdge;
+        CGFloat alpha = 1;
+        if (distanceFromLeftEdge < leftMargin) {
+            alpha = MAX(distanceFromLeftEdge/leftMargin, minAlpha);
+        }
+        else if (distanceFromRightEdge < rightMargin) {
+            alpha = MAX(distanceFromRightEdge/rightMargin, minAlpha);
+        }
+        lineView.alpha = alpha;
+    }
+}
+
+- (void)updateAlphaInVisibleCells
+{
+    [super updateAlphaInVisibleCells];
+    [self updateAlphaInVisibleLineViews];
+}
+
 - (void)updateRangeInVisibleLineViews
 {
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
