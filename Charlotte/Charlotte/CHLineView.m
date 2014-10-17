@@ -29,7 +29,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _maxValue = 1;
         _footerHeight = 30;
         self.backgroundColor = [[UIColor greenColor] colorWithAlphaComponent:0.1];
-        /*
         _shapeLayer = [CAShapeLayer layer];
         _shapeLayer.lineWidth = 1;
         _shapeLayer.fillColor = nil;
@@ -37,7 +36,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _shapeLayer.opacity = 1;
         _shapeLayer.frame = self.bounds;
         [self.layer addSublayer:_shapeLayer];
-         */
     }
     return self;
 }
@@ -71,6 +69,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
+    [self setPoints:self.points];
 }
 
 - (void)setPoints:(NSArray *)points
@@ -80,7 +79,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     if (!count) {
         return;
     }
-    CAShapeLayer *layer = [CAShapeLayer layer];
     UIBezierPath *path = [UIBezierPath bezierPath];
     CGPoint firstPoint = [points[0] CGPointValue];
     CGFloat firstX = [self xPositionWithIndex:0 inCount:count];
@@ -94,14 +92,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         CGFloat y = [self yPositionWithRelativeValue:relativeValue];
         [path addLineToPoint:CGPointMake(x, y)];
     }
-    [layer setPath:path.CGPath];
-    layer.lineWidth = 1;
-    layer.fillColor = nil;
-    layer.strokeColor = [UIColor whiteColor].CGColor;
-    layer.frame = self.bounds;
-    [self.shapeLayer removeFromSuperlayer];
-    self.shapeLayer = layer;
-    [self.layer addSublayer:layer];
+    [_shapeLayer setPath:path.CGPath];
 }
 
 #pragma mark - Setters

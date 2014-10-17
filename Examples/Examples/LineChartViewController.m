@@ -21,8 +21,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.minValues = @[@0, @0, @0, @0, @0, @0];//@[@0, @0,  @(-7), @0, @(-4), @0];
-    self.maxValues = @[@7, @7, @7, @7, @7, @7];//@[@7, @14, @14,   @9, @13,   @11];
+    self.minValues = @[@0, @0,  @(-7), @0, @(-4), @0];
+    self.maxValues = @[@7, @14, @14,   @9, @13,   @11];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
