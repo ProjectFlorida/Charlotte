@@ -10,8 +10,6 @@
 
 @interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate>
 
-@property (nonatomic, strong) NSArray *minValues;
-@property (nonatomic, strong) NSArray *maxValues;
 @property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, assign) NSInteger currentIndex;
 
@@ -21,8 +19,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.minValues = @[@0, @0,  @(-7), @0, @(-4), @0];
-    self.maxValues = @[@7, @14, @14,   @9, @13,   @11];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
@@ -35,12 +31,23 @@
 
 - (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
 {
-    return self.minValues.count;
+    return 1;
 }
 
 - (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return nil;
+    if (index == 10) {
+        return @"11:24pm";
+    }
+    else if (index == 50) {
+        return @"2:58am";
+    }
+    else if (index == 90) {
+        return @"7:04am";
+    }
+    else {
+        return nil;
+    }
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -50,17 +57,17 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return sin(index*3)*sin(index*2) + page + 1;
+    return sin(index*3)*sin(index*2) + page + 3;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
-    return [self.minValues[page] integerValue];
+    return 0;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return [self.maxValues[page] integerValue];
+    return 7;
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
