@@ -19,8 +19,9 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
 @property (nonatomic, strong) CHTouchGestureRecognizer *gestureRecognizer;
-@property (nonatomic, strong) UIView *highlightView;
-@property (nonatomic, assign) CGFloat highlightViewWidth;
+@property (nonatomic, strong) UIView *highlightColumnView;
+@property (nonatomic, strong) UIView *highlightPointView;
+@property (nonatomic, assign) CGFloat highlightColumnWidth;
 
 @end
 
@@ -33,11 +34,17 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
-    _highlightViewWidth = 20;
-    _highlightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _highlightViewWidth, self.bounds.size.height)];
-    _highlightView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.4];
-    _highlightView.alpha = 0;
-    [self addSubview:_highlightView];
+    _highlightColumnWidth = 20;
+    _highlightColumnView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _highlightColumnWidth, self.bounds.size.height)];
+    _highlightColumnView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.4];
+    _highlightColumnView.alpha = 0;
+    [self addSubview:_highlightColumnView];
+
+    _highlightPointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _highlightColumnWidth, _highlightColumnWidth)];
+    _highlightPointView.backgroundColor = [UIColor whiteColor];
+    _highlightPointView.layer.cornerRadius = _highlightPointView.bounds.size.width/2.0;
+    _highlightPointView.alpha = 0;
+    [self addSubview:_highlightPointView];
 
     _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
     _gestureRecognizer = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(touchAction:)];
@@ -57,9 +64,9 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.highlightView.frame = CGRectMake(self.highlightView.frame.origin.x,
+    self.highlightColumnView.frame = CGRectMake(self.highlightColumnView.frame.origin.x,
                                           0,
-                                          self.highlightView.frame.size.width,
+                                          self.highlightColumnView.frame.size.width,
                                           self.bounds.size.height);
 }
 
@@ -114,14 +121,40 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)touchAction:(CHTouchGestureRecognizer *)gestureRecognizer
 {
+    BOOL shouldAnimate = YES;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        self.highlightView.alpha = 1;
+        self.highlightColumnView.alpha = 1;
+        self.highlightPointView.alpha = 1;
+        shouldAnimate = NO;
     }
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        self.highlightView.alpha = 0;
+        self.highlightColumnView.alpha = 0;
+        self.highlightPointView.alpha = 0;
     }
-    CGPoint location = [gestureRecognizer locationInView:self];
-    [self.highlightView setCenter:CGPointMake(location.x, self.highlightView.center.y)];
+    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];   
+    CGPoint touchLocation = [gestureRecognizer locationInView:self];
+    NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:self.currentPage];
+    CGFloat cellWidth = self.bounds.size.width / pointCount;
+    NSInteger index = (touchLocation.x - self.collectionViewLayout.pageInset.left) / cellWidth;
+    CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
+    CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
+    CGFloat height = self.bounds.size.height - self.footerHeight;
+    CGFloat y = (1 - scaledValue) * height;
+
+    void(^updateBlock)() = ^() {
+        [self.highlightPointView setCenter:CGPointMake(touchLocation.x, y)];
+        [self.highlightColumnView setCenter:CGPointMake(touchLocation.x, self.highlightColumnView.center.y)];
+    };
+
+    if (shouldAnimate) {
+        [UIView animateWithDuration:0.1 animations:^{
+            updateBlock();
+        }];
+    }
+    else {
+        updateBlock();
+    }
 }
 
 #pragma mark - UICollectionViewDataSource
