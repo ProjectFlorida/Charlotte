@@ -154,7 +154,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self addConstraints:backgroundViewV];
 }
 
-+ (CGFloat)relativeValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
++ (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
 {
     return (value - min)/(max - min);
 }
@@ -180,13 +180,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                         options:0
                                                                         metrics:nil
                                                                           views:@{@"g": gridline.view}];
-        CGFloat relativeValue = [CHChartView relativeValue:gridline.value minValue:min maxValue:max];
+        CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
         gridline.centerYConstraint = [NSLayoutConstraint constraintWithItem:gridline.view
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.backgroundView
                                                                   attribute:NSLayoutAttributeBottom
-                                                                 multiplier:1 - relativeValue
+                                                                 multiplier:1 - scaledValue
                                                                    constant:-self.footerHeight];
         [self.backgroundView addConstraint:gridline.centerYConstraint];
         [self.backgroundView addConstraints:constraintsH];
@@ -270,13 +270,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = self.gridlines[i];
         [self.backgroundView removeConstraint:gridline.centerYConstraint];
-        CGFloat relativeValue = [CHChartView relativeValue:gridline.value minValue:min maxValue:max];
+        CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
         gridline.centerYConstraint = [NSLayoutConstraint constraintWithItem:gridline.view
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.backgroundView
                                                                   attribute:NSLayoutAttributeBottom
-                                                                 multiplier:1 - relativeValue
+                                                                 multiplier:1 - scaledValue
                                                                    constant:-self.footerHeight];
         [self.backgroundView addConstraint:gridline.centerYConstraint];
         if (animated) {

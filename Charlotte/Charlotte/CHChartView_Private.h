@@ -28,6 +28,6 @@
 - (void)updateRangeInVisibleCells;
 - (void)updateAlphaInVisibleCells;
 
-+ (CGFloat)relativeValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max;
++ (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max;
 
 @end

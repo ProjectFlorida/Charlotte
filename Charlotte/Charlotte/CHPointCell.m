@@ -151,17 +151,17 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
                                          constant:-self.footerHeight];
 }
 
-- (CGFloat)relativeValue
+- (CGFloat)scaledValue
 {
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
-    CGFloat relativeValue = [self relativeValue];
+    CGFloat scaledValue = [self scaledValue];
     [self removeConstraint:self.pointViewPositionConstraint];
     self.pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeCenterY
-                                                                           multiplier:(1 - relativeValue)];
+                                                                           multiplier:(1 - scaledValue)];
     [self addConstraint:self.pointViewPositionConstraint];
     [self setNeedsUpdateConstraints];
     if (animated) {

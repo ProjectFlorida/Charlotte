@@ -68,10 +68,10 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
-    CGFloat relativeValue = [self relativeValue];
+    CGFloat scaledValue = [self scaledValue];
 
     void (^finalUpdateBlock)() = ^() {
-        if (relativeValue == 0) {
+        if (scaledValue == 0) {
             self.pointView.backgroundColor = _secondaryBarColor;
             self.valueLabel.alpha = 0;
             self.hasZeroHeight = YES;
@@ -85,7 +85,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
     [self removeConstraint:self.pointViewPositionConstraint];
     // clamp the bar's min height to its width
-    CGFloat desiredHeight = (self.bounds.size.height - self.footerHeight)*relativeValue;
+    CGFloat desiredHeight = (self.bounds.size.height - self.footerHeight)*scaledValue;
     CGFloat barWidth = self.bounds.size.width * self.barViewRelativeWidth;
     if (desiredHeight < barWidth) {
         self.pointViewPositionConstraint = [NSLayoutConstraint constraintWithItem:self.pointView
@@ -98,7 +98,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     }
     else {
         self.pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeTop
-                                                                               multiplier:(1 - relativeValue)];
+                                                                               multiplier:(1 - scaledValue)];
     }
     [self addConstraint:self.pointViewPositionConstraint];
     [self setNeedsUpdateConstraints];

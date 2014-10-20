@@ -31,7 +31,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _footerHeight = 30;
         _shapeLayer = [CAShapeLayer layer];
         _shapeLayer.lineCap = kCALineCapRound;
-        _shapeLayer.lineWidth = 1;
+        _shapeLayer.lineWidth = 2;
         _shapeLayer.fillColor = nil;
         _shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
         _shapeLayer.opacity = 1;
@@ -84,8 +84,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     for (int i = 0; i < count; i++) {
         CGFloat x = [self xPositionWithIndex:i inCount:count];
         CGFloat value = [values[i] floatValue];
-        CGFloat relativeValue = [CHChartView relativeValue:value minValue:self.minValue maxValue:self.maxValue];
-        CGFloat y = [self yPositionWithRelativeValue:relativeValue];
+        CGFloat scaledValue = [CHChartView scaledValue:value minValue:self.minValue maxValue:self.maxValue];
+        CGFloat y = [self yPositionWithRelativeValue:scaledValue];
         NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
         [points addObject:pointValue];
     }
