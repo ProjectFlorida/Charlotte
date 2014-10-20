@@ -36,7 +36,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
-    _highlightColumnWidth = 18;
+    _highlightMovementAnimationDuration = 0.1;
+    _highlightColumnWidth = 19;
     _highlightColumnView = [[CHHighlightColumnView alloc] initWithFrame:CGRectMake(0, 0,
                                                                                    _highlightColumnWidth,
                                                                                    self.bounds.size.height)];
@@ -124,15 +125,17 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)touchAction:(CHTouchGestureRecognizer *)gestureRecognizer
 {
-    BOOL shouldAnimate = YES;
+    BOOL touchBegan = NO;
+    BOOL touchEnded = NO;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         self.highlightColumnView.alpha = 1;
         self.highlightPointView.alpha = 1;
-        shouldAnimate = NO;
+        touchBegan = YES;
     }
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
         self.highlightColumnView.alpha = 0;
         self.highlightPointView.alpha = 0;
+        touchEnded = YES;
     }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
@@ -150,13 +153,29 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         [self.highlightColumnView setCenter:CGPointMake(touchLocation.x, self.highlightColumnView.center.y)];
     };
 
-    if (shouldAnimate) {
-        [UIView animateWithDuration:0.1 animations:^{
+    if (!touchBegan) {
+        [UIView animateWithDuration:self.highlightMovementAnimationDuration animations:^{
             updateBlock();
         }];
     }
     else {
         updateBlock();
+    }
+
+    if (touchBegan) {
+        if ([self.touchDelegate respondsToSelector:@selector(chartView:touchBeganInPage:nearestIndex:)]) {
+            [self.touchDelegate chartView:self touchBeganInPage:self.currentPage nearestIndex:index];
+        }
+    }
+    else if (touchEnded) {
+        if ([self.touchDelegate respondsToSelector:@selector(chartView:touchEndedInPage:nearestIndex:)]) {
+            [self.touchDelegate chartView:self touchEndedInPage:self.currentPage nearestIndex:index];
+        }
+    }
+    else {
+        if ([self.touchDelegate respondsToSelector:@selector(chartView:touchMovedInPage:nearestIndex:)]) {
+            [self.touchDelegate chartView:self touchMovedInPage:self.currentPage nearestIndex:index];
+        }
     }
 }
 
