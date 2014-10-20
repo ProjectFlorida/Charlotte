@@ -35,6 +35,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
                    withReuseIdentifier:kCHLineViewReuseId];
     self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
+
+    [super initializeConstraints];
 }
 
 - (void)updateAlphaInVisibleLineViews

@@ -11,6 +11,16 @@
 
 @implementation CHPagingLineChartFlowLayout
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.sectionInset = UIEdgeInsetsZero;
+        self.pageInset = UIEdgeInsetsZero;
+    }
+    return self;
+}
+
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray *attributesArray = [[super layoutAttributesForElementsInRect:rect] mutableCopy];

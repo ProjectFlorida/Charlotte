@@ -118,6 +118,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _backgroundView.backgroundColor = [UIColor clearColor];
     _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:_backgroundView atIndex:0];
+}
+
+- (void)initializeConstraints
+{
+    [self removeConstraints:self.constraints];
 
     NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView, _scrollView, _backgroundView);
     NSArray *collectionViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"

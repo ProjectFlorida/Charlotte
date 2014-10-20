@@ -25,6 +25,7 @@
  *  before calling super.
  */
 - (void)initialize;
+- (void)initializeConstraints;
 - (void)updateRangeInVisibleCells;
 - (void)updateAlphaInVisibleCells;
 
