@@ -9,7 +9,7 @@
 #import "CHPointCell.h"
 #import "CHChartView.h"
 
-NSString *const kCHPointCellReuseId = @"PointCell";
+NSString *const kCHPointCellReuseId = @"CHPointCell";
 
 @interface CHPointCell ()
 
@@ -136,7 +136,7 @@ NSString *const kCHPointCellReuseId = @"PointCell";
     self.maxValue = 1;
     self.footerHeight = 30;
     [self.layer removeAllAnimations];
-    [self updateBarAnimated:NO completion:nil];
+    [self updateAnimated:NO completion:nil];
 }
 
 - (NSLayoutConstraint *)pointViewPositionConstraintWithAttribute:(NSLayoutAttribute)attribute
@@ -151,17 +151,17 @@ NSString *const kCHPointCellReuseId = @"PointCell";
                                          constant:-self.footerHeight];
 }
 
-- (CGFloat)relativeValue
+- (CGFloat)scaledValue
 {
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
-- (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion
+- (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
-    CGFloat relativeValue = [self relativeValue];
+    CGFloat scaledValue = [self scaledValue];
     [self removeConstraint:self.pointViewPositionConstraint];
     self.pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeCenterY
-                                                                           multiplier:(1 - relativeValue)];
+                                                                           multiplier:(1 - scaledValue)];
     [self addConstraint:self.pointViewPositionConstraint];
     [self setNeedsUpdateConstraints];
     if (animated) {
@@ -190,7 +190,7 @@ NSString *const kCHPointCellReuseId = @"PointCell";
     if (!self.valueLabelString) {
         self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
     }
-    [self updateBarAnimated:animated completion:completion];
+    [self updateAnimated:animated completion:completion];
 }
 
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue
@@ -198,7 +198,7 @@ NSString *const kCHPointCellReuseId = @"PointCell";
 {
     self.minValue = minValue;
     self.maxValue = maxValue;
-    [self updateBarAnimated:animated completion:completion];
+    [self updateAnimated:animated completion:completion];
 }
 
 - (void)setPointColor:(UIColor *)pointColor
@@ -210,7 +210,7 @@ NSString *const kCHPointCellReuseId = @"PointCell";
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
-    [self updateBarAnimated:NO completion:nil];
+    [self updateAnimated:NO completion:nil];
 }
 
 - (void)setValueLabelFont:(UIFont *)valueLabelFont

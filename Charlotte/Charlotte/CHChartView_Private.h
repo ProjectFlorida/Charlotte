@@ -6,12 +6,18 @@
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-@interface CHChartView (Private) <UICollectionViewDataSource, UICollectionViewDelegate>
+#import "CHChartView.h"
 
-@property (strong, nonatomic) UICollectionView *collectionView;
+@class CHPagingChartFlowLayout;
+
+@interface CHChartView (Private) <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+
 @property (strong, nonatomic) NSString *cellReuseId;
-@property (assign, nonatomic) NSInteger currentPage;
 @property (strong, nonatomic) Class cellClass;
+@property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
+@property (assign, nonatomic) NSInteger currentPage;
+@property (assign, nonatomic) CGFloat footerHeight;
 
 /**
  *  Subclasses of CHChartView may override this method. You must call super at the end of your implementation.
@@ -19,5 +25,10 @@
  *  before calling super.
  */
 - (void)initialize;
+- (void)initializeConstraints;
+- (void)updateRangeInVisibleCells;
+- (void)updateAlphaInVisibleCells;
+
++ (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max;
 
 @end

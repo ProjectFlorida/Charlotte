@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Bar-->
@@ -18,15 +17,15 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlt-Qq-G89" customClass="CHBarChartView">
-                                <rect key="frame" x="16" y="20" width="568" height="451"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="451"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="dlt-Qq-G89" secondAttribute="bottom" constant="80" id="FV1-1I-0UZ"/>
-                            <constraint firstItem="dlt-Qq-G89" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leadingMargin" id="RVm-z6-iGe"/>
-                            <constraint firstItem="dlt-Qq-G89" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailingMargin" id="fPc-F6-s6r"/>
+                            <constraint firstItem="dlt-Qq-G89" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="RVm-z6-iGe"/>
+                            <constraint firstItem="dlt-Qq-G89" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailing" id="fPc-F6-s6r"/>
                             <constraint firstItem="dlt-Qq-G89" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="nLu-FN-H8V"/>
                         </constraints>
                     </view>
@@ -52,7 +51,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rpY-Qw-fIZ" customClass="CHLineChartView">
-                                <rect key="frame" x="16" y="20" width="568" height="451"/>
+                                <rect key="frame" x="0.0" y="20" width="600" height="451"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -60,8 +59,8 @@
                         <constraints>
                             <constraint firstItem="rpY-Qw-fIZ" firstAttribute="top" secondItem="L7p-HK-0SC" secondAttribute="bottom" id="2ne-CG-n7k"/>
                             <constraint firstItem="Djb-ko-YwX" firstAttribute="top" secondItem="rpY-Qw-fIZ" secondAttribute="bottom" constant="80" id="gNH-mI-h9s"/>
-                            <constraint firstItem="rpY-Qw-fIZ" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leadingMargin" id="uw9-N3-YHG"/>
-                            <constraint firstItem="rpY-Qw-fIZ" firstAttribute="trailing" secondItem="QS5-Rx-YEW" secondAttribute="trailingMargin" id="wor-eM-EYW"/>
+                            <constraint firstItem="rpY-Qw-fIZ" firstAttribute="leading" secondItem="QS5-Rx-YEW" secondAttribute="leading" id="uw9-N3-YHG"/>
+                            <constraint firstItem="rpY-Qw-fIZ" firstAttribute="trailing" secondItem="QS5-Rx-YEW" secondAttribute="trailing" id="wor-eM-EYW"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Line" image="second" id="cPa-gy-q4n"/>

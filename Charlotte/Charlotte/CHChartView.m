@@ -7,12 +7,12 @@
 //
 
 #import "CHChartView.h"
-#import "CHChartHeaderView.h"
+#import "CHHeaderView.h"
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
 #import "CHPointCell.h"
 
-NSString *const CHChartViewElementKindHeader = @"ChartViewElementKindHeader";
+NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
 CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
@@ -99,9 +99,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         _cellReuseId = kCHPointCellReuseId;
     }
     [_collectionView registerClass:_cellClass forCellWithReuseIdentifier:_cellReuseId];
-    [_collectionView registerClass:[CHChartHeaderView class]
-        forSupplementaryViewOfKind:CHChartViewElementKindHeader
-               withReuseIdentifier:kCHChartHeaderViewReuseId];
+    [_collectionView registerClass:[CHHeaderView class]
+        forSupplementaryViewOfKind:CHSupplementaryElementKindHeader
+               withReuseIdentifier:kCHHeaderViewReuseId];
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -118,6 +118,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _backgroundView.backgroundColor = [UIColor clearColor];
     _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:_backgroundView atIndex:0];
+
+    [self initializeConstraints];
+}
+
+- (void)initializeConstraints
+{
+    [self removeConstraints:self.constraints];
 
     NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView, _scrollView, _backgroundView);
     NSArray *collectionViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
@@ -154,10 +161,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self addConstraints:backgroundViewV];
 }
 
-- (CGFloat)multiplierForValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
++ (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
 {
-    CGFloat relativeValue = (value - min)/(max - min);
-    return (1 - relativeValue);
+    return (value - min)/(max - min);
 }
 
 - (void)initializeGridlines
@@ -181,13 +187,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                         options:0
                                                                         metrics:nil
                                                                           views:@{@"g": gridline.view}];
-        CGFloat multiplier = [self multiplierForValue:gridline.value minValue:min maxValue:max];
+        CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
         gridline.centerYConstraint = [NSLayoutConstraint constraintWithItem:gridline.view
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.backgroundView
                                                                   attribute:NSLayoutAttributeBottom
-                                                                 multiplier:multiplier
+                                                                 multiplier:1 - scaledValue
                                                                    constant:-self.footerHeight];
         [self.backgroundView addConstraint:gridline.centerYConstraint];
         [self.backgroundView addConstraints:constraintsH];
@@ -233,11 +239,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 }
 
 - (void)updateRangeInVisibleCells {
-    CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
-    CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHPointCell *cell in self.collectionView.visibleCells) {
         self.numberOfAnimationsInProgress++;
-        [cell setMinValue:minValue maxValue:maxValue animated:YES completion:^{
+        [cell setMinValue:min maxValue:max animated:YES completion:^{
             self.numberOfAnimationsInProgress--;
         }];
     }
@@ -271,13 +277,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = self.gridlines[i];
         [self.backgroundView removeConstraint:gridline.centerYConstraint];
-        CGFloat multiplier = [self multiplierForValue:gridline.value minValue:min maxValue:max];
+        CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
         gridline.centerYConstraint = [NSLayoutConstraint constraintWithItem:gridline.view
                                                                   attribute:NSLayoutAttributeCenterY
                                                                   relatedBy:NSLayoutRelationEqual
                                                                      toItem:self.backgroundView
                                                                   attribute:NSLayoutAttributeBottom
-                                                                 multiplier:multiplier
+                                                                 multiplier:1 - scaledValue
                                                                    constant:-self.footerHeight];
         [self.backgroundView addConstraint:gridline.centerYConstraint];
         if (animated) {
@@ -382,11 +388,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                  atIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionReusableView *view;
-    if (kind == CHChartViewElementKindHeader) {
-        CHChartHeaderView *header = [collectionView dequeueReusableSupplementaryViewOfKind:CHChartViewElementKindHeader
-                                                                       withReuseIdentifier:kCHChartHeaderViewReuseId
-                                                                              forIndexPath:indexPath];
-        view = header;
+    if (kind == CHSupplementaryElementKindHeader) {
+        view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
+                                                  withReuseIdentifier:kCHHeaderViewReuseId
+                                                         forIndexPath:indexPath];
     }
     return view;
 }

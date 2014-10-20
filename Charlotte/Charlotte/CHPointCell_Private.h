@@ -21,11 +21,11 @@
 @property (nonatomic, strong) NSLayoutConstraint *pointViewHeightConstraint;
 
 /// Returns the cell's value relative to its display range.
-- (CGFloat)relativeValue;
+- (CGFloat)scaledValue;
 
 - (NSLayoutConstraint *)pointViewPositionConstraintWithAttribute:(NSLayoutAttribute)attribute
                                                       multiplier:(CGFloat)multiplier;
 
-- (void)updateBarAnimated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end

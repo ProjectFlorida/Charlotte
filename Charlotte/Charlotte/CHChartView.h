@@ -11,7 +11,7 @@
 extern CGFloat const kCHPageTransitionAnimationDuration;
 extern CGFloat const kCHPageTransitionAnimationSpringDamping;
 
-extern NSString *const CHChartViewElementKindHeader;
+extern NSString *const CHSupplementaryElementKindHeader;
 
 @class CHChartView;
 @protocol CHChartViewDataSource <NSObject>

@@ -8,6 +8,8 @@
 
 #import "CHChartView.h"
 
+extern NSString *const CHSupplementaryElementKindLine;
+
 @interface CHLineChartView : CHChartView
 
 @end
