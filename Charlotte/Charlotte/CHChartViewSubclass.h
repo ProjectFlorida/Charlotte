@@ -1,5 +1,5 @@
 //
-//  CHChartView_Private.h
+//  CHChartViewSubclass.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/15/14.
