@@ -38,9 +38,19 @@
     return self.minValues.count;
 }
 
-- (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (NSString *)chartView:(CHChartView *)chartView xAxisLabelStringForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return self.xAxisLabels[index];
+}
+
+- (UIColor *)chartView:(CHChartView *)chartView xAxisLabelColorForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    if (index == 3) {
+        return [UIColor whiteColor];
+    }
+    else {
+        return [[UIColor whiteColor] colorWithAlphaComponent:0.4];
+    }
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page

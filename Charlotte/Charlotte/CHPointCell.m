@@ -247,4 +247,10 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     [self.xAxisLabel sizeToFit];
 }
 
+- (void)setXAxisLabelColor:(UIColor *)xAxisLabelColor
+{
+    _xAxisLabelColor = xAxisLabelColor;
+    self.xAxisLabel.textColor = xAxisLabelColor;
+}
+
 @end

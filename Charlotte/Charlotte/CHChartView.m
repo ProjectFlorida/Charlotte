@@ -370,9 +370,18 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
                                                                   forIndexPath:indexPath];
-    cell.xAxisLabelString = [self.dataSource chartView:self
-                              xAxisLabelForPointInPage:indexPath.section
+    NSString *labelString = [self.dataSource chartView:self
+                        xAxisLabelStringForPointInPage:indexPath.section
                                                atIndex:indexPath.row];
+    if (labelString) {
+        cell.xAxisLabelString = labelString;
+    }
+    UIColor *labelColor = [self.dataSource chartView:self
+                       xAxisLabelColorForPointInPage:indexPath.section
+                                             atIndex:indexPath.row];
+    if (labelColor) {
+        cell.xAxisLabelColor = labelColor;
+    }
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];

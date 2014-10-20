@@ -23,7 +23,8 @@ extern NSString *const CHSupplementaryElementKindHeader;
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 // Return nil for no label
-- (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+- (NSString *)chartView:(CHChartView *)chartView xAxisLabelStringForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+- (UIColor *)chartView:(CHChartView *)chartView xAxisLabelColorForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
 

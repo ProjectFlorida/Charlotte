@@ -45,7 +45,7 @@
     return 1;
 }
 
-- (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (NSString *)chartView:(CHChartView *)chartView xAxisLabelStringForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (index == 10) {
         return @"11:24pm";
@@ -59,6 +59,11 @@
     else {
         return nil;
     }
+}
+
+- (UIColor *)chartView:(CHChartView *)chartView xAxisLabelColorForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    return [UIColor whiteColor];
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
