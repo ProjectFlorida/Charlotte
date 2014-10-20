@@ -24,6 +24,8 @@
 		96839AC519EEF3330094AED9 /* CHLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96839AC319EEF3330094AED9 /* CHLineChartView.m */; };
 		96839AC719EEF59A0094AED9 /* CHChartView_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC619EEF59A0094AED9 /* CHChartView_Private.h */; };
 		96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC819EEFC070094AED9 /* CHPointCell_Private.h */; };
+		9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */; };
+		9688C35319F57E19006D9096 /* CHTouchGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */; };
 		968D2FB519E81EC40071306C /* CHHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 968D2FB319E81EC40071306C /* CHHeaderView.h */; };
 		968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D2FB419E81EC40071306C /* CHHeaderView.m */; };
 		9691DFCC19ED6DF100386A5D /* CHGridlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9691DFCA19ED6DF100386A5D /* CHGridlineView.h */; };
@@ -66,6 +68,8 @@
 		96839AC319EEF3330094AED9 /* CHLineChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLineChartView.m; sourceTree = "<group>"; };
 		96839AC619EEF59A0094AED9 /* CHChartView_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartView_Private.h; sourceTree = "<group>"; };
 		96839AC819EEFC070094AED9 /* CHPointCell_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPointCell_Private.h; sourceTree = "<group>"; };
+		9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTouchGestureRecognizer.h; sourceTree = "<group>"; };
+		9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTouchGestureRecognizer.m; sourceTree = "<group>"; };
 		968D2FB319E81EC40071306C /* CHHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHeaderView.h; sourceTree = "<group>"; };
 		968D2FB419E81EC40071306C /* CHHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHeaderView.m; sourceTree = "<group>"; };
 		9691DFCA19ED6DF100386A5D /* CHGridlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGridlineView.h; sourceTree = "<group>"; };
@@ -186,6 +190,8 @@
 				969ABDF319F04EE4007D03C5 /* Cells */,
 				969ABDF419F04EF1007D03C5 /* SupplementaryViews */,
 				969ABDF519F04F0A007D03C5 /* Layouts */,
+				9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */,
+				9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */,
 				9691DFCA19ED6DF100386A5D /* CHGridlineView.h */,
 				9691DFCB19ED6DF100386A5D /* CHGridlineView.m */,
 				96839ABA19EEF23E0094AED9 /* CHBarChartView.h */,
@@ -245,6 +251,7 @@
 				96839ABC19EEF23E0094AED9 /* CHBarChartView.h in Headers */,
 				964D233219E71AE90096F3FD /* CHPagingChartFlowLayout.h in Headers */,
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
+				9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */,
 				96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */,
 				96839AC719EEF59A0094AED9 /* CHChartView_Private.h in Headers */,
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
@@ -391,6 +398,7 @@
 			files = (
 				964D233719E7510E0096F3FD /* CHBarCell.m in Sources */,
 				9691DFCD19ED6DF100386A5D /* CHGridlineView.m in Sources */,
+				9688C35319F57E19006D9096 /* CHTouchGestureRecognizer.m in Sources */,
 				96839ABD19EEF23E0094AED9 /* CHBarChartView.m in Sources */,
 				964D233319E71AE90096F3FD /* CHPagingChartFlowLayout.m in Sources */,
 				96839AC519EEF3330094AED9 /* CHLineChartView.m in Sources */,

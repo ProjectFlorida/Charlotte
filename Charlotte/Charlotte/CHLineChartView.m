@@ -11,12 +11,16 @@
 #import "CHLineView.h"
 #import "CHChartView_Private.h"
 #import "CHPagingLineChartFlowLayout.h"
+#import "CHTouchGestureRecognizer.h"
 
 NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLine";
 
 @interface CHLineChartView ()
 
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
+@property (nonatomic, strong) CHTouchGestureRecognizer *gestureRecognizer;
+@property (nonatomic, strong) UIView *highlightView;
+@property (nonatomic, assign) CGFloat highlightViewWidth;
 
 @end
 
@@ -24,11 +28,22 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)initialize
 {
-    _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
     self.cellReuseId = kCHPointCellReuseId;
     self.cellClass = [CHPointCell class];
 
     [super initialize];
+
+    _highlightViewWidth = 20;
+    _highlightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _highlightViewWidth, self.bounds.size.height)];
+    _highlightView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.4];
+    _highlightView.alpha = 0;
+    [self addSubview:_highlightView];
+
+    _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
+    _gestureRecognizer = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(touchAction:)];
+    [self addGestureRecognizer:_gestureRecognizer];
+
+    self.multipleTouchEnabled = NO;
 
     [self.collectionView registerClass:[CHLineView class]
             forSupplementaryViewOfKind:CHSupplementaryElementKindLine
@@ -36,7 +51,16 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 
-    [super initializeConstraints];
+    [self initializeConstraints];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.highlightView.frame = CGRectMake(self.highlightView.frame.origin.x,
+                                          0,
+                                          self.highlightView.frame.size.width,
+                                          self.bounds.size.height);
 }
 
 - (void)updateAlphaInVisibleLineViews
@@ -84,6 +108,20 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 {
     [super updateRangeInVisibleCells];
     [self updateRangeInVisibleLineViews];
+}
+
+#pragma mark - Gesture recognizer
+
+- (void)touchAction:(CHTouchGestureRecognizer *)gestureRecognizer
+{
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        self.highlightView.alpha = 1;
+    }
+    else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        self.highlightView.alpha = 0;
+    }
+    CGPoint location = [gestureRecognizer locationInView:self];
+    [self.highlightView setCenter:CGPointMake(location.x, self.highlightView.center.y)];
 }
 
 #pragma mark - UICollectionViewDataSource

@@ -15,6 +15,8 @@
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
 @property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) CGFloat footerHeight;
