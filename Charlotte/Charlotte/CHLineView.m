@@ -7,7 +7,7 @@
 //
 
 #import "CHLineView.h"
-#import "CHChartView_Private.h"
+#import "CHChartViewSubclass.h"
 #import "UIBezierPath+Interpolation.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";

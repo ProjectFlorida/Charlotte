@@ -9,7 +9,7 @@
 #import "CHLineChartView.h"
 #import "CHPointCell_Private.h"
 #import "CHLineView.h"
-#import "CHChartView_Private.h"
+#import "CHChartViewSubclass.h"
 #import "CHPagingLineChartFlowLayout.h"
 #import "CHTouchGestureRecognizer.h"
 #import "CHHighlightPointView.h"

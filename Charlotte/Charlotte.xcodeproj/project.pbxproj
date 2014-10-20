@@ -26,7 +26,7 @@
 		96839AC119EEF3140094AED9 /* CHPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96839ABF19EEF3140094AED9 /* CHPointCell.m */; };
 		96839AC419EEF3330094AED9 /* CHLineChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC219EEF3330094AED9 /* CHLineChartView.h */; };
 		96839AC519EEF3330094AED9 /* CHLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96839AC319EEF3330094AED9 /* CHLineChartView.m */; };
-		96839AC719EEF59A0094AED9 /* CHChartView_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC619EEF59A0094AED9 /* CHChartView_Private.h */; };
+		96839AC719EEF59A0094AED9 /* CHChartViewSubclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */; };
 		96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC819EEFC070094AED9 /* CHPointCell_Private.h */; };
 		9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */; };
 		9688C35319F57E19006D9096 /* CHTouchGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */; };
@@ -74,7 +74,7 @@
 		96839ABF19EEF3140094AED9 /* CHPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPointCell.m; sourceTree = "<group>"; };
 		96839AC219EEF3330094AED9 /* CHLineChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLineChartView.h; sourceTree = "<group>"; };
 		96839AC319EEF3330094AED9 /* CHLineChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLineChartView.m; sourceTree = "<group>"; };
-		96839AC619EEF59A0094AED9 /* CHChartView_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartView_Private.h; sourceTree = "<group>"; };
+		96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartViewSubclass.h; sourceTree = "<group>"; };
 		96839AC819EEFC070094AED9 /* CHPointCell_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPointCell_Private.h; sourceTree = "<group>"; };
 		9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTouchGestureRecognizer.h; sourceTree = "<group>"; };
 		9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTouchGestureRecognizer.m; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 				96839ABB19EEF23E0094AED9 /* CHBarChartView.m */,
 				96839AC219EEF3330094AED9 /* CHLineChartView.h */,
 				96839AC319EEF3330094AED9 /* CHLineChartView.m */,
-				96839AC619EEF59A0094AED9 /* CHChartView_Private.h */,
+				96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */,
 				964D232819E708FE0096F3FD /* CHChartView.h */,
 				964D232919E708FE0096F3FD /* CHChartView.m */,
 				96DDD67A19DC9CE8005CCD07 /* Supporting Files */,
@@ -267,7 +267,7 @@
 				9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */,
 				9620455A19F597AD0045D3B8 /* CHHighlightColumnView.h in Headers */,
 				96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */,
-				96839AC719EEF59A0094AED9 /* CHChartView_Private.h in Headers */,
+				96839AC719EEF59A0094AED9 /* CHChartViewSubclass.h in Headers */,
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
 				962BBDB619F03D290038597C /* CHLineView.h in Headers */,
 				969E2A5919F1B1050036C0C2 /* UIBezierPath+Interpolation.h in Headers */,

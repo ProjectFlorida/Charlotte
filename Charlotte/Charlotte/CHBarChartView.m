@@ -8,7 +8,7 @@
 
 #import "CHBarChartView.h"
 #import "CHBarCell.h"
-#import "CHChartView_Private.h"
+#import "CHChartViewSubclass.h"
 
 @implementation CHBarChartView
 

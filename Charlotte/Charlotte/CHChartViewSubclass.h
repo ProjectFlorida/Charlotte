@@ -10,7 +10,7 @@
 
 @class CHPagingChartFlowLayout;
 
-@interface CHChartView (Private) <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface CHChartView (CHChartViewProtected) <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
