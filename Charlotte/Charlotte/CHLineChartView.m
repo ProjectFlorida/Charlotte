@@ -12,6 +12,8 @@
 #import "CHChartView_Private.h"
 #import "CHPagingLineChartFlowLayout.h"
 #import "CHTouchGestureRecognizer.h"
+#import "CHHighlightPointView.h"
+#import "CHHighlightColumnView.h"
 
 NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLine";
 
@@ -19,8 +21,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
 @property (nonatomic, strong) CHTouchGestureRecognizer *gestureRecognizer;
-@property (nonatomic, strong) UIView *highlightColumnView;
-@property (nonatomic, strong) UIView *highlightPointView;
+@property (nonatomic, strong) CHHighlightColumnView *highlightColumnView;
+@property (nonatomic, strong) CHHighlightPointView *highlightPointView;
 @property (nonatomic, assign) CGFloat highlightColumnWidth;
 
 @end
@@ -34,15 +36,16 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
-    _highlightColumnWidth = 20;
-    _highlightColumnView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _highlightColumnWidth, self.bounds.size.height)];
-    _highlightColumnView.backgroundColor = [[UIColor yellowColor] colorWithAlphaComponent:0.4];
+    _highlightColumnWidth = 18;
+    _highlightColumnView = [[CHHighlightColumnView alloc] initWithFrame:CGRectMake(0, 0,
+                                                                                   _highlightColumnWidth,
+                                                                                   self.bounds.size.height)];
     _highlightColumnView.alpha = 0;
     [self addSubview:_highlightColumnView];
 
-    _highlightPointView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _highlightColumnWidth, _highlightColumnWidth)];
-    _highlightPointView.backgroundColor = [UIColor whiteColor];
-    _highlightPointView.layer.cornerRadius = _highlightPointView.bounds.size.width/2.0;
+    _highlightPointView = [[CHHighlightPointView alloc] initWithFrame:CGRectMake(0, 0,
+                                                                                 _highlightColumnWidth*0.85,
+                                                                                 _highlightColumnWidth*0.85)];
     _highlightPointView.alpha = 0;
     [self addSubview:_highlightPointView];
 
@@ -65,9 +68,9 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 {
     [super layoutSubviews];
     self.highlightColumnView.frame = CGRectMake(self.highlightColumnView.frame.origin.x,
-                                          0,
-                                          self.highlightColumnView.frame.size.width,
-                                          self.bounds.size.height);
+                                                0,
+                                                self.highlightColumnView.frame.size.width,
+                                                self.bounds.size.height);
 }
 
 - (void)updateAlphaInVisibleLineViews
@@ -132,7 +135,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         self.highlightPointView.alpha = 0;
     }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
-    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];   
+    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     CGPoint touchLocation = [gestureRecognizer locationInView:self];
     NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:self.currentPage];
     CGFloat cellWidth = self.bounds.size.width / pointCount;
