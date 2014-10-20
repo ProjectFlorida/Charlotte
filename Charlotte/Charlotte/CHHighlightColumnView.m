@@ -46,7 +46,7 @@
     // TODO: add parameters.
     CGContextRef currentContext = UIGraphicsGetCurrentContext();
 
-    CGGradientRef glossGradient;
+    CGGradientRef gradient;
     CGColorSpaceRef rgbColorspace;
     size_t num_locations = 4;
     CGFloat locations[4] = { 0.0, 0.35, 0.65, 1.0 };
@@ -58,14 +58,14 @@
     };
 
     rgbColorspace = CGColorSpaceCreateDeviceRGB();
-    glossGradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, num_locations);
+    gradient = CGGradientCreateWithColorComponents(rgbColorspace, components, locations, num_locations);
 
     CGRect currentBounds = self.bounds;
     CGPoint leftCenter = CGPointMake(0, CGRectGetMidY(currentBounds));
     CGPoint rightCenter = CGPointMake(CGRectGetMaxX(currentBounds), CGRectGetMidY(currentBounds));
-    CGContextDrawLinearGradient(currentContext, glossGradient, leftCenter, rightCenter, 0);
+    CGContextDrawLinearGradient(currentContext, gradient, leftCenter, rightCenter, 0);
 
-    CGGradientRelease(glossGradient);
+    CGGradientRelease(gradient);
     CGColorSpaceRelease(rgbColorspace);
 }
 
