@@ -140,9 +140,9 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     CGPoint touchLocation = [gestureRecognizer locationInView:self];
-    NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:self.currentPage];
-    CGFloat cellWidth = self.bounds.size.width / pointCount;
-    NSInteger index = (touchLocation.x - self.collectionViewLayout.pageInset.left) / cellWidth;
+    CHPagingLineChartFlowLayout *layout = (CHPagingLineChartFlowLayout *)self.collectionViewLayout;
+    NSInteger index = [layout nearestIndexAtLocation:touchLocation
+                                              inPage:self.currentPage];
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.footerHeight;
