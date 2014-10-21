@@ -17,6 +17,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) CAShapeLayer *maskLayer;
 @property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) UIView *regionsView;
 
 @end
 
@@ -30,6 +31,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _minValue = 0;
         _maxValue = 1;
         _footerHeight = 30;
+        _regionsView = [[UIView alloc] initWithFrame:CGRectZero];
+        [self addSubview:_regionsView];
+
         _lineLayer = [CAShapeLayer layer];
         _lineLayer.lineCap = kCALineCapRound;
         _lineLayer.lineWidth = 4;
@@ -43,7 +47,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _maskLayer.fillColor = [UIColor greenColor].CGColor;
         _maskLayer.opacity = 0.5;
         _maskLayer.frame = self.bounds;
-        [self.layer addSublayer:_maskLayer];
     }
     return self;
 }
@@ -51,6 +54,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    _regionsView.frame = self.bounds;
     [self drawLineWithValues:self.values];
 }
 
@@ -101,10 +105,11 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
     CGPoint firstPoint = [points[0] CGPointValue];
     CGPoint lastPoint = [[points lastObject] CGPointValue];
-    [path addLineToPoint:CGPointMake(lastPoint.x, 0)];
-    [path addLineToPoint:CGPointMake(firstPoint.x, 0)];
+    [path addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
+    [path addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
     [path closePath];
     [self.maskLayer setPath:path.CGPath];
+    self.regionsView.layer.mask = self.maskLayer;
 
     if (!regions) {
         return;
@@ -127,6 +132,11 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
             UIColor *color = regions[rangeValue];
             CGPoint firstPoint = [points[range.location] CGPointValue];
             CGPoint lastPoint = [points[range.location + range.length] CGPointValue];
+            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(firstPoint.x, 0,
+                                                                    lastPoint.x - firstPoint.x,
+                                                                    self.bounds.size.height)];
+            view.backgroundColor = color;
+            [self.regionsView addSubview:view];
         }
     }
 }
