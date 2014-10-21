@@ -16,7 +16,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 @interface CHLineView ()
 
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
-@property (nonatomic, strong) CAShapeLayer *maskLayer;
+@property (nonatomic, strong) CAShapeLayer *shapeMaskLayer;
 @property (nonatomic, strong) NSArray *values;
 @property (nonatomic, strong) NSDictionary *regions;
 @property (nonatomic, strong) UIView *regionsView;
@@ -45,10 +45,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineLayer.frame = self.bounds;
         [self.layer addSublayer:_lineLayer];
 
-        _maskLayer = [CAShapeLayer layer];
-        _maskLayer.fillColor = [UIColor greenColor].CGColor;
-        _maskLayer.opacity = 0.5;
-        _maskLayer.frame = self.bounds;
+        _shapeMaskLayer = [CAShapeLayer layer];
+        _shapeMaskLayer.frame = self.bounds;
     }
     return self;
 }
@@ -69,7 +67,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
 - (CGFloat)yPositionWithRelativeValue:(CGFloat)value
 {
-    CGFloat displayHeight = self.bounds.size.height - self.footerHeight;
+    CGFloat displayHeight = self.bounds.size.height;
     return (1 - value) * displayHeight - self.footerHeight;
 }
 
@@ -113,15 +111,20 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [path addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
     [path addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
     [path closePath];
-    [self.maskLayer setPath:path.CGPath];
-    self.regionsView.layer.mask = self.maskLayer;
+    [self.shapeMaskLayer setPath:path.CGPath];
+    self.regionsView.layer.mask = self.shapeMaskLayer;
 
     if (!regions) {
         return;
     }
     else {
-        // draw regions
+        // reset region view
         _regions = regions;
+        for (UIView *subview in self.regionsView.subviews) {
+            [subview removeFromSuperview];
+        }
+
+        // draw regions
         NSArray *rangeValues =
         [regions.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSValue *v1, NSValue *v2) {
             if (v1.rangeValue.location < v2.rangeValue.location) {
@@ -143,10 +146,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
                                             lastPoint.x - firstPoint.x,
                                             self.regionsView.bounds.size.height);
             CHGradientView *regionView = [[CHGradientView alloc] initWithFrame:regionFrame];
-            regionView.locations = @[@0.5, @0.9];
-            regionView.colors = @[color, [UIColor clearColor]];
-            regionView.startPoint = CGPointMake(0.5, 0);
-            regionView.endPoint = CGPointMake(0.5, 1);
+            regionView.locations = @[@0.8, @1.0];
+            regionView.colors = @[[color colorWithAlphaComponent:0.8],
+                                  [self.chartBackgroundColor colorWithAlphaComponent:0.8]];
             [self.regionsView addSubview:regionView];
         }
     }

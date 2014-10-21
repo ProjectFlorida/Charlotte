@@ -15,6 +15,7 @@ extern NSString *const kCHLineViewReuseId;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 @property (nonatomic, assign) CGFloat footerHeight;
+@property (nonatomic, strong) UIColor *chartBackgroundColor;
 
 /**
  *  Draws a line between the given array of values.

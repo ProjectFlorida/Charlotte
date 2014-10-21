@@ -211,6 +211,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
                                                                   withReuseIdentifier:kCHLineViewReuseId
                                                                          forIndexPath:indexPath];
+        lineView.chartBackgroundColor = self.backgroundColor;
         lineView.footerHeight = self.footerHeight;
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
@@ -221,7 +222,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             [points addObject:@(value)];
         }
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        [lineView drawLineWithValues:points regions:@{[NSValue valueWithRange:NSMakeRange(3, 40)]: [UIColor greenColor]}];
+        NSDictionary *regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
+        [lineView drawLineWithValues:points regions:regions];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }
