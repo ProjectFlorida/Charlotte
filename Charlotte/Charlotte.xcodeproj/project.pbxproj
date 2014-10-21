@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5E3D11027877B559D03C14B0 /* libPods-CharlotteTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */; };
+		9620455619F590AD0045D3B8 /* CHHighlightPointView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9620455419F590AD0045D3B8 /* CHHighlightPointView.h */; };
+		9620455719F590AD0045D3B8 /* CHHighlightPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9620455519F590AD0045D3B8 /* CHHighlightPointView.m */; };
+		9620455A19F597AD0045D3B8 /* CHHighlightColumnView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9620455819F597AD0045D3B8 /* CHHighlightColumnView.h */; };
+		9620455B19F597AD0045D3B8 /* CHHighlightColumnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9620455919F597AD0045D3B8 /* CHHighlightColumnView.m */; };
 		962BBDB619F03D290038597C /* CHLineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 962BBDB419F03D290038597C /* CHLineView.h */; };
 		962BBDB719F03D290038597C /* CHLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 962BBDB519F03D290038597C /* CHLineView.m */; };
 		964D232A19E708FE0096F3FD /* CHChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 964D232819E708FE0096F3FD /* CHChartView.h */; };
@@ -22,8 +26,10 @@
 		96839AC119EEF3140094AED9 /* CHPointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 96839ABF19EEF3140094AED9 /* CHPointCell.m */; };
 		96839AC419EEF3330094AED9 /* CHLineChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC219EEF3330094AED9 /* CHLineChartView.h */; };
 		96839AC519EEF3330094AED9 /* CHLineChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96839AC319EEF3330094AED9 /* CHLineChartView.m */; };
-		96839AC719EEF59A0094AED9 /* CHChartView_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC619EEF59A0094AED9 /* CHChartView_Private.h */; };
+		96839AC719EEF59A0094AED9 /* CHChartViewSubclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */; };
 		96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 96839AC819EEFC070094AED9 /* CHPointCell_Private.h */; };
+		9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = 9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */; };
+		9688C35319F57E19006D9096 /* CHTouchGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */; };
 		968D2FB519E81EC40071306C /* CHHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 968D2FB319E81EC40071306C /* CHHeaderView.h */; };
 		968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D2FB419E81EC40071306C /* CHHeaderView.m */; };
 		9691DFCC19ED6DF100386A5D /* CHGridlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9691DFCA19ED6DF100386A5D /* CHGridlineView.h */; };
@@ -50,6 +56,10 @@
 
 /* Begin PBXFileReference section */
 		58113B0BC0B1A30968254A1C /* Pods-CharlotteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CharlotteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests.release.xcconfig"; sourceTree = "<group>"; };
+		9620455419F590AD0045D3B8 /* CHHighlightPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHighlightPointView.h; sourceTree = "<group>"; };
+		9620455519F590AD0045D3B8 /* CHHighlightPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHighlightPointView.m; sourceTree = "<group>"; };
+		9620455819F597AD0045D3B8 /* CHHighlightColumnView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHighlightColumnView.h; sourceTree = "<group>"; };
+		9620455919F597AD0045D3B8 /* CHHighlightColumnView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHighlightColumnView.m; sourceTree = "<group>"; };
 		962BBDB419F03D290038597C /* CHLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLineView.h; sourceTree = "<group>"; };
 		962BBDB519F03D290038597C /* CHLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLineView.m; sourceTree = "<group>"; };
 		964D232819E708FE0096F3FD /* CHChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartView.h; sourceTree = "<group>"; };
@@ -64,8 +74,10 @@
 		96839ABF19EEF3140094AED9 /* CHPointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHPointCell.m; sourceTree = "<group>"; };
 		96839AC219EEF3330094AED9 /* CHLineChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLineChartView.h; sourceTree = "<group>"; };
 		96839AC319EEF3330094AED9 /* CHLineChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLineChartView.m; sourceTree = "<group>"; };
-		96839AC619EEF59A0094AED9 /* CHChartView_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartView_Private.h; sourceTree = "<group>"; };
+		96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartViewSubclass.h; sourceTree = "<group>"; };
 		96839AC819EEFC070094AED9 /* CHPointCell_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPointCell_Private.h; sourceTree = "<group>"; };
+		9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHTouchGestureRecognizer.h; sourceTree = "<group>"; };
+		9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTouchGestureRecognizer.m; sourceTree = "<group>"; };
 		968D2FB319E81EC40071306C /* CHHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHeaderView.h; sourceTree = "<group>"; };
 		968D2FB419E81EC40071306C /* CHHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHeaderView.m; sourceTree = "<group>"; };
 		9691DFCA19ED6DF100386A5D /* CHGridlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGridlineView.h; sourceTree = "<group>"; };
@@ -186,13 +198,19 @@
 				969ABDF319F04EE4007D03C5 /* Cells */,
 				969ABDF419F04EF1007D03C5 /* SupplementaryViews */,
 				969ABDF519F04F0A007D03C5 /* Layouts */,
+				9688C35019F57E19006D9096 /* CHTouchGestureRecognizer.h */,
+				9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */,
+				9620455419F590AD0045D3B8 /* CHHighlightPointView.h */,
+				9620455519F590AD0045D3B8 /* CHHighlightPointView.m */,
+				9620455819F597AD0045D3B8 /* CHHighlightColumnView.h */,
+				9620455919F597AD0045D3B8 /* CHHighlightColumnView.m */,
 				9691DFCA19ED6DF100386A5D /* CHGridlineView.h */,
 				9691DFCB19ED6DF100386A5D /* CHGridlineView.m */,
 				96839ABA19EEF23E0094AED9 /* CHBarChartView.h */,
 				96839ABB19EEF23E0094AED9 /* CHBarChartView.m */,
 				96839AC219EEF3330094AED9 /* CHLineChartView.h */,
 				96839AC319EEF3330094AED9 /* CHLineChartView.m */,
-				96839AC619EEF59A0094AED9 /* CHChartView_Private.h */,
+				96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */,
 				964D232819E708FE0096F3FD /* CHChartView.h */,
 				964D232919E708FE0096F3FD /* CHChartView.m */,
 				96DDD67A19DC9CE8005CCD07 /* Supporting Files */,
@@ -245,8 +263,11 @@
 				96839ABC19EEF23E0094AED9 /* CHBarChartView.h in Headers */,
 				964D233219E71AE90096F3FD /* CHPagingChartFlowLayout.h in Headers */,
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
+				9620455619F590AD0045D3B8 /* CHHighlightPointView.h in Headers */,
+				9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */,
+				9620455A19F597AD0045D3B8 /* CHHighlightColumnView.h in Headers */,
 				96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */,
-				96839AC719EEF59A0094AED9 /* CHChartView_Private.h in Headers */,
+				96839AC719EEF59A0094AED9 /* CHChartViewSubclass.h in Headers */,
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
 				962BBDB619F03D290038597C /* CHLineView.h in Headers */,
 				969E2A5919F1B1050036C0C2 /* UIBezierPath+Interpolation.h in Headers */,
@@ -391,6 +412,7 @@
 			files = (
 				964D233719E7510E0096F3FD /* CHBarCell.m in Sources */,
 				9691DFCD19ED6DF100386A5D /* CHGridlineView.m in Sources */,
+				9688C35319F57E19006D9096 /* CHTouchGestureRecognizer.m in Sources */,
 				96839ABD19EEF23E0094AED9 /* CHBarChartView.m in Sources */,
 				964D233319E71AE90096F3FD /* CHPagingChartFlowLayout.m in Sources */,
 				96839AC519EEF3330094AED9 /* CHLineChartView.m in Sources */,
@@ -398,9 +420,11 @@
 				969E2A5E19F1B11E0036C0C2 /* CGPointExtension.m in Sources */,
 				964D232B19E708FE0096F3FD /* CHChartView.m in Sources */,
 				962BBDB719F03D290038597C /* CHLineView.m in Sources */,
+				9620455B19F597AD0045D3B8 /* CHHighlightColumnView.m in Sources */,
 				968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */,
 				96839AC119EEF3140094AED9 /* CHPointCell.m in Sources */,
 				969ABDF919F04F72007D03C5 /* CHPagingLineChartFlowLayout.m in Sources */,
+				9620455719F590AD0045D3B8 /* CHHighlightPointView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

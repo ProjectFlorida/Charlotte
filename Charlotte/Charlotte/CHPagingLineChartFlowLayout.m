@@ -21,6 +21,15 @@
     return self;
 }
 
+- (NSInteger)nearestIndexAtLocation:(CGPoint)location inPage:(NSInteger)page
+{
+    NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:page];
+    UICollectionViewLayoutAttributes *firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
+    CGFloat cellWidth = firstCellAttrs.size.width;
+    NSInteger index = (location.x - self.pageInset.left) / cellWidth;
+    return index;
+}
+
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
 {
     NSMutableArray *attributesArray = [[super layoutAttributesForElementsInRect:rect] mutableCopy];

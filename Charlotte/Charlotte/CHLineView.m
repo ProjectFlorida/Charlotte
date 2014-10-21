@@ -7,7 +7,7 @@
 //
 
 #import "CHLineView.h"
-#import "CHChartView_Private.h"
+#import "CHChartViewSubclass.h"
 #import "UIBezierPath+Interpolation.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";
@@ -31,7 +31,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _footerHeight = 30;
         _shapeLayer = [CAShapeLayer layer];
         _shapeLayer.lineCap = kCALineCapRound;
-        _shapeLayer.lineWidth = 2;
+        _shapeLayer.lineWidth = 4;
         _shapeLayer.fillColor = nil;
         _shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
         _shapeLayer.opacity = 1;

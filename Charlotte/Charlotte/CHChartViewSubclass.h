@@ -1,5 +1,5 @@
 //
-//  CHChartView_Private.h
+//  CHChartViewSubclass.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/15/14.
@@ -10,11 +10,13 @@
 
 @class CHPagingChartFlowLayout;
 
-@interface CHChartView (Private) <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface CHChartView (CHChartViewProtected) <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
 @property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) CGFloat footerHeight;
