@@ -15,8 +15,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
+@property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
-@property (nonatomic, strong) CAShapeLayer *shapeMaskLayer;
+@property (nonatomic, strong) CAShapeLayer *maskLayer;
 @property (nonatomic, strong) NSArray *values;
 @property (nonatomic, strong) NSDictionary *regions;
 @property (nonatomic, strong) UIView *regionsView;
@@ -36,6 +37,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _regionsView = [[UIView alloc] initWithFrame:CGRectZero];
         [self addSubview:_regionsView];
 
+        _shadowColor = [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1];
         _lineLayer = [CAShapeLayer layer];
         _lineLayer.lineCap = kCALineCapRound;
         _lineLayer.lineWidth = 4;
@@ -43,10 +45,14 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineLayer.strokeColor = [UIColor whiteColor].CGColor;
         _lineLayer.opacity = 1;
         _lineLayer.frame = self.bounds;
+        _lineLayer.shadowOpacity = 1;
+        _lineLayer.shadowRadius = 5;
+        _lineLayer.shadowOffset = CGSizeMake(0, 2);
+        _lineLayer.shadowColor = _shadowColor.CGColor;
         [self.layer addSublayer:_lineLayer];
 
-        _shapeMaskLayer = [CAShapeLayer layer];
-        _shapeMaskLayer.frame = self.bounds;
+        _maskLayer = [CAShapeLayer layer];
+        _maskLayer.frame = self.bounds;
     }
     return self;
 }
@@ -54,8 +60,11 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+
     CGSize currentSize = self.bounds.size;
-    _regionsView.frame = CGRectMake(0, 0, currentSize.width, currentSize.height - self.footerHeight);
+    self.lineLayer.frame = self.bounds;
+    self.maskLayer.frame = self.bounds;
+    self.regionsView.frame = CGRectMake(0, 0, currentSize.width, currentSize.height - self.footerHeight);
     [self drawLineWithValues:self.values regions:self.regions];
 }
 
@@ -111,8 +120,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [path addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
     [path addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
     [path closePath];
-    [self.shapeMaskLayer setPath:path.CGPath];
-    self.regionsView.layer.mask = self.shapeMaskLayer;
+    [self.maskLayer setPath:path.CGPath];
+    self.regionsView.layer.mask = self.maskLayer;
 
     if (!regions) {
         return;
