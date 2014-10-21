@@ -9,6 +9,7 @@
 #import "CHLineView.h"
 #import "CHChartViewSubclass.h"
 #import "UIBezierPath+Interpolation.h"
+#import "CHGradientView.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";
 
@@ -17,6 +18,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) CAShapeLayer *maskLayer;
 @property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) NSDictionary *regions;
 @property (nonatomic, strong) UIView *regionsView;
 
 @end
@@ -54,8 +56,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    _regionsView.frame = self.bounds;
-    [self drawLineWithValues:self.values];
+    CGSize currentSize = self.bounds.size;
+    _regionsView.frame = CGRectMake(0, 0, currentSize.width, currentSize.height - self.footerHeight);
+    [self drawLineWithValues:self.values regions:self.regions];
 }
 
 - (void)prepareForReuse
@@ -91,6 +94,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     if (!count) {
         return;
     }
+    // draw line
     NSMutableArray *points = [NSMutableArray arrayWithCapacity:count];
     for (int i = 0; i < count; i++) {
         CGFloat x = [self xPositionWithIndex:i inCount:count];
@@ -103,6 +107,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     UIBezierPath *path = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
     [self.lineLayer setPath:path.CGPath];
 
+    // update mask layer
     CGPoint firstPoint = [points[0] CGPointValue];
     CGPoint lastPoint = [[points lastObject] CGPointValue];
     [path addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
@@ -115,6 +120,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         return;
     }
     else {
+        // draw regions
+        _regions = regions;
         NSArray *rangeValues =
         [regions.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSValue *v1, NSValue *v2) {
             if (v1.rangeValue.location < v2.rangeValue.location) {
@@ -132,11 +139,15 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
             UIColor *color = regions[rangeValue];
             CGPoint firstPoint = [points[range.location] CGPointValue];
             CGPoint lastPoint = [points[range.location + range.length] CGPointValue];
-            UIView *view = [[UIView alloc] initWithFrame:CGRectMake(firstPoint.x, 0,
-                                                                    lastPoint.x - firstPoint.x,
-                                                                    self.bounds.size.height)];
-            view.backgroundColor = color;
-            [self.regionsView addSubview:view];
+            CGRect regionFrame = CGRectMake(firstPoint.x, 0,
+                                            lastPoint.x - firstPoint.x,
+                                            self.regionsView.bounds.size.height);
+            CHGradientView *regionView = [[CHGradientView alloc] initWithFrame:regionFrame];
+            regionView.locations = @[@0.5, @0.9];
+            regionView.colors = @[color, [UIColor clearColor]];
+            regionView.startPoint = CGPointMake(0.5, 0);
+            regionView.endPoint = CGPointMake(0.5, 1);
+            [self.regionsView addSubview:regionView];
         }
     }
 }

@@ -59,7 +59,7 @@
         CGSize size = attributes.frame.size;
         origin.x = firstCellAttrs.frame.origin.x + self.pageInset.left;
         origin.y = self.headerHeight;
-        size.height = firstCellAttrs.bounds.size.height;
+        size.height = firstCellAttrs.bounds.size.height - self.headerHeight;
         size.width = (firstCellAttrs.size.width*numberOfItemsInSection);
         attributes.frame = (CGRect){ .origin = origin, .size = size };
         attributes.zIndex = firstCellAttrs.zIndex + 1;
