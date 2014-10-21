@@ -51,7 +51,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self addSubview:_highlightPointView];
 
     _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
-    _gestureRecognizer = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(touchAction:)];
+    _gestureRecognizer = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchGesture:)];
     [self addGestureRecognizer:_gestureRecognizer];
 
     self.multipleTouchEnabled = NO;
@@ -123,7 +123,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 #pragma mark - Gesture recognizer
 
-- (void)touchAction:(CHTouchGestureRecognizer *)gestureRecognizer
+- (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer
 {
     BOOL touchBegan = NO;
     BOOL touchEnded = NO;
