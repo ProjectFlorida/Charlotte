@@ -214,7 +214,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             [points addObject:@(value)];
         }
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        [lineView redrawWithValues:points];
+        [lineView drawLineWithValues:points regions:@{[NSValue valueWithRange:NSMakeRange(3, 40)]: [UIColor greenColor]}];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

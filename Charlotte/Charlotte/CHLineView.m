@@ -14,7 +14,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
-@property (nonatomic, strong) CAShapeLayer *shapeLayer;
+@property (nonatomic, strong) CAShapeLayer *lineLayer;
+@property (nonatomic, strong) CAShapeLayer *maskLayer;
 @property (nonatomic, strong) NSArray *values;
 
 @end
@@ -29,14 +30,20 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _minValue = 0;
         _maxValue = 1;
         _footerHeight = 30;
-        _shapeLayer = [CAShapeLayer layer];
-        _shapeLayer.lineCap = kCALineCapRound;
-        _shapeLayer.lineWidth = 4;
-        _shapeLayer.fillColor = nil;
-        _shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
-        _shapeLayer.opacity = 1;
-        _shapeLayer.frame = self.bounds;
-        [self.layer addSublayer:_shapeLayer];
+        _lineLayer = [CAShapeLayer layer];
+        _lineLayer.lineCap = kCALineCapRound;
+        _lineLayer.lineWidth = 4;
+        _lineLayer.fillColor = nil;
+        _lineLayer.strokeColor = [UIColor whiteColor].CGColor;
+        _lineLayer.opacity = 1;
+        _lineLayer.frame = self.bounds;
+        [self.layer addSublayer:_lineLayer];
+
+        _maskLayer = [CAShapeLayer layer];
+        _maskLayer.fillColor = [UIColor greenColor].CGColor;
+        _maskLayer.opacity = 0.5;
+        _maskLayer.frame = self.bounds;
+        [self.layer addSublayer:_maskLayer];
     }
     return self;
 }
@@ -44,13 +51,13 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self redrawWithValues:self.values];
+    [self drawLineWithValues:self.values];
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    [_shapeLayer setPath:nil];
+    [_lineLayer setPath:nil];
 }
 
 - (CGFloat)yPositionWithRelativeValue:(CGFloat)value
@@ -70,10 +77,10 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self redrawWithValues:self.values];
+    [self drawLineWithValues:self.values];
 }
 
-- (void)redrawWithValues:(NSArray *)values
+- (void)drawLineWithValues:(NSArray *)values regions:(NSDictionary *)regions
 {
     _values = values;
     NSInteger count = values.count;
@@ -90,8 +97,45 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         [points addObject:pointValue];
     }
     UIBezierPath *path = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
-    [self.shapeLayer setPath:path.CGPath];
+    [self.lineLayer setPath:path.CGPath];
+
+    CGPoint firstPoint = [points[0] CGPointValue];
+    CGPoint lastPoint = [[points lastObject] CGPointValue];
+    [path addLineToPoint:CGPointMake(lastPoint.x, 0)];
+    [path addLineToPoint:CGPointMake(firstPoint.x, 0)];
+    [path closePath];
+    [self.maskLayer setPath:path.CGPath];
+
+    if (!regions) {
+        return;
+    }
+    else {
+        NSArray *rangeValues =
+        [regions.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSValue *v1, NSValue *v2) {
+            if (v1.rangeValue.location < v2.rangeValue.location) {
+                return NSOrderedAscending;
+            }
+            else if (v1.rangeValue.location > v2.rangeValue.location) {
+                return NSOrderedDescending;
+            }
+            else {
+                return NSOrderedSame;
+            }
+        }];
+        for (NSValue *rangeValue in rangeValues) {
+            NSRange range = rangeValue.rangeValue;
+            UIColor *color = regions[rangeValue];
+            CGPoint firstPoint = [points[range.location] CGPointValue];
+            CGPoint lastPoint = [points[range.location + range.length] CGPointValue];
+        }
+    }
 }
+
+- (void)drawLineWithValues:(NSArray *)values
+{
+    [self drawLineWithValues:values regions:nil];
+}
+
 
 #pragma mark - Setters
 
