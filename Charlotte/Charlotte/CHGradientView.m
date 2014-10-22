@@ -95,4 +95,30 @@
     CGColorSpaceRelease(rgbColorspace);
 }
 
+#pragma mark - Setters
+
+- (void)setColors:(NSArray *)colors
+{
+    _colors = colors;
+    [self setNeedsDisplay];
+}
+
+- (void)setLocations:(NSArray *)locations
+{
+    _locations = locations;
+    [self setNeedsDisplay];
+}
+
+- (void)setStartPoint:(CGPoint)startPoint
+{
+    _startPoint = startPoint;
+    [self setNeedsDisplay];
+}
+
+- (void)setEndPoint:(CGPoint)endPoint
+{
+    _endPoint = endPoint;
+    [self setNeedsDisplay];
+}
+
 @end
