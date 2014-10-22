@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5E3D11027877B559D03C14B0 /* libPods-CharlotteTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */; };
+		9600F88319F844A100CD9E5F /* CHChartRegion.h in Headers */ = {isa = PBXBuildFile; fileRef = 9600F88119F844A100CD9E5F /* CHChartRegion.h */; };
+		9600F88419F844A100CD9E5F /* CHChartRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = 9600F88219F844A100CD9E5F /* CHChartRegion.m */; };
 		9620455619F590AD0045D3B8 /* CHHighlightPointView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9620455419F590AD0045D3B8 /* CHHighlightPointView.h */; };
 		9620455719F590AD0045D3B8 /* CHHighlightPointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9620455519F590AD0045D3B8 /* CHHighlightPointView.m */; };
 		962BBDB619F03D290038597C /* CHLineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 962BBDB419F03D290038597C /* CHLineView.h */; };
@@ -56,6 +58,8 @@
 
 /* Begin PBXFileReference section */
 		58113B0BC0B1A30968254A1C /* Pods-CharlotteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CharlotteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests.release.xcconfig"; sourceTree = "<group>"; };
+		9600F88119F844A100CD9E5F /* CHChartRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartRegion.h; sourceTree = "<group>"; };
+		9600F88219F844A100CD9E5F /* CHChartRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartRegion.m; sourceTree = "<group>"; };
 		9620455419F590AD0045D3B8 /* CHHighlightPointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHighlightPointView.h; sourceTree = "<group>"; };
 		9620455519F590AD0045D3B8 /* CHHighlightPointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHighlightPointView.m; sourceTree = "<group>"; };
 		962BBDB419F03D290038597C /* CHLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLineView.h; sourceTree = "<group>"; };
@@ -248,6 +252,8 @@
 			isa = PBXGroup;
 			children = (
 				96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */,
+				9600F88119F844A100CD9E5F /* CHChartRegion.h */,
+				9600F88219F844A100CD9E5F /* CHChartRegion.m */,
 				96839ABA19EEF23E0094AED9 /* CHBarChartView.h */,
 				96839ABB19EEF23E0094AED9 /* CHBarChartView.m */,
 				96839AC219EEF3330094AED9 /* CHLineChartView.h */,
@@ -284,6 +290,7 @@
 				96EF748C19F6D28B004024EA /* CHGradientView.h in Headers */,
 				96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */,
 				96839AC719EEF59A0094AED9 /* CHChartViewSubclass.h in Headers */,
+				9600F88319F844A100CD9E5F /* CHChartRegion.h in Headers */,
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
 				962BBDB619F03D290038597C /* CHLineView.h in Headers */,
 				969E2A5919F1B1050036C0C2 /* UIBezierPath+Interpolation.h in Headers */,
@@ -437,6 +444,7 @@
 				964D232B19E708FE0096F3FD /* CHChartView.m in Sources */,
 				962BBDB719F03D290038597C /* CHLineView.m in Sources */,
 				968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */,
+				9600F88419F844A100CD9E5F /* CHChartRegion.m in Sources */,
 				96839AC119EEF3140094AED9 /* CHPointCell.m in Sources */,
 				969ABDF919F04F72007D03C5 /* CHPagingLineChartFlowLayout.m in Sources */,
 				9620455719F590AD0045D3B8 /* CHHighlightPointView.m in Sources */,

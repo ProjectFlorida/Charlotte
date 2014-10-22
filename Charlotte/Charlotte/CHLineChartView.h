@@ -22,16 +22,14 @@ extern NSString *const CHSupplementaryElementKindLine;
 @protocol CHLineChartDataSource <NSObject>
 
 /**
- *  Asks the data source for a dictionary describing colored regions to draw underneath the line on the given page.
+ *  Asks the data source for an array of CHChartRegion objects describing colored regions to draw below the line.
  *
  *  @param chartView The chart view requesting the regions.
  *  @param page      The page on which the regions should be drawn.
  *
- *  @return An NSDictionary object describing the regions to draw.
- *  Keys in this dictionary should be NSRange objects corresponding to point indices on the given chart page.
- *  Values should be UIColor objects.
+ *  @return An array of CHChartRegion objects.
  */
-- (NSDictionary *)chartView:(CHChartView *)chartView regionsInPage:(NSInteger)page;
+- (NSArray *)chartView:(CHChartView *)chartView regionsInPage:(NSInteger)page;
 
 @end
 

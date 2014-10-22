@@ -16,3 +16,4 @@ FOUNDATION_EXPORT const unsigned char CharlotteVersionString[];
 
 #import <Charlotte/CHBarChartView.h>
 #import <Charlotte/CHLineChartView.h>
+#import <Charlotte/CHChartRegion.h>

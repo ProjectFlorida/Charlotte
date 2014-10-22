@@ -10,6 +10,7 @@
 #import "CHChartViewSubclass.h"
 #import "UIBezierPath+Interpolation.h"
 #import "CHGradientView.h"
+#import "CHChartRegion.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";
 
@@ -19,7 +20,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) CAShapeLayer *maskLayer;
 @property (nonatomic, strong) NSArray *values;
-@property (nonatomic, strong) NSDictionary *regions;
+@property (nonatomic, strong) NSArray *regions;
 @property (nonatomic, strong) UIView *regionsView;
 
 @end
@@ -94,7 +95,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [self drawLineWithValues:self.values];
 }
 
-- (void)drawLineWithValues:(NSArray *)values regions:(NSDictionary *)regions
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions
 {
     _values = values;
     NSInteger count = values.count;
@@ -128,35 +129,20 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     }
     else {
         // reset region view
-        _regions = regions;
+        self.regions = regions;
         for (UIView *subview in self.regionsView.subviews) {
             [subview removeFromSuperview];
         }
 
-        // draw regions
-        NSArray *rangeValues =
-        [regions.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSValue *v1, NSValue *v2) {
-            if (v1.rangeValue.location < v2.rangeValue.location) {
-                return NSOrderedAscending;
-            }
-            else if (v1.rangeValue.location > v2.rangeValue.location) {
-                return NSOrderedDescending;
-            }
-            else {
-                return NSOrderedSame;
-            }
-        }];
-        for (NSValue *rangeValue in rangeValues) {
-            NSRange range = rangeValue.rangeValue;
-            UIColor *color = regions[rangeValue];
-            CGPoint firstPoint = [points[range.location] CGPointValue];
-            CGPoint lastPoint = [points[range.location + range.length] CGPointValue];
+        for (CHChartRegion *region in self.regions) {
+            CGPoint firstPoint = [points[region.range.location] CGPointValue];
+            CGPoint lastPoint = [points[region.range.location + region.range.length] CGPointValue];
             CGRect regionFrame = CGRectMake(firstPoint.x, 0,
                                             lastPoint.x - firstPoint.x,
                                             self.regionsView.bounds.size.height);
             CHGradientView *regionView = [[CHGradientView alloc] initWithFrame:regionFrame];
             regionView.locations = @[@0.8, @1.0];
-            regionView.colors = @[[color colorWithAlphaComponent:0.8],
+            regionView.colors = @[[region.color colorWithAlphaComponent:0.8],
                                   [self.chartBackgroundColor colorWithAlphaComponent:0.8]];
             [self.regionsView addSubview:regionView];
         }

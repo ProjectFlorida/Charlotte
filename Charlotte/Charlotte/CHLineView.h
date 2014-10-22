@@ -25,11 +25,11 @@ extern NSString *const kCHLineViewReuseId;
 - (void)drawLineWithValues:(NSArray *)values;
 
 /**
- *  Draws a line between the given values, with colored regions below the line specified by the given dictionary.
+ *  Draws a line between the given values, with colored regions below the line specified by the given array.
  *
- *  @param regions A dictionary mapping boxed NSRange keys to UIColor values.
+ *  @param regions An array of CHChartRegion objects.
  */
-- (void)drawLineWithValues:(NSArray *)values regions:(NSDictionary *)regions;
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions;
 
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 

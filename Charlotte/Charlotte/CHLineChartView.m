@@ -221,7 +221,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             [points addObject:@(value)];
         }
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        NSDictionary *regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
+        NSArray *regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
         [lineView drawLineWithValues:points regions:regions];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
