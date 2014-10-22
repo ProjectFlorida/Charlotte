@@ -370,23 +370,28 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
                                                                   forIndexPath:indexPath];
-    NSString *labelString = [self.dataSource chartView:self
-                        xAxisLabelStringForPointInPage:indexPath.section
-                                               atIndex:indexPath.row];
-    if (labelString) {
-        cell.xAxisLabelString = labelString;
-    }
-    UIColor *labelColor = [self.dataSource chartView:self
-                       xAxisLabelColorForPointInPage:indexPath.section
+
+    UILabel *xAxisLabel = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
                                              atIndex:indexPath.row];
-    if (labelColor) {
-        cell.xAxisLabelColor = labelColor;
+    if (xAxisLabel) {
+        cell.xAxisLabelString = xAxisLabel.text;
+        cell.xAxisLabelFont = xAxisLabel.font;
+        cell.xAxisLabelColor = xAxisLabel.textColor;
     }
+
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     cell.footerHeight = self.footerHeight;
-    cell.valueLabelHidden = YES;
+
+    UILabel *valueLabel = [self.dataSource chartView:self labelForPointWithValue:value
+                                              inPage:indexPath.section atIndex:indexPath.row];
+    if (valueLabel) {
+        cell.valueLabelString = valueLabel.text;
+        cell.valueLabelFont = valueLabel.font;
+        cell.valueLabelColor = valueLabel.textColor;
+    }
+
     [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];
     [cell setValue:value animated:NO completion:nil];
     return cell;

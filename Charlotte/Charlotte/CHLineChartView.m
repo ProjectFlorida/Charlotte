@@ -192,7 +192,6 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    cell.valueLabelHidden = YES;
     cell.pointView.hidden = YES;
     return cell;
 }

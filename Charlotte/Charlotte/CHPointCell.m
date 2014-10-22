@@ -187,9 +187,6 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 - (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
 {
     self.value = value;
-    if (!self.valueLabelString) {
-        self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
-    }
     [self updateAnimated:animated completion:completion];
 }
 
@@ -225,12 +222,6 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     _valueLabelString = valueLabelString;
     self.valueLabel.text = valueLabelString;
     [self.valueLabel sizeToFit];
-}
-
-- (void)setValueLabelHidden:(BOOL)valueLabelHidden
-{
-    _valueLabelHidden = valueLabelHidden;
-    self.valueLabel.hidden = valueLabelHidden;
 }
 
 - (void)setXAxisLabelFont:(UIFont *)xAxisLabelFont
