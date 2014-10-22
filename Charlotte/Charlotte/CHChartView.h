@@ -22,9 +22,28 @@ extern NSString *const CHSupplementaryElementKindHeader;
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
-// Return nil for no label
-- (NSString *)chartView:(CHChartView *)chartView xAxisLabelStringForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
-- (UIColor *)chartView:(CHChartView *)chartView xAxisLabelColorForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+/**
+ *  Asks the data source for a label to display above the specified point.
+ *
+ *  @param chartView The chart view requesting the label
+ *  @param value     The point's value
+ *  @param page      A page index in the chart view
+ *  @param index     A point index in the chart page
+ *
+ *  @return A UILabel object that the chart view can use to configure the specified label. You may return nil.
+ */
+- (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index;
+
+/**
+ *  Asks the data source for a label to display on the x-axis below the specified point.
+ *
+ *  @param chartView The chart view requesting the label
+ *  @param page      A page index in the chart view
+ *  @param index     A point index in the chart page
+ *
+ *  @return A UILabel object that the chart view can use to configure the specified x-axis label. You may return nil.
+ */
+- (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
 

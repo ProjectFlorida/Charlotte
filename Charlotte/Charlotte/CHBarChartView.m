@@ -26,7 +26,6 @@
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CHBarCell *cell = (CHBarCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    cell.valueLabelHidden = NO;
     return cell;
 }
 

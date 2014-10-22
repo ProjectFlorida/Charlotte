@@ -45,16 +45,22 @@
     return 1;
 }
 
-- (NSString *)chartView:(CHChartView *)chartView xAxisLabelStringForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
+    UILabel *label = [[UILabel alloc] init];
+    label.font = [UIFont systemFontOfSize:13];
+    label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     if (index == 10) {
-        return @"11:24pm";
+        label.text = @"11:24pm";
+        return label;
     }
     else if (index == 50) {
-        return @"2:58am";
+        label.text = @"2:58am";
+        return label;
     }
     else if (index == 90) {
-        return @"7:04am";
+        label.text = @"7:04am";
+        return label;
     }
     else {
         return nil;
@@ -74,6 +80,12 @@
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return sin(index*3)*sin(index*2) + page + 3;
+}
+
+- (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value
+                inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    return nil;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
