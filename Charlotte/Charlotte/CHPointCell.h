@@ -23,7 +23,6 @@ extern NSString *const kCHPointCellReuseId;
 @property (nonatomic, strong) NSString *valueLabelString;
 @property (nonatomic, strong) UIColor *valueLabelColor;
 @property (nonatomic, strong) UIFont *valueLabelFont;
-@property (nonatomic, assign) BOOL valueLabelHidden;
 
 @property (nonatomic, strong) UIColor *pointColor;
 

@@ -38,9 +38,18 @@
     return self.minValues.count;
 }
 
-- (NSString *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return self.xAxisLabels[index];
+    UILabel *label = [[UILabel alloc] init];
+    label.text = self.xAxisLabels[index];
+    label.font = [UIFont systemFontOfSize:13];
+    if (index == 3) {
+        label.textColor = [UIColor whiteColor];
+    }
+    else {
+        label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+    }
+    return label;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -51,6 +60,16 @@
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return index;
+}
+
+- (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value
+                inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    UILabel *label = [[UILabel alloc] init];
+    label.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
+    label.font = [UIFont boldSystemFontOfSize:18];
+    label.textColor = [UIColor whiteColor];
+    return label;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page

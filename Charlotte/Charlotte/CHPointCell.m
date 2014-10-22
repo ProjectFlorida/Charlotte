@@ -187,9 +187,6 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 - (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
 {
     self.value = value;
-    if (!self.valueLabelString) {
-        self.valueLabel.text = [NSString stringWithFormat:@"%d", (int)round(value)];
-    }
     [self updateAnimated:animated completion:completion];
 }
 
@@ -227,12 +224,6 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     [self.valueLabel sizeToFit];
 }
 
-- (void)setValueLabelHidden:(BOOL)valueLabelHidden
-{
-    _valueLabelHidden = valueLabelHidden;
-    self.valueLabel.hidden = valueLabelHidden;
-}
-
 - (void)setXAxisLabelFont:(UIFont *)xAxisLabelFont
 {
     _xAxisLabelFont = xAxisLabelFont;
@@ -245,6 +236,12 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     _xAxisLabelString = xAxisLabelString;
     self.xAxisLabel.text = xAxisLabelString;
     [self.xAxisLabel sizeToFit];
+}
+
+- (void)setXAxisLabelColor:(UIColor *)xAxisLabelColor
+{
+    _xAxisLabelColor = xAxisLabelColor;
+    self.xAxisLabel.textColor = xAxisLabelColor;
 }
 
 @end
