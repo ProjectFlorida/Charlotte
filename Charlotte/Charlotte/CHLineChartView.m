@@ -36,7 +36,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
-    _highlightMovementAnimationDuration = 0.1;
+    _highlightMovementAnimationDuration = 0.2;
     _highlightColumnWidth = 19;
     _highlightColumnView = [[CHHighlightColumnView alloc] initWithFrame:CGRectMake(0, 0,
                                                                                    _highlightColumnWidth,
@@ -128,13 +128,17 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     BOOL touchBegan = NO;
     BOOL touchEnded = NO;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        self.highlightColumnView.alpha = 1;
-        self.highlightPointView.alpha = 1;
+        [UIView animateWithDuration:self.highlightMovementAnimationDuration animations:^{
+            self.highlightColumnView.alpha = 1;
+            self.highlightPointView.alpha = 1;
+        }];
         touchBegan = YES;
     }
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        self.highlightColumnView.alpha = 0;
-        self.highlightPointView.alpha = 0;
+        [UIView animateWithDuration:self.highlightMovementAnimationDuration animations:^{
+            self.highlightColumnView.alpha = 0;
+            self.highlightPointView.alpha = 0;
+        }];
         touchEnded = YES;
     }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
