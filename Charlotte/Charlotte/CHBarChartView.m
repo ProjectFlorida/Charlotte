@@ -18,6 +18,8 @@
     self.cellClass = [CHBarCell class];
 
     [super initialize];
+
+    self.xAxisLineHidden = YES;
 }
 
 #pragma mark - UICollectionViewDataSource

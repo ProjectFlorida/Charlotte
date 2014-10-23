@@ -8,11 +8,13 @@
 
 #import "CHChartView.h"
 #import "CHHeaderView.h"
+#import "CHFooterView.h"
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
 #import "CHPointCell.h"
 
 NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
+NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindFooter";
 CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
@@ -77,8 +79,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
     _currentPage = 0;
     _footerHeight = 30;
+    _xAxisLineHidden = NO;
     _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
+
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -102,6 +106,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [_collectionView registerClass:[CHHeaderView class]
         forSupplementaryViewOfKind:CHSupplementaryElementKindHeader
                withReuseIdentifier:kCHHeaderViewReuseId];
+    [_collectionView registerClass:[CHFooterView class]
+        forSupplementaryViewOfKind:CHSupplementaryElementKindFooter
+               withReuseIdentifier:kCHFooterViewReuseId];
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -406,6 +413,14 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
                                                   withReuseIdentifier:kCHHeaderViewReuseId
                                                          forIndexPath:indexPath];
+    }
+    else if (kind == CHSupplementaryElementKindFooter) {
+        view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
+                                                  withReuseIdentifier:kCHFooterViewReuseId
+                                                         forIndexPath:indexPath];
+        if (self.isXAxisLineHidden) {
+            view.hidden = YES;
+        }
     }
     return view;
 }
