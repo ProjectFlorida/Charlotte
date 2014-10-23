@@ -15,8 +15,6 @@ typedef NS_ENUM(NSInteger, CHGridlineLabelPosition) {
 
 @interface CHGridlineView : UIView
 
-@property (nonatomic, strong) UIFont *labelFont;
-@property (nonatomic, strong) UIColor *labelColor;
 @property (nonatomic, strong) NSString *labelText;
 @property (nonatomic, assign) CHGridlineLabelPosition labelPosition;
 
@@ -28,5 +26,7 @@ typedef NS_ENUM(NSInteger, CHGridlineLabelPosition) {
  *  Default is nil, a solid line.
  */
 @property (nonatomic, assign) NSArray *lineDashPattern;
+
+- (void)setLabel:(UILabel *)label;
 
 @end

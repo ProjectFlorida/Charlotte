@@ -78,9 +78,8 @@
 
 - (void)initialize
 {
-    _labelColor = [UIColor whiteColor];
-    _labelFont = [UIFont systemFontOfSize:13];
-    _labelPosition = CHGridlineLabelPositionCenterRight;
+    _labelPosition = CHGridlineLabelPositionBottomLeft;
+    _labelText = nil;
 
     _lineDashPattern = nil;
     _lineLayer = [CAShapeLayer layer];
@@ -90,25 +89,28 @@
     [self.layer addSublayer:_lineLayer];
 
     _label = [[UILabel alloc] initWithFrame:CGRectZero];
-    _label.font = _labelFont;
-    _label.textColor = _labelColor;
+    _label.font = [UIFont systemFontOfSize:14];
+    _label.textColor = [UIColor whiteColor];
+    _label.text = nil;
     [self addSubview:_label];
 }
 
 #pragma mark - Setters
 
-- (void)setLabelColor:(UIColor *)labelColor
+- (void)setLabelPosition:(CHGridlineLabelPosition)labelPosition
 {
-    _labelColor = labelColor;
-    self.label.textColor = labelColor;
+    _labelPosition = labelPosition;
+    [self layoutIfNeeded];
 }
 
-- (void)setLabelFont:(UIFont *)labelFont
+- (void)setLabel:(UILabel *)label
 {
-    _labelFont = labelFont;
-    self.label.font = labelFont;
-    [self.label sizeToFit];
-    [self invalidateIntrinsicContentSize];
+    if (self.label) {
+        [self.label removeFromSuperview];
+    }
+    self.label = label;
+    self.labelText = label.text;
+    [self layoutIfNeeded];
 }
 
 - (void)setLabelText:(NSString *)labelText

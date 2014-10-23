@@ -55,7 +55,16 @@ extern NSString *const CHSupplementaryElementKindHeader;
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @optional
-- (NSString *)chartView:(CHChartView *)chartView textForHorizontalGridlineAtIndex:(NSInteger)index;
+
+/**
+ *  Asks the data source for a label to display on the specified gridline.
+ *
+ *  @param chartView The chart view requesting the label
+ *  @param index     The index of the gridline
+ *
+ *  @return A UILabel object.
+ */
+- (UILabel *)chartView:(CHChartView *)chartView labelForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @end
 

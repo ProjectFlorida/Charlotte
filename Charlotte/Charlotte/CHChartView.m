@@ -176,8 +176,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         gridline.view = [[CHGridlineView alloc] initWithFrame:CGRectZero];
         gridline.view.translatesAutoresizingMaskIntoConstraints = NO;
         gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
-        if ([self.dataSource respondsToSelector:@selector(chartView:textForHorizontalGridlineAtIndex:)]) {
-            gridline.view.labelText = [self.dataSource chartView:self textForHorizontalGridlineAtIndex:i];
+        if ([self.dataSource respondsToSelector:@selector(chartView:labelForHorizontalGridlineAtIndex:)]) {
+            [gridline.view setLabel:[self.dataSource chartView:self labelForHorizontalGridlineAtIndex:i]];
         }
         if (!gridline.view.labelText) {
             gridline.view.labelText = [NSString stringWithFormat:@"%d", (int)roundf(gridline.value)];
