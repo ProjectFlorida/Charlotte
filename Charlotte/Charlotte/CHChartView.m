@@ -197,6 +197,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     NSInteger count = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
+
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = [[CHGridlineContainer alloc] init];
         gridline.lineView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
@@ -206,8 +207,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         gridline.labelView.lineColor = [UIColor clearColor];
         gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
         if ([self.dataSource respondsToSelector:@selector(chartView:labelViewForHorizontalGridlineWithValue:atIndex:)]) {
-            [gridline.labelView setLabelView:[self.dataSource chartView:self
-                                labelViewForHorizontalGridlineWithValue:gridline.value atIndex:i]];
+            UIView *labelView = [self.dataSource chartView:self
+                   labelViewForHorizontalGridlineWithValue:gridline.value atIndex:i];
+            [gridline.lineView setLabelView:labelView];
+            [gridline.labelView setLabelView:labelView];
         }
         else {
             // default label
@@ -219,9 +222,22 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             label.shadowOffset = CGSizeMake(1, 1);
             [label sizeToFit];
             [gridline.labelView setLabelView:label];
+            [gridline.lineView setLabelView:label];
+        }
+        if ([self.dataSource respondsToSelector:@selector(chartView:lineColorForHorizontalGridlineAtIndex:)]) {
+            gridline.lineView.lineColor = [self.dataSource chartView:self lineColorForHorizontalGridlineAtIndex:i];
+        }
+        if ([self.dataSource respondsToSelector:@selector(chartView:lineDashPatternForHorizontalGridlineAtIndex:)]) {
+            gridline.lineView.lineDashPattern = [self.dataSource chartView:self lineDashPatternForHorizontalGridlineAtIndex:i];
+        }
+        if ([self.dataSource respondsToSelector:@selector(chartView:labelPositionForHorizontalGridlineAtIndex:)]) {
+            CHViewPosition position = [self.dataSource chartView:self labelPositionForHorizontalGridlineAtIndex:i];
+            gridline.lineView.labelViewPosition = position;
+            gridline.labelView.labelViewPosition = position;
         }
         [self.backgroundView addSubview:gridline.lineView];
         [self.overlayView addSubview:gridline.labelView];
+
         NSArray *lineViewConstraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[g]|"
                                                                                 options:0
                                                                                 metrics:nil

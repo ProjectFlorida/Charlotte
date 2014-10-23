@@ -47,6 +47,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    self.lineLayer.frame = self.bounds;
     CGFloat midY = CGRectGetMidY(self.bounds);
     CGSize labelSize = self.labelView.bounds.size;
     UIBezierPath *path = [UIBezierPath bezierPath];
@@ -60,9 +61,10 @@
 
         case CHViewPositionCenterRight:
             [self.labelView setCenter:CGPointMake(self.bounds.size.width - (labelSize.width/2.0) - self.layoutMargins.right,
-                                              midY)];
+                                                  midY)];
             [path moveToPoint:CGPointMake(0, midY)];
-            [path addLineToPoint:CGPointMake(CGRectGetMinX(self.labelView.frame) - self.layoutMargins.right, midY)];
+            [path addLineToPoint:CGPointMake(CGRectGetMinX(self.labelView.frame),
+                                             midY)];
             break;
 
         default:
@@ -84,6 +86,7 @@
     _lineLayer = [CAShapeLayer layer];
     _lineColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
     _lineLayer.strokeColor = _lineColor.CGColor;
+    _lineLayer.lineCap = kCALineCapRound;
     _lineLayer.lineWidth = 1;
     _lineLayer.lineDashPattern = _lineDashPattern;
     [self.layer addSublayer:_lineLayer];
@@ -114,6 +117,12 @@
 {
     _lineColor = lineColor;
     self.lineLayer.strokeColor = lineColor.CGColor;
+}
+
+- (void)setLineDashPattern:(NSArray *)lineDashPattern
+{
+    _lineDashPattern = lineDashPattern;
+    self.lineLayer.lineDashPattern = lineDashPattern;
 }
 
 @end

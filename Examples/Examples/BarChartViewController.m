@@ -18,6 +18,7 @@
 @property (nonatomic, strong) NSArray *gridlineTopLabels;
 @property (nonatomic, strong) NSArray *gridlineBottomLabels;
 @property (nonatomic, strong) UIColor *chartColor;
+@property (nonatomic, strong) UIColor *avgLineColor;
 @property (nonatomic, assign) NSInteger currentIndex;
 
 @end
@@ -31,14 +32,15 @@
     self.values = @[@[@10, @20, @30, @40, @50, @60, @70],
                     @[@70, @60, @50, @40, @40, @50, @60],
                     @[@10, @20, @40, @50, @70, @80, @110]];
-    self.gridlineValues = @[@40, @60, @80, @100, @120];
+    self.gridlineValues = @[@40, @60, @52, @80, @100, @120];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
-    self.gridlineTopLabels = @[@"Critical", @"Run-down", @"Solid", @"Strong", @"Superhuman"];
-    self.gridlineBottomLabels = @[@"0-39", @"40-59", @"60-79", @"80-100", @"100+"];
+    self.gridlineTopLabels = @[@"Critical", @"Run-down", @"Daily avg", @"Solid", @"Strong", @"Superhuman"];
+    self.gridlineBottomLabels = @[@"0-39", @"40-59", @"-", @"60-79", @"80-100", @"100+"];
     self.currentIndex = 0;
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
     self.chartColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
+    self.avgLineColor = [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1] ;
     self.chartView.backgroundColor = self.chartColor;
     [self.chartView reloadData];
 }
@@ -106,29 +108,82 @@
 
 - (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-    UILabel *topLabel = [[UILabel alloc] init];
-    topLabel.text = self.gridlineTopLabels[index];
-    topLabel.font = [UIFont boldSystemFontOfSize:14];
-    topLabel.textColor = [UIColor whiteColor];
-    topLabel.shadowColor = self.chartColor;
-    topLabel.shadowOffset = CGSizeMake(1, 1);
-    [topLabel sizeToFit];
-    [view addSubview:topLabel];
-    UILabel *bottomLabel = [[UILabel alloc] init];
-    bottomLabel.text = self.gridlineBottomLabels[index];
-    bottomLabel.font = [UIFont boldSystemFontOfSize:14];
-    bottomLabel.textColor = [UIColor grayColor];
-    bottomLabel.shadowColor = self.chartColor;
-    bottomLabel.shadowOffset = CGSizeMake(1, 1);
-    [bottomLabel sizeToFit];
-    bottomLabel.frame = CGRectMake(0, CGRectGetMaxY(topLabel.frame) + 2,
-                                   bottomLabel.frame.size.width, bottomLabel.frame.size.height);
-    [view addSubview:bottomLabel];
-    view.frame = CGRectMake(0, 0,
-                            MAX(CGRectGetWidth(topLabel.frame), CGRectGetWidth(bottomLabel.frame)),
-                            CGRectGetMaxY(bottomLabel.frame));
-    return view;
+    if (index == 2) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.lineBreakMode = NSLineBreakByWordWrapping;
+        label.textAlignment = NSTextAlignmentRight;
+        label.font = [UIFont boldSystemFontOfSize:12];
+        label.numberOfLines = 0;
+        label.shadowColor = self.chartColor;
+        label.shadowOffset = CGSizeMake(1, 1);
+        label.text = self.gridlineTopLabels[index];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.lineBreakMode = label.lineBreakMode;
+        paragraphStyle.alignment = label.textAlignment;
+        CGRect boundingRect = [label.text boundingRectWithSize:CGSizeMake(40, 0)
+                                                       options:NSStringDrawingUsesLineFragmentOrigin
+                                                    attributes:@{NSFontAttributeName: label.font,
+                                                                 NSParagraphStyleAttributeName: paragraphStyle}
+                                                       context:nil];
+        label.frame = CGRectMake(0, 0, boundingRect.size.width, boundingRect.size.height);
+        label.textColor = self.avgLineColor;
+        return label;
+    }
+    else {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+        UILabel *topLabel = [[UILabel alloc] init];
+        topLabel.text = self.gridlineTopLabels[index];
+        topLabel.font = [UIFont boldSystemFontOfSize:14];
+        topLabel.textColor = [UIColor whiteColor];
+        topLabel.shadowColor = self.chartColor;
+        topLabel.shadowOffset = CGSizeMake(1, 1);
+        [topLabel sizeToFit];
+        [view addSubview:topLabel];
+        UILabel *bottomLabel = [[UILabel alloc] init];
+        bottomLabel.text = self.gridlineBottomLabels[index];
+        bottomLabel.font = [UIFont boldSystemFontOfSize:14];
+        bottomLabel.textColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1];
+        bottomLabel.shadowColor = self.chartColor;
+        bottomLabel.shadowOffset = CGSizeMake(1, 1);
+        [bottomLabel sizeToFit];
+        bottomLabel.frame = CGRectMake(0, CGRectGetMaxY(topLabel.frame) + 2,
+                                       bottomLabel.frame.size.width, bottomLabel.frame.size.height);
+        [view addSubview:bottomLabel];
+        view.frame = CGRectMake(0, 0,
+                                MAX(CGRectGetWidth(topLabel.frame), CGRectGetWidth(bottomLabel.frame)),
+                                CGRectGetMaxY(bottomLabel.frame));
+        return view;
+    }
+}
+
+- (NSArray *)chartView:(CHChartView *)chartView lineDashPatternForHorizontalGridlineAtIndex:(NSInteger)index
+{
+    if (index == 2) {
+        return @[@1, @3];
+    }
+    else {
+        return nil;
+    }
+}
+
+- (UIColor *)chartView:(CHChartView *)chartView lineColorForHorizontalGridlineAtIndex:(NSInteger)index
+{
+    if (index == 2) {
+        return self.avgLineColor;
+    }
+    else {
+        return [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+    }
+}
+
+- (CHViewPosition)chartView:(CHChartView *)chartView labelPositionForHorizontalGridlineAtIndex:(NSInteger)index
+{
+    if (index == 2) {
+        return CHViewPositionCenterRight;
+    }
+    else {
+        return CHViewPositionBottomLeft;
+    }
 }
 
 #pragma mark CHChartViewDelegate
