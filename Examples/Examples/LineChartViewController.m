@@ -8,7 +8,7 @@
 
 #import "LineChartViewController.h"
 
-@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHChartTouchDelegate>
+@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHChartTouchDelegate, CHLineChartDataSource>
 
 @property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, strong) UIView *tooltipView;
@@ -34,8 +34,11 @@
     self.chartView.dataSource = self;
     self.chartView.delegate = self;
     self.chartView.touchDelegate = self;
+    self.chartView.lineChartDataSource = self;
     self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
     [self.chartView reloadData];
+
+
 }
 
 #pragma mark CHChartViewDataSource
@@ -108,6 +111,26 @@
     return index + 1;
 }
 
+#pragma mark CHLineChartDataSource
+
+- (NSArray *)chartView:(CHChartView *)chartView regionsInPage:(NSInteger)page
+{
+    UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:1];
+    UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:1];
+    return @[
+             [CHChartRegion chartRegionWithRange:NSMakeRange(30, 10) color:blue],
+             [CHChartRegion chartRegionWithRange:NSMakeRange(65, 10) color:green],
+             [CHChartRegion chartRegionWithRange:NSMakeRange(75, 20) color:blue]
+             ];
+}
+
+#pragma mark CHChartViewDelegate
+
+- (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
+{
+    self.currentIndex = page;
+}
+
 #pragma mark CHChartTouchDelegate
 
 - (void)chartView:(CHChartView *)chartView touchBeganInPage:(NSInteger)page nearestIndex:(NSInteger)index
@@ -132,11 +155,6 @@
     self.tooltipView.alpha = 0;
 }
 
-#pragma mark CHChartViewDelegate
 
-- (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
-{
-    self.currentIndex = page;
-}
 
 @end

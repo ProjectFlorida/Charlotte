@@ -9,13 +9,19 @@
 #import "CHLineView.h"
 #import "CHChartViewSubclass.h"
 #import "UIBezierPath+Interpolation.h"
+#import "CHGradientView.h"
+#import "CHChartRegion.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
-@property (nonatomic, strong) CAShapeLayer *shapeLayer;
+@property (nonatomic, strong) UIColor *shadowColor;
+@property (nonatomic, strong) CAShapeLayer *lineLayer;
+@property (nonatomic, strong) CAShapeLayer *maskLayer;
 @property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) NSArray *regions;
+@property (nonatomic, strong) UIView *regionsView;
 
 @end
 
@@ -29,14 +35,25 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _minValue = 0;
         _maxValue = 1;
         _footerHeight = 30;
-        _shapeLayer = [CAShapeLayer layer];
-        _shapeLayer.lineCap = kCALineCapRound;
-        _shapeLayer.lineWidth = 4;
-        _shapeLayer.fillColor = nil;
-        _shapeLayer.strokeColor = [UIColor whiteColor].CGColor;
-        _shapeLayer.opacity = 1;
-        _shapeLayer.frame = self.bounds;
-        [self.layer addSublayer:_shapeLayer];
+        _regionsView = [[UIView alloc] initWithFrame:CGRectZero];
+        [self addSubview:_regionsView];
+
+        _shadowColor = [UIColor colorWithRed:0.4 green:0.4 blue:0.4 alpha:1];
+        _lineLayer = [CAShapeLayer layer];
+        _lineLayer.lineCap = kCALineCapRound;
+        _lineLayer.lineWidth = 4;
+        _lineLayer.fillColor = nil;
+        _lineLayer.strokeColor = [UIColor whiteColor].CGColor;
+        _lineLayer.opacity = 1;
+        _lineLayer.frame = self.bounds;
+        _lineLayer.shadowOpacity = 1;
+        _lineLayer.shadowRadius = 5;
+        _lineLayer.shadowOffset = CGSizeMake(0, 2);
+        _lineLayer.shadowColor = _shadowColor.CGColor;
+        [self.layer addSublayer:_lineLayer];
+
+        _maskLayer = [CAShapeLayer layer];
+        _maskLayer.frame = self.bounds;
     }
     return self;
 }
@@ -44,18 +61,23 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    [self redrawWithValues:self.values];
+
+    CGSize currentSize = self.bounds.size;
+    self.lineLayer.frame = self.bounds;
+    self.maskLayer.frame = self.bounds;
+    self.regionsView.frame = CGRectMake(0, 0, currentSize.width, currentSize.height - self.footerHeight);
+    [self drawLineWithValues:self.values regions:self.regions];
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    [_shapeLayer setPath:nil];
+    [_lineLayer setPath:nil];
 }
 
 - (CGFloat)yPositionWithRelativeValue:(CGFloat)value
 {
-    CGFloat displayHeight = self.bounds.size.height - self.footerHeight;
+    CGFloat displayHeight = self.bounds.size.height;
     return (1 - value) * displayHeight - self.footerHeight;
 }
 
@@ -70,16 +92,17 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self redrawWithValues:self.values];
+    [self drawLineWithValues:self.values];
 }
 
-- (void)redrawWithValues:(NSArray *)values
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions
 {
     _values = values;
     NSInteger count = values.count;
     if (!count) {
         return;
     }
+    // draw line
     NSMutableArray *points = [NSMutableArray arrayWithCapacity:count];
     for (int i = 0; i < count; i++) {
         CGFloat x = [self xPositionWithIndex:i inCount:count];
@@ -90,8 +113,47 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         [points addObject:pointValue];
     }
     UIBezierPath *path = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
-    [self.shapeLayer setPath:path.CGPath];
+    [self.lineLayer setPath:path.CGPath];
+
+    // update mask layer
+    CGPoint firstPoint = [points[0] CGPointValue];
+    CGPoint lastPoint = [[points lastObject] CGPointValue];
+    [path addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
+    [path addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
+    [path closePath];
+    [self.maskLayer setPath:path.CGPath];
+    self.regionsView.layer.mask = self.maskLayer;
+
+    if (!regions) {
+        return;
+    }
+    else {
+        // reset region view
+        self.regions = regions;
+        for (UIView *subview in self.regionsView.subviews) {
+            [subview removeFromSuperview];
+        }
+
+        for (CHChartRegion *region in self.regions) {
+            CGPoint firstPoint = [points[region.range.location] CGPointValue];
+            CGPoint lastPoint = [points[region.range.location + region.range.length] CGPointValue];
+            CGRect regionFrame = CGRectMake(firstPoint.x, 0,
+                                            lastPoint.x - firstPoint.x,
+                                            self.regionsView.bounds.size.height);
+            CHGradientView *regionView = [[CHGradientView alloc] initWithFrame:regionFrame];
+            regionView.locations = @[@0.8, @1.0];
+            regionView.colors = @[[region.color colorWithAlphaComponent:0.8],
+                                  [self.chartBackgroundColor colorWithAlphaComponent:0.8]];
+            [self.regionsView addSubview:regionView];
+        }
+    }
 }
+
+- (void)drawLineWithValues:(NSArray *)values
+{
+    [self drawLineWithValues:values regions:nil];
+}
+
 
 #pragma mark - Setters
 

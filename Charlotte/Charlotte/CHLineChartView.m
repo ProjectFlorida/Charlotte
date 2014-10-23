@@ -13,7 +13,7 @@
 #import "CHPagingLineChartFlowLayout.h"
 #import "CHTouchGestureRecognizer.h"
 #import "CHHighlightPointView.h"
-#import "CHHighlightColumnView.h"
+#import "CHGradientView.h"
 
 NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLine";
 
@@ -21,7 +21,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
 @property (nonatomic, strong) CHTouchGestureRecognizer *gestureRecognizer;
-@property (nonatomic, strong) CHHighlightColumnView *highlightColumnView;
+@property (nonatomic, strong) CHGradientView *highlightColumnView;
 @property (nonatomic, strong) CHHighlightPointView *highlightPointView;
 @property (nonatomic, assign) CGFloat highlightColumnWidth;
 
@@ -38,9 +38,16 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     _highlightMovementAnimationDuration = 0.2;
     _highlightColumnWidth = 19;
-    _highlightColumnView = [[CHHighlightColumnView alloc] initWithFrame:CGRectMake(0, 0,
-                                                                                   _highlightColumnWidth,
-                                                                                   self.bounds.size.height)];
+    _highlightColumnView = [[CHGradientView alloc] initWithFrame:CGRectMake(0, 0,
+                                                                            _highlightColumnWidth,
+                                                                            self.bounds.size.height)];
+    _highlightColumnView.locations = @[@0, @0.35, @0.65, @1];
+    _highlightColumnView.colors = @[[[UIColor whiteColor] colorWithAlphaComponent:0.4],
+                                    [[UIColor whiteColor] colorWithAlphaComponent:0.15],
+                                    [[UIColor whiteColor] colorWithAlphaComponent:0.15],
+                                    [[UIColor whiteColor] colorWithAlphaComponent:0.4]];
+    _highlightColumnView.startPoint = CGPointMake(0, 0.5);
+    _highlightColumnView.endPoint = CGPointMake(1, 0.5);
     _highlightColumnView.alpha = 0;
     [self addSubview:_highlightColumnView];
 
@@ -207,6 +214,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
                                                                   withReuseIdentifier:kCHLineViewReuseId
                                                                          forIndexPath:indexPath];
+        lineView.chartBackgroundColor = self.backgroundColor;
         lineView.footerHeight = self.footerHeight;
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
@@ -217,7 +225,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             [points addObject:@(value)];
         }
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        [lineView redrawWithValues:points];
+        NSArray *regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
+        [lineView drawLineWithValues:points regions:regions];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
 extern CGFloat const kCHPageTransitionAnimationDuration;
 extern CGFloat const kCHPageTransitionAnimationSpringDamping;
