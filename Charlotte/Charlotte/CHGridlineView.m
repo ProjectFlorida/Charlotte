@@ -10,8 +10,8 @@
 
 @interface CHGridlineView ()
 
-@property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) CAShapeLayer *lineLayer;
 
 @end
 
@@ -44,6 +44,33 @@
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    CGFloat midY = CGRectGetMidY(self.bounds);
+    CGSize labelSize = self.label.bounds.size;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    switch (self.labelPosition) {
+        case CHGridlineLabelPositionBottomLeft:
+            [self.label setCenter:CGPointMake((labelSize.width/2.0) + self.layoutMargins.left,
+                                              midY + (labelSize.height/2.0) + self.layoutMargins.top)];
+            [path moveToPoint:CGPointMake(0, midY)];
+            [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds), midY)];
+            break;
+
+        case CHGridlineLabelPositionCenterRight:
+            [self.label setCenter:CGPointMake(self.bounds.size.width - (labelSize.width/2.0) - self.layoutMargins.right,
+                                              midY)];
+            [path moveToPoint:CGPointMake(0, midY)];
+            [path addLineToPoint:CGPointMake(CGRectGetMinX(self.label.frame) - self.layoutMargins.right, midY)];
+            break;
+
+        default:
+            break;
+    }
+    self.lineLayer.path = path.CGPath;
+}
+
 - (CGSize)intrinsicContentSize
 {
     return CGSizeMake(UIViewNoIntrinsicMetric, CGRectGetMaxY(self.label.frame));
@@ -53,53 +80,19 @@
 {
     _labelColor = [UIColor whiteColor];
     _labelFont = [UIFont systemFontOfSize:13];
+    _labelPosition = CHGridlineLabelPositionCenterRight;
 
-    _lineView = [[UIView alloc] initWithFrame:CGRectZero];
-    _lineView.translatesAutoresizingMaskIntoConstraints = NO;
-    _lineView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    _lineDashPattern = nil;
+    _lineLayer = [CAShapeLayer layer];
+    _lineLayer.strokeColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3].CGColor;
+    _lineLayer.lineWidth = 1;
+    _lineLayer.lineDashPattern = _lineDashPattern;
+    [self.layer addSublayer:_lineLayer];
 
     _label = [[UILabel alloc] initWithFrame:CGRectZero];
-    _label.translatesAutoresizingMaskIntoConstraints = NO;
     _label.font = _labelFont;
     _label.textColor = _labelColor;
-
-    [self addSubview:_lineView];
     [self addSubview:_label];
-
-    NSLayoutConstraint *lineViewY = [NSLayoutConstraint constraintWithItem:_lineView
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                multiplier:1
-                                                                  constant:0];
-    NSLayoutConstraint *lineViewHeight = [NSLayoutConstraint constraintWithItem:_lineView
-                                                                      attribute:NSLayoutAttributeHeight
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:nil
-                                                                      attribute:NSLayoutAttributeNotAnAttribute
-                                                                     multiplier:1
-                                                                       constant:1];
-    NSLayoutConstraint *labelLeft = [NSLayoutConstraint constraintWithItem:_label
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_lineView
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                multiplier:1
-                                                                  constant:10];
-    NSDictionary *views = NSDictionaryOfVariableBindings(_lineView, _label);
-    NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_lineView]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-    NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_lineView]-(2)-[_label]"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-
-    [self addConstraints:@[lineViewY, lineViewHeight, labelLeft]];
-    [self addConstraints:constraintsH];
-    [self addConstraints:constraintsV];
 }
 
 #pragma mark - Setters
