@@ -10,7 +10,7 @@
 
 @interface CHGridlineView ()
 
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UIView *labelView;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 
 @end
@@ -48,21 +48,21 @@
 {
     [super layoutSubviews];
     CGFloat midY = CGRectGetMidY(self.bounds);
-    CGSize labelSize = self.label.bounds.size;
+    CGSize labelSize = self.labelView.bounds.size;
     UIBezierPath *path = [UIBezierPath bezierPath];
-    switch (self.labelPosition) {
-        case CHGridlineLabelPositionBottomLeft:
-            [self.label setCenter:CGPointMake((labelSize.width/2.0) + self.layoutMargins.left,
+    switch (self.labelViewPosition) {
+        case CHViewPositionBottomLeft:
+            [self.labelView setCenter:CGPointMake((labelSize.width/2.0) + self.layoutMargins.left,
                                               midY + (labelSize.height/2.0) + self.layoutMargins.top)];
             [path moveToPoint:CGPointMake(0, midY)];
             [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds), midY)];
             break;
 
-        case CHGridlineLabelPositionCenterRight:
-            [self.label setCenter:CGPointMake(self.bounds.size.width - (labelSize.width/2.0) - self.layoutMargins.right,
+        case CHViewPositionCenterRight:
+            [self.labelView setCenter:CGPointMake(self.bounds.size.width - (labelSize.width/2.0) - self.layoutMargins.right,
                                               midY)];
             [path moveToPoint:CGPointMake(0, midY)];
-            [path addLineToPoint:CGPointMake(CGRectGetMinX(self.label.frame) - self.layoutMargins.right, midY)];
+            [path addLineToPoint:CGPointMake(CGRectGetMinX(self.labelView.frame) - self.layoutMargins.right, midY)];
             break;
 
         default:
@@ -73,52 +73,47 @@
 
 - (CGSize)intrinsicContentSize
 {
-    return CGSizeMake(UIViewNoIntrinsicMetric, CGRectGetMaxY(self.label.frame));
+    return CGSizeMake(UIViewNoIntrinsicMetric, CGRectGetMaxY(self.labelView.frame));
 }
 
 - (void)initialize
 {
-    _labelPosition = CHGridlineLabelPositionBottomLeft;
-    _labelText = nil;
+    _labelViewPosition = CHViewPositionBottomLeft;
 
     _lineDashPattern = nil;
     _lineLayer = [CAShapeLayer layer];
-    _lineLayer.strokeColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3].CGColor;
+    _lineColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    _lineLayer.strokeColor = _lineColor.CGColor;
     _lineLayer.lineWidth = 1;
     _lineLayer.lineDashPattern = _lineDashPattern;
     [self.layer addSublayer:_lineLayer];
 
-    _label = [[UILabel alloc] initWithFrame:CGRectZero];
-    _label.font = [UIFont systemFontOfSize:14];
-    _label.textColor = [UIColor whiteColor];
-    _label.text = nil;
-    [self addSubview:_label];
+    _labelView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self addSubview:_labelView];
 }
 
 #pragma mark - Setters
 
-- (void)setLabelPosition:(CHGridlineLabelPosition)labelPosition
+- (void)setLabelViewPosition:(CHViewPosition)labelPosition
 {
-    _labelPosition = labelPosition;
+    _labelViewPosition = labelPosition;
     [self layoutIfNeeded];
 }
 
-- (void)setLabel:(UILabel *)label
+- (void)setLabelView:(UILabel *)label
 {
-    if (self.label) {
-        [self.label removeFromSuperview];
+    if (_labelView) {
+        [_labelView removeFromSuperview];
     }
-    self.label = label;
-    self.labelText = label.text;
+    _labelView = label;
+    [self addSubview:_labelView];
     [self layoutIfNeeded];
 }
 
-- (void)setLabelText:(NSString *)labelText
+- (void)setLineColor:(UIColor *)lineColor
 {
-    _labelText = labelText;
-    self.label.text = labelText;
-    [self.label sizeToFit];
-    [self invalidateIntrinsicContentSize];
+    _lineColor = lineColor;
+    self.lineLayer.strokeColor = lineColor.CGColor;
 }
 
 @end

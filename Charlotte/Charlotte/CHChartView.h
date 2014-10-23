@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
+#import "CHGridlineView.h"
 @import UIKit;
 
 extern CGFloat const kCHPageTransitionAnimationDuration;
@@ -55,17 +56,29 @@ extern NSString *const CHSupplementaryElementKindFooter;
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
 
-@optional
-
 /**
- *  Asks the data source for a label to display on the specified gridline.
+ *  Asks the data source for a view to use as the specified gridline's label.
+ *  By default, a gridline will display its value, rounded to the nearest integer.
  *
  *  @param chartView The chart view requesting the label
+ *  @param value     The value of the gridline
  *  @param index     The index of the gridline
  *
- *  @return A UILabel object.
+ *  @return A UIView object.
  */
-- (UILabel *)chartView:(CHChartView *)chartView labelForHorizontalGridlineAtIndex:(NSInteger)index;
+- (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
+
+@optional
+/**
+ *  Asks the data source for the position of the label on the specified gridline.
+ *  By default, the label will be positioned at the bottom left corner of the gridline view.
+ *
+ *  @param chartView The chart view requesting the position
+ *  @param index     The index of the gridline
+ *
+ *  @return A CHViewPosition value.
+ */
+- (CHViewPosition)chartView:(CHChartView *)chartView labelPositionForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @end
 

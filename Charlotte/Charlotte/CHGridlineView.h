@@ -8,15 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, CHGridlineLabelPosition) {
-    CHGridlineLabelPositionBottomLeft,
-    CHGridlineLabelPositionCenterRight
+typedef NS_ENUM(NSInteger, CHViewPosition) {
+    CHViewPositionBottomLeft,
+    CHViewPositionCenterRight
 };
 
 @interface CHGridlineView : UIView
 
-@property (nonatomic, strong) NSString *labelText;
-@property (nonatomic, assign) CHGridlineLabelPosition labelPosition;
+@property (nonatomic, assign) CHViewPosition labelViewPosition;
+@property (nonatomic, strong) UIColor *lineColor;
 
 /**
  *  The dash pattern applied to the line’s path when stroked.
@@ -27,6 +27,6 @@ typedef NS_ENUM(NSInteger, CHGridlineLabelPosition) {
  */
 @property (nonatomic, assign) NSArray *lineDashPattern;
 
-- (void)setLabel:(UILabel *)label;
+- (void)setLabelView:(UIView *)view;
 
 @end
