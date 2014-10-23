@@ -15,13 +15,21 @@ extern NSString *const kCHLineViewReuseId;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 @property (nonatomic, assign) CGFloat footerHeight;
+@property (nonatomic, strong) UIColor *chartBackgroundColor;
 
 /**
- *  Sets the line view's values
+ *  Draws a line between the given array of values.
  *
- *  @param points An array of boxed CGFloats.
+ *  @param values An array of boxed CGFloats.
  */
-- (void)redrawWithValues:(NSArray *)points;
+- (void)drawLineWithValues:(NSArray *)values;
+
+/**
+ *  Draws a line between the given values, with colored regions below the line specified by the given array.
+ *
+ *  @param regions An array of CHChartRegion objects.
+ */
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions;
 
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 
