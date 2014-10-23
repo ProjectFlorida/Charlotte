@@ -65,7 +65,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     CGSize currentSize = self.bounds.size;
     self.lineLayer.frame = self.bounds;
     self.maskLayer.frame = self.bounds;
-    self.regionsView.frame = CGRectMake(0, 0, currentSize.width, currentSize.height - self.footerHeight);
+    self.regionsView.frame = CGRectMake(0, 0,
+                                        currentSize.width,
+                                        currentSize.height - self.footerHeight - 2);
     [self drawLineWithValues:self.values regions:self.regions];
 }
 

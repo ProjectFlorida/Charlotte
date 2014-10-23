@@ -41,6 +41,8 @@
 		969E2A5A19F1B1050036C0C2 /* UIBezierPath+Interpolation.m in Sources */ = {isa = PBXBuildFile; fileRef = 969E2A5819F1B1050036C0C2 /* UIBezierPath+Interpolation.m */; };
 		969E2A5D19F1B11E0036C0C2 /* CGPointExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 969E2A5B19F1B11E0036C0C2 /* CGPointExtension.h */; };
 		969E2A5E19F1B11E0036C0C2 /* CGPointExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 969E2A5C19F1B11E0036C0C2 /* CGPointExtension.m */; };
+		96CC853D19F823C400C96582 /* CHFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96CC853B19F823C400C96582 /* CHFooterView.h */; };
+		96CC853E19F823C400C96582 /* CHFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CC853C19F823C400C96582 /* CHFooterView.m */; };
 		96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 96DDD67C19DC9CE8005CCD07 /* Charlotte.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96EF748C19F6D28B004024EA /* CHGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EF748A19F6D28B004024EA /* CHGradientView.h */; };
 		96EF748D19F6D28B004024EA /* CHGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EF748B19F6D28B004024EA /* CHGradientView.m */; };
@@ -90,6 +92,8 @@
 		969E2A5819F1B1050036C0C2 /* UIBezierPath+Interpolation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+Interpolation.m"; sourceTree = "<group>"; };
 		969E2A5B19F1B11E0036C0C2 /* CGPointExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CGPointExtension.h; sourceTree = "<group>"; };
 		969E2A5C19F1B11E0036C0C2 /* CGPointExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGPointExtension.m; sourceTree = "<group>"; };
+		96CC853B19F823C400C96582 /* CHFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFooterView.h; sourceTree = "<group>"; };
+		96CC853C19F823C400C96582 /* CHFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFooterView.m; sourceTree = "<group>"; };
 		96DDD67719DC9CE8005CCD07 /* Charlotte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charlotte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD67B19DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD67C19DC9CE8005CCD07 /* Charlotte.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Charlotte.h; sourceTree = "<group>"; };
@@ -146,6 +150,8 @@
 			children = (
 				968D2FB319E81EC40071306C /* CHHeaderView.h */,
 				968D2FB419E81EC40071306C /* CHHeaderView.m */,
+				96CC853B19F823C400C96582 /* CHFooterView.h */,
+				96CC853C19F823C400C96582 /* CHFooterView.m */,
 				962BBDB419F03D290038597C /* CHLineView.h */,
 				962BBDB519F03D290038597C /* CHLineView.m */,
 			);
@@ -293,6 +299,7 @@
 				9600F88319F844A100CD9E5F /* CHChartRegion.h in Headers */,
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
 				962BBDB619F03D290038597C /* CHLineView.h in Headers */,
+				96CC853D19F823C400C96582 /* CHFooterView.h in Headers */,
 				969E2A5919F1B1050036C0C2 /* UIBezierPath+Interpolation.h in Headers */,
 				964D233619E7510E0096F3FD /* CHBarCell.h in Headers */,
 				969E2A5D19F1B11E0036C0C2 /* CGPointExtension.h in Headers */,
@@ -447,6 +454,7 @@
 				9600F88419F844A100CD9E5F /* CHChartRegion.m in Sources */,
 				96839AC119EEF3140094AED9 /* CHPointCell.m in Sources */,
 				969ABDF919F04F72007D03C5 /* CHPagingLineChartFlowLayout.m in Sources */,
+				96CC853E19F823C400C96582 /* CHFooterView.m in Sources */,
 				9620455719F590AD0045D3B8 /* CHHighlightPointView.m in Sources */,
 				96EF748D19F6D28B004024EA /* CHGradientView.m in Sources */,
 			);

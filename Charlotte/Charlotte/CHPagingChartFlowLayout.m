@@ -23,6 +23,7 @@
         self.headerReferenceSize = CGSizeZero;
         self.footerReferenceSize = CGSizeZero;
         self.headerHeight = 30;
+        self.footerHeight = 30;
         self.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
     }
     return self;
@@ -31,6 +32,12 @@
 - (void)setHeaderHeight:(CGFloat)headerHeight
 {
     _headerHeight = headerHeight;
+    [self invalidateLayout];
+}
+
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    _footerHeight = footerHeight;
     [self invalidateLayout];
 }
 
@@ -51,12 +58,15 @@
         }
     }
 
-    // add missing attributes for header views
+    // add missing attributes for header and footer views
     [sections enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:idx];
         UICollectionViewLayoutAttributes *headerAttributes =
             [self layoutAttributesForSupplementaryViewOfKind:CHSupplementaryElementKindHeader atIndexPath:indexPath];
-        [attributesArray addObject:headerAttributes];
+        UICollectionViewLayoutAttributes *footerAttributes =
+            [self layoutAttributesForSupplementaryViewOfKind:CHSupplementaryElementKindFooter atIndexPath:indexPath];
+        [attributesArray addObject:footerAttributes];
+        [attributesArray addObject:headerAttributes];       
     }];
 
     // shift cells to the right by the layout's left edge page inset
@@ -81,7 +91,9 @@
     if (!attributes) {
         attributes = [UICollectionViewLayoutAttributes layoutAttributesForSupplementaryViewOfKind:elementKind withIndexPath:indexPath];
     }
-    if (elementKind == CHSupplementaryElementKindHeader) {
+    if (elementKind == CHSupplementaryElementKindHeader ||
+        elementKind == CHSupplementaryElementKindFooter) {
+
         NSInteger section = indexPath.section;
         NSInteger numberOfItemsInSection = [self.collectionView numberOfItemsInSection:section];
         NSIndexPath *firstCellIndexPath = [NSIndexPath indexPathForItem:0 inSection:section];
@@ -89,9 +101,17 @@
         CGPoint origin = attributes.frame.origin;
         CGSize size = attributes.frame.size;
         origin.x = firstCellAttrs.frame.origin.x - self.sectionInset.left + self.pageInset.left;
-        origin.y = 0;
-        size.height = self.headerHeight;
         size.width = (firstCellAttrs.size.width*numberOfItemsInSection) + self.sectionInset.left + self.sectionInset.right;
+
+        if (elementKind == CHSupplementaryElementKindHeader) {
+            origin.y = 0;
+            size.height = self.headerHeight;
+        }
+        else if (elementKind == CHSupplementaryElementKindFooter) {
+            origin.y = self.collectionViewContentSize.height - self.footerHeight;
+            size.height = self.footerHeight;
+        }
+
         attributes.frame = (CGRect){ .origin = origin, .size = size };
         attributes.zIndex = firstCellAttrs.zIndex + 1;
     }

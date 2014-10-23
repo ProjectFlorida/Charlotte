@@ -12,6 +12,7 @@ extern CGFloat const kCHPageTransitionAnimationDuration;
 extern CGFloat const kCHPageTransitionAnimationSpringDamping;
 
 extern NSString *const CHSupplementaryElementKindHeader;
+extern NSString *const CHSupplementaryElementKindFooter;
 
 @class CHChartView;
 @protocol CHChartViewDataSource <NSObject>
@@ -78,6 +79,8 @@ extern NSString *const CHSupplementaryElementKindHeader;
 
 @property (nonatomic, weak) id<CHChartViewDataSource> dataSource;
 @property (nonatomic, weak) id<CHChartViewDelegate> delegate;
+
+@property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden;
 
 - (void)reloadData;
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;

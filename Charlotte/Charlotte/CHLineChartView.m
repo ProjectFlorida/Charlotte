@@ -78,7 +78,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     self.highlightColumnView.frame = CGRectMake(self.highlightColumnView.frame.origin.x,
                                                 0,
                                                 self.highlightColumnView.frame.size.width,
-                                                self.bounds.size.height);
+                                                self.bounds.size.height - self.footerHeight);
 }
 
 - (void)updateAlphaInVisibleLineViews
