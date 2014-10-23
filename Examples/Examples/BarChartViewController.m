@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray *gridlineValues;
 @property (nonatomic, strong) NSArray *gridlineTopLabels;
 @property (nonatomic, strong) NSArray *gridlineBottomLabels;
+@property (nonatomic, strong) UIColor *chartColor;
 @property (nonatomic, assign) NSInteger currentIndex;
 
 @end
@@ -37,7 +38,8 @@
     self.currentIndex = 0;
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
-    self.chartView.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
+    self.chartColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
+    self.chartView.backgroundColor = self.chartColor;
     [self.chartView reloadData];
 }
 
@@ -109,14 +111,16 @@
     topLabel.text = self.gridlineTopLabels[index];
     topLabel.font = [UIFont boldSystemFontOfSize:14];
     topLabel.textColor = [UIColor whiteColor];
-    topLabel.shadowColor = [UIColor blackColor];
-    topLabel.shadowOffset = CGSizeMake(5, 5);
+    topLabel.shadowColor = self.chartColor;
+    topLabel.shadowOffset = CGSizeMake(1, 1);
     [topLabel sizeToFit];
     [view addSubview:topLabel];
     UILabel *bottomLabel = [[UILabel alloc] init];
     bottomLabel.text = self.gridlineBottomLabels[index];
     bottomLabel.font = [UIFont boldSystemFontOfSize:14];
     bottomLabel.textColor = [UIColor grayColor];
+    bottomLabel.shadowColor = self.chartColor;
+    bottomLabel.shadowOffset = CGSizeMake(1, 1);
     [bottomLabel sizeToFit];
     bottomLabel.frame = CGRectMake(0, CGRectGetMaxY(topLabel.frame) + 2,
                                    bottomLabel.frame.size.width, bottomLabel.frame.size.height);

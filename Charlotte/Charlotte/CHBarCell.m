@@ -71,7 +71,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     CGFloat scaledValue = [self scaledValue];
 
     void (^finalUpdateBlock)() = ^() {
-        if (scaledValue == 0) {
+        if (self.value == 0) {
             self.pointView.backgroundColor = _secondaryBarColor;
             self.valueLabel.alpha = 0;
             self.hasZeroHeight = YES;
