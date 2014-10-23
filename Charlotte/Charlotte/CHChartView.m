@@ -221,8 +221,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             label.shadowColor = self.backgroundColor;
             label.shadowOffset = CGSizeMake(1, 1);
             [label sizeToFit];
-            [gridline.labelView setLabelView:label];
             [gridline.lineView setLabelView:label];
+            [gridline.labelView setLabelView:label];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineColorForHorizontalGridlineAtIndex:)]) {
             gridline.lineView.lineColor = [self.dataSource chartView:self lineColorForHorizontalGridlineAtIndex:i];
