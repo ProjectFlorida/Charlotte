@@ -40,6 +40,8 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  Default is 0.1
  */
 @property (nonatomic, readonly) CGFloat highlightMovementAnimationDuration;
+@property (nonatomic, readonly) CGFloat highlightEntranceAnimationDuration;
+@property (nonatomic, readonly) CGFloat highlightExitAnimationDuration;
 @property (nonatomic, weak) id<CHChartTouchDelegate> touchDelegate;
 @property (nonatomic, weak) id<CHLineChartDataSource> lineChartDataSource;
 

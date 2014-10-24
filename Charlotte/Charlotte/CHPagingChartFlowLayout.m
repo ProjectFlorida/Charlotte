@@ -17,14 +17,14 @@
     self = [super init];
     if (self) {
         self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        self.sectionInset = UIEdgeInsetsMake(0, 12, 0, 12);
+        self.sectionInset = UIEdgeInsetsMake(0, 20, 0, 20);
         self.minimumInteritemSpacing = 0;
         self.minimumLineSpacing = 0;
         self.headerReferenceSize = CGSizeZero;
         self.footerReferenceSize = CGSizeZero;
         self.headerHeight = 30;
         self.footerHeight = 30;
-        self.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
+        self.pageInset = UIEdgeInsetsMake(0, 40, 0, 40);
     }
     return self;
 }

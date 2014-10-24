@@ -10,8 +10,8 @@
 
 @interface CHGridlineView ()
 
-@property (nonatomic, strong) UIView *lineView;
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, strong) UIView *labelView;
+@property (nonatomic, strong) CAShapeLayer *lineLayer;
 
 @end
 
@@ -44,86 +44,85 @@
     return self;
 }
 
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    self.lineLayer.frame = self.bounds;
+    CGFloat midY = CGRectGetMidY(self.bounds);
+    CGSize labelSize = self.labelView.bounds.size;
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    switch (self.labelViewPosition) {
+        case CHViewPositionBottomLeft:
+            [self.labelView setCenter:CGPointMake((labelSize.width/2.0) + self.layoutMargins.left,
+                                              midY + (labelSize.height/2.0) + self.layoutMargins.top)];
+            [path moveToPoint:CGPointMake(0, midY)];
+            [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds), midY)];
+            break;
+
+        case CHViewPositionCenterRight:
+            [self.labelView setCenter:CGPointMake(self.bounds.size.width - (labelSize.width/2.0) - self.layoutMargins.right,
+                                                  midY)];
+            [path moveToPoint:CGPointMake(0, midY)];
+            [path addLineToPoint:CGPointMake(CGRectGetMinX(self.labelView.frame),
+                                             midY)];
+            break;
+
+        default:
+            break;
+    }
+    self.lineLayer.path = path.CGPath;
+}
+
 - (CGSize)intrinsicContentSize
 {
-    return CGSizeMake(UIViewNoIntrinsicMetric, CGRectGetMaxY(self.label.frame));
+    return CGSizeMake(UIViewNoIntrinsicMetric, CGRectGetMaxY(self.labelView.frame));
 }
 
 - (void)initialize
 {
-    _labelColor = [UIColor whiteColor];
-    _labelFont = [UIFont systemFontOfSize:13];
+    _labelViewPosition = CHViewPositionBottomLeft;
 
-    _lineView = [[UIView alloc] initWithFrame:CGRectZero];
-    _lineView.translatesAutoresizingMaskIntoConstraints = NO;
-    _lineView.backgroundColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    _lineDashPattern = nil;
+    _lineLayer = [CAShapeLayer layer];
+    _lineColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    _lineLayer.strokeColor = _lineColor.CGColor;
+    _lineLayer.lineCap = kCALineCapRound;
+    _lineLayer.lineWidth = 1;
+    _lineLayer.lineDashPattern = _lineDashPattern;
+    [self.layer addSublayer:_lineLayer];
 
-    _label = [[UILabel alloc] initWithFrame:CGRectZero];
-    _label.translatesAutoresizingMaskIntoConstraints = NO;
-    _label.font = _labelFont;
-    _label.textColor = _labelColor;
-
-    [self addSubview:_lineView];
-    [self addSubview:_label];
-
-    NSLayoutConstraint *lineViewY = [NSLayoutConstraint constraintWithItem:_lineView
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:self
-                                                                 attribute:NSLayoutAttributeCenterY
-                                                                multiplier:1
-                                                                  constant:0];
-    NSLayoutConstraint *lineViewHeight = [NSLayoutConstraint constraintWithItem:_lineView
-                                                                      attribute:NSLayoutAttributeHeight
-                                                                      relatedBy:NSLayoutRelationEqual
-                                                                         toItem:nil
-                                                                      attribute:NSLayoutAttributeNotAnAttribute
-                                                                     multiplier:1
-                                                                       constant:1];
-    NSLayoutConstraint *labelLeft = [NSLayoutConstraint constraintWithItem:_label
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                 relatedBy:NSLayoutRelationEqual
-                                                                    toItem:_lineView
-                                                                 attribute:NSLayoutAttributeLeft
-                                                                multiplier:1
-                                                                  constant:10];
-    NSDictionary *views = NSDictionaryOfVariableBindings(_lineView, _label);
-    NSArray *constraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_lineView]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-    NSArray *constraintsV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[_lineView]-(2)-[_label]"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-
-    [self addConstraints:@[lineViewY, lineViewHeight, labelLeft]];
-    [self addConstraints:constraintsH];
-    [self addConstraints:constraintsV];
+    _labelView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self addSubview:_labelView];
 }
 
 #pragma mark - Setters
 
-- (void)setLabelColor:(UIColor *)labelColor
+- (void)setLabelViewPosition:(CHViewPosition)labelPosition
 {
-    _labelColor = labelColor;
-    self.label.textColor = labelColor;
+    _labelViewPosition = labelPosition;
+    [self setNeedsLayout];
 }
 
-- (void)setLabelFont:(UIFont *)labelFont
+- (void)setLabelView:(UILabel *)label
 {
-    _labelFont = labelFont;
-    self.label.font = labelFont;
-    [self.label sizeToFit];
-    [self invalidateIntrinsicContentSize];
+    if (_labelView) {
+        [_labelView removeFromSuperview];
+    }
+    _labelView = label;
+    [self addSubview:_labelView];
+    [self setNeedsLayout];
 }
 
-- (void)setLabelText:(NSString *)labelText
+- (void)setLineColor:(UIColor *)lineColor
 {
-    _labelText = labelText;
-    self.label.text = labelText;
-    [self.label sizeToFit];
-    [self invalidateIntrinsicContentSize];
+    _lineColor = lineColor;
+    self.lineLayer.strokeColor = lineColor.CGColor;
+}
+
+- (void)setLineDashPattern:(NSArray *)lineDashPattern
+{
+    _lineDashPattern = lineDashPattern;
+    self.lineLayer.lineDashPattern = lineDashPattern;
 }
 
 @end
