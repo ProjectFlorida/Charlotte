@@ -100,7 +100,7 @@
 - (void)setLabelViewPosition:(CHViewPosition)labelPosition
 {
     _labelViewPosition = labelPosition;
-    [self layoutIfNeeded];
+    [self setNeedsLayout];
 }
 
 - (void)setLabelView:(UILabel *)label
@@ -110,7 +110,7 @@
     }
     _labelView = label;
     [self addSubview:_labelView];
-    [self layoutIfNeeded];
+    [self setNeedsLayout];
 }
 
 - (void)setLineColor:(UIColor *)lineColor

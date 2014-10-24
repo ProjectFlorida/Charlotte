@@ -56,6 +56,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
 
+@optional
 /**
  *  Asks the data source for a view to use as the specified gridline's label.
  *  By default, a gridline will display its value, rounded to the nearest integer.
