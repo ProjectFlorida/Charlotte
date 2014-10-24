@@ -32,9 +32,9 @@
     [super viewDidLoad];
     self.minValues = @[@0, @30,  @0];
     self.maxValues = @[@80, @80, @140];
-    self.values = @[@[@10, @20, @30, @40, @50, @60, @70],
-                    @[@70, @60, @50, @40, @40, @50, @60],
-                    @[@10, @20, @40, @50, @70, @80, @110]];
+    self.values = @[@[@0, @20, @30, @40, @50, @60, @30],
+                    @[@70, @0, @50, @40, @70, @60, @45],
+                    @[@10, @20, @0, @50, @70, @80, @40]];
     self.gridlineValues = @[@40, @60, @52, @80, @100, @120];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.gridlineTopLabels = @[@"Critical", @"Run-down", @"Daily avg", @"Solid", @"Strong", @"Superhuman"];
@@ -89,7 +89,7 @@
     UILabel *label = [[UILabel alloc] init];
     label.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
     label.font = [UIFont boldSystemFontOfSize:18];
-    if (index == 0) {
+    if (value == 0) {
         label.alpha = 0;
     }
     else if (index == 6) {
@@ -209,7 +209,7 @@
     if (value == 0) {
         return [[UIColor grayColor] colorWithAlphaComponent:0.5];
     }
-    else if (value == 6) {
+    else if (index == 6) {
         return [UIColor clearColor];
     }
     else {
@@ -220,7 +220,7 @@
 - (UIColor *)chartView:(CHChartView *)chartView tintColorForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    if (value == 0 || value == 6) {
+    if (value == 0 || index == 6) {
         return nil;
     }
     else {

@@ -135,7 +135,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 - (void)setBarColor:(UIColor *)barColor
 {
     _barColor = barColor;
-    self.pointView.colors = @[self.barColor, self.tintColor];
+    self.pointView.colors = @[_barColor, self.tintColor];
     self.pointShadowView.backgroundColor = barColor;
 }
 
@@ -149,7 +149,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 {
     if (!tintColor) {
         _tintColor = self.barColor;
-        self.pointView.colors = @[self.barColor, self.barColor];
+        self.pointView.colors = @[self.barColor, _tintColor];
     }
     else {
         _tintColor = tintColor;
