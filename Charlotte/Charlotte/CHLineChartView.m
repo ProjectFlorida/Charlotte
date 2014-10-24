@@ -37,6 +37,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [super initialize];
 
     _highlightMovementAnimationDuration = 0.2;
+    _highlightEntranceAnimationDuration = 0.15;
+    _highlightExitAnimationDuration = 0.15;
     _highlightColumnWidth = 19;
     _highlightColumnView = [[CHGradientView alloc] initWithFrame:CGRectMake(0, 0,
                                                                             _highlightColumnWidth,
@@ -135,14 +137,14 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     BOOL touchBegan = NO;
     BOOL touchEnded = NO;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        [UIView animateWithDuration:self.highlightMovementAnimationDuration animations:^{
+        [UIView animateWithDuration:self.highlightEntranceAnimationDuration animations:^{
             self.highlightColumnView.alpha = 1;
             self.highlightPointView.alpha = 1;
         }];
         touchBegan = YES;
     }
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [UIView animateWithDuration:self.highlightMovementAnimationDuration animations:^{
+        [UIView animateWithDuration:self.highlightExitAnimationDuration animations:^{
             self.highlightColumnView.alpha = 0;
             self.highlightPointView.alpha = 0;
         }];
