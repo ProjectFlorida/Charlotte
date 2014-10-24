@@ -40,6 +40,8 @@
 - (void)initialize
 {
     self.backgroundColor = [UIColor clearColor];
+    self.layer.masksToBounds = YES;
+    self.opaque = NO;
     _colors = nil;
     _locations = nil;
     _startPoint = CGPointMake(0.5, 0.0);
@@ -77,7 +79,7 @@
         }
     }
 
-    CGContextRef currentContext = UIGraphicsGetCurrentContext();
+    CGContextRef context = UIGraphicsGetCurrentContext();
     CGGradientRef gradient;
     CGColorSpaceRef rgbColorspace;
 
@@ -89,9 +91,10 @@
                                      self.startPoint.y * currentSize.height);
     CGPoint endPoint = CGPointMake(self.endPoint.x * currentSize.width,
                                    self.endPoint.y * currentSize.height);
-    CGContextDrawLinearGradient(currentContext, gradient, startPoint, endPoint, 0);
+    CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, 0);
 
     CGGradientRelease(gradient);
+
     CGColorSpaceRelease(rgbColorspace);
 }
 

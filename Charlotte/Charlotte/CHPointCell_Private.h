@@ -7,6 +7,7 @@
 //
 
 #import "CHPointCell.h"
+#import "CHGradientView.h"
 
 @interface CHPointCell (Private)
 
@@ -14,7 +15,7 @@
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) UILabel *xAxisLabel;
-@property (nonatomic, strong) UIView *pointView;
+@property (nonatomic, strong) CHGradientView *pointView;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewPositionConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewWidthConstraint;
