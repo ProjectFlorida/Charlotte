@@ -136,6 +136,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 {
     _barColor = barColor;
     self.pointView.colors = @[self.barColor, self.tintColor];
+    self.pointShadowView.backgroundColor = barColor;
 }
 
 - (void)setBorderColor:(UIColor *)borderColor
@@ -171,7 +172,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 - (void)setShadowOpacity:(CGFloat)shadowOpacity
 {
     _shadowOpacity = shadowOpacity;
-    self.pointView.layer.shadowOpacity = shadowOpacity;
+    self.pointShadowView.layer.shadowOpacity = shadowOpacity;
 }
 
 - (void)setFooterHeight:(CGFloat)footerHeight

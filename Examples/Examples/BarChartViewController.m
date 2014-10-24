@@ -170,7 +170,12 @@
 - (CGFloat)chartView:(CHChartView *)chartView shadowOpacityForBarWithValue:(CGFloat)value
               inPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return 1;
+    if (value == 0) {
+        return 0;
+    }
+    else {
+        return 0.5;
+    }
 }
 
 
