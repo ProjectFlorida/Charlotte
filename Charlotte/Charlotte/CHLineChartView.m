@@ -226,7 +226,6 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
                                                                   withReuseIdentifier:kCHLineViewReuseId
                                                                          forIndexPath:indexPath];
-        lineView.chartBackgroundColor = self.backgroundColor;
         lineView.footerHeight = self.footerHeight;
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];

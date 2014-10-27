@@ -162,8 +162,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
                                             self.regionsView.bounds.size.height);
             CHGradientView *regionView = [[CHGradientView alloc] initWithFrame:regionFrame];
             regionView.locations = @[@0.8, @1.0];
-            regionView.colors = @[[region.color colorWithAlphaComponent:0.8],
-                                  [self.chartBackgroundColor colorWithAlphaComponent:0.8]];
+            regionView.colors = @[region.color,
+                                  region.tintColor];
             [self.regionsView addSubview:regionView];
         }
     }
@@ -185,6 +185,12 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     else {
         self.lineView.colors = @[_lineColor, _lineColor];
     }
+}
+
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    _footerHeight = footerHeight;
+    [self setNeedsLayout];
 }
 
 - (void)setLineTintColor:(UIColor *)lineTintColor

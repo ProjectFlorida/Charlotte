@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
     self.pointCount = 100;
     self.currentIndex = 0;
 
@@ -35,7 +36,7 @@
     self.chartView.delegate = self;
     self.chartView.lineChartDelegate = self;
     self.chartView.lineChartDataSource = self;
-    self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
+    self.chartView.backgroundColor = [UIColor clearColor];
     [self.chartView reloadData];
 }
 
@@ -116,9 +117,9 @@
     UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:1];
     UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:1];
     return @[
-             [CHChartRegion chartRegionWithRange:NSMakeRange(30, 10) color:blue],
-             [CHChartRegion chartRegionWithRange:NSMakeRange(65, 10) color:green],
-             [CHChartRegion chartRegionWithRange:NSMakeRange(75, 20) color:blue]
+             [CHChartRegion chartRegionWithRange:NSMakeRange(30, 10) color:blue tintColor:self.view.backgroundColor],
+             [CHChartRegion chartRegionWithRange:NSMakeRange(65, 10) color:green tintColor:self.view.backgroundColor],
+             [CHChartRegion chartRegionWithRange:NSMakeRange(75, 20) color:blue tintColor:self.view.backgroundColor]
              ];
 }
 
@@ -160,6 +161,10 @@
      atIndex:(NSInteger)index position:(CGPoint)position
 {
     self.tooltipView.alpha = 0;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 
