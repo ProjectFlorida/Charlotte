@@ -37,8 +37,6 @@
     self.chartView.lineChartDataSource = self;
     self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
     [self.chartView reloadData];
-
-
 }
 
 #pragma mark CHChartViewDataSource
