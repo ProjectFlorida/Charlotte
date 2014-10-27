@@ -3,3 +3,4 @@
 *.xcuserdatad
 *.xcodeproj/xcuserdata/*.xcuserdatad
 
+.DS_Store
