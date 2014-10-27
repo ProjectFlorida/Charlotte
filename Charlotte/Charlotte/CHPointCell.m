@@ -179,7 +179,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
                                            toItem:self
                                         attribute:NSLayoutAttributeBottom
                                        multiplier:multiplier
-                                         constant:-self.footerHeight];
+                                         constant:0];
 }
 
 - (CGFloat)scaledValue

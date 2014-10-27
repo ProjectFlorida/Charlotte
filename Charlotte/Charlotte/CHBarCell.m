@@ -93,7 +93,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
     [self removeConstraint:self.pointViewPositionConstraint];
     // clamp the bar's min height to its width
-    CGFloat desiredHeight = (self.bounds.size.height - self.footerHeight)*scaledValue;
+    CGFloat desiredHeight = (self.bounds.size.height )*scaledValue - self.footerHeight;
     CGFloat barWidth = self.bounds.size.width * self.barViewRelativeWidth;
     if (desiredHeight < barWidth) {
         self.pointViewPositionConstraint = [NSLayoutConstraint constraintWithItem:self.pointView

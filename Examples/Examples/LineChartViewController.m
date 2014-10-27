@@ -37,6 +37,8 @@
     self.chartView.lineChartDelegate = self;
     self.chartView.lineChartDataSource = self;
     self.chartView.backgroundColor = [UIColor clearColor];
+    self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
+    self.chartView.headerHeight = 30;
     [self.chartView reloadData];
 }
 
@@ -69,9 +71,12 @@
     }
 }
 
-- (UIColor *)chartView:(CHChartView *)chartView xAxisLabelColorForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView
 {
-    return [UIColor whiteColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.text = @"❤️";
+    [label sizeToFit];
+    return label;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -90,14 +95,14 @@
     return nil;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
     return 0;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return 7;
+    return 6.1;
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
@@ -107,7 +112,7 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
 {
-    return index + 1;
+    return index + 2;
 }
 
 #pragma mark CHLineChartDataSource
