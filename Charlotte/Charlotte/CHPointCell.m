@@ -8,6 +8,7 @@
 
 #import "CHPointCell.h"
 #import "CHChartView.h"
+#import "CHGradientView.h"
 
 NSString *const kCHPointCellReuseId = @"CHPointCell";
 
@@ -17,7 +18,8 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) UILabel *xAxisLabel;
-@property (nonatomic, strong) UIView *pointView;
+@property (nonatomic, strong) CHGradientView *pointView;
+@property (nonatomic, strong) UIView *pointShadowView;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewPositionConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewWidthConstraint;
@@ -32,13 +34,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     self = [super initWithFrame:frame];
     if (self) {
         // Set default values
-        _valueLabelString = nil;
         _footerHeight = 30;
-        _xAxisLabelColor = [UIColor whiteColor];
-        _valueLabelColor = [UIColor whiteColor];
-        _pointColor = [UIColor whiteColor];
-        _xAxisLabelFont = [UIFont systemFontOfSize:12];
-        _valueLabelFont = [UIFont systemFontOfSize:14];
         _value = 0;
         _minValue = 0;
         _maxValue = 1;
@@ -46,20 +42,19 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
         // Initialize views
         _xAxisLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _xAxisLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _xAxisLabel.textColor = _xAxisLabelColor;
-        _xAxisLabel.font = _xAxisLabelFont;
-        _pointView = [[UIView alloc] initWithFrame:CGRectZero];
-        _pointView.backgroundColor = _pointColor;
+        _pointView = [[CHGradientView alloc] initWithFrame:CGRectZero];
         _pointView.translatesAutoresizingMaskIntoConstraints = NO;
+        _pointShadowView = [[UIView alloc] initWithFrame:CGRectZero];
+        _pointShadowView.layer.shadowOpacity = 1;
+        _pointShadowView.layer.shadowOffset = CGSizeMake(0, 1);
+        _pointShadowView.translatesAutoresizingMaskIntoConstraints = NO;
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _valueLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        _valueLabel.textColor = _valueLabelColor;
-        _valueLabel.font = _valueLabelFont;
-        _valueLabel.text = @"foo";
         [_valueLabel sizeToFit];
 
         // Add constraints for bar view and x-axis label
         [self addSubview:_xAxisLabel];
+        [self addSubview:_pointShadowView];
         [self addSubview:_pointView];
         NSLayoutConstraint *xAxisLabelCenterX = [NSLayoutConstraint constraintWithItem:_xAxisLabel
                                                                              attribute:NSLayoutAttributeCenterX
@@ -82,6 +77,36 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 
         _pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeCenterY
                                                                            multiplier:0];
+        NSLayoutConstraint *pointShadowViewCenterX = [NSLayoutConstraint constraintWithItem:_pointShadowView
+                                                                                  attribute:NSLayoutAttributeCenterX
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:_pointView
+                                                                                  attribute:NSLayoutAttributeCenterX
+                                                                                 multiplier:1
+                                                                                   constant:0];
+        NSLayoutConstraint *pointShadowViewCenterY = [NSLayoutConstraint constraintWithItem:_pointShadowView
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:_pointView
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                 multiplier:1
+                                                                                   constant:0];
+        NSLayoutConstraint *pointShadowViewWidth = [NSLayoutConstraint constraintWithItem:_pointShadowView
+                                                                                attribute:NSLayoutAttributeWidth
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:_pointView
+                                                                                attribute:NSLayoutAttributeWidth
+                                                                               multiplier:1
+                                                                                 constant:0];
+        NSLayoutConstraint *pointShadowViewHeight = [NSLayoutConstraint constraintWithItem:_pointShadowView
+                                                                                 attribute:NSLayoutAttributeHeight
+                                                                                 relatedBy:NSLayoutRelationEqual
+                                                                                    toItem:_pointView
+                                                                                 attribute:NSLayoutAttributeHeight
+                                                                                multiplier:1
+                                                                                  constant:0];
+
+
         _pointViewWidthConstraint = [NSLayoutConstraint constraintWithItem:_pointView
                                                                  attribute:NSLayoutAttributeWidth
                                                                  relatedBy:NSLayoutRelationEqual
@@ -96,12 +121,17 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
                                                                   attribute:NSLayoutAttributeWidth
                                                                  multiplier:1
                                                                    constant:0];
-        [self addConstraints:@[xAxisLabelCenterX, barViewCenterX]];
+        [self addConstraints:@[xAxisLabelCenterX,
+                               barViewCenterX,
+                               pointShadowViewCenterX,
+                               pointShadowViewCenterY,
+                               pointShadowViewWidth,
+                               pointShadowViewHeight]];
         [self addConstraints:xAxisLabelV];
         [self addConstraints:@[_pointViewWidthConstraint, _pointViewHeightConstraint, _pointViewPositionConstraint]];
 
         // Add constraints for value label
-        [_pointView addSubview:_valueLabel];
+        [self addSubview:_valueLabel];
         NSLayoutConstraint *valueLabelX = [NSLayoutConstraint constraintWithItem:_valueLabel
                                                                        attribute:NSLayoutAttributeCenterX
                                                                        relatedBy:NSLayoutRelationEqual
@@ -116,7 +146,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
                                                                        attribute:NSLayoutAttributeTop
                                                                       multiplier:1
                                                                         constant:-4];
-        [_pointView addConstraints:@[valueLabelX, valueLabelY]];
+        [self addConstraints:@[valueLabelX, valueLabelY]];
 
     }
     return self;
@@ -126,6 +156,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 {
     [super layoutSubviews];
     self.pointView.layer.cornerRadius = self.pointView.bounds.size.width / 2.0;
+    self.pointShadowView.layer.cornerRadius = self.pointView.layer.cornerRadius;
 }
 
 - (void)prepareForReuse
@@ -198,50 +229,10 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     [self updateAnimated:animated completion:completion];
 }
 
-- (void)setPointColor:(UIColor *)pointColor
-{
-    _pointColor = pointColor;
-    self.pointView.backgroundColor = pointColor;
-}
-
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
     [self updateAnimated:NO completion:nil];
-}
-
-- (void)setValueLabelFont:(UIFont *)valueLabelFont
-{
-    _valueLabelFont = valueLabelFont;
-    self.valueLabel.font = valueLabelFont;
-    [self.valueLabel sizeToFit];
-}
-
-- (void)setValueLabelString:(NSString *)valueLabelString
-{
-    _valueLabelString = valueLabelString;
-    self.valueLabel.text = valueLabelString;
-    [self.valueLabel sizeToFit];
-}
-
-- (void)setXAxisLabelFont:(UIFont *)xAxisLabelFont
-{
-    _xAxisLabelFont = xAxisLabelFont;
-    self.xAxisLabel.font = xAxisLabelFont;
-    [self.xAxisLabel sizeToFit];
-}
-
-- (void)setXAxisLabelString:(NSString *)xAxisLabelString
-{
-    _xAxisLabelString = xAxisLabelString;
-    self.xAxisLabel.text = xAxisLabelString;
-    [self.xAxisLabel sizeToFit];
-}
-
-- (void)setXAxisLabelColor:(UIColor *)xAxisLabelColor
-{
-    _xAxisLabelColor = xAxisLabelColor;
-    self.xAxisLabel.textColor = xAxisLabelColor;
 }
 
 @end

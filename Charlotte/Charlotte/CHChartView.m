@@ -11,7 +11,7 @@
 #import "CHFooterView.h"
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
-#import "CHPointCell.h"
+#import "CHPointCell_Private.h"
 
 NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
 NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindFooter";
@@ -453,9 +453,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     UILabel *xAxisLabel = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
                                              atIndex:indexPath.row];
     if (xAxisLabel) {
-        cell.xAxisLabelString = xAxisLabel.text;
-        cell.xAxisLabelFont = xAxisLabel.font;
-        cell.xAxisLabelColor = xAxisLabel.textColor;
+        cell.xAxisLabel.text = xAxisLabel.text;
+        cell.xAxisLabel.font = xAxisLabel.font;
+        cell.xAxisLabel.textColor = xAxisLabel.textColor;
+        cell.xAxisLabel.bounds = xAxisLabel.bounds;
+        cell.xAxisLabel.alpha = xAxisLabel.alpha;
     }
 
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
@@ -466,9 +468,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     UILabel *valueLabel = [self.dataSource chartView:self labelForPointWithValue:value
                                               inPage:indexPath.section atIndex:indexPath.row];
     if (valueLabel) {
-        cell.valueLabelString = valueLabel.text;
-        cell.valueLabelFont = valueLabel.font;
-        cell.valueLabelColor = valueLabel.textColor;
+        cell.valueLabel.text = valueLabel.text;
+        cell.valueLabel.font = valueLabel.font;
+        cell.valueLabel.textColor = valueLabel.textColor;
+        cell.valueLabel.bounds = valueLabel.bounds;
+        cell.valueLabel.alpha = valueLabel.alpha;
     }
 
     [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];

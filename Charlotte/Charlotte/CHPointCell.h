@@ -16,16 +16,6 @@ extern NSString *const kCHPointCellReuseId;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 
-@property (nonatomic, strong) NSString *xAxisLabelString;
-@property (nonatomic, strong) UIColor *xAxisLabelColor;
-@property (nonatomic, strong) UIFont *xAxisLabelFont;
-
-@property (nonatomic, strong) NSString *valueLabelString;
-@property (nonatomic, strong) UIColor *valueLabelColor;
-@property (nonatomic, strong) UIFont *valueLabelFont;
-
-@property (nonatomic, strong) UIColor *pointColor;
-
 @property (nonatomic, assign) CGFloat footerHeight;
 
 - (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;

@@ -8,7 +8,7 @@
 
 #import "BarChartViewController.h"
 
-@interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate>
+@interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHBarChartDataSource>
 
 @property (nonatomic, strong) NSArray *minValues;
 @property (nonatomic, strong) NSArray *maxValues;
@@ -20,6 +20,9 @@
 @property (nonatomic, strong) UIColor *chartColor;
 @property (nonatomic, strong) UIColor *avgLineColor;
 @property (nonatomic, assign) NSInteger currentIndex;
+@property (nonatomic, strong) UIColor *barColor;
+@property (nonatomic, strong) UIColor *barTintColor;
+@property (nonatomic, strong) UIColor *incompleteColor;
 
 @end
 
@@ -29,9 +32,9 @@
     [super viewDidLoad];
     self.minValues = @[@0, @30,  @0];
     self.maxValues = @[@80, @80, @140];
-    self.values = @[@[@10, @20, @30, @40, @50, @60, @70],
-                    @[@70, @60, @50, @40, @40, @50, @60],
-                    @[@10, @20, @40, @50, @70, @80, @110]];
+    self.values = @[@[@0, @20, @30, @40, @50, @60, @30],
+                    @[@70, @0, @50, @40, @70, @60, @45],
+                    @[@10, @20, @0, @50, @70, @80, @40]];
     self.gridlineValues = @[@40, @60, @52, @80, @100, @120];
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.gridlineTopLabels = @[@"Critical", @"Run-down", @"Daily avg", @"Solid", @"Strong", @"Superhuman"];
@@ -39,13 +42,17 @@
     self.currentIndex = 0;
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
+    self.chartView.barChartDataSource = self;
+    self.barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+    self.barTintColor = [UIColor colorWithRed:0.52 green:0.62 blue:0.77 alpha:1];
+    self.incompleteColor = [UIColor colorWithRed:0.35 green:0.41 blue:0.5 alpha:1];
     self.chartColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
     self.avgLineColor = [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1] ;
     self.chartView.backgroundColor = self.chartColor;
     [self.chartView reloadData];
 }
 
-#pragma mark CHChartViewDataSource
+#pragma mark - CHChartViewDataSource
 
 - (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
 {
@@ -82,7 +89,15 @@
     UILabel *label = [[UILabel alloc] init];
     label.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
     label.font = [UIFont boldSystemFontOfSize:18];
-    label.textColor = [UIColor whiteColor];
+    if (value == 0) {
+        label.alpha = 0;
+    }
+    else if (index == 6) {
+        label.textColor = self.incompleteColor;
+    }
+    else {
+        label.textColor = [UIColor whiteColor];
+    }
     return label;
 }
 
@@ -186,7 +201,79 @@
     }
 }
 
-#pragma mark CHChartViewDelegate
+#pragma mark - CHBarChartDataSource
+
+- (UIColor *)chartView:(CHChartView *)chartView colorForBarWithValue:(CGFloat)value
+                inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    if (value == 0) {
+        return [[UIColor grayColor] colorWithAlphaComponent:0.5];
+    }
+    else if (index == 6) {
+        return [UIColor clearColor];
+    }
+    else {
+        return [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+    }
+}
+
+- (UIColor *)chartView:(CHChartView *)chartView tintColorForBarWithValue:(CGFloat)value
+                inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    if (value == 0 || index == 6) {
+        return nil;
+    }
+    else {
+        return self.barTintColor;
+    }
+}
+
+- (NSArray *)chartView:(CHChartView *)chartView borderDashPatternForBarWithValue:(CGFloat)value
+                inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    if (index == 6) {
+        return @[@2, @2];
+    }
+    else {
+        return nil;
+    }
+}
+
+- (UIColor *)chartView:(CHChartView *)chartView borderColorForBarWithValue:(CGFloat)value
+                inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    if (index == 6) {
+        return self.incompleteColor;
+    }
+    else {
+        return nil;
+    }
+}
+
+- (CGFloat)chartView:(CHChartView *)chartView borderWidthForBarWithValue:(CGFloat)value
+              inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    if (index == 6) {
+        return 2;
+    }
+    else {
+        return 0;
+    }
+}
+
+- (CGFloat)chartView:(CHChartView *)chartView shadowOpacityForBarWithValue:(CGFloat)value
+              inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    if (value == 0) {
+        return 0;
+    }
+    else {
+        return 0.5;
+    }
+}
+
+
+#pragma mark - CHChartViewDelegate
 
 - (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
 {
