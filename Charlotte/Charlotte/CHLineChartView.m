@@ -69,6 +69,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             forSupplementaryViewOfKind:CHSupplementaryElementKindLine
                    withReuseIdentifier:kCHLineViewReuseId];
     self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
+    self.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0, 28, 0, 28);
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 
     [self initializeConstraints];
@@ -152,18 +153,24 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:self.currentPage];
     CGPoint touchLocation = [gestureRecognizer locationInView:self];
     CHPagingLineChartFlowLayout *layout = (CHPagingLineChartFlowLayout *)self.collectionViewLayout;
     NSInteger index = [layout nearestIndexAtLocation:touchLocation
                                               inPage:self.currentPage];
+    index = MIN(MAX(0, index), pointCount - 1);
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.footerHeight;
     CGFloat y = (1 - scaledValue) * height;
+    CGFloat x = MIN(MAX(self.collectionViewLayout.pageInset.left + self.collectionViewLayout.sectionInset.left,
+                        touchLocation.x),
+                    self.bounds.size.width - self.collectionViewLayout.pageInset.right - self.collectionViewLayout.sectionInset.right);
+    CGPoint highlightPointPosition = CGPointMake(x, y);
 
     void(^updateBlock)() = ^() {
-        [self.highlightPointView setCenter:CGPointMake(touchLocation.x, y)];
-        [self.highlightColumnView setCenter:CGPointMake(touchLocation.x, self.highlightColumnView.center.y)];
+        [self.highlightPointView setCenter:CGPointMake(x, y)];
+        [self.highlightColumnView setCenter:CGPointMake(x, self.highlightColumnView.center.y)];
     };
 
     if (!touchBegan) {
@@ -176,18 +183,21 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     }
 
     if (touchBegan) {
-        if ([self.touchDelegate respondsToSelector:@selector(chartView:touchBeganInPage:nearestIndex:)]) {
-            [self.touchDelegate chartView:self touchBeganInPage:self.currentPage nearestIndex:index];
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightBeganInPage:atIndex:position:)]) {
+            [self.lineChartDelegate chartView:self highlightBeganInPage:self.currentPage
+                                      atIndex:index position:highlightPointPosition];
         }
     }
     else if (touchEnded) {
-        if ([self.touchDelegate respondsToSelector:@selector(chartView:touchEndedInPage:nearestIndex:)]) {
-            [self.touchDelegate chartView:self touchEndedInPage:self.currentPage nearestIndex:index];
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightEndedInPage:atIndex:position:)]) {
+            [self.lineChartDelegate chartView:self highlightEndedInPage:self.currentPage
+                                      atIndex:index position:highlightPointPosition];
         }
     }
     else {
-        if ([self.touchDelegate respondsToSelector:@selector(chartView:touchMovedInPage:nearestIndex:)]) {
-            [self.touchDelegate chartView:self touchMovedInPage:self.currentPage nearestIndex:index];
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightMovedInPage:toIndex:position:)]) {
+            [self.lineChartDelegate chartView:self highlightMovedInPage:self.currentPage
+                                      toIndex:index position:highlightPointPosition];
         }
     }
 }
@@ -226,6 +236,11 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
             [points addObject:@(value)];
         }
+        lineView.lineColor = [self.lineChartDataSource chartView:self lineColorInPage:indexPath.section];
+        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:lineTintColorInPage:)]) {
+            lineView.lineTintColor = [self.lineChartDataSource chartView:self lineTintColorInPage:indexPath.section];
+        }
+
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
         NSArray *regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
         [lineView drawLineWithValues:points regions:regions];
