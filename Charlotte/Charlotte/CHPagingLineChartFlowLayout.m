@@ -30,7 +30,7 @@
     }
     firstCellAttrs = [self layoutAttributesForItemAtIndexPath:firstCellIndexPath];
     CGFloat cellWidth = firstCellAttrs.size.width;
-    NSInteger index = (location.x - self.pageInset.left) / cellWidth;
+    NSInteger index = (location.x - self.pageInset.left - self.sectionInset.left) / cellWidth;
     return index;
 }
 

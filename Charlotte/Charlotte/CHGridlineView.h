@@ -16,6 +16,7 @@ typedef NS_ENUM(NSInteger, CHViewPosition) {
 @interface CHGridlineView : UIView
 
 @property (nonatomic, assign) CHViewPosition labelViewPosition;
+@property (nonatomic, assign) CGFloat lineWidth;
 @property (nonatomic, strong) UIColor *lineColor;
 
 /**

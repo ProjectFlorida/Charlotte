@@ -16,7 +16,12 @@ extern NSString *const kCHLineViewReuseId;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 @property (nonatomic, assign) CGFloat footerHeight;
-@property (nonatomic, strong) UIColor *chartBackgroundColor;
+
+/// The line's primary color (drawn on the right).
+@property (nonatomic, strong) UIColor *lineColor;
+
+/// The line's tint color (drawn on the left). Set this to nil for no tint.
+@property (nonatomic, strong) UIColor *lineTintColor;
 
 /**
  *  Draws a line between the given values, with colored regions below the line specified by the given array.

@@ -16,7 +16,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.chartView.backgroundColor = [UIColor colorWithRed:0.8 green:0.36 blue:0.17 alpha:1];
+    self.view.backgroundColor = [UIColor colorWithRed:0.8 green:0.36 blue:0.17 alpha:1];
+    self.chartView.backgroundColor = [UIColor clearColor];
     self.chartView.dataSource = self;
     self.chartView.xAxisLineHidden = YES;
     self.chartView.scatterChartDataSource = self;
@@ -31,7 +32,7 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return sin(index)*2.5 + 2.5;
+    return sin(index)*2 + 2.5;
 }
 
 - (UIColor *)chartView:(CHChartView *)chartView colorForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
@@ -97,12 +98,12 @@
     return nil;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
     return 0;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
     return 7;
 }
@@ -117,5 +118,8 @@
     return index + 1;
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 @end

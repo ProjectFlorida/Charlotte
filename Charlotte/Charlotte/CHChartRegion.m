@@ -8,13 +8,21 @@
 
 #import "CHChartRegion.h"
 
+@interface CHChartRegion ()
+
+@property (nonatomic, strong, readwrite) UIColor *color;
+@property (nonatomic, strong, readwrite) UIColor *tintColor;
+
+@end
+
 @implementation CHChartRegion
 
-+ (instancetype)regionWithRange:(NSRange)range color:(UIColor *)color
++ (instancetype)regionWithRange:(NSRange)range color:(UIColor *)color tintColor:(UIColor *)tintColor
 {
     CHChartRegion *region = [[CHChartRegion alloc] init];
     region.range = range;
     region.color = color;
+    region.tintColor = tintColor;
     return region;
 }
 

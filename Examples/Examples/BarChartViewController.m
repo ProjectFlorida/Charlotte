@@ -17,7 +17,6 @@
 @property (nonatomic, strong) NSArray *gridlineValues;
 @property (nonatomic, strong) NSArray *gridlineTopLabels;
 @property (nonatomic, strong) NSArray *gridlineBottomLabels;
-@property (nonatomic, strong) UIColor *chartColor;
 @property (nonatomic, strong) UIColor *avgLineColor;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, strong) UIColor *barColor;
@@ -43,12 +42,14 @@
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
     self.chartView.barChartDataSource = self;
+    self.chartView.xAxisLineHidden = YES;
+    self.chartView.headerHeight = 0;
     self.barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
     self.barTintColor = [UIColor colorWithRed:0.52 green:0.62 blue:0.77 alpha:1];
     self.incompleteColor = [UIColor colorWithRed:0.35 green:0.41 blue:0.5 alpha:1];
-    self.chartColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
     self.avgLineColor = [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1] ;
-    self.chartView.backgroundColor = self.chartColor;
+    self.chartView.backgroundColor = [UIColor clearColor];
+    self.view.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
     [self.chartView reloadData];
 }
 
@@ -101,14 +102,14 @@
     return label;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
-    return [self.minValues[page] integerValue];
+    return [self.minValues[page] floatValue];
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return [self.maxValues[page] integerValue];
+    return [self.maxValues[page] floatValue];
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
@@ -129,7 +130,7 @@
         label.textAlignment = NSTextAlignmentRight;
         label.font = [UIFont boldSystemFontOfSize:12];
         label.numberOfLines = 0;
-        label.shadowColor = self.chartColor;
+        label.shadowColor = self.view.backgroundColor;
         label.shadowOffset = CGSizeMake(1, 1);
         label.text = self.gridlineTopLabels[index];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -150,7 +151,7 @@
         topLabel.text = self.gridlineTopLabels[index];
         topLabel.font = [UIFont boldSystemFontOfSize:14];
         topLabel.textColor = [UIColor whiteColor];
-        topLabel.shadowColor = self.chartColor;
+        topLabel.shadowColor = self.view.backgroundColor;
         topLabel.shadowOffset = CGSizeMake(1, 1);
         [topLabel sizeToFit];
         [view addSubview:topLabel];
@@ -158,7 +159,7 @@
         bottomLabel.text = self.gridlineBottomLabels[index];
         bottomLabel.font = [UIFont boldSystemFontOfSize:14];
         bottomLabel.textColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1];
-        bottomLabel.shadowColor = self.chartColor;
+        bottomLabel.shadowColor = self.view.backgroundColor;
         bottomLabel.shadowOffset = CGSizeMake(1, 1);
         [bottomLabel sizeToFit];
         bottomLabel.frame = CGRectMake(0, CGRectGetMaxY(topLabel.frame) + 2,
@@ -272,12 +273,15 @@
     }
 }
 
-
 #pragma mark - CHChartViewDelegate
 
 - (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
 {
     self.currentIndex = page;
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 @end

@@ -47,7 +47,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *
  *  @return The minimum y value in the specified page
  */
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
+- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
 
 /**
  *  Asks the data source for the maximum y value in the specified page.
@@ -57,7 +57,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *
  *  @return The maximum y value in the specified page
  */
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
+- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
 
 // TODO: make this @optional
 /**
@@ -120,13 +120,24 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *  Asks the data source for a view to use as the specified gridline's label.
  *  By default, a gridline will display its value, rounded to the nearest integer.
  *
- *  @param chartView The chart view requesting the label
+ *  @param chartView The chart view requesting the label view
  *  @param value     The value of the gridline
  *  @param index     The index of the gridline
  *
  *  @return A UIView object.
  */
 - (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
+
+/**
+ *  Asks the data source for a view to use as the chart's y-axis label.
+ *
+ *  @param chartView The chart view requesting the label view
+ *
+ *  @return A UIView object.
+ */
+- (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView;
+
+@optional
 
 /**
  *  Asks the data source for the specified gridline's line dash pattern.
@@ -153,6 +164,16 @@ extern NSString *const CHSupplementaryElementKindFooter;
 - (UIColor *)chartView:(CHChartView *)chartView lineColorForHorizontalGridlineAtIndex:(NSInteger)index;
 
 /**
+ *  Asks the data source for the width of the specified gridline's line.
+ *
+ *  @param chartView The chart view requesting the line color
+ *  @param index     The index of the gridline
+ *
+ *  @return A float value indicating the width of the line in points.
+ */
+- (CGFloat)chartView:(CHChartView *)chartView lineWidthForHorizontalGridlineAtIndex:(NSInteger)index;
+
+/**
  *  Asks the data source for the position of the label on the specified gridline.
  *  By default, the label will be positioned at the bottom left corner of the gridline view.
  *
@@ -176,7 +197,15 @@ extern NSString *const CHSupplementaryElementKindFooter;
 @property (nonatomic, weak) id<CHChartViewDataSource> dataSource;
 @property (nonatomic, weak) id<CHChartViewDelegate> delegate;
 
+/// Whether or not the chart's x axis is hidden
 @property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden;
+@property (assign, nonatomic) CGFloat headerHeight;
+
+/// The width of the chart's x axis
+@property (nonatomic, assign) CGFloat xAxisLineWidth;
+
+/// The color of the chart's x axis
+@property (nonatomic, strong) UIColor *xAxisLineColor;
 
 - (void)reloadData;
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;

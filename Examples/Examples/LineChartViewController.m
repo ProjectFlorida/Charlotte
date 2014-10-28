@@ -8,7 +8,7 @@
 
 #import "LineChartViewController.h"
 
-@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHChartTouchDelegate, CHLineChartDataSource>
+@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHLineChartDelegate, CHLineChartDataSource>
 
 @property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, strong) UIView *tooltipView;
@@ -22,6 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
     self.pointCount = 100;
     self.currentIndex = 0;
 
@@ -33,12 +34,12 @@
     self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     self.chartView.dataSource = self;
     self.chartView.delegate = self;
-    self.chartView.touchDelegate = self;
+    self.chartView.lineChartDelegate = self;
     self.chartView.lineChartDataSource = self;
+    self.chartView.backgroundColor = [UIColor clearColor];
     self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
+    self.chartView.headerHeight = 30;
     [self.chartView reloadData];
-
-
 }
 
 #pragma mark CHChartViewDataSource
@@ -70,9 +71,12 @@
     }
 }
 
-- (UIColor *)chartView:(CHChartView *)chartView xAxisLabelColorForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView
 {
-    return [UIColor whiteColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.text = @"❤️";
+    [label sizeToFit];
+    return label;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -91,14 +95,14 @@
     return nil;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
     return 0;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return 7;
+    return 6.1;
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
@@ -108,20 +112,25 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
 {
-    return index + 1;
+    return index + 2;
 }
 
 #pragma mark CHLineChartDataSource
 
 - (NSArray *)chartView:(CHChartView *)chartView regionsInPage:(NSInteger)page
 {
-    UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:1];
-    UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:1];
+    UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:0.5];
+    UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:0.5];
     return @[
-             [CHChartRegion regionWithRange:NSMakeRange(30, 10) color:blue],
-             [CHChartRegion regionWithRange:NSMakeRange(65, 10) color:green],
-             [CHChartRegion regionWithRange:NSMakeRange(75, 20) color:blue]
+             [CHChartRegion regionWithRange:NSMakeRange(30, 10) color:blue tintColor:self.view.backgroundColor],
+             [CHChartRegion regionWithRange:NSMakeRange(65, 10) color:green tintColor:self.view.backgroundColor],
+             [CHChartRegion regionWithRange:NSMakeRange(75, 20) color:blue tintColor:self.view.backgroundColor]
              ];
+}
+
+- (UIColor *)chartView:(CHChartView *)chartView lineColorInPage:(NSInteger)page
+{
+    return [UIColor whiteColor];
 }
 
 #pragma mark CHChartViewDelegate
@@ -133,28 +142,29 @@
 
 #pragma mark CHChartTouchDelegate
 
-- (void)chartView:(CHChartView *)chartView touchBeganInPage:(NSInteger)page nearestIndex:(NSInteger)index
+- (void)chartView:(CHChartView *)chartView highlightBeganInPage:(NSInteger)page
+     atIndex:(NSInteger)index position:(CGPoint)position
 {
-    CGFloat cellWidth = self.view.bounds.size.width / self.pointCount;
-    CGFloat xPosition = (cellWidth * index) + (cellWidth/2.0);
     self.tooltipView.alpha = 1;
-    [self.tooltipView setCenter:CGPointMake(xPosition, self.tooltipView.center.y)];
+    [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
 }
 
-- (void)chartView:(CHChartView *)chartView touchMovedInPage:(NSInteger)page nearestIndex:(NSInteger)index
+- (void)chartView:(CHChartView *)chartView highlightMovedInPage:(NSInteger)page
+     toIndex:(NSInteger)index position:(CGPoint)position
 {
-    CGFloat cellWidth = self.view.bounds.size.width / self.pointCount;
-    CGFloat xPosition = (cellWidth * index) + (cellWidth/2.0);
     [UIView animateWithDuration:self.chartView.highlightMovementAnimationDuration animations:^{
-        [self.tooltipView setCenter:CGPointMake(xPosition, self.tooltipView.center.y)];
+        [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
     }];
 }
 
-- (void)chartView:(CHChartView *)chartView touchEndedInPage:(NSInteger)page nearestIndex:(NSInteger)index
+- (void)chartView:(CHChartView *)chartView highlightEndedInPage:(NSInteger)page
+     atIndex:(NSInteger)index position:(CGPoint)position
 {
     self.tooltipView.alpha = 0;
 }
 
-
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
 
 @end

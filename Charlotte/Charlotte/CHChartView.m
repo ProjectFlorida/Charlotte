@@ -83,7 +83,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
     _currentPage = 0;
     _footerHeight = 30;
+    _headerHeight = 30;
     _xAxisLineHidden = NO;
+    _xAxisLineWidth = 1;
+    _xAxisLineColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
 
@@ -126,11 +129,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self addSubview:_scrollView];
 
     _backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
+    _backgroundView.clipsToBounds = YES;
     _backgroundView.backgroundColor = [UIColor clearColor];
     _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:_backgroundView atIndex:0];
 
     _overlayView = [[UIView alloc] initWithFrame:CGRectZero];
+    _overlayView.clipsToBounds = YES;
     _overlayView.backgroundColor = [UIColor clearColor];
     _overlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_overlayView];
@@ -227,6 +232,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         if ([self.dataSource respondsToSelector:@selector(chartView:lineColorForHorizontalGridlineAtIndex:)]) {
             gridline.lineView.lineColor = [self.dataSource chartView:self lineColorForHorizontalGridlineAtIndex:i];
         }
+        if ([self.dataSource respondsToSelector:@selector(chartView:lineWidthForHorizontalGridlineAtIndex:)]) {
+            gridline.lineView.lineWidth = [self.dataSource chartView:self lineWidthForHorizontalGridlineAtIndex:i];
+        }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineDashPatternForHorizontalGridlineAtIndex:)]) {
             gridline.lineView.lineDashPattern = [self.dataSource chartView:self lineDashPatternForHorizontalGridlineAtIndex:i];
         }
@@ -254,14 +262,14 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                              toItem:self.backgroundView
                                                                           attribute:NSLayoutAttributeBottom
                                                                          multiplier:1 - scaledValue
-                                                                           constant:-self.footerHeight];
+                                                                           constant:0];
         gridline.labelViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.labelView
                                                                            attribute:NSLayoutAttributeCenterY
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:self.overlayView
                                                                            attribute:NSLayoutAttributeBottom
                                                                           multiplier:1 - scaledValue
-                                                                            constant:-self.footerHeight];
+                                                                            constant:0];
         [self.backgroundView addConstraint:gridline.lineViewCenterYConstraint];
         [self.backgroundView addConstraints:lineViewConstraintsH];
         [self.overlayView addConstraint:gridline.labelViewCenterYConstraint];
@@ -354,14 +362,14 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                              toItem:self.backgroundView
                                                                           attribute:NSLayoutAttributeBottom
                                                                          multiplier:1 - scaledValue
-                                                                           constant:-self.footerHeight];       
+                                                                           constant:0];
         gridline.labelViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.labelView
                                                                            attribute:NSLayoutAttributeCenterY
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:self.overlayView
                                                                            attribute:NSLayoutAttributeBottom
                                                                           multiplier:1 - scaledValue
-                                                                            constant:-self.footerHeight];
+                                                                            constant:0];
 
         [self.backgroundView addConstraint:gridline.lineViewCenterYConstraint];
         [self.overlayView addConstraint:gridline.labelViewCenterYConstraint];
@@ -394,6 +402,14 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     }
     _currentPage = currentPage;
     [self.delegate chartView:self didTransitionToPage:currentPage];
+}
+
+- (void)setHeaderHeight:(CGFloat)headerHeight
+{
+    _headerHeight = headerHeight;
+    self.collectionViewLayout.headerHeight = headerHeight;
+    [self initializeConstraints];
+    [self updateGridlinesAnimated:NO];
 }
 
 - (void)setNumberOfAnimationsInProgress:(NSInteger)numberOfAnimationsInProgress {
@@ -486,17 +502,22 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     UICollectionReusableView *view;
     if (kind == CHSupplementaryElementKindHeader) {
-        view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
-                                                  withReuseIdentifier:kCHHeaderViewReuseId
-                                                         forIndexPath:indexPath];
+        CHHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
+                                                                      withReuseIdentifier:kCHHeaderViewReuseId
+                                                                             forIndexPath:indexPath];
+        if ([self.dataSource respondsToSelector:@selector(labelViewForYAxisInChartView:)]) {
+            [headerView setLabelView:[self.dataSource labelViewForYAxisInChartView:self]];
+        }
+        view = headerView;
     }
     else if (kind == CHSupplementaryElementKindFooter) {
-        view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
-                                                  withReuseIdentifier:kCHFooterViewReuseId
-                                                         forIndexPath:indexPath];
-        if (self.isXAxisLineHidden) {
-            view.hidden = YES;
-        }
+        CHFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
+                                                                      withReuseIdentifier:kCHFooterViewReuseId
+                                                                             forIndexPath:indexPath];
+        footerView.lineWidth = self.xAxisLineWidth;
+        footerView.lineColor = self.xAxisLineColor;
+        footerView.hidden = self.isXAxisLineHidden;
+        view = footerView;
     }
     return view;
 }
