@@ -118,9 +118,9 @@
     UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:1];
     UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:1];
     return @[
-             [CHChartRegion chartRegionWithRange:NSMakeRange(30, 10) color:blue],
-             [CHChartRegion chartRegionWithRange:NSMakeRange(65, 10) color:green],
-             [CHChartRegion chartRegionWithRange:NSMakeRange(75, 20) color:blue]
+             [CHChartRegion regionWithRange:NSMakeRange(30, 10) color:blue],
+             [CHChartRegion regionWithRange:NSMakeRange(65, 10) color:green],
+             [CHChartRegion regionWithRange:NSMakeRange(75, 20) color:blue]
              ];
 }
 

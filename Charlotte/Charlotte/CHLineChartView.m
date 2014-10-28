@@ -36,6 +36,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
+    _showsHighlightWhenTouched = YES;
     _highlightMovementAnimationDuration = 0.2;
     _highlightEntranceAnimationDuration = 0.15;
     _highlightExitAnimationDuration = 0.15;
@@ -134,6 +135,9 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer
 {
+    if (!self.showsHighlightWhenTouched) {
+        return;
+    }
     CGPoint touchLocation = [gestureRecognizer locationInView:self];
     CHPagingLineChartFlowLayout *layout = (CHPagingLineChartFlowLayout *)self.collectionViewLayout;
     NSInteger index = [layout nearestIndexAtLocation:touchLocation

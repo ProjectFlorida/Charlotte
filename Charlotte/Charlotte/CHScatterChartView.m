@@ -15,6 +15,7 @@
 - (void)initialize
 {
     [super initialize];
+    self.showsHighlightWhenTouched = NO;
 }
 
 #pragma mark - UICollectionViewDataSource
@@ -34,8 +35,16 @@
             CGFloat value = [self.scatterChartDataSource chartView:self valueForScatterPointInPage:indexPath.section
                                                            atIndex:i];
             CGFloat relativeX = i/(float)count;
-            UIColor *color = [UIColor greenColor];
+            UIColor *color = [UIColor whiteColor];
+            if ([self.scatterChartDataSource respondsToSelector:@selector(chartView:colorForScatterPointInPage:atIndex:)]) {
+                color = [self.scatterChartDataSource chartView:self colorForScatterPointInPage:indexPath.section
+                                                       atIndex:i];
+            }
             CGFloat radius = 2;
+            if ([self.scatterChartDataSource respondsToSelector:@selector(chartView:radiusForScatterPointInPage:atIndex:)]) {
+                radius = [self.scatterChartDataSource chartView:self radiusForScatterPointInPage:indexPath.section
+                                                        atIndex:i];
+            }
             CHScatterPoint *point = [CHScatterPoint pointWithValue:value relativeXPosition:relativeX
                                                              color:color radius:radius];
             [points addObject:point];

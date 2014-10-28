@@ -37,11 +37,25 @@ extern NSString *const CHSupplementaryElementKindLine;
 
 /**
  *  The highlighted views displayed when the chart is touched animate between the chart's points with this duration.
- *  Default is 0.1
  */
 @property (nonatomic, readonly) CGFloat highlightMovementAnimationDuration;
+
+/**
+ *  The highlighted views displayed when the chart is touched appear with this duration.
+ */
 @property (nonatomic, readonly) CGFloat highlightEntranceAnimationDuration;
+
+/**
+ *  The highlighted views displayed when the chart is touched disappear with this duration.
+ */
 @property (nonatomic, readonly) CGFloat highlightExitAnimationDuration;
+
+/**
+ *  A Boolean value that determines whether tapping the chart causes the nearest point to be highlighted.
+ *  The default value is YES.
+ */
+@property (nonatomic, assign) BOOL showsHighlightWhenTouched;
+
 @property (nonatomic, weak) id<CHChartTouchDelegate> touchDelegate;
 @property (nonatomic, weak) id<CHLineChartDataSource> lineChartDataSource;
 
