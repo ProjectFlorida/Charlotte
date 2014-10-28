@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dlt-Qq-G89" customClass="CHBarChartView">
-                                <rect key="frame" x="0.0" y="20" width="600" height="451"/>
+                                <rect key="frame" x="0.0" y="100" width="600" height="371"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
@@ -26,7 +26,7 @@
                             <constraint firstItem="4ug-Mw-9AY" firstAttribute="top" secondItem="dlt-Qq-G89" secondAttribute="bottom" constant="80" id="FV1-1I-0UZ"/>
                             <constraint firstItem="dlt-Qq-G89" firstAttribute="leading" secondItem="tsR-hK-woN" secondAttribute="leading" id="RVm-z6-iGe"/>
                             <constraint firstItem="dlt-Qq-G89" firstAttribute="trailing" secondItem="tsR-hK-woN" secondAttribute="trailing" id="fPc-F6-s6r"/>
-                            <constraint firstItem="dlt-Qq-G89" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" id="nLu-FN-H8V"/>
+                            <constraint firstItem="dlt-Qq-G89" firstAttribute="top" secondItem="Ia1-K6-d13" secondAttribute="bottom" constant="80" id="nLu-FN-H8V"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Bar" image="first" id="acW-dT-cKf"/>
@@ -104,7 +104,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DyM-pd-Mba" customClass="CHScatterChartView">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DyM-pd-Mba" customClass="CHScatterChartView">
                                 <rect key="frame" x="0.0" y="20" width="600" height="500"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>

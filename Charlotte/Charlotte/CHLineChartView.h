@@ -10,8 +10,9 @@
 
 extern NSString *const CHSupplementaryElementKindLine;
 
-@protocol CHLineChartDelegate <NSObject>
+@class CHLineChartView;
 
+@protocol CHLineChartViewDelegate <NSObject>
 @optional
 
 /**
@@ -22,7 +23,7 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  @param index     The index of the current highlighted point
  *  @param position  The position of the highlighted point
  */
-- (void)chartView:(CHChartView *)chartView highlightBeganInPage:(NSInteger)page atIndex:(NSInteger)index position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView highlightBeganInPage:(NSInteger)page atIndex:(NSInteger)index position:(CGPoint)position;
 
 /**
  *  Tells the delegate that the user moved to highlight a different point in the chart view
@@ -32,7 +33,7 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  @param index     The index of the current highlighted point
  *  @param position  The position of the highlighted point
  */
-- (void)chartView:(CHChartView *)chartView highlightMovedInPage:(NSInteger)page toIndex:(NSInteger)index position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView highlightMovedInPage:(NSInteger)page toIndex:(NSInteger)index position:(CGPoint)position;
 
 /**
  *  Tells the delegate that the user stopped highlighting a point in the chart view
@@ -42,11 +43,12 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  @param index     The index of the last highlighted point
  *  @param position  The position of the last highlighted point
  */
-- (void)chartView:(CHChartView *)chartView highlightEndedInPage:(NSInteger)page atIndex:(NSInteger)index position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView highlightEndedInPage:(NSInteger)page atIndex:(NSInteger)index position:(CGPoint)position;
 
 @end
 
-@protocol CHLineChartDataSource <NSObject>
+@protocol CHLineChartViewDataSource <NSObject>
+@optional
 
 /**
  *  Asks the data source for an array of CHChartRegion objects describing colored regions to draw below the line.
@@ -56,7 +58,7 @@ extern NSString *const CHSupplementaryElementKindLine;
  *
  *  @return An array of CHChartRegion objects.
  */
-- (NSArray *)chartView:(CHChartView *)chartView regionsInPage:(NSInteger)page;
+- (NSArray *)chartView:(CHLineChartView *)chartView regionsInPage:(NSInteger)page;
 
 /**
  *  Asks the data source for the color of the line in the specified page.
@@ -66,9 +68,8 @@ extern NSString *const CHSupplementaryElementKindLine;
  *
  *  @return A UIColor object.
  */
-- (UIColor *)chartView:(CHChartView *)chartView lineColorInPage:(NSInteger)page;
+- (UIColor *)chartView:(CHLineChartView *)chartView lineColorInPage:(NSInteger)page;
 
-@optional
 /**
  *  Asks the data source for the tint color of the line in the specified page.
  *  If a tint color is provided, a gradient will be drawn from the line's tint color (left) to the line's color (right).
@@ -78,7 +79,7 @@ extern NSString *const CHSupplementaryElementKindLine;
  *
  *  @return A UIColor object.
  */
-- (UIColor *)chartView:(CHChartView *)chartView lineTintColorInPage:(NSInteger)page;
+- (UIColor *)chartView:(CHLineChartView *)chartView lineTintColorInPage:(NSInteger)page;
 
 @end
 
@@ -105,7 +106,7 @@ extern NSString *const CHSupplementaryElementKindLine;
  */
 @property (nonatomic, assign) BOOL showsHighlightWhenTouched;
 
-@property (nonatomic, weak) id<CHLineChartDelegate> lineChartDelegate;
-@property (nonatomic, weak) id<CHLineChartDataSource> lineChartDataSource;
+@property (nonatomic, weak) id<CHLineChartViewDelegate> lineChartDelegate;
+@property (nonatomic, weak) id<CHLineChartViewDataSource> lineChartDataSource;
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "CHLineChartView.h"
-#import "CHPointCell_Private.h"
+#import "CHPointCellSubclass.h"
 #import "CHLineView.h"
 #import "CHChartViewSubclass.h"
 #import "CHPagingLineChartFlowLayout.h"
@@ -114,7 +114,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self updateAlphaInVisibleLineViews];
 }
 
-- (void)updateRangeInVisibleLineViews
+- (void)updateRangeInVisibleLineViewsAnimated:(BOOL)animated
 {
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
@@ -122,14 +122,14 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     NSIndexPath *indexPath;
     while ((indexPath = keyEnumerator.nextObject) && indexPath) {
         CHLineView *lineView = [self.visibleLineViews objectForKey:indexPath];
-        [lineView setMinValue:min maxValue:max animated:YES completion:nil];
+        [lineView setMinValue:min maxValue:max animated:animated completion:nil];
     }
 }
 
-- (void)updateRangeInVisibleCells
+- (void)updateRangeInVisibleCellsAnimated:(BOOL)animated
 {
-    [super updateRangeInVisibleCells];
-    [self updateRangeInVisibleLineViews];
+    [super updateRangeInVisibleCellsAnimated:animated];
+    [self updateRangeInVisibleLineViewsAnimated:animated];
 }
 
 #pragma mark - Gesture recognizer
@@ -170,7 +170,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.headerHeight;
-    CGFloat y = (1 - scaledValue) * height + self.headerHeight;
+    CGFloat y = (1 - scaledValue) * height + self.headerHeight - self.footerHeight;
     CGFloat x = MIN(MAX(self.collectionViewLayout.pageInset.left + self.collectionViewLayout.sectionInset.left,
                         touchLocation.x),
                     self.bounds.size.width - self.collectionViewLayout.pageInset.right - self.collectionViewLayout.sectionInset.right);
@@ -253,8 +253,12 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             lineView.lineTintColor = [self.lineChartDataSource chartView:self lineTintColorInPage:indexPath.section];
         }
 
+        NSArray *regions = nil;
+        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:regionsInPage:)]) {
+            regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
+        }
+
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        NSArray *regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
         [lineView drawLineWithValues:values regions:regions];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;

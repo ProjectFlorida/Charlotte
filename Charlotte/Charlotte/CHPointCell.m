@@ -17,10 +17,8 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 @property (nonatomic, readwrite) CGFloat value;
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
-@property (nonatomic, strong) UILabel *xAxisLabel;
 @property (nonatomic, strong) CHGradientView *pointView;
 @property (nonatomic, strong) UIView *pointShadowView;
-@property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewPositionConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewWidthConstraint;
 @property (nonatomic, strong) NSLayoutConstraint *pointViewHeightConstraint;
@@ -63,7 +61,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
                                                                              attribute:NSLayoutAttributeCenterX
                                                                             multiplier:1
                                                                               constant:0];
-        NSLayoutConstraint *barViewCenterX = [NSLayoutConstraint constraintWithItem:_pointView
+        NSLayoutConstraint *pointViewCenterX = [NSLayoutConstraint constraintWithItem:_pointView
                                                                           attribute:NSLayoutAttributeCenterX
                                                                           relatedBy:NSLayoutRelationEqual
                                                                              toItem:self
@@ -122,7 +120,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
                                                                  multiplier:1
                                                                    constant:0];
         [self addConstraints:@[xAxisLabelCenterX,
-                               barViewCenterX,
+                               pointViewCenterX,
                                pointShadowViewCenterX,
                                pointShadowViewCenterY,
                                pointShadowViewWidth,
@@ -162,11 +160,12 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+    [self.layer removeAllAnimations];
     self.value = 0;
     self.minValue = 0;
     self.maxValue = 1;
     self.footerHeight = 30;
-    [self.layer removeAllAnimations];
+    self.xAxisLabel.text = @"";
     [self updateAnimated:NO completion:nil];
 }
 
@@ -179,7 +178,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
                                            toItem:self
                                         attribute:NSLayoutAttributeBottom
                                        multiplier:multiplier
-                                         constant:0];
+                                         constant:-self.footerHeight];
 }
 
 - (CGFloat)scaledValue

@@ -59,7 +59,27 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
 
-// TODO: make this @optional
+/**
+ *  Asks the data source for the number of gridlines in the chart view.
+ *
+ *  @param chartView The chart view requesting the number of gridlines
+ *
+ *  @return The total number of gridlines in the chart view
+ */
+- (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView;
+
+/**
+ *  Asks the data source for the value of the specified gridline
+ *
+ *  @param chartView The chart view requesting the value of the gridline
+ *  @param index     The index of the gridline
+ *
+ *  @return The value of the gridline
+ */
+- (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
+
+@optional
+
 /**
  *  Asks the data source for the number of pages in the chart view.
  *
@@ -69,7 +89,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
 
-// TODO: make this @optional
 /**
  *  Asks the data source for a label to display above the specified point.
  *
@@ -82,7 +101,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index;
 
-// TODO: make this @optional
 /**
  *  Asks the data source for a label to display on the x-axis below the specified point.
  *
@@ -94,28 +112,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
-// TODO: make this @optional
-/**
- *  Asks the data source for the number of gridlines in the chart view.
- *
- *  @param chartView The chart view requesting the number of gridlines
- *
- *  @return The total number of gridlines in the chart view
- */
-- (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView;
-
-// TODO: make this @optional
-/**
- *  Asks the data source for the value of the specified gridline
- *
- *  @param chartView The chart view requesting the value of the gridline
- *  @param index     The index of the gridline
- *
- *  @return The value of the gridline
- */
-- (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
-
-@optional
 /**
  *  Asks the data source for a view to use as the specified gridline's label.
  *  By default, a gridline will display its value, rounded to the nearest integer.
@@ -129,7 +125,8 @@ extern NSString *const CHSupplementaryElementKindFooter;
 - (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
 
 /**
- *  Asks the data source for a view to use as the chart's y-axis label.
+ *  Asks the data source for a view to use as the chart's y-axis label. 
+ *  Note: This view will be displayed in the chart's header. Remember to adjust the chart's headerHeight accordingly.
  *
  *  @param chartView The chart view requesting the label view
  *
@@ -199,7 +196,12 @@ extern NSString *const CHSupplementaryElementKindFooter;
 
 /// Whether or not the chart's x axis is hidden
 @property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden;
+
+/// The chart's header height
 @property (assign, nonatomic) CGFloat headerHeight;
+
+/// The chart's footer height
+@property (assign, nonatomic) CGFloat footerHeight;
 
 /// The width of the chart's x axis
 @property (nonatomic, assign) CGFloat xAxisLineWidth;
@@ -207,7 +209,17 @@ extern NSString *const CHSupplementaryElementKindFooter;
 /// The color of the chart's x axis
 @property (nonatomic, strong) UIColor *xAxisLineColor;
 
+/**
+ *  Reloads the chart view.
+ */
 - (void)reloadData;
+
+/**
+ *  Scrolls to the specified page
+ *
+ *  @param page     The new page
+ *  @param animated YES if the scrolling should be animated, NO if it should be immediate.
+ */
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;
 
 @end

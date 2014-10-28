@@ -8,6 +8,8 @@
 
 #import "CHLineChartView.h"
 
+@class CHScatterChartView;
+
 @protocol CHScatterChartViewDataSource <NSObject>
 
 /**
@@ -18,7 +20,7 @@
  *
  *  @return The number of scatter points in the specified page.
  */
-- (NSInteger)chartView:(CHChartView *)chartView numberOfScatterPointsInPage:(NSInteger)page;
+- (NSInteger)chartView:(CHScatterChartView *)chartView numberOfScatterPointsInPage:(NSInteger)page;
 
 /**
  *  Asks the data source for the value of the specified scatter point.
@@ -29,7 +31,7 @@
  *
  *  @return The scatter point's value.
  */
-- (CGFloat)chartView:(CHChartView *)chartView valueForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+- (CGFloat)chartView:(CHScatterChartView *)chartView valueForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 @optional
 
@@ -42,7 +44,7 @@
  *
  *  @return The scatter point's color. The default is white.
  */
-- (UIColor *)chartView:(CHChartView *)chartView colorForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+- (UIColor *)chartView:(CHScatterChartView *)chartView colorForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 /**
  *  Asks the data source for the radius of the specified scatter point.
@@ -53,7 +55,7 @@
  *
  *  @return The scatter point's radius, in points. The default is 2.
  */
-- (CGFloat)chartView:(CHChartView *)chartView radiusForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+- (CGFloat)chartView:(CHScatterChartView *)chartView radiusForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 @end
 

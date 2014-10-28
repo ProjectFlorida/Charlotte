@@ -8,7 +8,7 @@
 
 #import "BarChartViewController.h"
 
-@interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHBarChartDataSource>
+@interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHBarChartViewDataSource>
 
 @property (nonatomic, strong) NSArray *minValues;
 @property (nonatomic, strong) NSArray *maxValues;
@@ -17,7 +17,6 @@
 @property (nonatomic, strong) NSArray *gridlineValues;
 @property (nonatomic, strong) NSArray *gridlineTopLabels;
 @property (nonatomic, strong) NSArray *gridlineBottomLabels;
-@property (nonatomic, strong) UIColor *avgLineColor;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, strong) UIColor *barColor;
 @property (nonatomic, strong) UIColor *barTintColor;
@@ -47,7 +46,6 @@
     self.barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
     self.barTintColor = [UIColor colorWithRed:0.52 green:0.62 blue:0.77 alpha:1];
     self.incompleteColor = [UIColor colorWithRed:0.35 green:0.41 blue:0.5 alpha:1];
-    self.avgLineColor = [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1] ;
     self.chartView.backgroundColor = [UIColor clearColor];
     self.view.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
     [self.chartView reloadData];
@@ -130,7 +128,7 @@
         label.textAlignment = NSTextAlignmentRight;
         label.font = [UIFont boldSystemFontOfSize:12];
         label.numberOfLines = 0;
-        label.shadowColor = self.view.backgroundColor;
+        label.shadowColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
         label.shadowOffset = CGSizeMake(1, 1);
         label.text = self.gridlineTopLabels[index];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -142,7 +140,7 @@
                                                                  NSParagraphStyleAttributeName: paragraphStyle}
                                                        context:nil];
         label.frame = CGRectMake(0, 0, boundingRect.size.width, boundingRect.size.height);
-        label.textColor = self.avgLineColor;
+        label.textColor = [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1];
         return label;
     }
     else {
@@ -151,7 +149,7 @@
         topLabel.text = self.gridlineTopLabels[index];
         topLabel.font = [UIFont boldSystemFontOfSize:14];
         topLabel.textColor = [UIColor whiteColor];
-        topLabel.shadowColor = self.view.backgroundColor;
+        topLabel.shadowColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
         topLabel.shadowOffset = CGSizeMake(1, 1);
         [topLabel sizeToFit];
         [view addSubview:topLabel];
@@ -159,7 +157,7 @@
         bottomLabel.text = self.gridlineBottomLabels[index];
         bottomLabel.font = [UIFont boldSystemFontOfSize:14];
         bottomLabel.textColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1];
-        bottomLabel.shadowColor = self.view.backgroundColor;
+        bottomLabel.shadowColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
         bottomLabel.shadowOffset = CGSizeMake(1, 1);
         [bottomLabel sizeToFit];
         bottomLabel.frame = CGRectMake(0, CGRectGetMaxY(topLabel.frame) + 2,
@@ -185,7 +183,7 @@
 - (UIColor *)chartView:(CHChartView *)chartView lineColorForHorizontalGridlineAtIndex:(NSInteger)index
 {
     if (index == 2) {
-        return self.avgLineColor;
+        return [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1];
     }
     else {
         return [[UIColor whiteColor] colorWithAlphaComponent:0.5];
@@ -204,7 +202,7 @@
 
 #pragma mark - CHBarChartDataSource
 
-- (UIColor *)chartView:(CHChartView *)chartView colorForBarWithValue:(CGFloat)value
+- (UIColor *)chartView:(CHBarChartView *)chartView colorForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (value == 0) {
@@ -218,7 +216,7 @@
     }
 }
 
-- (UIColor *)chartView:(CHChartView *)chartView tintColorForBarWithValue:(CGFloat)value
+- (UIColor *)chartView:(CHBarChartView *)chartView tintColorForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (value == 0 || index == 6) {
@@ -229,7 +227,7 @@
     }
 }
 
-- (NSArray *)chartView:(CHChartView *)chartView borderDashPatternForBarWithValue:(CGFloat)value
+- (NSArray *)chartView:(CHBarChartView *)chartView borderDashPatternForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (index == 6) {
@@ -240,7 +238,7 @@
     }
 }
 
-- (UIColor *)chartView:(CHChartView *)chartView borderColorForBarWithValue:(CGFloat)value
+- (UIColor *)chartView:(CHBarChartView *)chartView borderColorForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (index == 6) {
@@ -262,7 +260,7 @@
     }
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView shadowOpacityForBarWithValue:(CGFloat)value
+- (CGFloat)chartView:(CHBarChartView *)chartView shadowOpacityForBarWithValue:(CGFloat)value
               inPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (value == 0) {

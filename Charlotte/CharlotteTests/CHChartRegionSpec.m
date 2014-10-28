@@ -13,13 +13,15 @@ SPEC_BEGIN(CHChartRegionSpec)
 
 describe(@"CHChartRegion", ^{
 
-    describe(@"regionWithRange:color:", ^{
-        it(@"should return a region with the correct range and color", ^{
+    describe(@"regionWithRange:color:tintColor:", ^{
+        it(@"should return a region with the correct properties", ^{
             NSRange range = NSMakeRange(3, 1337);
             UIColor *color = [UIColor blueColor];
-            CHChartRegion *sut = [CHChartRegion regionWithRange:range color:color];
+            UIColor *tintColor = [UIColor greenColor];
+            CHChartRegion *sut = [CHChartRegion regionWithRange:range color:color tintColor:tintColor];
             [[theValue(sut.range) should] equal:theValue(range)];
             [[sut.color should] equal:color];
+            [[sut.tintColor should] equal:tintColor];
         });
     });
 

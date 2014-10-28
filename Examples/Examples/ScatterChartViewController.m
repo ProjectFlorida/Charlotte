@@ -8,7 +8,7 @@
 
 #import "ScatterChartViewController.h"
 
-@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource>
+@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHLineChartViewDataSource>
 
 @end
 
@@ -19,38 +19,41 @@
     self.view.backgroundColor = [UIColor colorWithRed:0.8 green:0.36 blue:0.17 alpha:1];
     self.chartView.backgroundColor = [UIColor clearColor];
     self.chartView.dataSource = self;
+    self.chartView.lineChartDataSource = self;
     self.chartView.xAxisLineHidden = YES;
     self.chartView.scatterChartDataSource = self;
 }
 
 #pragma mark - CHScatterChartViewDataSource
 
-- (NSInteger)chartView:(CHChartView *)chartView numberOfScatterPointsInPage:(NSInteger)page
+- (NSInteger)chartView:(CHScatterChartView *)chartView numberOfScatterPointsInPage:(NSInteger)page
 {
     return 200;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (CGFloat)chartView:(CHScatterChartView *)chartView valueForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return sin(index)*2 + 2.5;
 }
 
-- (UIColor *)chartView:(CHChartView *)chartView colorForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (UIColor *)chartView:(CHScatterChartView *)chartView colorForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return [UIColor colorWithWhite:1.0 alpha:0.5];
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView radiusForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (CGFloat)chartView:(CHScatterChartView *)chartView radiusForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return 2;
 }
 
-#pragma mark - CHChartViewDataSource
+#pragma mark - CHLineChartDataSource
 
-- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
+- (UIColor *)chartView:(CHLineChartView *)chartView lineTintColorInPage:(NSInteger)page
 {
-    return 1;
+    return [UIColor colorWithRed:1 green:0.74 blue:0.63 alpha:1];
 }
+
+#pragma mark - CHChartViewDataSource
 
 - (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {

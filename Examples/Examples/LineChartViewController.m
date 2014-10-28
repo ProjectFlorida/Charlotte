@@ -8,7 +8,7 @@
 
 #import "LineChartViewController.h"
 
-@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHLineChartDelegate, CHLineChartDataSource>
+@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHLineChartViewDelegate, CHLineChartViewDataSource>
 
 @property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, strong) UIView *tooltipView;
@@ -43,11 +43,6 @@
 }
 
 #pragma mark CHChartViewDataSource
-
-- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
-{
-    return 1;
-}
 
 - (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
@@ -107,17 +102,17 @@
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
 {
-    return 5;
+    return 6;
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
 {
-    return index + 2;
+    return index + 1;
 }
 
 #pragma mark CHLineChartDataSource
 
-- (NSArray *)chartView:(CHChartView *)chartView regionsInPage:(NSInteger)page
+- (NSArray *)chartView:(CHLineChartView *)chartView regionsInPage:(NSInteger)page
 {
     UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:0.5];
     UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:0.5];
@@ -128,7 +123,7 @@
              ];
 }
 
-- (UIColor *)chartView:(CHChartView *)chartView lineColorInPage:(NSInteger)page
+- (UIColor *)chartView:(CHLineChartView *)chartView lineColorInPage:(NSInteger)page
 {
     return [UIColor whiteColor];
 }
@@ -140,16 +135,16 @@
     self.currentIndex = page;
 }
 
-#pragma mark CHChartTouchDelegate
+#pragma mark CHLineChartViewDelegate
 
-- (void)chartView:(CHChartView *)chartView highlightBeganInPage:(NSInteger)page
+- (void)chartView:(CHLineChartView *)chartView highlightBeganInPage:(NSInteger)page
      atIndex:(NSInteger)index position:(CGPoint)position
 {
     self.tooltipView.alpha = 1;
     [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
 }
 
-- (void)chartView:(CHChartView *)chartView highlightMovedInPage:(NSInteger)page
+- (void)chartView:(CHLineChartView *)chartView highlightMovedInPage:(NSInteger)page
      toIndex:(NSInteger)index position:(CGPoint)position
 {
     [UIView animateWithDuration:self.chartView.highlightMovementAnimationDuration animations:^{
@@ -157,7 +152,7 @@
     }];
 }
 
-- (void)chartView:(CHChartView *)chartView highlightEndedInPage:(NSInteger)page
+- (void)chartView:(CHLineChartView *)chartView highlightEndedInPage:(NSInteger)page
      atIndex:(NSInteger)index position:(CGPoint)position
 {
     self.tooltipView.alpha = 0;

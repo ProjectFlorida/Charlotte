@@ -28,7 +28,7 @@
  */
 - (void)initialize;
 - (void)initializeConstraints;
-- (void)updateRangeInVisibleCells;
+- (void)updateRangeInVisibleCellsAnimated:(BOOL)animated;
 - (void)updateAlphaInVisibleCells;
 
 + (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max;

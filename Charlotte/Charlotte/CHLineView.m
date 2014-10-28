@@ -51,9 +51,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineMaskLayer.strokeColor = [UIColor whiteColor].CGColor;
 
         _lineShadowLayer = [CAShapeLayer layer];
-        _lineShadowLayer.shadowOpacity = 0.5;
-        _lineShadowLayer.shadowRadius = 4;
-        _lineShadowLayer.shadowOffset = CGSizeMake(0, 2);
+        _lineShadowLayer.shadowOpacity = 0.3;
+        _lineShadowLayer.shadowRadius = 1;
+        _lineShadowLayer.shadowOffset = CGSizeMake(0, 1);
         _lineShadowLayer.lineCap = _lineMaskLayer.lineCap;
         _lineShadowLayer.lineWidth = _lineMaskLayer.lineWidth;
         _lineShadowLayer.fillColor = nil;
@@ -104,7 +104,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (CGFloat)yPositionWithRelativeValue:(CGFloat)value
 {
     CGFloat displayHeight = self.bounds.size.height;
-    return (1 - value) * displayHeight;
+    return ((1 - value) * displayHeight) - self.footerHeight;
 }
 
 - (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
@@ -200,7 +200,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         CGFloat x = self.bounds.size.width * point.relativeXPosition;
         CGFloat y = [self yPositionWithRelativeValue:scaledValue];
         view.center = CGPointMake(x, y);
-        [self addSubview:view];
+        [self insertSubview:view atIndex:0];
         [self.scatterPointViews addObject:view];
     }
 }
