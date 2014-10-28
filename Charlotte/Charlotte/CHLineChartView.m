@@ -134,6 +134,14 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer
 {
+    CGPoint touchLocation = [gestureRecognizer locationInView:self];
+    CHPagingLineChartFlowLayout *layout = (CHPagingLineChartFlowLayout *)self.collectionViewLayout;
+    NSInteger index = [layout nearestIndexAtLocation:touchLocation
+                                              inPage:self.currentPage];
+    if (index == NSNotFound) {
+        return;
+    }
+
     BOOL touchBegan = NO;
     BOOL touchEnded = NO;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
@@ -152,10 +160,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-    CGPoint touchLocation = [gestureRecognizer locationInView:self];
-    CHPagingLineChartFlowLayout *layout = (CHPagingLineChartFlowLayout *)self.collectionViewLayout;
-    NSInteger index = [layout nearestIndexAtLocation:touchLocation
-                                              inPage:self.currentPage];
+
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.footerHeight;
