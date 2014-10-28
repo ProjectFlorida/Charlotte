@@ -8,7 +8,7 @@
 
 #import "ScatterChartViewController.h"
 
-@interface ScatterChartViewController () <CHChartViewDataSource>
+@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource>
 
 @end
 
@@ -17,10 +17,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.chartView.dataSource = self;
+    self.chartView.scatterChartDataSource = self;
 }
 
-#pragma mark CHChartViewDataSource
+#pragma mark - CHScatterChartViewDataSource
 
+- (NSInteger)chartView:(CHChartView *)chartView numberOfScatterPointsInPage:(NSInteger)page
+{
+    return 100;
+}
+
+- (CGFloat)chartView:(CHChartView *)chartView valueForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    return 4.5;
+}
+
+#pragma mark - CHChartViewDataSource
 
 - (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
 {
@@ -34,7 +46,18 @@
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
 {
-    return 0;
+    return 1;
+}
+
+- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    return 4;
+}
+
+- (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value
+                inPage:(NSInteger)page atIndex:(NSInteger)index
+{
+    return nil;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page

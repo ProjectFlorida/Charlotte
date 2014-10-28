@@ -10,7 +10,7 @@
 
 @implementation CHChartRegion
 
-+ (instancetype)chartRegionWithRange:(NSRange)range color:(UIColor *)color
++ (instancetype)regionWithRange:(NSRange)range color:(UIColor *)color
 {
     CHChartRegion *region = [[CHChartRegion alloc] init];
     region.range = range;

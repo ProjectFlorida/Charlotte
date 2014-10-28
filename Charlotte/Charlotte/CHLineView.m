@@ -19,7 +19,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 @property (nonatomic, strong) UIColor *shadowColor;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) CAShapeLayer *maskLayer;
-@property (nonatomic, strong) NSArray *values;
+@property (nonatomic, strong) NSArray *lineValues;
+@property (nonatomic, strong) NSArray *scatterPoints;
+@property (nonatomic, strong) NSMutableArray *scatterPointViews;
 @property (nonatomic, strong) NSArray *regions;
 @property (nonatomic, strong) UIView *regionsView;
 
@@ -31,7 +33,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _values = @[];
+        _lineValues = @[];
+        _scatterPoints = @[];
+        _scatterPointViews = [NSMutableArray array];
         _minValue = 0;
         _maxValue = 1;
         _footerHeight = 30;
@@ -68,7 +72,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     self.regionsView.frame = CGRectMake(0, 0,
                                         currentSize.width,
                                         currentSize.height - self.footerHeight - 2);
-    [self drawLineWithValues:self.values regions:self.regions];
+    [self drawLineWithValues:self.lineValues regions:self.regions];
 }
 
 - (void)prepareForReuse
@@ -94,12 +98,16 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self drawLineWithValues:self.values];
+    // TODO: animate range change
+    [self drawLineWithValues:self.lineValues regions:self.regions];
+    if (completion) {
+        completion();
+    }
 }
 
 - (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions
 {
-    _values = values;
+    _lineValues = values;
     NSInteger count = values.count;
     if (!count) {
         return;
@@ -151,17 +159,32 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     }
 }
 
-- (void)drawLineWithValues:(NSArray *)values
+- (void)drawScatterPoints:(NSArray *)points
 {
-    [self drawLineWithValues:values regions:nil];
+    self.scatterPoints = points;
+    for (UIView *view in self.scatterPointViews) {
+        [view removeFromSuperview];
+    }
+    [self.scatterPointViews removeAllObjects];
+    for (CHScatterPoint *point in points) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
+        view.layer.cornerRadius = point.radius/2.0;
+        view.backgroundColor = point.color;
+        CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:self.minValue maxValue:self.maxValue];
+        CGFloat x = self.bounds.size.width * point.relativeXPosition;
+        CGFloat y = [self yPositionWithRelativeValue:scaledValue];
+        view.frame = CGRectMake(x, y, point.radius, point.radius);
+        [self addSubview:view];
+        [self.scatterPointViews addObject:view];
+    }
 }
-
 
 #pragma mark - Setters
 
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
+    [self setNeedsLayout];
 }
 
 @end

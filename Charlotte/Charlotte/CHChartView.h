@@ -18,12 +18,58 @@ extern NSString *const CHSupplementaryElementKindFooter;
 @class CHChartView;
 @protocol CHChartViewDataSource <NSObject>
 
-- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
-
+/**
+ *  Asks the data source for the number of points in the specified page.
+ *
+ *  @param chartView The chart view requesting the number of points
+ *  @param page      The index of the page in `chartView`
+ *
+ *  @return The number of points in the specified page
+ */
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page;
 
+/**
+ *  Asks the data source for the value of the specified point.
+ *
+ *  @param chartView The chart view requesting the value
+ *  @param page      The index of the page in `chartView`
+ *  @param index     The index of the point in `page`
+ *
+ *  @return The point's value.
+ */
 - (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
+/**
+ *  Asks the data source for the minimum y value in the specified page.
+ *
+ *  @param chartView The chart view requesting the min value
+ *  @param page      The index of the page in `chartView`
+ *
+ *  @return The minimum y value in the specified page
+ */
+- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
+
+/**
+ *  Asks the data source for the maximum y value in the specified page.
+ *
+ *  @param chartView The chart view requesting the max value
+ *  @param page      The index of the page in `chartView`
+ *
+ *  @return The maximum y value in the specified page
+ */
+- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
+
+// TODO: make this @optional
+/**
+ *  Asks the data source for the number of pages in the chart view.
+ *
+ *  @param chartView The chart view requesting the number of pages
+ *
+ *  @return The number of pages in `chartView`. The default value is 1.
+ */
+- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
+
+// TODO: make this @optional
 /**
  *  Asks the data source for a label to display above the specified point.
  *
@@ -36,6 +82,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index;
 
+// TODO: make this @optional
 /**
  *  Asks the data source for a label to display on the x-axis below the specified point.
  *
@@ -47,13 +94,25 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
-
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
-
-/// The total number of distinct horizontal gridlines that may be displayed
+// TODO: make this @optional
+/**
+ *  Asks the data source for the number of gridlines in the chart view.
+ *
+ *  @param chartView The chart view requesting the number of gridlines
+ *
+ *  @return The total number of gridlines in the chart view
+ */
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView;
 
+// TODO: make this @optional
+/**
+ *  Asks the data source for the value of the specified gridline
+ *
+ *  @param chartView The chart view requesting the value of the gridline
+ *  @param index     The index of the gridline
+ *
+ *  @return The value of the gridline
+ */
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @optional
@@ -68,8 +127,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *  @return A UIView object.
  */
 - (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
-
-@optional
 
 /**
  *  Asks the data source for the specified gridline's line dash pattern.

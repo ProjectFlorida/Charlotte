@@ -22,7 +22,7 @@
 @property (assign, nonatomic) CGFloat footerHeight;
 
 /**
- *  Subclasses of CHChartView may override this method. You must call super at the end of your implementation.
+ *  If you override this method, you must call super in your implementation.
  *  If your CHChartView subclass uses a custom cell type, you must set the chart view's cellReuseId and cellClass
  *  before calling super.
  */

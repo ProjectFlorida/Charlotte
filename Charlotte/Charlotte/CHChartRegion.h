@@ -13,6 +13,6 @@
 @property (nonatomic, assign) NSRange range;
 @property (nonatomic, strong) UIColor *color;
 
-+ (instancetype)chartRegionWithRange:(NSRange)range color:(UIColor *)color;
++ (instancetype)regionWithRange:(NSRange)range color:(UIColor *)color;
 
 @end

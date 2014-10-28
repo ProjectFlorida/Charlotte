@@ -43,6 +43,10 @@
 		969E2A5E19F1B11E0036C0C2 /* CGPointExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 969E2A5C19F1B11E0036C0C2 /* CGPointExtension.m */; };
 		96A1B8ED19FFD9F4001C5001 /* CHScatterChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96A1B8EB19FFD9F4001C5001 /* CHScatterChartView.h */; };
 		96A1B8EE19FFD9F4001C5001 /* CHScatterChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8EC19FFD9F4001C5001 /* CHScatterChartView.m */; };
+		96A1B8F81A00089F001C5001 /* CHScatterPoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 96A1B8F61A00089F001C5001 /* CHScatterPoint.h */; };
+		96A1B8F91A00089F001C5001 /* CHScatterPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8F71A00089F001C5001 /* CHScatterPoint.m */; };
+		96A1B8FB1A000B62001C5001 /* CHChartRegionSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8FA1A000B62001C5001 /* CHChartRegionSpec.m */; };
+		96A1B8FD1A000B73001C5001 /* CHScatterPointSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8FC1A000B73001C5001 /* CHScatterPointSpec.m */; };
 		96CC853D19F823C400C96582 /* CHFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96CC853B19F823C400C96582 /* CHFooterView.h */; };
 		96CC853E19F823C400C96582 /* CHFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CC853C19F823C400C96582 /* CHFooterView.m */; };
 		96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 96DDD67C19DC9CE8005CCD07 /* Charlotte.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -96,6 +100,10 @@
 		969E2A5C19F1B11E0036C0C2 /* CGPointExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CGPointExtension.m; sourceTree = "<group>"; };
 		96A1B8EB19FFD9F4001C5001 /* CHScatterChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHScatterChartView.h; sourceTree = "<group>"; };
 		96A1B8EC19FFD9F4001C5001 /* CHScatterChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHScatterChartView.m; sourceTree = "<group>"; };
+		96A1B8F61A00089F001C5001 /* CHScatterPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHScatterPoint.h; sourceTree = "<group>"; };
+		96A1B8F71A00089F001C5001 /* CHScatterPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHScatterPoint.m; sourceTree = "<group>"; };
+		96A1B8FA1A000B62001C5001 /* CHChartRegionSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartRegionSpec.m; sourceTree = "<group>"; };
+		96A1B8FC1A000B73001C5001 /* CHScatterPointSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHScatterPointSpec.m; sourceTree = "<group>"; };
 		96CC853B19F823C400C96582 /* CHFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFooterView.h; sourceTree = "<group>"; };
 		96CC853C19F823C400C96582 /* CHFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFooterView.m; sourceTree = "<group>"; };
 		96DDD67719DC9CE8005CCD07 /* Charlotte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charlotte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,6 +235,8 @@
 		96DDD68319DC9CE8005CCD07 /* CharlotteTests */ = {
 			isa = PBXGroup;
 			children = (
+				96A1B8FA1A000B62001C5001 /* CHChartRegionSpec.m */,
+				96A1B8FC1A000B73001C5001 /* CHScatterPointSpec.m */,
 				96DDD68419DC9CE8005CCD07 /* Supporting Files */,
 			);
 			path = CharlotteTests;
@@ -254,6 +264,8 @@
 				96EF748B19F6D28B004024EA /* CHGradientView.m */,
 				9691DFCA19ED6DF100386A5D /* CHGridlineView.h */,
 				9691DFCB19ED6DF100386A5D /* CHGridlineView.m */,
+				96A1B8F61A00089F001C5001 /* CHScatterPoint.h */,
+				96A1B8F71A00089F001C5001 /* CHScatterPoint.m */,
 			);
 			name = Internal;
 			sourceTree = "<group>";
@@ -299,6 +311,7 @@
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
 				9620455619F590AD0045D3B8 /* CHHighlightPointView.h in Headers */,
 				9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */,
+				96A1B8F81A00089F001C5001 /* CHScatterPoint.h in Headers */,
 				96EF748C19F6D28B004024EA /* CHGradientView.h in Headers */,
 				96839AC919EEFC070094AED9 /* CHPointCell_Private.h in Headers */,
 				96839AC719EEF59A0094AED9 /* CHChartViewSubclass.h in Headers */,
@@ -464,6 +477,7 @@
 				969ABDF919F04F72007D03C5 /* CHPagingLineChartFlowLayout.m in Sources */,
 				96CC853E19F823C400C96582 /* CHFooterView.m in Sources */,
 				9620455719F590AD0045D3B8 /* CHHighlightPointView.m in Sources */,
+				96A1B8F91A00089F001C5001 /* CHScatterPoint.m in Sources */,
 				96EF748D19F6D28B004024EA /* CHGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -472,6 +486,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96A1B8FB1A000B62001C5001 /* CHChartRegionSpec.m in Sources */,
+				96A1B8FD1A000B73001C5001 /* CHScatterPointSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

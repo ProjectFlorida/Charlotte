@@ -226,14 +226,14 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
         NSInteger count = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
-        NSMutableArray *points = [NSMutableArray arrayWithCapacity:count];
+        NSMutableArray *values = [NSMutableArray arrayWithCapacity:count];
         for (int i = 0; i < count; i++) {
             CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
-            [points addObject:@(value)];
+            [values addObject:@(value)];
         }
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
         NSArray *regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
-        [lineView drawLineWithValues:points regions:regions];
+        [lineView drawLineWithValues:values regions:regions];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }
