@@ -42,6 +42,8 @@
     self.chartView.delegate = self;
     self.chartView.dataSource = self;
     self.chartView.barChartDataSource = self;
+    self.chartView.xAxisLineHidden = YES;
+    self.chartView.headerHeight = 0;
     self.barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
     self.barTintColor = [UIColor colorWithRed:0.52 green:0.62 blue:0.77 alpha:1];
     self.incompleteColor = [UIColor colorWithRed:0.35 green:0.41 blue:0.5 alpha:1];
@@ -100,14 +102,14 @@
     return label;
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
 {
-    return [self.minValues[page] integerValue];
+    return [self.minValues[page] floatValue];
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return [self.maxValues[page] integerValue];
+    return [self.maxValues[page] floatValue];
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView

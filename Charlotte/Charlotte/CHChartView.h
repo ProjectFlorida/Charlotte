@@ -47,9 +47,9 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
-- (NSInteger)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
+- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page;
 
-- (NSInteger)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
+- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page;
 
 /// The total number of distinct horizontal gridlines that may be displayed
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView;
@@ -61,13 +61,22 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *  Asks the data source for a view to use as the specified gridline's label.
  *  By default, a gridline will display its value, rounded to the nearest integer.
  *
- *  @param chartView The chart view requesting the label
+ *  @param chartView The chart view requesting the label view
  *  @param value     The value of the gridline
  *  @param index     The index of the gridline
  *
  *  @return A UIView object.
  */
 - (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
+
+/**
+ *  Asks the data source for a view to use as the chart's y-axis label.
+ *
+ *  @param chartView The chart view requesting the label view
+ *
+ *  @return A UIView object.
+ */
+- (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView;
 
 @optional
 
@@ -131,6 +140,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
 
 /// Whether or not the chart's x axis is hidden
 @property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden;
+@property (assign, nonatomic) CGFloat headerHeight;
 
 /// The width of the chart's x axis
 @property (nonatomic, assign) CGFloat xAxisLineWidth;
