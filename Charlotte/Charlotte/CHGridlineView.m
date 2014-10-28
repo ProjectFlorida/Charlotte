@@ -84,7 +84,7 @@
 
     _lineDashPattern = nil;
     _lineLayer = [CAShapeLayer layer];
-    _lineColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3];
+    _lineColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     _lineLayer.strokeColor = _lineColor.CGColor;
     _lineLayer.lineCap = kCALineCapRound;
     _lineLayer.lineWidth = 1;
@@ -117,6 +117,12 @@
 {
     _lineColor = lineColor;
     self.lineLayer.strokeColor = lineColor.CGColor;
+}
+
+- (void)setLineWidth:(CGFloat)lineWidth
+{
+    _lineWidth = lineWidth;
+    self.lineLayer.lineWidth = lineWidth;
 }
 
 - (void)setLineDashPattern:(NSArray *)lineDashPattern

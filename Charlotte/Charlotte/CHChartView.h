@@ -96,6 +96,16 @@ extern NSString *const CHSupplementaryElementKindFooter;
 - (UIColor *)chartView:(CHChartView *)chartView lineColorForHorizontalGridlineAtIndex:(NSInteger)index;
 
 /**
+ *  Asks the data source for the width of the specified gridline's line.
+ *
+ *  @param chartView The chart view requesting the line color
+ *  @param index     The index of the gridline
+ *
+ *  @return A float value indicating the width of the line in points.
+ */
+- (CGFloat)chartView:(CHChartView *)chartView lineWidthForHorizontalGridlineAtIndex:(NSInteger)index;
+
+/**
  *  Asks the data source for the position of the label on the specified gridline.
  *  By default, the label will be positioned at the bottom left corner of the gridline view.
  *
@@ -119,7 +129,14 @@ extern NSString *const CHSupplementaryElementKindFooter;
 @property (nonatomic, weak) id<CHChartViewDataSource> dataSource;
 @property (nonatomic, weak) id<CHChartViewDelegate> delegate;
 
+/// Whether or not the chart's x axis is hidden
 @property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden;
+
+/// The width of the chart's x axis
+@property (nonatomic, assign) CGFloat xAxisLineWidth;
+
+/// The color of the chart's x axis
+@property (nonatomic, strong) UIColor *xAxisLineColor;
 
 - (void)reloadData;
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;

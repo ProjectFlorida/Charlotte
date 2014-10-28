@@ -84,6 +84,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _currentPage = 0;
     _footerHeight = 30;
     _xAxisLineHidden = NO;
+    _xAxisLineWidth = 1;
+    _xAxisLineColor = [UIColor colorWithWhite:1.0 alpha:0.5];
     _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
 
@@ -226,6 +228,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineColorForHorizontalGridlineAtIndex:)]) {
             gridline.lineView.lineColor = [self.dataSource chartView:self lineColorForHorizontalGridlineAtIndex:i];
+        }
+        if ([self.dataSource respondsToSelector:@selector(chartView:lineWidthForHorizontalGridlineAtIndex:)]) {
+            gridline.lineView.lineWidth = [self.dataSource chartView:self lineWidthForHorizontalGridlineAtIndex:i];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineDashPatternForHorizontalGridlineAtIndex:)]) {
             gridline.lineView.lineDashPattern = [self.dataSource chartView:self lineDashPatternForHorizontalGridlineAtIndex:i];
@@ -491,12 +496,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                          forIndexPath:indexPath];
     }
     else if (kind == CHSupplementaryElementKindFooter) {
-        view = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
-                                                  withReuseIdentifier:kCHFooterViewReuseId
-                                                         forIndexPath:indexPath];
-        if (self.isXAxisLineHidden) {
-            view.hidden = YES;
-        }
+        CHFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
+                                                                      withReuseIdentifier:kCHFooterViewReuseId
+                                                                             forIndexPath:indexPath];
+        footerView.lineWidth = self.xAxisLineWidth;
+        footerView.lineColor = self.xAxisLineColor;
+        footerView.hidden = self.isXAxisLineHidden;
+        view = footerView;
     }
     return view;
 }
