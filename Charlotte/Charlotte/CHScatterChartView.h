@@ -93,6 +93,13 @@
 @protocol CHScatterChartViewDelegate <NSObject>
 @optional
 
+/**
+ *  Tells the delegate that the user selected the interactive point in the specified page
+ *
+ *  @param chartView The chart view notifying the delegate
+ *  @param page      The index of the page in `chartView`
+ *  @param frame     The frame of the interactive point in `chartView`
+ */
 - (void)chartView:(CHScatterChartView *)chartView didSelectInteractivePointInPage:(NSInteger)page frame:(CGRect)frame;
 
 @end
