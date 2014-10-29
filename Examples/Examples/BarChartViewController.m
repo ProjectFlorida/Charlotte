@@ -29,7 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.minValues = @[@0, @30,  @0];
-    self.maxValues = @[@80, @80, @140];
+    self.maxValues = @[@90, @90, @140];
     self.values = @[@[@0, @20, @30, @40, @50, @60, @30],
                     @[@70, @0, @50, @40, @70, @60, @45],
                     @[@10, @20, @0, @50, @70, @80, @40]];

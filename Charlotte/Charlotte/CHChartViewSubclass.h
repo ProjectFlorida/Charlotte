@@ -17,6 +17,7 @@
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIView *backgroundView;
+@property (strong, nonatomic) UIView *overlayView;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) CGFloat footerHeight;
@@ -27,6 +28,7 @@
  *  before calling super.
  */
 - (void)initialize;
+- (void)initializeGridlines;
 - (void)initializeConstraints;
 - (void)updateRangeInVisibleCellsAnimated:(BOOL)animated;
 - (void)updateAlphaInVisibleCells;

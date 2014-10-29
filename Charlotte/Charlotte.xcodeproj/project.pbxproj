@@ -32,6 +32,8 @@
 		9688C35319F57E19006D9096 /* CHTouchGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */; };
 		968D2FB519E81EC40071306C /* CHHeaderView.h in Headers */ = {isa = PBXBuildFile; fileRef = 968D2FB319E81EC40071306C /* CHHeaderView.h */; };
 		968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 968D2FB419E81EC40071306C /* CHHeaderView.m */; };
+		968E00001A01553300849561 /* CHInteractivePoint.h in Headers */ = {isa = PBXBuildFile; fileRef = 968EFFFE1A01553300849561 /* CHInteractivePoint.h */; };
+		968E00011A01553300849561 /* CHInteractivePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 968EFFFF1A01553300849561 /* CHInteractivePoint.m */; };
 		9691DFCC19ED6DF100386A5D /* CHGridlineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9691DFCA19ED6DF100386A5D /* CHGridlineView.h */; };
 		9691DFCD19ED6DF100386A5D /* CHGridlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9691DFCB19ED6DF100386A5D /* CHGridlineView.m */; };
 		9696A03319DDA20D0085A508 /* Charlotte.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96DDD67719DC9CE8005CCD07 /* Charlotte.framework */; };
@@ -52,6 +54,7 @@
 		96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 96DDD67C19DC9CE8005CCD07 /* Charlotte.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96EF748C19F6D28B004024EA /* CHGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EF748A19F6D28B004024EA /* CHGradientView.h */; };
 		96EF748D19F6D28B004024EA /* CHGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EF748B19F6D28B004024EA /* CHGradientView.m */; };
+		96FFA1B61A018D610093BC8F /* CHLineChartViewSubclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 96FFA1B51A018D610093BC8F /* CHLineChartViewSubclass.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +93,8 @@
 		9688C35119F57E19006D9096 /* CHTouchGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHTouchGestureRecognizer.m; sourceTree = "<group>"; };
 		968D2FB319E81EC40071306C /* CHHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHHeaderView.h; sourceTree = "<group>"; };
 		968D2FB419E81EC40071306C /* CHHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHHeaderView.m; sourceTree = "<group>"; };
+		968EFFFE1A01553300849561 /* CHInteractivePoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHInteractivePoint.h; sourceTree = "<group>"; };
+		968EFFFF1A01553300849561 /* CHInteractivePoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHInteractivePoint.m; sourceTree = "<group>"; };
 		9691DFCA19ED6DF100386A5D /* CHGridlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGridlineView.h; sourceTree = "<group>"; };
 		9691DFCB19ED6DF100386A5D /* CHGridlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGridlineView.m; sourceTree = "<group>"; };
 		969ABDF619F04F72007D03C5 /* CHPagingLineChartFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPagingLineChartFlowLayout.h; sourceTree = "<group>"; };
@@ -113,6 +118,7 @@
 		96DDD68519DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96EF748A19F6D28B004024EA /* CHGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGradientView.h; sourceTree = "<group>"; };
 		96EF748B19F6D28B004024EA /* CHGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGradientView.m; sourceTree = "<group>"; };
+		96FFA1B51A018D610093BC8F /* CHLineChartViewSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLineChartViewSubclass.h; sourceTree = "<group>"; };
 		A1B103F3F5490C4C888EB57F /* Pods-CharlotteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CharlotteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CharlotteTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -266,6 +272,9 @@
 				9691DFCB19ED6DF100386A5D /* CHGridlineView.m */,
 				96A1B8F61A00089F001C5001 /* CHScatterPoint.h */,
 				96A1B8F71A00089F001C5001 /* CHScatterPoint.m */,
+				968EFFFE1A01553300849561 /* CHInteractivePoint.h */,
+				968EFFFF1A01553300849561 /* CHInteractivePoint.m */,
+				96FFA1B51A018D610093BC8F /* CHLineChartViewSubclass.h */,
 			);
 			name = Internal;
 			sourceTree = "<group>";
@@ -324,8 +333,10 @@
 				969E2A5D19F1B11E0036C0C2 /* CGPointExtension.h in Headers */,
 				96A1B8ED19FFD9F4001C5001 /* CHScatterChartView.h in Headers */,
 				96839AC419EEF3330094AED9 /* CHLineChartView.h in Headers */,
+				968E00001A01553300849561 /* CHInteractivePoint.h in Headers */,
 				969ABDF819F04F72007D03C5 /* CHPagingLineChartFlowLayout.h in Headers */,
 				968D2FB519E81EC40071306C /* CHHeaderView.h in Headers */,
+				96FFA1B61A018D610093BC8F /* CHLineChartViewSubclass.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,6 +481,7 @@
 				969E2A5A19F1B1050036C0C2 /* UIBezierPath+Interpolation.m in Sources */,
 				969E2A5E19F1B11E0036C0C2 /* CGPointExtension.m in Sources */,
 				964D232B19E708FE0096F3FD /* CHChartView.m in Sources */,
+				968E00011A01553300849561 /* CHInteractivePoint.m in Sources */,
 				962BBDB719F03D290038597C /* CHLineView.m in Sources */,
 				968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */,
 				9600F88419F844A100CD9E5F /* CHChartRegion.m in Sources */,

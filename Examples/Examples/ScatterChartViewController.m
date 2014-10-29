@@ -8,7 +8,7 @@
 
 #import "ScatterChartViewController.h"
 
-@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHLineChartViewDataSource>
+@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate, CHLineChartViewDataSource>
 
 @end
 
@@ -22,6 +22,14 @@
     self.chartView.lineChartDataSource = self;
     self.chartView.xAxisLineHidden = YES;
     self.chartView.scatterChartDataSource = self;
+    self.chartView.scatterChartDelegate = self;
+    [self.chartView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.chartView reloadData];
 }
 
 #pragma mark - CHScatterChartViewDataSource
@@ -31,19 +39,62 @@
     return 200;
 }
 
-- (CGFloat)chartView:(CHScatterChartView *)chartView valueForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (CGFloat)chartView:(CHScatterChartView *)chartView valueOfScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return sin(index)*2 + 2.5;
 }
 
-- (UIColor *)chartView:(CHScatterChartView *)chartView colorForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (UIColor *)chartView:(CHScatterChartView *)chartView colorOfScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return [UIColor colorWithWhite:1.0 alpha:0.5];
 }
 
-- (CGFloat)chartView:(CHScatterChartView *)chartView radiusForScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (CGFloat)chartView:(CHScatterChartView *)chartView radiusOfScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return 2;
+}
+
+- (UIView *)chartView:(CHScatterChartView *)chartView viewForInteractivePointInPage:(NSInteger)page
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
+    view.backgroundColor = [UIColor whiteColor];
+    view.layer.cornerRadius = view.bounds.size.width/2.0;
+    view.clipsToBounds = NO;
+
+    CABasicAnimation *pulse = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    pulse.fromValue = @(1.0);
+    pulse.toValue = @(1.5);
+    pulse.duration = 0.6;
+    pulse.autoreverses = YES;
+    pulse.repeatCount = HUGE_VALF;
+    [view.layer addAnimation:pulse forKey:@"pulse"];
+
+    return view;
+}
+
+- (CGFloat)chartView:(CHScatterChartView *)chartView valueOfInteractivePointInPage:(NSInteger)page
+{
+    return 3.5;
+}
+
+- (NSInteger)chartView:(CHScatterChartView *)chartView indexOfInteractivePointInPage:(NSInteger)page
+{
+    return 150;
+}
+
+#pragma mark - CHScatterChartViewDelegate
+
+- (void)chartView:(CHScatterChartView *)chartView didSelectInteractivePointInPage:(NSInteger)page frame:(CGRect)frame
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width*4, frame.size.height*4)];
+    view.center = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
+    view.backgroundColor = [[UIColor magentaColor] colorWithAlphaComponent:0.5];
+    [self.chartView addSubview:view];
+    [UIView animateWithDuration:1 animations:^{
+        view.alpha = 0;
+    } completion:^(BOOL finished) {
+        [view removeFromSuperview];
+    }];
 }
 
 #pragma mark - CHLineChartDataSource
