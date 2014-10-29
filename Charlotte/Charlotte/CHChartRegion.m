@@ -17,7 +17,7 @@
 
 @implementation CHChartRegion
 
-+ (instancetype)chartRegionWithRange:(NSRange)range color:(UIColor *)color tintColor:(UIColor *)tintColor
++ (instancetype)regionWithRange:(NSRange)range color:(UIColor *)color tintColor:(UIColor *)tintColor
 {
     CHChartRegion *region = [[CHChartRegion alloc] init];
     region.range = range;

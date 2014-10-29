@@ -15,6 +15,8 @@ extern NSString *const kCHPointCellReuseId;
 @property (nonatomic, readonly) CGFloat value;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
+@property (nonatomic, strong) UILabel *xAxisLabel;
+@property (nonatomic, strong) UILabel *valueLabel;
 
 @property (nonatomic, assign) CGFloat footerHeight;
 

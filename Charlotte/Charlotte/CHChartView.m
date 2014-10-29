@@ -11,7 +11,7 @@
 #import "CHFooterView.h"
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
-#import "CHPointCell_Private.h"
+#import "CHPointCell.h"
 
 NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
 NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindFooter";
@@ -39,7 +39,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
 @property (assign, nonatomic) NSInteger currentPage;
-@property (assign, nonatomic) CGFloat footerHeight;
 @property (assign, nonatomic) NSInteger numberOfAnimationsInProgress;
 
 // An array of CHGridlineContainer objects
@@ -262,14 +261,14 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                              toItem:self.backgroundView
                                                                           attribute:NSLayoutAttributeBottom
                                                                          multiplier:1 - scaledValue
-                                                                           constant:0];
+                                                                           constant:-self.footerHeight];
         gridline.labelViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.labelView
                                                                            attribute:NSLayoutAttributeCenterY
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:self.overlayView
                                                                            attribute:NSLayoutAttributeBottom
                                                                           multiplier:1 - scaledValue
-                                                                            constant:0];
+                                                                            constant:-self.footerHeight];
         [self.backgroundView addConstraint:gridline.lineViewCenterYConstraint];
         [self.backgroundView addConstraints:lineViewConstraintsH];
         [self.overlayView addConstraint:gridline.labelViewCenterYConstraint];
@@ -311,16 +310,16 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     if (!animated) {
         [self updateGridlinesAnimated:NO];
         [self updateAlphaInVisibleCells];
-        [self updateRangeInVisibleCells];
+        [self updateRangeInVisibleCellsAnimated:NO];
     }
 }
 
-- (void)updateRangeInVisibleCells {
+- (void)updateRangeInVisibleCellsAnimated:(BOOL)animated {
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHPointCell *cell in self.collectionView.visibleCells) {
         self.numberOfAnimationsInProgress++;
-        [cell setMinValue:min maxValue:max animated:YES completion:^{
+        [cell setMinValue:min maxValue:max animated:animated completion:^{
             self.numberOfAnimationsInProgress--;
         }];
     }
@@ -362,14 +361,14 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                              toItem:self.backgroundView
                                                                           attribute:NSLayoutAttributeBottom
                                                                          multiplier:1 - scaledValue
-                                                                           constant:0];
+                                                                           constant:-self.footerHeight];
         gridline.labelViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.labelView
                                                                            attribute:NSLayoutAttributeCenterY
                                                                            relatedBy:NSLayoutRelationEqual
                                                                               toItem:self.overlayView
                                                                            attribute:NSLayoutAttributeBottom
                                                                           multiplier:1 - scaledValue
-                                                                            constant:0];
+                                                                            constant:-self.footerHeight];
 
         [self.backgroundView addConstraint:gridline.lineViewCenterYConstraint];
         [self.overlayView addConstraint:gridline.labelViewCenterYConstraint];
@@ -393,7 +392,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 - (void)setCurrentPage:(NSInteger)currentPage
 {
-    CGFloat maxPage = [self.dataSource numberOfPagesInChartView:self] - 1;
+    CGFloat maxPage = 1;
+    if ([self.dataSource respondsToSelector:@selector(numberOfPagesInChartView:)]) {
+        maxPage = [self.dataSource numberOfPagesInChartView:self] - 1;
+    }
     if (currentPage < 0) {
         currentPage = 0;
     }
@@ -410,6 +412,18 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     self.collectionViewLayout.headerHeight = headerHeight;
     [self initializeConstraints];
     [self updateGridlinesAnimated:NO];
+    [self updateRangeInVisibleCellsAnimated:NO];
+    [self layoutIfNeeded];
+}
+
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    _footerHeight = footerHeight;
+    self.collectionViewLayout.footerHeight = footerHeight;
+    [self initializeConstraints];
+    [self updateGridlinesAnimated:NO];
+    [self updateRangeInVisibleCellsAnimated:NO];
+    [self layoutIfNeeded];
 }
 
 - (void)setNumberOfAnimationsInProgress:(NSInteger)numberOfAnimationsInProgress {
@@ -434,7 +448,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     if (scrollView == self.scrollView) {
         self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
-        [self updateRangeInVisibleCells];
+        [self updateRangeInVisibleCellsAnimated:YES];
         [self updateGridlinesAnimated:YES];
     }
 }
@@ -443,7 +457,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     if (scrollView == self.scrollView) {
         self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
-        [self updateRangeInVisibleCells];
+        [self updateRangeInVisibleCellsAnimated:YES];
         [self updateGridlinesAnimated:YES];
     }
 }
@@ -452,7 +466,12 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    return [self.dataSource numberOfPagesInChartView:self];
+    if ([self.dataSource respondsToSelector:@selector(numberOfPagesInChartView:)]) {
+        return [self.dataSource numberOfPagesInChartView:self];
+    }
+    else {
+        return 1;
+    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -466,8 +485,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
                                                                   forIndexPath:indexPath];
 
-    UILabel *xAxisLabel = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
-                                             atIndex:indexPath.row];
+    UILabel *xAxisLabel = nil;
+    if ([self.dataSource respondsToSelector:@selector(chartView:xAxisLabelForPointInPage:atIndex:)]) {
+        xAxisLabel = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
+                                        atIndex:indexPath.row];
+    }
     if (xAxisLabel) {
         cell.xAxisLabel.text = xAxisLabel.text;
         cell.xAxisLabel.font = xAxisLabel.font;
@@ -481,8 +503,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     cell.footerHeight = self.footerHeight;
 
-    UILabel *valueLabel = [self.dataSource chartView:self labelForPointWithValue:value
-                                              inPage:indexPath.section atIndex:indexPath.row];
+    UILabel *valueLabel = nil;
+    if ([self.dataSource respondsToSelector:@selector(chartView:labelForPointWithValue:inPage:atIndex:)]) {
+        valueLabel = [self.dataSource chartView:self labelForPointWithValue:value
+                                         inPage:indexPath.section atIndex:indexPath.row];
+    }
     if (valueLabel) {
         cell.valueLabel.text = valueLabel.text;
         cell.valueLabel.font = valueLabel.font;

@@ -10,6 +10,10 @@
 
 @interface CHChartRegion : NSObject
 
+/**
+ *  The region's range.
+ *  This range describes a range of point indices in the chart page displaying the region.
+ */
 @property (nonatomic, assign) NSRange range;
 
 /**
@@ -18,9 +22,20 @@
  */
 @property (nonatomic, strong, readonly) UIColor *color;
 
-/// The region's tint color. If nil, the region will be drawn with a solid color.
+/**
+ *  The region's tint color. If nil, the region will be drawn with a solid color.
+ */
 @property (nonatomic, strong, readonly) UIColor *tintColor;
 
-+ (instancetype)chartRegionWithRange:(NSRange)range color:(UIColor *)color tintColor:(UIColor *)tintColor;
+/**
+ *  Returns a region object configured with the given parameters
+ *
+ *  @param range     The region's range
+ *  @param color     The color of the region
+ *  @param tintColor The region's tint color
+ *
+ *  @return A CHChartRegion object.
+ */
++ (instancetype)regionWithRange:(NSRange)range color:(UIColor *)color tintColor:(UIColor *)tintColor;
 
 @end

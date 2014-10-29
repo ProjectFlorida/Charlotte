@@ -16,11 +16,13 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
+@property (nonatomic, strong) NSArray *lineValues;
+@property (nonatomic, strong) NSArray *scatterPoints;
+@property (nonatomic, strong) NSMutableArray *scatterPointViews;
 @property (nonatomic, strong) CAShapeLayer *lineMaskLayer;
 @property (nonatomic, strong) CAShapeLayer *regionMaskLayer;
 @property (nonatomic, strong) CAShapeLayer *lineShadowLayer;
 @property (nonatomic, strong) CHGradientView *lineView;
-@property (nonatomic, strong) NSArray *values;
 @property (nonatomic, strong) NSArray *regions;
 @property (nonatomic, strong) UIView *regionsView;
 
@@ -32,7 +34,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _values = @[];
+        _lineValues = @[];
+        _scatterPoints = @[];
+        _scatterPointViews = [NSMutableArray array];
         _minValue = 0;
         _maxValue = 1;
         _footerHeight = 30;
@@ -47,9 +51,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineMaskLayer.strokeColor = [UIColor whiteColor].CGColor;
 
         _lineShadowLayer = [CAShapeLayer layer];
-        _lineShadowLayer.shadowOpacity = 0.5;
-        _lineShadowLayer.shadowRadius = 4;
-        _lineShadowLayer.shadowOffset = CGSizeMake(0, 2);
+        _lineShadowLayer.shadowOpacity = 0.3;
+        _lineShadowLayer.shadowRadius = 1;
+        _lineShadowLayer.shadowOffset = CGSizeMake(0, 1);
         _lineShadowLayer.lineCap = _lineMaskLayer.lineCap;
         _lineShadowLayer.lineWidth = _lineMaskLayer.lineWidth;
         _lineShadowLayer.fillColor = nil;
@@ -86,19 +90,21 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     self.regionsView.frame = CGRectMake(0, 0,
                                         currentSize.width,
                                         currentSize.height - self.footerHeight - 2);
-    [self drawLineWithValues:self.values regions:self.regions];
+    [self drawLineWithValues:self.lineValues regions:self.regions];
+    [self drawScatterPoints:self.scatterPoints];
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    [_lineMaskLayer setPath:nil];
+    [self resetScatterPoints];
+    [self.lineMaskLayer setPath:nil];
 }
 
 - (CGFloat)yPositionWithRelativeValue:(CGFloat)value
 {
     CGFloat displayHeight = self.bounds.size.height;
-    return (1 - value) * displayHeight;
+    return ((1 - value) * displayHeight) - self.footerHeight;
 }
 
 - (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
@@ -112,12 +118,16 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self drawLineWithValues:self.values];
+    // TODO: animate range change
+    [self drawLineWithValues:self.lineValues regions:self.regions];
+    if (completion) {
+        completion();
+    }
 }
 
 - (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions
 {
-    _values = values;
+    _lineValues = values;
     NSInteger count = values.count;
     if (!count) {
         return;
@@ -169,9 +179,30 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     }
 }
 
-- (void)drawLineWithValues:(NSArray *)values
+- (void)resetScatterPoints
 {
-    [self drawLineWithValues:values regions:nil];
+    self.scatterPoints = @[];
+    for (UIView *view in self.scatterPointViews) {
+        [view removeFromSuperview];
+    }
+    [self.scatterPointViews removeAllObjects];
+}
+
+- (void)drawScatterPoints:(NSArray *)points
+{
+    [self resetScatterPoints];
+    self.scatterPoints = points;
+    for (CHScatterPoint *point in points) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, point.radius, point.radius)];
+        view.layer.cornerRadius = point.radius/2.0;
+        view.backgroundColor = point.color;
+        CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:self.minValue maxValue:self.maxValue];
+        CGFloat x = self.bounds.size.width * point.relativeXPosition;
+        CGFloat y = [self yPositionWithRelativeValue:scaledValue];
+        view.center = CGPointMake(x, y);
+        [self insertSubview:view atIndex:0];
+        [self.scatterPointViews addObject:view];
+    }
 }
 
 #pragma mark - Setters
