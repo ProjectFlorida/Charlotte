@@ -92,12 +92,14 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
                                         currentSize.height - self.footerHeight - 2);
     [self drawLineWithValues:self.lineValues regions:self.regions];
     [self drawScatterPoints:self.scatterPoints];
+    [self drawInteractivePoint:self.interactivePoint];
 }
 
 - (void)prepareForReuse
 {
     [super prepareForReuse];
     [self resetScatterPoints];
+    [self resetInteractivePoint];
     [self.lineMaskLayer setPath:nil];
 }
 
@@ -114,12 +116,15 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     return leftMargin + cellWidth*index;
 }
 
-- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion
+- (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue
+           animated:(BOOL)animated completion:(void (^)(void))completion
 {
     _minValue = minValue;
     _maxValue = maxValue;
     // TODO: animate range change
     [self drawLineWithValues:self.lineValues regions:self.regions];
+    [self drawScatterPoints:self.scatterPoints];
+    [self drawInteractivePoint:self.interactivePoint];
     if (completion) {
         completion();
     }
@@ -203,6 +208,25 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         [self insertSubview:view atIndex:0];
         [self.scatterPointViews addObject:view];
     }
+}
+
+- (void)resetInteractivePoint
+{
+    if (self.interactivePoint) {
+        [self.interactivePoint.view removeFromSuperview];
+    }
+    self.interactivePoint = nil;
+}
+
+- (void)drawInteractivePoint:(CHInteractivePoint *)point
+{
+    [self resetInteractivePoint];
+    self.interactivePoint = point;
+    CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:self.minValue maxValue:self.maxValue];
+    CGFloat x = self.bounds.size.width * point.relativeXPosition;
+    CGFloat y = [self yPositionWithRelativeValue:scaledValue];
+    self.interactivePoint.view.center = CGPointMake(x, y);
+    [self addSubview:self.interactivePoint.view];
 }
 
 #pragma mark - Setters

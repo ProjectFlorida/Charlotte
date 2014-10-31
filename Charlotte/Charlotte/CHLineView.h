@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CHScatterPoint.h"
+#import "CHInteractivePoint.h"
 
 extern NSString *const kCHLineViewReuseId;
 
@@ -16,6 +17,7 @@ extern NSString *const kCHLineViewReuseId;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 @property (nonatomic, assign) CGFloat footerHeight;
+@property (nonatomic, strong) CHInteractivePoint *interactivePoint;
 
 /// The line's primary color (drawn on the right).
 @property (nonatomic, strong) UIColor *lineColor;
@@ -36,6 +38,13 @@ extern NSString *const kCHLineViewReuseId;
  *  @param points An array of CHScatterPoint objects
  */
 - (void)drawScatterPoints:(NSArray *)points;
+
+/**
+ *  Draws the given interactive point
+ *
+ *  @param point A CHInteractivePoint object
+ */
+- (void)drawInteractivePoint:(CHInteractivePoint *)point;
 
 /**
  *  Sets the line view's min and max value.
