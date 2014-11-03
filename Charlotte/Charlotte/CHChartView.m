@@ -540,8 +540,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                                                       withReuseIdentifier:kCHFooterViewReuseId
                                                                              forIndexPath:indexPath];
         footerView.lineWidth = self.xAxisLineWidth;
-        footerView.lineColor = self.xAxisLineColor;
-        footerView.hidden = self.isXAxisLineHidden;
+        footerView.lineColor = self.isXAxisLineHidden ? [UIColor clearColor] : self.xAxisLineColor;
         view = footerView;
     }
     return view;

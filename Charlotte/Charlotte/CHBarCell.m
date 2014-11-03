@@ -75,9 +75,11 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
-    self.borderLayer.frame = self.pointView.bounds;
-    self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
-                                                       cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;
+    if (!CGRectEqualToRect(self.borderLayer.frame, self.pointView.bounds)) {
+        self.borderLayer.frame = self.pointView.bounds;
+        self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
+                                                           cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;
+    }
 
 }
 

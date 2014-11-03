@@ -14,6 +14,7 @@
 #import "CHTouchGestureRecognizer.h"
 #import "CHHighlightPointView.h"
 #import "CHGradientView.h"
+#import "CHFooterView.h"
 
 NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLine";
 
@@ -140,9 +141,14 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         return;
     }
     CGPoint touchLocation = [gestureRecognizer locationInView:self];
-    CHPagingLineChartFlowLayout *layout = (CHPagingLineChartFlowLayout *)self.collectionViewLayout;
-    NSInteger index = [layout nearestIndexAtLocation:touchLocation
-                                              inPage:self.currentPage];
+    NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:self.currentPage];
+    UIEdgeInsets sectionInset = self.collectionViewLayout.sectionInset;
+    UIEdgeInsets pageInset = self.collectionViewLayout.pageInset;
+    CGFloat sectionInsetWidth = sectionInset.left + sectionInset.right;
+    CGFloat pageInsetWidth = pageInset.left + pageInset.right;
+    CGFloat cellWidth = (self.bounds.size.width - sectionInsetWidth - pageInsetWidth)/pointCount;
+    NSInteger index = (touchLocation.x - pageInset.left - sectionInset.left)/cellWidth;
+
     if (index == NSNotFound) {
         return;
     }
@@ -165,7 +171,6 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-    NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:self.currentPage];
     index = MIN(MAX(0, index), pointCount - 1);
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
@@ -211,6 +216,10 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 }
 
 #pragma mark - UICollectionViewDataSource
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+{
+    return 1;
+}
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -227,19 +236,28 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     UICollectionReusableView *view = [super collectionView:collectionView
                          viewForSupplementaryElementOfKind:kind
                                                atIndexPath:indexPath];
-    if (view) {
-        return view;
+    NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
+    if (kind == CHSupplementaryElementKindFooter) {
+        CHFooterView *footerView = (CHFooterView *)view;
+        if ([self.dataSource respondsToSelector:@selector(chartView:xAxisLabelForPointInPage:atIndex:)]) {
+            for (int i=0; i < pointCount; i++) {
+                UILabel *label = [self.dataSource chartView:self xAxisLabelForPointInPage:self.currentPage atIndex:i];
+                if (label) {
+                    [footerView setXAxisLabel:label atRelativeXPosition:i/(float)pointCount];
+                }
+            }
+        }
+        view = footerView;
     }
-    if (kind == CHSupplementaryElementKindLine) {
+    else if (kind == CHSupplementaryElementKindLine) {
         CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
                                                                   withReuseIdentifier:kCHLineViewReuseId
                                                                          forIndexPath:indexPath];
         lineView.footerHeight = self.footerHeight;
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-        NSInteger count = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
-        NSMutableArray *values = [NSMutableArray arrayWithCapacity:count];
-        for (int i = 0; i < count; i++) {
+        NSMutableArray *values = [NSMutableArray arrayWithCapacity:pointCount];
+        for (int i = 0; i < pointCount; i++) {
             CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
             [values addObject:@(value)];
         }
@@ -264,6 +282,20 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
         view = lineView;
     }
     return view;
+}
+
+#pragma mark - UICollectionViewDelegateFlowLayout
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CHPagingChartFlowLayout *layout = (CHPagingChartFlowLayout *)collectionViewLayout;
+    CGFloat itemHeight = self.collectionView.bounds.size.height;
+    CGFloat sectionInsetWidth = layout.sectionInset.left + layout.sectionInset.right;
+    CGFloat pageInsetWidth = layout.pageInset.left + layout.pageInset.right;
+    CGFloat itemWidth = (collectionView.bounds.size.width - sectionInsetWidth - pageInsetWidth);
+    return CGSizeMake(itemWidth, itemHeight);
 }
 
 @end

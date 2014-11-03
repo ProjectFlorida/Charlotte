@@ -10,14 +10,4 @@
 
 @interface CHPagingLineChartFlowLayout : CHPagingChartFlowLayout
 
-/**
- *  Returns the index of the point nearest to the given location in the given page.
- *
- *  @param location The location in the page, as a CGPoint
- *  @param page     The index of the page
- *
- *  @return The index of the point nearest to the given location in the given page.
- */
-- (NSInteger)nearestIndexAtLocation:(CGPoint)location inPage:(NSInteger)page;
-
 @end

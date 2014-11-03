@@ -11,6 +11,7 @@
 #import "CHTouchGestureRecognizer.h"
 #import "CHLineView.h"
 #import "CHLineChartViewSubclass.h"
+#import "CHFooterView.h"
 
 @interface CHScatterChartView ()
 

@@ -46,19 +46,22 @@
 
 - (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    UILabel *label = [[UILabel alloc] init];
-    label.font = [UIFont systemFontOfSize:13];
-    label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+    NSString *labelText;
     if (index == 10) {
-        label.text = @"11:24pm";
-        return label;
+        labelText = @"11:24pm";
     }
     else if (index == 50) {
-        label.text = @"2:58am";
-        return label;
+        labelText = @"2:58am";
     }
     else if (index == 90) {
-        label.text = @"7:04am";
+        labelText = @"7:04am";
+    }
+    if (labelText) {
+        UILabel *label = [[UILabel alloc] init];
+        label.font = [UIFont systemFontOfSize:13];
+        label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        label.text = labelText;
+        [label sizeToFit];
         return label;
     }
     else {
