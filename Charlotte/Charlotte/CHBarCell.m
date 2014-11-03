@@ -16,10 +16,8 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 @interface CHBarCell ()
 
 /// the width of the bar view relative to the bar cell's width
-@property (nonatomic, assign) CGFloat barViewRelativeWidth;
+@property (nonatomic, assign) CGFloat relativeBarWidth;
 @property (nonatomic, strong) CAShapeLayer *borderLayer;
-
-@property (nonatomic, strong) NSLayoutConstraint *barViewBottomConstraint;
 
 @end
 
@@ -29,46 +27,28 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        // Set default values
-        _barViewRelativeWidth = 0.5;
+        _relativeBarWidth = 0.5;
         _barColor = [UIColor whiteColor];
         _borderColor = [UIColor whiteColor];
         _tintColor = [UIColor whiteColor];
         _borderWidth = 2;
         _borderDashPattern = @[@2, @2];
-        _shadowOpacity = 1;
+
         _borderLayer = [CAShapeLayer layer];
         _borderLayer.lineWidth = _borderWidth;
         _borderLayer.fillColor = nil;
         _borderLayer.strokeColor = _borderColor.CGColor;
         _borderLayer.lineDashPattern = _borderDashPattern;
+        _borderLayer.actions = @{@"bounds": [NSNull null],
+                                 @"position": [NSNull null]};
+
         [self.pointView.layer addSublayer:_borderLayer];
         self.pointView.locations = @[@0, @1];
         self.pointView.startPoint = CGPointMake(0.5, 0);
         self.pointView.endPoint = CGPointMake(0.5, 1);
         self.pointView.colors = @[_barColor, _tintColor];
         self.pointView.backgroundColor = [UIColor clearColor];
-        self.pointView.layer.shadowRadius = 5;
-
-        // Change constraints for point view
-        [self removeConstraint:self.pointViewWidthConstraint];
-        [self removeConstraint:self.pointViewHeightConstraint];
-        self.pointViewWidthConstraint = [NSLayoutConstraint constraintWithItem:self.pointView
-                                                                     attribute:NSLayoutAttributeWidth
-                                                                     relatedBy:NSLayoutRelationEqual
-                                                                        toItem:self
-                                                                     attribute:NSLayoutAttributeWidth
-                                                                    multiplier:_barViewRelativeWidth
-                                                                      constant:0];
-        _barViewBottomConstraint = [NSLayoutConstraint constraintWithItem:self.pointView
-                                                                attribute:NSLayoutAttributeBottom
-                                                                relatedBy:NSLayoutRelationEqual
-                                                                   toItem:self
-                                                                attribute:NSLayoutAttributeBottom
-                                                               multiplier:1
-                                                                 constant:-self.footerHeight];
-        [self addConstraints:@[self.pointViewWidthConstraint, _barViewBottomConstraint]];
-
+        self.pointView.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
@@ -86,50 +66,24 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 - (void)prepareForReuse
 {
     [super prepareForReuse];
-    self.barViewBottomConstraint.constant = -self.footerHeight;
 }
 
-- (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
+- (CGRect)pointViewFrame
 {
-    CGFloat scaledValue = [self scaledValue];
+    CGRect frame = [super pointViewFrame];
+    CGFloat height = self.bounds.size.height;
+    CGFloat barWidth = self.relativeBarWidth * self.bounds.size.width;
+    // clamp out of range bars so that they're always displayed
+    // TODO: add a switch for this behavior
+    CGFloat maxY = height - self.footerHeight - barWidth;
 
-    [self removeConstraint:self.pointViewPositionConstraint];
-    // clamp the bar's min height to its width
-    CGFloat desiredHeight = (self.bounds.size.height )*scaledValue - self.footerHeight;
-    CGFloat barWidth = self.bounds.size.width * self.barViewRelativeWidth;
-    if (desiredHeight < barWidth) {
-        self.pointViewPositionConstraint = [NSLayoutConstraint constraintWithItem:self.pointView
-                                                                        attribute:NSLayoutAttributeHeight
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:self.pointView
-                                                                        attribute:NSLayoutAttributeWidth
-                                                                       multiplier:1
-                                                                         constant:0];
-    }
-    else {
-        self.pointViewPositionConstraint = [self pointViewPositionConstraintWithAttribute:NSLayoutAttributeTop
-                                                                               multiplier:(1 - scaledValue)];
-    }
-    [self addConstraint:self.pointViewPositionConstraint];
-    [self setNeedsUpdateConstraints];
+    // top of bar should align with value (rather than center of point)
+    frame.origin.y += barWidth/2.0;
+    CGFloat barHeight = MAX(height - self.footerHeight - frame.origin.y, barWidth);
 
-    if (animated) {
-        [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
-             usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
-              initialSpringVelocity:0 options:0 animations:^{
-                  [self layoutIfNeeded];
-              } completion:^(BOOL finished) {
-                  if (completion) {
-                      completion();
-                  }
-              }];
-    }
-    else {
-        [self layoutIfNeeded];
-        if (completion) {
-            completion();
-        }
-    }
+    frame.origin.y = MIN(maxY, frame.origin.y);
+    frame.size.height = barHeight;
+    return frame;
 }
 
 #pragma mark - Setters
@@ -138,7 +92,6 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 {
     _barColor = barColor;
     self.pointView.colors = @[_barColor, self.tintColor];
-    self.pointShadowView.backgroundColor = barColor;
 }
 
 - (void)setBorderColor:(UIColor *)borderColor
@@ -171,16 +124,10 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     self.borderLayer.lineDashPattern = borderDashPattern;
 }
 
-- (void)setShadowOpacity:(CGFloat)shadowOpacity
-{
-    _shadowOpacity = shadowOpacity;
-    self.pointShadowView.layer.shadowOpacity = shadowOpacity;
-}
-
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     [super setFooterHeight:footerHeight];
-    self.barViewBottomConstraint.constant = -footerHeight;
+    [self setNeedsLayout];
 }
 
 @end

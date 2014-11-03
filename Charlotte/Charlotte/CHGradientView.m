@@ -8,6 +8,12 @@
 
 #import "CHGradientView.h"
 
+@interface CHGradientView ()
+
+@property (nonatomic, strong) NSMutableArray *rgbas;
+
+@end
+
 @implementation CHGradientView
 
 - (instancetype)init
@@ -41,7 +47,9 @@
 {
     self.backgroundColor = [UIColor clearColor];
     self.layer.masksToBounds = YES;
+    self.layer.shouldRasterize = YES;
     self.opaque = NO;
+    _rgbas = [NSMutableArray array];
     _colors = nil;
     _locations = nil;
     _startPoint = CGPointMake(0.5, 0.0);
@@ -67,15 +75,8 @@
     }
     CGFloat components[count*4];
     for (int i = 0; i < count; i++) {
-        UIColor *color = self.colors[i];
-        CGFloat red, green, blue, alpha;
-        BOOL converted = [color getRed:&red green:&green blue:&blue alpha:&alpha];
-        if (!converted) {
-            return;
-        }
-        NSArray *rgba = @[@(red), @(green), @(blue), @(alpha)];
         for (int j = 0; j < 4; j++) {
-            components[(i*4)+j] = [rgba[j] floatValue];
+            components[(i*4)+j] = [self.rgbas[i][j] floatValue];
         }
     }
 
@@ -102,7 +103,19 @@
 
 - (void)setColors:(NSArray *)colors
 {
+    NSInteger count = colors.count;
+    NSMutableArray *rgbas = [NSMutableArray arrayWithCapacity:count];
+    for (int i = 0; i < count; i++) {
+        UIColor *color = colors[i];
+        CGFloat red, green, blue, alpha;
+        BOOL converted = [color getRed:&red green:&green blue:&blue alpha:&alpha];
+        if (!converted) {
+            return;
+        }
+        [rgbas addObject:@[@(red), @(green), @(blue), @(alpha)]];
+    }
     _colors = colors;
+    self.rgbas = rgbas;
     [self setNeedsDisplay];
 }
 

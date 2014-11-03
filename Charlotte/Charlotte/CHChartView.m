@@ -222,8 +222,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             label.font = [UIFont boldSystemFontOfSize:13];
             label.text = [NSString stringWithFormat:@"%d", (int)roundf(gridline.value)];
             label.textColor = [UIColor whiteColor];
-            label.shadowColor = self.backgroundColor;
-            label.shadowOffset = CGSizeMake(1, 1);
             [label sizeToFit];
             [gridline.lineView setLabelView:label];
             [gridline.labelView setLabelView:label];
@@ -331,9 +329,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat minAlpha = 0.3;
     CGFloat leftMargin = self.collectionViewLayout.pageInset.left;
     CGFloat rightMargin = self.collectionViewLayout.pageInset.right;
+    CGFloat contentOffsetX = self.collectionView.contentOffset.x;
     for (int i = 0; i < count; i++) {
         CHPointCell *cell = self.collectionView.visibleCells[i];
-        CGFloat distanceFromLeftEdge = cell.center.x - self.collectionView.contentOffset.x;
+        CGFloat distanceFromLeftEdge = cell.center.x - contentOffsetX;
         CGFloat distanceFromRightEdge = collectionViewWidth - distanceFromLeftEdge;
         CGFloat alpha = 1;
         if (distanceFromLeftEdge < leftMargin) {
@@ -485,17 +484,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
                                                                   forIndexPath:indexPath];
 
-    UILabel *xAxisLabel = nil;
-    if ([self.dataSource respondsToSelector:@selector(chartView:xAxisLabelForPointInPage:atIndex:)]) {
-        xAxisLabel = [self.dataSource chartView:self xAxisLabelForPointInPage:indexPath.section
-                                        atIndex:indexPath.row];
-    }
-    if (xAxisLabel) {
-        cell.xAxisLabel.text = xAxisLabel.text;
-        cell.xAxisLabel.font = xAxisLabel.font;
-        cell.xAxisLabel.textColor = xAxisLabel.textColor;
-        cell.xAxisLabel.bounds = xAxisLabel.bounds;
-        cell.xAxisLabel.alpha = xAxisLabel.alpha;
+    if ([self.dataSource respondsToSelector:@selector(configureXAxisLabel:forPointInPage:atIndex:inChartView:)]) {
+        [self.dataSource configureXAxisLabel:cell.xAxisLabel forPointInPage:indexPath.section atIndex:indexPath.row
+                                 inChartView:self];
+        [cell setNeedsLayout];
     }
 
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
@@ -503,17 +495,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     cell.footerHeight = self.footerHeight;
 
-    UILabel *valueLabel = nil;
-    if ([self.dataSource respondsToSelector:@selector(chartView:labelForPointWithValue:inPage:atIndex:)]) {
-        valueLabel = [self.dataSource chartView:self labelForPointWithValue:value
-                                         inPage:indexPath.section atIndex:indexPath.row];
-    }
-    if (valueLabel) {
-        cell.valueLabel.text = valueLabel.text;
-        cell.valueLabel.font = valueLabel.font;
-        cell.valueLabel.textColor = valueLabel.textColor;
-        cell.valueLabel.bounds = valueLabel.bounds;
-        cell.valueLabel.alpha = valueLabel.alpha;
+    if ([self.dataSource respondsToSelector:@selector(configureLabel:forPointWithValue:inPage:atIndex:inChartView:)]) {
+        [self.dataSource configureLabel:cell.valueLabel forPointWithValue:value inPage:indexPath.section
+                                atIndex:indexPath.row inChartView:self];
+        [cell setNeedsLayout];
     }
 
     [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];

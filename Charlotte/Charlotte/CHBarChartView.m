@@ -37,11 +37,6 @@
                                                              inPage:indexPath.section atIndex:indexPath.row];
     }
 
-    if ([self.barChartDataSource respondsToSelector:@selector(chartView:shadowOpacityForBarWithValue:inPage:atIndex:)]) {
-        cell.shadowOpacity = [self.barChartDataSource chartView:self shadowOpacityForBarWithValue:cell.value
-                                                         inPage:indexPath.section atIndex:indexPath.row];
-    }
-
     if ([self.barChartDataSource respondsToSelector:@selector(chartView:tintColorForBarWithValue:inPage:atIndex:)]) {
         cell.tintColor = [self.barChartDataSource chartView:self tintColorForBarWithValue:cell.value
                                                      inPage:indexPath.section atIndex:indexPath.row];

@@ -106,7 +106,8 @@
 
 #pragma mark - CHChartViewDataSource
 
-- (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
+                inChartView:(CHChartView *)chartView
 {
     NSString *labelText;
     if (index == 10) {
@@ -125,16 +126,15 @@
         labelText = @"July";
     }
     if (labelText) {
-        UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont boldSystemFontOfSize:13];
         label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
         label.text = labelText;
-        [label sizeToFit];
-        return label;
+        label.hidden = NO;
     }
     else {
-        return nil;
+        label.hidden = YES;
     }
+    [label sizeToFit];
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -147,10 +147,10 @@
     return pow(1.3, (index/20.0));
 }
 
-- (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value
-                inPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)configureLabel:(UILabel *)label forPointWithValue:(CGFloat)value inPage:(NSInteger)page
+               atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
 {
-    return nil;
+    label.hidden = YES;
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page

@@ -25,6 +25,9 @@ extern NSString *const kCHLineViewReuseId;
 /// The line's tint color (drawn on the left). Set this to nil for no tint.
 @property (nonatomic, strong) UIColor *lineTintColor;
 
+/// The line's width in points. Default is 4.0.
+@property (nonatomic, assign) CGFloat lineWidth;
+
 /**
  *  Draws a line between the given values, with colored regions below the line specified by the given array.
  *
