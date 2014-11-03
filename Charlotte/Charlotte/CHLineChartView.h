@@ -21,9 +21,10 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  @param chartView The chart view being highlighted
  *  @param page      The page of the current highlighted point
  *  @param index     The index of the current highlighted point
+ *  @param value     The value of the current highlighted point
  *  @param position  The position of the highlighted point
  */
-- (void)chartView:(CHLineChartView *)chartView highlightBeganInPage:(NSInteger)page atIndex:(NSInteger)index position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView highlightBeganInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 /**
  *  Tells the delegate that the user moved to highlight a different point in the chart view
@@ -31,9 +32,10 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  @param chartView The chart view being highlighted
  *  @param page      The page of the current highlighted point
  *  @param index     The index of the current highlighted point
+ *  @param value     The value of the current highlighted point
  *  @param position  The position of the highlighted point
  */
-- (void)chartView:(CHLineChartView *)chartView highlightMovedInPage:(NSInteger)page toIndex:(NSInteger)index position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView highlightMovedInPage:(NSInteger)page toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 /**
  *  Tells the delegate that the user stopped highlighting a point in the chart view
@@ -41,9 +43,10 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  @param chartView The chart view that was being highlighted
  *  @param page      The page of the last highlighted point
  *  @param index     The index of the last highlighted point
+ *  @param value     The value of the current highlighted point
  *  @param position  The position of the last highlighted point
  */
-- (void)chartView:(CHLineChartView *)chartView highlightEndedInPage:(NSInteger)page atIndex:(NSInteger)index position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView highlightEndedInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 @end
 

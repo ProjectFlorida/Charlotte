@@ -138,14 +138,14 @@
 #pragma mark CHLineChartViewDelegate
 
 - (void)chartView:(CHLineChartView *)chartView highlightBeganInPage:(NSInteger)page
-     atIndex:(NSInteger)index position:(CGPoint)position
+          atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     self.tooltipView.alpha = 1;
     [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
 }
 
 - (void)chartView:(CHLineChartView *)chartView highlightMovedInPage:(NSInteger)page
-     toIndex:(NSInteger)index position:(CGPoint)position
+          toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     [UIView animateWithDuration:self.chartView.highlightMovementAnimationDuration animations:^{
         [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
@@ -153,7 +153,7 @@
 }
 
 - (void)chartView:(CHLineChartView *)chartView highlightEndedInPage:(NSInteger)page
-     atIndex:(NSInteger)index position:(CGPoint)position
+          atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     self.tooltipView.alpha = 0;
 }

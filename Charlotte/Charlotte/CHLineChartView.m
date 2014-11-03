@@ -191,21 +191,21 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     }
 
     if (touchBegan) {
-        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightBeganInPage:atIndex:position:)]) {
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightBeganInPage:atIndex:value:position:)]) {
             [self.lineChartDelegate chartView:self highlightBeganInPage:self.currentPage
-                                      atIndex:index position:highlightPointPosition];
+                                      atIndex:index value:value position:highlightPointPosition];
         }
     }
     else if (touchEnded) {
-        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightEndedInPage:atIndex:position:)]) {
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightEndedInPage:atIndex:value:position:)]) {
             [self.lineChartDelegate chartView:self highlightEndedInPage:self.currentPage
-                                      atIndex:index position:highlightPointPosition];
+                                      atIndex:index value:value position:highlightPointPosition];
         }
     }
     else {
-        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightMovedInPage:toIndex:position:)]) {
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightMovedInPage:toIndex:value:position:)]) {
             [self.lineChartDelegate chartView:self highlightMovedInPage:self.currentPage
-                                      toIndex:index position:highlightPointPosition];
+                                      toIndex:index value:value position:highlightPointPosition];
         }
     }
 }
