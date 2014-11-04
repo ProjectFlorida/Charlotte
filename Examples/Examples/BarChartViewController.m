@@ -69,6 +69,7 @@
     else {
         label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     }
+    [label sizeToFit];
     return label;
 }
 

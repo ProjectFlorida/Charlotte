@@ -108,27 +108,28 @@
 
 - (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    UILabel *label = [[UILabel alloc] init];
-    label.font = [UIFont boldSystemFontOfSize:13];
-    label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+    NSString *labelText;
     if (index == 10) {
-        label.text = @"March";
-        return label;
+        labelText = @"March";
     }
     else if (index == 20) {
-        label.text = @"April";
-        return label;
-    }   
+        labelText = @"April";
+    }
     else if (index == 30) {
-        label.text = @"May";
-        return label;
+        labelText = @"May";
     }
     else if (index == 40) {
-        label.text = @"June";
-        return label;
-    }   
+        labelText = @"June";
+    }
     else if (index == 50) {
-        label.text = @"July";
+        labelText = @"July";
+    }
+    if (labelText) {
+        UILabel *label = [[UILabel alloc] init];
+        label.font = [UIFont boldSystemFontOfSize:13];
+        label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        label.text = labelText;
+        [label sizeToFit];
         return label;
     }
     else {

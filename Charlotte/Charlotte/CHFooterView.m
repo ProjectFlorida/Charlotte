@@ -14,6 +14,9 @@ NSString *const kCHFooterViewReuseId = @"CHFooterView";
 
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 
+/// Keys are boxed NSNumbers representing relative x position. Values are UILabels.
+@property (nonatomic, strong) NSMutableDictionary *xAxisLabels;
+
 @end
 
 @implementation CHFooterView
@@ -25,6 +28,7 @@ NSString *const kCHFooterViewReuseId = @"CHFooterView";
         _lineLayer = [CAShapeLayer layer];
         _lineLayer.lineWidth = 1;
         _lineLayer.strokeColor = [[UIColor whiteColor] colorWithAlphaComponent:0.3].CGColor;
+        _xAxisLabels = [NSMutableDictionary dictionary];
         [self.layer addSublayer:_lineLayer];
     }
     return self;
@@ -39,6 +43,20 @@ NSString *const kCHFooterViewReuseId = @"CHFooterView";
     [path addLineToPoint:CGPointMake(self.bounds.size.width, 0)];
     self.lineLayer.path = path.CGPath;
 }
+
+- (void)setXAxisLabel:(UILabel *)label atRelativeXPosition:(CGFloat)position
+{
+    UILabel *existingLabel = self.xAxisLabels[@(position)];
+    if (existingLabel) {
+        [existingLabel removeFromSuperview];
+    }
+    CGFloat x = self.bounds.size.width * position;
+    label.center = CGPointMake(x, CGRectGetMidY(self.bounds));
+    self.xAxisLabels[@(position)] = label;
+    [self addSubview:label];
+}
+
+#pragma mark - Setters
 
 - (void)setLineWidth:(CGFloat)lineWidth {
     _lineWidth = lineWidth;
