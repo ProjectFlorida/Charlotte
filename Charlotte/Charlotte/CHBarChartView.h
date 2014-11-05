@@ -16,7 +16,7 @@
 /**
  *  Asks the data source for the specified bar's color.
  *
- *  @param chartview the chart view requestign the shadow opacity
+ *  @param chartview the chart view requesting the bar color
  *  @param page      the page index of the bar
  *  @param index     the index of the bar in the chart page
  *
@@ -27,7 +27,7 @@
 /**
  *  Asks the data source for the specified bar's border dash pattern.
  *
- *  @param chartview the chart view requestign the shadow opacity
+ *  @param chartview the chart view requesting the dash pattern
  *  @param page      the page index of the bar
  *  @param index     the index of the bar in the chart page
  *
@@ -37,20 +37,9 @@
 - (NSArray *)chartView:(CHBarChartView *)chartView borderDashPatternForBarWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index;
 
 /**
- *  Asks the data source for the specified bar's shadow opacity.
- *
- *  @param chartView The chart view requestign the shadow opacity
- *  @param page      The page index of the bar
- *  @param index     The index of the bar in the chart page
- *
- *  @return A value in the range 0.0 (transparent) to 1.0 (opaque)
- */
-- (CGFloat)chartView:(CHBarChartView *)chartView shadowOpacityForBarWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index;
-
-/**
  *  Asks the data source for the specified bar's border color.
  *
- *  @param chartView The chart view requestign the shadow opacity
+ *  @param chartView The chart view requesting the border color
  *  @param page      The page index of the bar
  *  @param index     The index of the bar in the chart page
  *
@@ -62,7 +51,7 @@
  *  Asks the data source for the specified bar's tint color.
  *  If a tint color is provided, the bar will be drawn with a gradient from its color to its tint color.
  *
- *  @param chartView The chart view requestign the shadow opacity
+ *  @param chartView The chart view requesting the tint color
  *  @param page      The page index of the bar
  *  @param index     The index of the bar in the chart page
  *
@@ -73,7 +62,7 @@
 /**
  *  Asks the data source for the specified bar's border width.
  *
- *  @param chartview the chart view requestign the shadow opacity
+ *  @param chartview the chart view requesting the border width
  *  @param page      the page index of the bar
  *  @param index     the index of the bar in the chart page
  *

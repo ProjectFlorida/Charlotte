@@ -42,6 +42,11 @@ NSString *const kCHFooterViewReuseId = @"CHFooterView";
     [path moveToPoint:CGPointMake(0, 0)];
     [path addLineToPoint:CGPointMake(self.bounds.size.width, 0)];
     self.lineLayer.path = path.CGPath;
+
+    [self.xAxisLabels enumerateKeysAndObjectsUsingBlock:^(NSNumber *position, UILabel *label, BOOL *stop) {
+        CGFloat x = self.bounds.size.width * [position floatValue];
+        label.center = CGPointMake(x, CGRectGetMidY(self.bounds));
+    }];
 }
 
 - (void)setXAxisLabel:(UILabel *)label atRelativeXPosition:(CGFloat)position

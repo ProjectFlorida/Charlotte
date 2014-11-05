@@ -18,6 +18,5 @@ extern NSString *const kCHBarCellReuseId;
 @property (nonatomic, strong) UIColor *tintColor;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, strong) NSArray *borderDashPattern;
-@property (nonatomic, assign) CGFloat shadowOpacity;
 
 @end

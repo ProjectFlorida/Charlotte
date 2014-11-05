@@ -239,12 +239,11 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
     if (kind == CHSupplementaryElementKindFooter) {
         CHFooterView *footerView = (CHFooterView *)view;
-        if ([self.dataSource respondsToSelector:@selector(chartView:xAxisLabelForPointInPage:atIndex:)]) {
+        if ([self.dataSource respondsToSelector:@selector(configureXAxisLabel:forPointInPage:atIndex:inChartView:)]) {
             for (int i=0; i < pointCount; i++) {
-                UILabel *label = [self.dataSource chartView:self xAxisLabelForPointInPage:self.currentPage atIndex:i];
-                if (label) {
-                    [footerView setXAxisLabel:label atRelativeXPosition:i/(float)pointCount];
-                }
+                UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+                [self.dataSource configureXAxisLabel:label forPointInPage:indexPath.section atIndex:i inChartView:self];
+                [footerView setXAxisLabel:label atRelativeXPosition:i/(float)pointCount];
             }
         }
         view = footerView;
@@ -269,6 +268,10 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
         if ([self.lineChartDataSource respondsToSelector:@selector(chartView:lineTintColorInPage:)]) {
             lineView.lineTintColor = [self.lineChartDataSource chartView:self lineTintColorInPage:indexPath.section];
+        }
+
+        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:lineWidthInPage:)]) {
+            lineView.lineWidth = [self.lineChartDataSource chartView:self lineWidthInPage:indexPath.section];
         }
 
         NSArray *regions = nil;

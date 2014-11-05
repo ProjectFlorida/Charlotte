@@ -64,6 +64,16 @@ extern NSString *const CHSupplementaryElementKindLine;
 - (NSArray *)chartView:(CHLineChartView *)chartView regionsInPage:(NSInteger)page;
 
 /**
+ *  Asks the data source for the width of the line in the specified page.
+ *
+ *  @param chartView The chart view requesting the line width
+ *  @param page      The line's page index
+ *
+ *  @return A UIColor object.
+ */
+- (CGFloat)chartView:(CHLineChartView *)chartView lineWidthInPage:(NSInteger)page;
+
+/**
  *  Asks the data source for the color of the line in the specified page.
  *
  *  @param chartView The chart view requesting the line color

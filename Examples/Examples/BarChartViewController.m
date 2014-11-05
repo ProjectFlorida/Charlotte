@@ -58,9 +58,9 @@
     return self.minValues.count;
 }
 
-- (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
+                inChartView:(CHChartView *)chartView
 {
-    UILabel *label = [[UILabel alloc] init];
     label.text = self.xAxisLabels[index];
     label.font = [UIFont systemFontOfSize:13];
     if (index == 3) {
@@ -70,7 +70,6 @@
         label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     }
     [label sizeToFit];
-    return label;
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -83,22 +82,14 @@
     return [self.values[page][index] floatValue];
 }
 
-- (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value
-                inPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)configureLabel:(UILabel *)label forPointWithValue:(CGFloat)value inPage:(NSInteger)page
+               atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
 {
-    UILabel *label = [[UILabel alloc] init];
     label.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
     label.font = [UIFont boldSystemFontOfSize:18];
-    if (value == 0) {
-        label.alpha = 0;
-    }
-    else if (index == 6) {
-        label.textColor = self.incompleteColor;
-    }
-    else {
-        label.textColor = [UIColor whiteColor];
-    }
-    return label;
+    label.alpha = (value == 0) ? 0 : 1;
+    label.textColor = (index == 6) ? self.incompleteColor : [UIColor whiteColor];
+    [label sizeToFit];
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
@@ -258,17 +249,6 @@
     }
     else {
         return 0;
-    }
-}
-
-- (CGFloat)chartView:(CHBarChartView *)chartView shadowOpacityForBarWithValue:(CGFloat)value
-              inPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    if (value == 0) {
-        return 0;
-    }
-    else {
-        return 0.5;
     }
 }
 

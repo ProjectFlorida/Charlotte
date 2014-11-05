@@ -44,7 +44,8 @@
 
 #pragma mark CHChartViewDataSource
 
-- (UILabel *)chartView:(CHChartView *)chartView xAxisLabelForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
+                inChartView:(CHChartView *)chartView
 {
     NSString *labelText;
     if (index == 10) {
@@ -57,16 +58,15 @@
         labelText = @"7:04am";
     }
     if (labelText) {
-        UILabel *label = [[UILabel alloc] init];
         label.font = [UIFont systemFontOfSize:13];
         label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
         label.text = labelText;
-        [label sizeToFit];
-        return label;
+        label.hidden = NO;
     }
     else {
-        return nil;
+        label.hidden = YES;
     }
+    [label sizeToFit];
 }
 
 - (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView
@@ -87,10 +87,10 @@
     return sin(index*3)*sin(index*2) + page + 3;
 }
 
-- (UILabel *)chartView:(CHChartView *)chartView labelForPointWithValue:(CGFloat)value
-                inPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)configureLabel:(UILabel *)label forPointWithValue:(CGFloat)value inPage:(NSInteger)page
+               atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
 {
-    return nil;
+    label.hidden = YES;
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
@@ -129,6 +129,11 @@
 - (UIColor *)chartView:(CHLineChartView *)chartView lineColorInPage:(NSInteger)page
 {
     return [UIColor whiteColor];
+}
+
+- (CGFloat)chartView:(CHLineChartView *)chartView lineWidthInPage:(NSInteger)page
+{
+    return 3;
 }
 
 #pragma mark CHChartViewDelegate

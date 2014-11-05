@@ -43,15 +43,16 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
         _lineColor = [UIColor whiteColor];
         _lineTintColor = nil;
+        _lineWidth = 4;
 
         _lineMaskLayer = [CAShapeLayer layer];
         _lineMaskLayer.lineCap = kCALineCapRound;
-        _lineMaskLayer.lineWidth = 4;
+        _lineMaskLayer.lineWidth = _lineWidth;
         _lineMaskLayer.fillColor = nil;
         _lineMaskLayer.strokeColor = [UIColor whiteColor].CGColor;
 
         _lineShadowLayer = [CAShapeLayer layer];
-        _lineShadowLayer.shadowOpacity = 0.3;
+        _lineShadowLayer.shadowOpacity = 0;
         _lineShadowLayer.shadowRadius = 1;
         _lineShadowLayer.shadowOffset = CGSizeMake(0, 1);
         _lineShadowLayer.lineCap = _lineMaskLayer.lineCap;
@@ -230,6 +231,13 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 }
 
 #pragma mark - Setters
+
+- (void)setLineWidth:(CGFloat)lineWidth
+{
+    _lineWidth = lineWidth;
+    self.lineMaskLayer.lineWidth = _lineWidth;
+    self.lineShadowLayer.lineWidth = _lineWidth;
+}
 
 - (void)setLineColor:(UIColor *)lineColor
 {

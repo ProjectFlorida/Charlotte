@@ -15,16 +15,12 @@
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) CHGradientView *pointView;
-@property (nonatomic, strong) UIView *pointShadowView;
-@property (nonatomic, strong) NSLayoutConstraint *pointViewPositionConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *pointViewWidthConstraint;
-@property (nonatomic, strong) NSLayoutConstraint *pointViewHeightConstraint;
 
 /// Returns the cell's value relative to its display range.
 - (CGFloat)scaledValue;
 
-- (NSLayoutConstraint *)pointViewPositionConstraintWithAttribute:(NSLayoutAttribute)attribute
-                                                      multiplier:(CGFloat)multiplier;
+- (CGRect)pointViewFrame;
+- (CGPoint)valueLabelCenter;
 
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion;
 
