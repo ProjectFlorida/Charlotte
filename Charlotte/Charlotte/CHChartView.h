@@ -209,6 +209,15 @@ extern NSString *const CHSupplementaryElementKindFooter;
 /// The color of the chart's x axis
 @property (nonatomic, strong) UIColor *xAxisLineColor;
 
+/// When chart elements page into view, their alpha values will transition from this value to 1.0.
+@property (nonatomic, assign) CGFloat pagingAlpha;
+
+/**
+ *  A Boolean value indicating whether value labels should be hidden on pages that aren't the current page.
+ *  Default is YES.
+ */
+@property (nonatomic, assign) BOOL hidesValueLabelsOnNonCurrentPages;
+
 /**
  *  Reloads the chart view.
  */

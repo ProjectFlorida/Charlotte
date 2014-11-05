@@ -88,7 +88,7 @@
     label.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
     label.font = [UIFont boldSystemFontOfSize:18];
     label.alpha = (value == 0) ? 0 : 1;
-    label.textColor = (index == 6) ? self.incompleteColor : [UIColor whiteColor];
+    label.textColor = (index == 5) ? self.incompleteColor : [UIColor whiteColor];
     [label sizeToFit];
 }
 
@@ -139,7 +139,7 @@
         UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
         UILabel *topLabel = [[UILabel alloc] init];
         topLabel.text = self.gridlineTopLabels[index];
-        topLabel.font = [UIFont boldSystemFontOfSize:14];
+        topLabel.font = [UIFont boldSystemFontOfSize:12];
         topLabel.textColor = [UIColor whiteColor];
         topLabel.shadowColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
         topLabel.shadowOffset = CGSizeMake(1, 1);
@@ -200,7 +200,7 @@
     if (value == 0) {
         return [[UIColor grayColor] colorWithAlphaComponent:0.5];
     }
-    else if (index == 6) {
+    else if (index == 5) {
         return [UIColor clearColor];
     }
     else {
@@ -211,7 +211,7 @@
 - (UIColor *)chartView:(CHBarChartView *)chartView tintColorForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    if (value == 0 || index == 6) {
+    if (value == 0 || index == 5) {
         return nil;
     }
     else {
@@ -222,7 +222,7 @@
 - (NSArray *)chartView:(CHBarChartView *)chartView borderDashPatternForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    if (index == 6) {
+    if (index == 5) {
         return @[@2, @2];
     }
     else {
@@ -233,7 +233,7 @@
 - (UIColor *)chartView:(CHBarChartView *)chartView borderColorForBarWithValue:(CGFloat)value
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    if (index == 6) {
+    if (index == 5) {
         return self.incompleteColor;
     }
     else {
@@ -244,7 +244,7 @@
 - (CGFloat)chartView:(CHChartView *)chartView borderWidthForBarWithValue:(CGFloat)value
               inPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    if (index == 6) {
+    if (index == 5) {
         return 2;
     }
     else {

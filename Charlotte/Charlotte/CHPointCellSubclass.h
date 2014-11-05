@@ -22,6 +22,7 @@
 - (CGRect)pointViewFrame;
 - (CGPoint)valueLabelCenter;
 
+- (void)reload;
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end
