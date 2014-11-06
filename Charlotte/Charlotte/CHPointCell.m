@@ -97,14 +97,19 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     return (self.value - self.minValue)/(self.maxValue - self.minValue);
 }
 
+- (void)reload
+{
+    self.pointView.frame = [self pointViewFrame];
+    self.valueLabel.center = [self valueLabelCenter];
+}
+
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
     if (animated) {
         [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
              usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
               initialSpringVelocity:0 options:0 animations:^{
-                  self.pointView.frame = [self pointViewFrame];
-                  self.valueLabel.center = [self valueLabelCenter];
+                  [self reload];
               } completion:^(BOOL finished) {
                   if (completion) {
                       completion();
@@ -112,8 +117,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
               }];
     }
     else {
-        self.pointView.frame = [self pointViewFrame];
-        self.valueLabel.center = [self valueLabelCenter];
+        [self reload];
         if (completion) {
             completion();
         }

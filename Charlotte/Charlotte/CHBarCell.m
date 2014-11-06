@@ -39,8 +39,6 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         _borderLayer.fillColor = nil;
         _borderLayer.strokeColor = _borderColor.CGColor;
         _borderLayer.lineDashPattern = _borderDashPattern;
-        _borderLayer.actions = @{@"bounds": [NSNull null],
-                                 @"position": [NSNull null]};
 
         [self.pointView.layer addSublayer:_borderLayer];
         self.pointView.locations = @[@0, @1];
@@ -60,12 +58,14 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
                                                            cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;
     }
-
 }
 
-- (void)prepareForReuse
+- (void)reload
 {
-    [super prepareForReuse];
+    [super reload];
+    self.borderLayer.frame = self.pointView.bounds;
+    self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
+                                                       cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;
 }
 
 - (CGRect)pointViewFrame

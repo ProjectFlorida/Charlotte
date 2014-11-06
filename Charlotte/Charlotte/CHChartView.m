@@ -85,7 +85,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _headerHeight = 30;
     _xAxisLineHidden = NO;
     _xAxisLineWidth = 1;
+    _pagingAlpha = 0.3;
     _xAxisLineColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    _hidesValueLabelsOnNonCurrentPages = YES;
     _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
 
@@ -288,6 +290,15 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self.collectionViewLayout invalidateLayout];
     [super layoutSubviews];
     [self.scrollView setContentSize:self.collectionViewLayout.collectionViewContentSize];
+    [self updateAlphaInVisibleCellsAnimated:NO];
+    self.scrollView.contentOffset = CGPointMake(self.currentPage*self.scrollView.bounds.size.width, 0);
+    self.collectionView.contentOffset = self.scrollView.contentOffset;
+}
+
+- (void)didMoveToWindow
+{
+    [super didMoveToWindow];
+    self.collectionView.contentOffset = self.scrollView.contentOffset;
 }
 
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event {
@@ -305,9 +316,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     visible.origin.x = self.scrollView.bounds.size.width*page;
     [self.scrollView scrollRectToVisible:visible animated:animated];
     self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
+    [self updateAlphaInVisibleCellsAnimated:animated];
     if (!animated) {
         [self updateGridlinesAnimated:NO];
-        [self updateAlphaInVisibleCells];
         [self updateRangeInVisibleCellsAnimated:NO];
     }
 }
@@ -323,25 +334,64 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     }
 }
 
-- (void)updateAlphaInVisibleCells {
-    CGFloat collectionViewWidth = self.collectionView.bounds.size.width;
+- (void)updateAlphaInVisibleValueLabels {
+    if (!self.hidesValueLabelsOnNonCurrentPages) {
+        return;
+    }
     NSInteger count = self.collectionView.visibleCells.count;
-    CGFloat minAlpha = 0.3;
-    CGFloat leftMargin = self.collectionViewLayout.pageInset.left;
-    CGFloat rightMargin = self.collectionViewLayout.pageInset.right;
-    CGFloat contentOffsetX = self.collectionView.contentOffset.x;
     for (int i = 0; i < count; i++) {
         CHPointCell *cell = self.collectionView.visibleCells[i];
-        CGFloat distanceFromLeftEdge = cell.center.x - contentOffsetX;
-        CGFloat distanceFromRightEdge = collectionViewWidth - distanceFromLeftEdge;
-        CGFloat alpha = 1;
-        if (distanceFromLeftEdge < leftMargin) {
-            alpha = MAX(distanceFromLeftEdge/leftMargin, minAlpha);
+        if (cell.page == self.currentPage) {
+            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
+                 usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping initialSpringVelocity:0
+                                options:UIViewAnimationOptionCurveEaseIn animations:^{
+                                    cell.valueLabel.transform = CGAffineTransformIdentity;
+                                } completion:nil];
         }
-        else if (distanceFromRightEdge < rightMargin) {
-            alpha = MAX(distanceFromRightEdge/rightMargin, minAlpha);
+        else {
+            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
+                 usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping initialSpringVelocity:0
+                                options:UIViewAnimationOptionCurveEaseOut animations:^{
+                                    cell.valueLabel.transform = CGAffineTransformMakeScale(0.0, 0.0);
+                                } completion:nil];
         }
-        cell.alpha = alpha;
+    }
+}
+
+- (void)updateAlphaInVisibleCellsAnimated:(BOOL)animated {
+    CGFloat collectionViewWidth = self.collectionView.bounds.size.width;
+    UIEdgeInsets pageInset = self.collectionViewLayout.pageInset;
+    CGFloat contentOffsetX = self.collectionView.contentOffset.x;
+    CGFloat pageWidth = collectionViewWidth - pageInset.left - pageInset.right;
+    CGFloat distanceFromLeftEdge = ABS((contentOffsetX - (pageWidth*self.currentPage))/pageWidth);
+    NSInteger count = self.collectionView.visibleCells.count;
+    for (int i = 0; i < count; i++) {
+        CHPointCell *cell = self.collectionView.visibleCells[i];
+        CGFloat alpha = cell.alpha;
+        if (cell.page != self.currentPage) {
+            if ((cell.page > self.currentPage + 1) || (cell.page < self.currentPage - 1)) {
+                alpha = self.pagingAlpha;
+            }
+            else {
+                alpha = self.pagingAlpha + ((1 - self.pagingAlpha)*distanceFromLeftEdge);
+            }
+        }
+        else {
+            alpha = 1 - ((1 - self.pagingAlpha)*distanceFromLeftEdge);
+        }
+        if (animated) {
+            UIViewAnimationOptions options = UIViewAnimationOptionCurveEaseIn;
+            if (alpha < cell.alpha) {
+                options = UIViewAnimationOptionCurveEaseOut;
+            }
+            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
+                                options:options animations:^{
+                                    cell.alpha = alpha;
+                                } completion:nil];
+        }
+        else {
+            cell.alpha = alpha;
+        }
     }
 }
 
@@ -412,7 +462,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self initializeConstraints];
     [self updateGridlinesAnimated:NO];
     [self updateRangeInVisibleCellsAnimated:NO];
-    [self layoutIfNeeded];
+    [self setNeedsLayout];
 }
 
 - (void)setFooterHeight:(CGFloat)footerHeight
@@ -422,7 +472,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self initializeConstraints];
     [self updateGridlinesAnimated:NO];
     [self updateRangeInVisibleCellsAnimated:NO];
-    [self layoutIfNeeded];
+    [self setNeedsLayout];
 }
 
 - (void)setNumberOfAnimationsInProgress:(NSInteger)numberOfAnimationsInProgress {
@@ -439,7 +489,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     if (scrollView == self.scrollView) {
         self.collectionView.contentOffset = scrollView.contentOffset;
-        [self updateAlphaInVisibleCells];
+        [self updateAlphaInVisibleCellsAnimated:NO];
     }
 }
 
@@ -448,6 +498,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     if (scrollView == self.scrollView) {
         self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
         [self updateRangeInVisibleCellsAnimated:YES];
+        [self updateAlphaInVisibleValueLabels];
+        [self updateAlphaInVisibleCellsAnimated:YES];
         [self updateGridlinesAnimated:YES];
     }
 }
@@ -457,6 +509,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     if (scrollView == self.scrollView) {
         self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
         [self updateRangeInVisibleCellsAnimated:YES];
+        [self updateAlphaInVisibleValueLabels];
+        [self updateAlphaInVisibleCellsAnimated:YES];
         [self updateGridlinesAnimated:YES];
     }
 }
@@ -503,6 +557,16 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
     [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];
     [cell setValue:value animated:NO completion:nil];
+    cell.page = indexPath.section;
+    cell.alpha = (cell.page == self.currentPage) ? 1 : self.pagingAlpha;
+    if (self.hidesValueLabelsOnNonCurrentPages) {
+        if (cell.page == self.currentPage) {
+            cell.valueLabel.transform = CGAffineTransformIdentity;
+        }
+        else {
+            cell.valueLabel.transform = CGAffineTransformMakeScale(0, 0);
+        }
+    }
     return cell;
 }
 
