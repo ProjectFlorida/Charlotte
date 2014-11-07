@@ -18,7 +18,7 @@
 
 NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLine";
 
-@interface CHLineChartView ()
+@interface CHLineChartView () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
 @property (nonatomic, strong) CHTouchGestureRecognizer *gestureRecognizer;
@@ -63,6 +63,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
     _gestureRecognizer = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchGesture:)];
+    _gestureRecognizer.delegate = self;
     [self addGestureRecognizer:_gestureRecognizer];
 
     self.multipleTouchEnabled = NO;
@@ -133,7 +134,16 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self updateRangeInVisibleLineViewsAnimated:animated];
 }
 
-#pragma mark - Gesture recognizer
+#pragma mark - UIGestureRecognizerDelegate
+
+// Make sure our gesture recognizer doesn't block other gesture recognizers
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer
+shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+#pragma mark - Gesture recognizer action
 
 - (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer
 {
