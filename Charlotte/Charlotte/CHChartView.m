@@ -367,7 +367,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     NSInteger count = self.collectionView.visibleCells.count;
     for (int i = 0; i < count; i++) {
         CHPointCell *cell = self.collectionView.visibleCells[i];
-        CGFloat alpha = cell.alpha;
+        CGFloat alpha;
         if (cell.page != self.currentPage) {
             if ((cell.page > self.currentPage + 1) || (cell.page < self.currentPage - 1)) {
                 alpha = self.pagingAlpha;
