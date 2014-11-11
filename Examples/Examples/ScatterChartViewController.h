@@ -7,10 +7,7 @@
 //
 
 @import UIKit;
-#import <Charlotte/Charlotte.h>
 
 @interface ScatterChartViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet CHScatterChartView *chartView;
 
 @end

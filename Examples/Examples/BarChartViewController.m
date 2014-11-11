@@ -7,9 +7,12 @@
 //
 
 #import "BarChartViewController.h"
+#import <Charlotte/Charlotte.h>
 
 @interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHBarChartViewDataSource>
 
+@property (nonatomic, strong) CHBarChartView *chartView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSArray *minValues;
 @property (nonatomic, strong) NSArray *maxValues;
 @property (nonatomic, strong) NSArray *values;
@@ -26,29 +29,56 @@
 
 @implementation BarChartViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.minValues = @[@0, @30,  @0];
-    self.maxValues = @[@90, @90, @140];
-    self.values = @[@[@0, @20, @30, @40, @50, @60, @30],
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"CHBarChartView";
+
+        _chartView = [[CHBarChartView alloc] initWithFrame:CGRectZero];
+        _chartView.delegate = self;
+        _chartView.dataSource = self;
+        _chartView.barChartDataSource = self;
+        _chartView.xAxisLineHidden = YES;
+        _chartView.headerHeight = 0;
+        _chartView.backgroundColor = [UIColor clearColor];
+
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        [_scrollView addSubview:_chartView];
+
+        _minValues = @[@0, @30,  @0];
+        _maxValues = @[@90, @90, @140];
+        _values = @[@[@0, @20, @30, @40, @50, @60, @30],
                     @[@70, @0, @50, @40, @70, @60, @45],
                     @[@10, @20, @0, @50, @70, @80, @40]];
-    self.gridlineValues = @[@40, @60, @52, @80, @100, @120];
-    self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
-    self.gridlineTopLabels = @[@"Critical", @"Run-down", @"Daily avg", @"Solid", @"Strong", @"Superhuman"];
-    self.gridlineBottomLabels = @[@"0-39", @"40-59", @"-", @"60-79", @"80-100", @"100+"];
-    self.currentIndex = 0;
-    self.chartView.delegate = self;
-    self.chartView.dataSource = self;
-    self.chartView.barChartDataSource = self;
-    self.chartView.xAxisLineHidden = YES;
-    self.chartView.headerHeight = 0;
-    self.barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-    self.barTintColor = [UIColor colorWithRed:0.52 green:0.62 blue:0.77 alpha:1];
-    self.incompleteColor = [UIColor colorWithRed:0.35 green:0.41 blue:0.5 alpha:1];
-    self.chartView.backgroundColor = [UIColor clearColor];
-    self.view.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
+        _gridlineValues = @[@40, @60, @52, @80, @100, @120];
+        _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
+        _gridlineTopLabels = @[@"Critical", @"Run-down", @"Daily avg", @"Solid", @"Strong", @"Superhuman"];
+        _gridlineBottomLabels = @[@"0-39", @"40-59", @"-", @"60-79", @"80-100", @"100+"];
+        _currentIndex = 0;
+
+        _barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+        _barTintColor = [UIColor colorWithRed:0.52 green:0.62 blue:0.77 alpha:1];
+        _incompleteColor = [UIColor colorWithRed:0.35 green:0.41 blue:0.5 alpha:1];
+
+        [self.view addSubview:_scrollView];
+        self.view.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
     [self.chartView reloadData];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    CGRect bounds = self.view.bounds;
+    self.scrollView.frame = bounds;
+    self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height*1.5);
+    self.chartView.frame = CGRectMake(0, 50, CGRectGetWidth(bounds), 300);
 }
 
 #pragma mark - CHChartViewDataSource
