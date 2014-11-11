@@ -1,20 +1,20 @@
 //
-//  CHHighlightPointView.m
+//  CHCursorPointView.m
 //  Charlotte
 //
 //  Created by Ben Guo on 10/20/14.
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "CHHighlightPointView.h"
+#import "CHCursorPointView.h"
 
-@interface CHHighlightPointView ()
+@interface CHCursorPointView ()
 
 @property (nonatomic, strong) UIView *innerView;
 
 @end
 
-@implementation CHHighlightPointView
+@implementation CHCursorPointView
 
 - (instancetype)init
 {
@@ -87,6 +87,15 @@
     [super layoutSubviews];
     self.layer.cornerRadius = self.bounds.size.width / 2.0;
     self.innerView.layer.cornerRadius = self.innerView.bounds.size.width / 2.0;
+}
+
+#pragma mark - Setters
+
+- (void)setColor:(UIColor *)color
+{
+    _color = color;
+    self.backgroundColor = [color colorWithAlphaComponent:0.4];
+    self.innerView.backgroundColor = color;
 }
 
 

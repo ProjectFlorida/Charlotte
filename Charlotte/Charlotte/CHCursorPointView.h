@@ -1,5 +1,5 @@
 //
-//  CHHighlightPointView.h
+//  CHCursorPointView.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/20/14.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CHHighlightPointView : UIView
+@interface CHCursorPointView : UIView
+
+@property (nonatomic, strong) UIColor *color;
 
 @end

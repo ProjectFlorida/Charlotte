@@ -12,6 +12,8 @@
 
 - (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer;
 
+@property (nonatomic, strong) CHTouchGestureRecognizer *touchGR;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
 
 @end

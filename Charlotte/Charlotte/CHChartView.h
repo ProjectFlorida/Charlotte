@@ -204,13 +204,13 @@ extern NSString *const CHSupplementaryElementKindFooter;
 @property (assign, nonatomic) CGFloat footerHeight;
 
 /// The width of the chart's x axis
-@property (nonatomic, assign) CGFloat xAxisLineWidth;
+@property (nonatomic, assign) CGFloat xAxisLineWidth UI_APPEARANCE_SELECTOR;
 
 /// The color of the chart's x axis
-@property (nonatomic, strong) UIColor *xAxisLineColor;
+@property (nonatomic, strong) UIColor *xAxisLineColor UI_APPEARANCE_SELECTOR;
 
 /// When chart elements page into view, their alpha values will transition from this value to 1.0.
-@property (nonatomic, assign) CGFloat pagingAlpha;
+@property (nonatomic, assign) CGFloat pagingAlpha UI_APPEARANCE_SELECTOR;
 
 /**
  *  A Boolean value indicating whether value labels should be hidden on pages that aren't the current page.
