@@ -21,7 +21,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 @interface CHLineChartView () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
-@property (nonatomic, strong) CHTouchGestureRecognizer *gestureRecognizer;
+@property (nonatomic, strong) CHTouchGestureRecognizer *touchGR;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
 @property (nonatomic, strong) CHGradientView *highlightColumnView;
 @property (nonatomic, strong) CHHighlightPointView *highlightPointView;
 @property (nonatomic, assign) CGFloat highlightColumnWidth;
@@ -62,9 +63,15 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self addSubview:_highlightPointView];
 
     _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
-    _gestureRecognizer = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchGesture:)];
-    _gestureRecognizer.delegate = self;
-    [self addGestureRecognizer:_gestureRecognizer];
+
+    _longPressGR = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+    _longPressGR.minimumPressDuration = 0.1;
+    [self addGestureRecognizer:_longPressGR];
+
+    _touchGR = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchGesture:)];
+    _touchGR.enabled = NO;
+    _touchGR.delegate = self;
+    [self addGestureRecognizer:_touchGR];
 
     self.multipleTouchEnabled = NO;
 
@@ -145,7 +152,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 #pragma mark - Gesture recognizer action
 
-- (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer
+- (void)handleLongPressGesture:(UIGestureRecognizer *)gestureRecognizer
+{
+    self.touchGR.enabled = YES;
+    [self handleTouchGesture:gestureRecognizer];
+}
+
+- (void)handleTouchGesture:(UIGestureRecognizer *)gestureRecognizer
 {
     if (!self.showsHighlightWhenTouched) {
         return;
@@ -178,6 +191,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             self.highlightPointView.alpha = 0;
         }];
         touchEnded = YES;
+        self.touchGR.enabled = NO;
     }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
