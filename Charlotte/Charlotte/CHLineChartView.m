@@ -218,7 +218,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGPoint highlightPointPosition = CGPointMake(x, y);
 
     BOOL touchBegan = NO;
-    BOOL touchEnded = NO;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
             self.cursorColumnView.alpha = 1;
@@ -236,7 +235,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
                                           atIndex:index value:value position:highlightPointPosition];
             }
         }];
-        touchEnded = YES;
         self.touchGR.enabled = NO;
     }
 
