@@ -211,7 +211,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.headerHeight;
-    CGFloat y = (1 - scaledValue) * height + self.headerHeight - self.footerHeight;
+    CGFloat y = (1 - scaledValue)*(height - self.footerHeight) + self.headerHeight;
     CGFloat x = MIN(MAX(self.collectionViewLayout.pageInset.left + self.collectionViewLayout.sectionInset.left,
                         touchLocation.x),
                     self.bounds.size.width - self.collectionViewLayout.pageInset.right - self.collectionViewLayout.sectionInset.right);

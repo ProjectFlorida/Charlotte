@@ -106,8 +106,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
 - (CGFloat)yPositionWithRelativeValue:(CGFloat)value
 {
-    CGFloat displayHeight = self.bounds.size.height;
-    return ((1 - value) * displayHeight) - self.footerHeight;
+    CGFloat displayHeight = self.bounds.size.height - self.footerHeight;
+    return ((1 - value) * displayHeight);
 }
 
 - (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
