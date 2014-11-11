@@ -24,7 +24,9 @@
 - (void)initialize
 {
     [super initialize];
-    self.showsHighlightWhenTouched = NO;
+    self.cursorEnabled = NO;
+    self.touchGR.enabled = YES;
+    self.longPressGR.enabled = NO;
 }
 
 - (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer

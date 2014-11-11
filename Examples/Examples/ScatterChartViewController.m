@@ -7,29 +7,52 @@
 //
 
 #import "ScatterChartViewController.h"
+#import <Charlotte/Charlotte.h>
 
 @interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate, CHLineChartViewDataSource>
+
+@property (nonatomic, strong) CHScatterChartView *chartView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 
 @end
 
 @implementation ScatterChartViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"CHScatterChartView";
+        _chartView = [[CHScatterChartView alloc] initWithFrame:CGRectZero];
+        _chartView.backgroundColor = [UIColor clearColor];
+        _chartView.dataSource = self;
+        _chartView.lineChartDataSource = self;
+        _chartView.xAxisLineHidden = YES;
+        _chartView.scatterChartDataSource = self;
+        _chartView.scatterChartDelegate = self;
+        _chartView.headerHeight = 0;
+
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        [_scrollView addSubview:_chartView];
+
+        [self.view addSubview:_scrollView];
+        self.view.backgroundColor = [UIColor colorWithRed:0.8 green:0.36 blue:0.17 alpha:1];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorWithRed:0.8 green:0.36 blue:0.17 alpha:1];
-    self.chartView.backgroundColor = [UIColor clearColor];
-    self.chartView.dataSource = self;
-    self.chartView.lineChartDataSource = self;
-    self.chartView.xAxisLineHidden = YES;
-    self.chartView.scatterChartDataSource = self;
-    self.chartView.scatterChartDelegate = self;
     [self.chartView reloadData];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)viewDidLayoutSubviews
 {
-    [super viewDidAppear:animated];
-    [self.chartView reloadData];
+    [super viewDidLayoutSubviews];
+    CGRect bounds = self.view.bounds;
+    self.scrollView.frame = bounds;
+    self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height*1.5);
+    self.chartView.frame = CGRectMake(0, 50, CGRectGetWidth(bounds), 300);
 }
 
 #pragma mark - CHScatterChartViewDataSource
@@ -160,7 +183,7 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return 7;
+    return 6;
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView

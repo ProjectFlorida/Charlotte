@@ -16,37 +16,37 @@ extern NSString *const CHSupplementaryElementKindLine;
 @optional
 
 /**
- *  Tells the delegate that the user began highlighting a point in the chart view
+ *  Tells the delegate that the chart view's cursor appeared
  *
- *  @param chartView The chart view being highlighted
- *  @param page      The page of the current highlighted point
- *  @param index     The index of the current highlighted point
- *  @param value     The value of the current highlighted point
- *  @param position  The position of the highlighted point
+ *  @param chartView The chart view containing the cursor
+ *  @param page      The page of the point under the cursor
+ *  @param index     The index of the point under the cursor
+ *  @param value     The value of the point under the cursor
+ *  @param position  The position of point under the cursor
  */
-- (void)chartView:(CHLineChartView *)chartView highlightBeganInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView cursorAppearedInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 /**
- *  Tells the delegate that the user moved to highlight a different point in the chart view
+ *  Tells the delegate that the chart view's cursor moved
  *
- *  @param chartView The chart view being highlighted
- *  @param page      The page of the current highlighted point
- *  @param index     The index of the current highlighted point
- *  @param value     The value of the current highlighted point
- *  @param position  The position of the highlighted point
+ *  @param chartView The chart view containing the cursor
+ *  @param page      The page of the point under the cursor
+ *  @param index     The index of the point under the cursor
+ *  @param value     The value of the point under the cursor
+ *  @param position  The position of point under the cursor
  */
-- (void)chartView:(CHLineChartView *)chartView highlightMovedInPage:(NSInteger)page toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView cursorMovedInPage:(NSInteger)page toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 /**
- *  Tells the delegate that the user stopped highlighting a point in the chart view
+ *  Tells the delegate that the chart view's cursor disappeared
  *
- *  @param chartView The chart view that was being highlighted
- *  @param page      The page of the last highlighted point
- *  @param index     The index of the last highlighted point
- *  @param value     The value of the current highlighted point
- *  @param position  The position of the last highlighted point
+ *  @param chartView The chart view containing the cursor
+ *  @param page      The page of the point under the cursor
+ *  @param index     The index of the point under the cursor
+ *  @param value     The value of the point under the cursor
+ *  @param position  The position of point under the cursor
  */
-- (void)chartView:(CHLineChartView *)chartView highlightEndedInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView cursorDisappearedInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 @end
 
@@ -98,26 +98,35 @@ extern NSString *const CHSupplementaryElementKindLine;
 
 @interface CHLineChartView : CHChartView
 
-/**
- *  The highlighted views displayed when the chart is touched animate between the chart's points with this duration.
+/// The chart's cursor animates between points with this duration.
+@property (nonatomic, assign) CGFloat cursorMovementAnimationDuration;
+
+/// The chart's cursor appears with this duration.
+@property (nonatomic, assign) CGFloat cursorEntranceAnimationDuration;
+
+/// The chart's cursor disappears with this duration.
+@property (nonatomic, assign) CGFloat cursorExitAnimationDuration;
+
+/// The width of the cursor column
+@property (nonatomic, assign) CGFloat cursorColumnWidth UI_APPEARANCE_SELECTOR;
+
+/// The color of the cursor column
+@property (nonatomic, strong) UIColor *cursorColumnColor UI_APPEARANCE_SELECTOR;
+
+/** 
+ *  The tint color of the cursor column.
+ *  If a tint color is provided, a gradient will be drawn from the column color (top) to the tint color (bottom)
  */
-@property (nonatomic, readonly) CGFloat highlightMovementAnimationDuration;
+@property (nonatomic, strong) UIColor *cursorColumnTintColor UI_APPEARANCE_SELECTOR;
+
+/// The radius of the cursor point
+@property (nonatomic, assign) CGFloat cursorPointRadius UI_APPEARANCE_SELECTOR;
 
 /**
- *  The highlighted views displayed when the chart is touched appear with this duration.
- */
-@property (nonatomic, readonly) CGFloat highlightEntranceAnimationDuration;
-
-/**
- *  The highlighted views displayed when the chart is touched disappear with this duration.
- */
-@property (nonatomic, readonly) CGFloat highlightExitAnimationDuration;
-
-/**
- *  A Boolean value that determines whether tapping the chart causes the nearest point to be highlighted.
+ *  A Boolean value that determines whether the chart should display a cursor when touched.
  *  The default value is YES.
  */
-@property (nonatomic, assign) BOOL showsHighlightWhenTouched;
+@property (nonatomic, assign) BOOL cursorEnabled;
 
 @property (nonatomic, weak) id<CHLineChartViewDelegate> lineChartDelegate;
 @property (nonatomic, weak) id<CHLineChartViewDataSource> lineChartDataSource;

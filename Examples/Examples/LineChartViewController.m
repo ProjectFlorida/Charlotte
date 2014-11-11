@@ -7,9 +7,12 @@
 //
 
 #import "LineChartViewController.h"
+#import <Charlotte/Charlotte.h>
 
 @interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHLineChartViewDelegate, CHLineChartViewDataSource>
 
+@property (nonatomic, strong) CHLineChartView *chartView;
+@property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, strong) UIView *tooltipView;
 @property (nonatomic, assign) NSInteger currentIndex;
@@ -19,27 +22,51 @@
 
 @implementation LineChartViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.title = @"CHLineChartView";
+
+        _chartView = [[CHLineChartView alloc] initWithFrame:CGRectZero];
+        _chartView.dataSource = self;
+        _chartView.delegate = self;
+        _chartView.lineChartDelegate = self;
+        _chartView.lineChartDataSource = self;
+        _chartView.backgroundColor = [UIColor clearColor];
+        _chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
+        _chartView.headerHeight = 30;
+
+        _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
+        [_scrollView addSubview:_chartView];
+
+        _tooltipView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, 80, 50)];
+        _tooltipView.backgroundColor = [UIColor whiteColor];
+        _tooltipView.alpha = 0;
+        [_scrollView addSubview:_tooltipView];
+
+        _pointCount = 100;
+        _currentIndex = 0;
+        _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
+
+        [self.view addSubview:_scrollView];
+        self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
-    self.pointCount = 100;
-    self.currentIndex = 0;
-
-    self.tooltipView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, 80, 50)];
-    self.tooltipView.backgroundColor = [UIColor whiteColor];
-    self.tooltipView.alpha = 0;
-    [self.view addSubview:self.tooltipView];
-
-    self.xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
-    self.chartView.dataSource = self;
-    self.chartView.delegate = self;
-    self.chartView.lineChartDelegate = self;
-    self.chartView.lineChartDataSource = self;
-    self.chartView.backgroundColor = [UIColor clearColor];
-    self.chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
-    self.chartView.headerHeight = 30;
     [self.chartView reloadData];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    CGRect bounds = self.view.bounds;
+    self.scrollView.frame = bounds;
+    self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height*1.5);
+    self.chartView.frame = CGRectMake(0, 100, CGRectGetWidth(bounds), 300);
 }
 
 #pragma mark CHChartViewDataSource
@@ -145,22 +172,22 @@
 
 #pragma mark CHLineChartViewDelegate
 
-- (void)chartView:(CHLineChartView *)chartView highlightBeganInPage:(NSInteger)page
+- (void)chartView:(CHLineChartView *)chartView cursorAppearedInPage:(NSInteger)page
           atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     self.tooltipView.alpha = 1;
     [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
 }
 
-- (void)chartView:(CHLineChartView *)chartView highlightMovedInPage:(NSInteger)page
+- (void)chartView:(CHLineChartView *)chartView cursorMovedInPage:(NSInteger)page
           toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
-    [UIView animateWithDuration:self.chartView.highlightMovementAnimationDuration animations:^{
+    [UIView animateWithDuration:self.chartView.cursorMovementAnimationDuration animations:^{
         [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
     }];
 }
 
-- (void)chartView:(CHLineChartView *)chartView highlightEndedInPage:(NSInteger)page
+- (void)chartView:(CHLineChartView *)chartView cursorDisappearedInPage:(NSInteger)page
           atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     self.tooltipView.alpha = 0;

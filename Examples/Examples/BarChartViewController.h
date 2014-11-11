@@ -7,11 +7,8 @@
 //
 
 @import UIKit;
-#import <Charlotte/Charlotte.h>
 
 @interface BarChartViewController : UIViewController
-
-@property (weak, nonatomic) IBOutlet CHBarChartView *chartView;
 
 @end
 

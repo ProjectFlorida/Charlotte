@@ -12,7 +12,7 @@
 #import "CHChartViewSubclass.h"
 #import "CHPagingLineChartFlowLayout.h"
 #import "CHTouchGestureRecognizer.h"
-#import "CHHighlightPointView.h"
+#import "CHCursorPointView.h"
 #import "CHGradientView.h"
 #import "CHFooterView.h"
 
@@ -21,9 +21,10 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 @interface CHLineChartView () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
-@property (nonatomic, strong) CHTouchGestureRecognizer *gestureRecognizer;
-@property (nonatomic, strong) CHGradientView *highlightColumnView;
-@property (nonatomic, strong) CHHighlightPointView *highlightPointView;
+@property (nonatomic, strong) CHTouchGestureRecognizer *touchGR;
+@property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
+@property (nonatomic, strong) CHGradientView *cursorColumnView;
+@property (nonatomic, strong) CHCursorPointView *cursorPointView;
 @property (nonatomic, assign) CGFloat highlightColumnWidth;
 
 @end
@@ -37,34 +38,36 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
-    _showsHighlightWhenTouched = YES;
-    _highlightMovementAnimationDuration = 0.2;
-    _highlightEntranceAnimationDuration = 0.15;
-    _highlightExitAnimationDuration = 0.15;
-    _highlightColumnWidth = 19;
-    _highlightColumnView = [[CHGradientView alloc] initWithFrame:CGRectMake(0, 0,
+    _cursorEnabled = YES;
+    _cursorMovementAnimationDuration = 0.2;
+    _cursorEntranceAnimationDuration = 0.15;
+    _cursorExitAnimationDuration = 0.15;
+    _highlightColumnWidth = 4;
+    _cursorColumnView = [[CHGradientView alloc] initWithFrame:CGRectMake(0, 0,
                                                                             _highlightColumnWidth,
                                                                             self.bounds.size.height)];
-    _highlightColumnView.locations = @[@0, @0.35, @0.65, @1];
-    _highlightColumnView.colors = @[[[UIColor whiteColor] colorWithAlphaComponent:0.4],
-                                    [[UIColor whiteColor] colorWithAlphaComponent:0.15],
-                                    [[UIColor whiteColor] colorWithAlphaComponent:0.15],
-                                    [[UIColor whiteColor] colorWithAlphaComponent:0.4]];
-    _highlightColumnView.startPoint = CGPointMake(0, 0.5);
-    _highlightColumnView.endPoint = CGPointMake(1, 0.5);
-    _highlightColumnView.alpha = 0;
-    [self addSubview:_highlightColumnView];
+    _cursorColumnView.locations = @[@0, @0.35, @0.65, @1];
+    _cursorColumnView.colors = @[[UIColor colorWithWhite:1 alpha:0.4],
+                                  [UIColor colorWithWhite:1 alpha:0]];
+    _cursorColumnView.startPoint = CGPointMake(0.5, 0);
+    _cursorColumnView.endPoint = CGPointMake(0.5, 1);
+    _cursorColumnView.alpha = 0;
+    [self addSubview:_cursorColumnView];
 
-    _highlightPointView = [[CHHighlightPointView alloc] initWithFrame:CGRectMake(0, 0,
-                                                                                 _highlightColumnWidth*0.85,
-                                                                                 _highlightColumnWidth*0.85)];
-    _highlightPointView.alpha = 0;
-    [self addSubview:_highlightPointView];
+    _cursorPointView = [[CHCursorPointView alloc] initWithFrame:CGRectMake(0, 0, 16, 16)];
+    _cursorPointView.alpha = 0;
+    [self addSubview:_cursorPointView];
 
     _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
-    _gestureRecognizer = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchGesture:)];
-    _gestureRecognizer.delegate = self;
-    [self addGestureRecognizer:_gestureRecognizer];
+
+    _longPressGR = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
+    _longPressGR.minimumPressDuration = 0.1;
+    [self addGestureRecognizer:_longPressGR];
+
+    _touchGR = [[CHTouchGestureRecognizer alloc] initWithTarget:self action:@selector(handleTouchGesture:)];
+    _touchGR.enabled = NO;
+    _touchGR.delegate = self;
+    [self addGestureRecognizer:_touchGR];
 
     self.multipleTouchEnabled = NO;
 
@@ -81,9 +84,9 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.highlightColumnView.frame = CGRectMake(self.highlightColumnView.frame.origin.x,
+    self.cursorColumnView.frame = CGRectMake(self.cursorColumnView.frame.origin.x,
                                                 0,
-                                                self.highlightColumnView.frame.size.width,
+                                                self.cursorColumnView.frame.size.width,
                                                 self.bounds.size.height - self.footerHeight);
 }
 
@@ -134,6 +137,36 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self updateRangeInVisibleLineViewsAnimated:animated];
 }
 
+#pragma mark - Setters
+
+- (void)setCursorColumnWidth:(CGFloat)cursorColumnWidth
+{
+    _cursorColumnWidth = cursorColumnWidth;
+    CGRect currentFrame = self.cursorColumnView.frame;
+    self.cursorColumnView.frame = CGRectMake(currentFrame.origin.x, currentFrame.origin.y,
+                                             cursorColumnWidth, currentFrame.size.height);
+}
+
+- (void)setCursorPointRadius:(CGFloat)cursorPointRadius
+{
+    _cursorPointRadius = cursorPointRadius;
+    CGRect currentFrame = self.cursorPointView.frame;
+    self.cursorColumnView.frame = CGRectMake(currentFrame.origin.x, currentFrame.origin.y,
+                                             cursorPointRadius*2.0, currentFrame.size.height);
+}
+
+- (void)setCursorColumnColor:(UIColor *)cursorColumnColor
+{
+    _cursorColumnColor = cursorColumnColor;
+    self.cursorColumnView.colors = @[cursorColumnColor, self.cursorColumnView.colors[1]];
+}
+
+- (void)setCursorColumnTintColor:(UIColor *)cursorColumnTintColor
+{
+    _cursorColumnTintColor = cursorColumnTintColor;
+    self.cursorColumnView.colors = @[self.cursorColumnView.colors[0], cursorColumnTintColor];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 // Make sure our gesture recognizer doesn't block other gesture recognizers
@@ -145,9 +178,18 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
 #pragma mark - Gesture recognizer action
 
-- (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer
+- (void)handleLongPressGesture:(UIGestureRecognizer *)gestureRecognizer
 {
-    if (!self.showsHighlightWhenTouched) {
+    if (!self.cursorEnabled) {
+        return;
+    }
+    self.touchGR.enabled = YES;
+    [self handleTouchGesture:gestureRecognizer];
+}
+
+- (void)handleTouchGesture:(UIGestureRecognizer *)gestureRecognizer
+{
+    if (!self.cursorEnabled) {
         return;
     }
     CGPoint touchLocation = [gestureRecognizer locationInView:self];
@@ -163,41 +205,48 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         return;
     }
 
-    BOOL touchBegan = NO;
-    BOOL touchEnded = NO;
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        [UIView animateWithDuration:self.highlightEntranceAnimationDuration animations:^{
-            self.highlightColumnView.alpha = 1;
-            self.highlightPointView.alpha = 1;
-        }];
-        touchBegan = YES;
-    }
-    else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
-        [UIView animateWithDuration:self.highlightExitAnimationDuration animations:^{
-            self.highlightColumnView.alpha = 0;
-            self.highlightPointView.alpha = 0;
-        }];
-        touchEnded = YES;
-    }
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     index = MIN(MAX(0, index), pointCount - 1);
     CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.headerHeight;
-    CGFloat y = (1 - scaledValue) * height + self.headerHeight - self.footerHeight;
+    CGFloat y = (1 - scaledValue)*(height - self.footerHeight) + self.headerHeight;
     CGFloat x = MIN(MAX(self.collectionViewLayout.pageInset.left + self.collectionViewLayout.sectionInset.left,
                         touchLocation.x),
                     self.bounds.size.width - self.collectionViewLayout.pageInset.right - self.collectionViewLayout.sectionInset.right);
     CGPoint highlightPointPosition = CGPointMake(x, y);
 
+    BOOL touchBegan = NO;
+    BOOL touchEnded = NO;
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
+            self.cursorColumnView.alpha = 1;
+            self.cursorPointView.alpha = 1;
+        }];
+        touchBegan = YES;
+    }
+    else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        [UIView animateWithDuration:self.cursorExitAnimationDuration animations:^{
+            self.cursorColumnView.alpha = 0;
+            self.cursorPointView.alpha = 0;
+        } completion:^(BOOL finished) {
+            if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorDisappearedInPage:atIndex:value:position:)]) {
+                [self.lineChartDelegate chartView:self cursorDisappearedInPage:self.currentPage
+                                          atIndex:index value:value position:highlightPointPosition];
+            }
+        }];
+        touchEnded = YES;
+        self.touchGR.enabled = NO;
+    }
+
     void(^updateBlock)() = ^() {
-        [self.highlightPointView setCenter:CGPointMake(x, y)];
-        [self.highlightColumnView setCenter:CGPointMake(x, self.highlightColumnView.center.y)];
+        [self.cursorPointView setCenter:CGPointMake(x, y)];
+        [self.cursorColumnView setCenter:CGPointMake(x, self.cursorColumnView.center.y)];
     };
 
     if (!touchBegan) {
-        [UIView animateWithDuration:self.highlightMovementAnimationDuration animations:^{
+        [UIView animateWithDuration:self.cursorMovementAnimationDuration animations:^{
             updateBlock();
         }];
     }
@@ -206,20 +255,14 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     }
 
     if (touchBegan) {
-        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightBeganInPage:atIndex:value:position:)]) {
-            [self.lineChartDelegate chartView:self highlightBeganInPage:self.currentPage
-                                      atIndex:index value:value position:highlightPointPosition];
-        }
-    }
-    else if (touchEnded) {
-        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightEndedInPage:atIndex:value:position:)]) {
-            [self.lineChartDelegate chartView:self highlightEndedInPage:self.currentPage
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorAppearedInPage:atIndex:value:position:)]) {
+            [self.lineChartDelegate chartView:self cursorAppearedInPage:self.currentPage
                                       atIndex:index value:value position:highlightPointPosition];
         }
     }
     else {
-        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:highlightMovedInPage:toIndex:value:position:)]) {
-            [self.lineChartDelegate chartView:self highlightMovedInPage:self.currentPage
+        if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorMovedInPage:toIndex:value:position:)]) {
+            [self.lineChartDelegate chartView:self cursorMovedInPage:self.currentPage
                                       toIndex:index value:value position:highlightPointPosition];
         }
     }

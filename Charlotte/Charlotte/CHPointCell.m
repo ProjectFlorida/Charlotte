@@ -51,7 +51,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     CGFloat centerX = CGRectGetMidX(self.bounds);
     CGFloat scaledValue = [self scaledValue];
     CGFloat pointViewWidth = width/2.0;
-    CGFloat centerY = (1- scaledValue)*height - self.footerHeight;
+    CGFloat centerY = (1 - scaledValue)*(height - self.footerHeight);
     return CGRectMake(centerX - pointViewWidth/2.0,
                       centerY - pointViewWidth/2.0,
                       pointViewWidth, pointViewWidth);
