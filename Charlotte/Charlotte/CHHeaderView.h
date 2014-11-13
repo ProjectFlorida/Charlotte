@@ -12,6 +12,4 @@ extern NSString *const kCHHeaderViewReuseId;
 
 @interface CHHeaderView : UICollectionReusableView
 
-- (void)setLabelView:(UIView *)view;
-
 @end

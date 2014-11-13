@@ -12,9 +12,6 @@ extern NSString *const kCHFooterViewReuseId;
 
 @interface CHFooterView : UICollectionReusableView
 
-@property (nonatomic, assign) CGFloat lineWidth;
-@property (nonatomic, strong) UIColor *lineColor;
-
 /**
  *  Displays the given x axis label at the given relative position. If there is already a label at the given position,
  *  it will be replaced with the new label.

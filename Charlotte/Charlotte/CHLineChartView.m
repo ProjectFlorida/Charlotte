@@ -38,6 +38,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
+    _lineInsetAlpha = 0.1;
+
     _cursorEnabled = YES;
     _cursorMovementAnimationDuration = 0.2;
     _cursorEntranceAnimationDuration = 0.15;
@@ -75,7 +77,6 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
             forSupplementaryViewOfKind:CHSupplementaryElementKindLine
                    withReuseIdentifier:kCHLineViewReuseId];
     self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
-    self.collectionViewLayout.sectionInset = UIEdgeInsetsMake(0, 28, 0, 28);
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 
     [self initializeConstraints];
@@ -167,6 +168,12 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     self.cursorColumnView.colors = @[self.cursorColumnView.colors[0], cursorColumnTintColor];
 }
 
+- (void)setLineInsetAlpha:(CGFloat)lineInsetAlpha
+{
+    _lineInsetAlpha = lineInsetAlpha;
+    [self.collectionView reloadData];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 // Make sure our gesture recognizer doesn't block other gesture recognizers
@@ -201,8 +208,19 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat cellWidth = (self.bounds.size.width - sectionInsetWidth - pageInsetWidth)/pointCount;
     NSInteger index = (touchLocation.x - pageInset.left - sectionInset.left)/cellWidth;
 
-    if (index == NSNotFound) {
-        return;
+    // Don't allow interaction in the dimmed line insets
+    CGFloat leftInset = 0;
+    if ([self.lineChartDataSource respondsToSelector:@selector(chartView:leftLineInsetInPage:)]) {
+        leftInset = [self.lineChartDataSource chartView:self leftLineInsetInPage:self.currentPage];
+    }
+    CGFloat rightInset = 0;
+    if ([self.lineChartDataSource respondsToSelector:@selector(chartView:rightLineInsetInPage:)]) {
+        rightInset = [self.lineChartDataSource chartView:self rightLineInsetInPage:self.currentPage];
+    }
+
+    BOOL locationIsOutsideLine = NO;
+    if (index < leftInset || index >= pointCount - rightInset) {
+        locationIsOutsideLine = YES;
     }
 
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
@@ -218,7 +236,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGPoint highlightPointPosition = CGPointMake(x, y);
 
     BOOL touchBegan = NO;
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan && !locationIsOutsideLine) {
         [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
             self.cursorColumnView.alpha = 1;
             self.cursorPointView.alpha = 1;
@@ -236,6 +254,10 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             }
         }];
         self.touchGR.enabled = NO;
+    }
+
+    if (locationIsOutsideLine) {
+        return;
     }
 
     void(^updateBlock)() = ^() {
@@ -331,7 +353,18 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         }
 
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        [lineView drawLineWithValues:values regions:regions];
+
+        lineView.lineInsetAlpha = self.lineInsetAlpha;
+        CGFloat leftInset = 0;
+        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:leftLineInsetInPage:)]) {
+            leftInset = [self.lineChartDataSource chartView:self leftLineInsetInPage:indexPath.section];
+        }
+        CGFloat rightInset = 0;
+        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:rightLineInsetInPage:)]) {
+            rightInset = [self.lineChartDataSource chartView:self rightLineInsetInPage:indexPath.section];
+        }       
+        [lineView drawLineWithValues:values regions:regions
+                           leftInset:leftInset rightInset:rightInset];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

@@ -36,6 +36,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIView *overlayView;
+@property (strong, nonatomic) UIView *yAxisLabelView;
+@property (strong, nonatomic) UIView *xAxisLineView;
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
 @property (assign, nonatomic) NSInteger currentPage;
@@ -83,16 +85,25 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _currentPage = 0;
     _footerHeight = 30;
     _headerHeight = 30;
+
     _xAxisLineHidden = NO;
     _xAxisLineWidth = 1;
-    _pagingAlpha = 0.3;
     _xAxisLineColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+    _xAxisLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, _xAxisLineWidth)];
+    _xAxisLineView.backgroundColor = _xAxisLineColor;
+    _xAxisLineView.hidden = _xAxisLineHidden;
+    [self addSubview:_xAxisLineView];
+
+    _pagingAlpha = 0.3;
+    _pageInset = UIEdgeInsetsMake(0, 40, 0, 40);
     _hidesValueLabelsOnNonCurrentPages = YES;
     _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
 
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero collectionViewLayout:_collectionViewLayout];
+    _collectionViewLayout.pageInset = _pageInset;
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
+                                         collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
@@ -206,6 +217,12 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     NSInteger count = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
 
+    if ([self.dataSource respondsToSelector:@selector(labelViewForYAxisInChartView:)]) {
+        self.yAxisLabelView = [self.dataSource labelViewForYAxisInChartView:self];
+        [self addSubview:self.yAxisLabelView];
+        [self setNeedsLayout];
+    }
+
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = [[CHGridlineContainer alloc] init];
         gridline.lineView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
@@ -291,10 +308,15 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     [self.collectionViewLayout invalidateLayout];
     [super layoutSubviews];
+    CGRect bounds = self.bounds;
     [self.scrollView setContentSize:self.collectionViewLayout.collectionViewContentSize];
     [self updateAlphaInVisibleCellsAnimated:NO];
     self.scrollView.contentOffset = CGPointMake(self.currentPage*self.scrollView.bounds.size.width, 0);
     self.collectionView.contentOffset = self.scrollView.contentOffset;
+    self.yAxisLabelView.center = CGPointMake(CGRectGetMidX(self.yAxisLabelView.frame),
+                                             CGRectGetMidY(self.yAxisLabelView.frame));
+    self.xAxisLineView.frame = CGRectMake(0, CGRectGetHeight(bounds) - self.footerHeight,
+                                          CGRectGetWidth(bounds), _xAxisLineWidth);
 }
 
 - (void)didMoveToWindow
@@ -441,6 +463,31 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 #pragma mark - Custom setters
 
+- (void)setPageInset:(UIEdgeInsets)pageInset
+{
+    _pageInset = pageInset;
+    self.collectionViewLayout.pageInset = pageInset;
+    [self.collectionViewLayout invalidateLayout];
+}
+
+- (void)setXAxisLineHidden:(BOOL)xAxisLineHidden
+{
+    _xAxisLineHidden = xAxisLineHidden;
+    self.xAxisLineView.hidden = _xAxisLineHidden;
+}
+
+- (void)setXAxisLineColor:(UIColor *)xAxisLineColor
+{
+    _xAxisLineColor = xAxisLineColor;
+    self.xAxisLineView.backgroundColor = _xAxisLineColor;
+}
+
+- (void)setXAxisLineWidth:(CGFloat)xAxisLineWidth
+{
+    _xAxisLineWidth = xAxisLineWidth;
+    [self setNeedsLayout];
+}
+
 - (void)setCurrentPage:(NSInteger)currentPage
 {
     CGFloat maxPage = 1;
@@ -581,17 +628,12 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         CHHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
                                                                       withReuseIdentifier:kCHHeaderViewReuseId
                                                                              forIndexPath:indexPath];
-        if ([self.dataSource respondsToSelector:@selector(labelViewForYAxisInChartView:)]) {
-            [headerView setLabelView:[self.dataSource labelViewForYAxisInChartView:self]];
-        }
         view = headerView;
     }
     else if (kind == CHSupplementaryElementKindFooter) {
         CHFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
                                                                       withReuseIdentifier:kCHFooterViewReuseId
                                                                              forIndexPath:indexPath];
-        footerView.lineWidth = self.xAxisLineWidth;
-        footerView.lineColor = self.isXAxisLineHidden ? [UIColor clearColor] : self.xAxisLineColor;
         view = footerView;
     }
     return view;

@@ -16,12 +16,14 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
+@property (nonatomic, assign) NSInteger leftInset;
+@property (nonatomic, assign) NSInteger rightInset;
 @property (nonatomic, strong) NSArray *lineValues;
 @property (nonatomic, strong) NSArray *scatterPoints;
 @property (nonatomic, strong) NSMutableArray *scatterPointViews;
 @property (nonatomic, strong) CAShapeLayer *lineMaskLayer;
 @property (nonatomic, strong) CAShapeLayer *regionMaskLayer;
-@property (nonatomic, strong) CAShapeLayer *lineShadowLayer;
+@property (nonatomic, strong) CAShapeLayer *lineBackgroundLayer;
 @property (nonatomic, strong) CHGradientView *lineView;
 @property (nonatomic, strong) NSArray *regions;
 @property (nonatomic, strong) UIView *regionsView;
@@ -44,6 +46,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineColor = [UIColor whiteColor];
         _lineTintColor = nil;
         _lineWidth = 4;
+        _lineInsetAlpha = 0.1;
 
         _lineMaskLayer = [CAShapeLayer layer];
         _lineMaskLayer.lineCap = kCALineCapRound;
@@ -51,14 +54,14 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineMaskLayer.fillColor = nil;
         _lineMaskLayer.strokeColor = [UIColor whiteColor].CGColor;
 
-        _lineShadowLayer = [CAShapeLayer layer];
-        _lineShadowLayer.shadowOpacity = 0;
-        _lineShadowLayer.shadowRadius = 1;
-        _lineShadowLayer.shadowOffset = CGSizeMake(0, 1);
-        _lineShadowLayer.lineCap = _lineMaskLayer.lineCap;
-        _lineShadowLayer.lineWidth = _lineMaskLayer.lineWidth;
-        _lineShadowLayer.fillColor = nil;
-        _lineShadowLayer.strokeColor = [UIColor whiteColor].CGColor;
+        _lineBackgroundLayer = [CAShapeLayer layer];
+        _lineBackgroundLayer.shadowOpacity = 0;
+        _lineBackgroundLayer.shadowRadius = 1;
+        _lineBackgroundLayer.shadowOffset = CGSizeMake(0, 1);
+        _lineBackgroundLayer.lineCap = _lineMaskLayer.lineCap;
+        _lineBackgroundLayer.lineWidth = _lineMaskLayer.lineWidth;
+        _lineBackgroundLayer.fillColor = nil;
+        _lineBackgroundLayer.strokeColor = [_lineColor colorWithAlphaComponent:_lineInsetAlpha].CGColor;
 
         _regionMaskLayer = [CAShapeLayer layer];
         _regionMaskLayer.frame = self.bounds;
@@ -73,7 +76,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _regionsView.layer.mask = _regionMaskLayer;
 
         [self addSubview:_regionsView];
-        [self.layer addSublayer:_lineShadowLayer];
+        [self.layer addSublayer:_lineBackgroundLayer];
         [self addSubview:_lineView];
     }
     return self;
@@ -85,13 +88,14 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 
     CGSize currentSize = self.bounds.size;
     self.lineView.frame = self.bounds;
-    self.lineShadowLayer.frame = self.bounds;
+    self.lineBackgroundLayer.frame = self.bounds;
     self.lineMaskLayer.frame = self.bounds;
     self.regionMaskLayer.frame = self.bounds;
     self.regionsView.frame = CGRectMake(0, 0,
                                         currentSize.width,
                                         currentSize.height - self.footerHeight - 2);
-    [self drawLineWithValues:self.lineValues regions:self.regions];
+    [self drawLineWithValues:self.lineValues regions:self.regions
+                   leftInset:self.leftInset rightInset:self.rightInset];
     [self drawScatterPoints:self.scatterPoints];
     [self drawInteractivePoint:self.interactivePoint];
 }
@@ -123,7 +127,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     _minValue = minValue;
     _maxValue = maxValue;
     // TODO: animate range change
-    [self drawLineWithValues:self.lineValues regions:self.regions];
+    [self drawLineWithValues:self.lineValues regions:self.regions
+                   leftInset:self.leftInset rightInset:self.rightInset];
     [self drawScatterPoints:self.scatterPoints];
     [self drawInteractivePoint:self.interactivePoint];
     if (completion) {
@@ -131,9 +136,13 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     }
 }
 
-- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions leftInset:(NSInteger)leftInset rightInset:(NSInteger)rightInset;
 {
-    _lineValues = values;
+    self.lineValues = values;
+    self.regions = regions;
+    self.leftInset = leftInset;
+    self.rightInset = rightInset;
+
     NSInteger count = values.count;
     if (!count) {
         return;
@@ -148,18 +157,22 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
         [points addObject:pointValue];
     }
-    UIBezierPath *path = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
-    [self.lineMaskLayer setPath:path.CGPath];
-    [self.lineShadowLayer setPath:path.CGPath];
+    UIBezierPath *fullPath = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
+    NSArray *insetPoints = [points subarrayWithRange:NSMakeRange(self.leftInset,
+                                                                 count - self.leftInset - self.rightInset)];
+    UIBezierPath *insetPath = [UIBezierPath interpolateCGPointsWithHermite:insetPoints closed:NO];
+    [self.lineMaskLayer setPath:insetPath.CGPath];
+    [self.lineBackgroundLayer setPath:fullPath.CGPath];
 
     // update mask layer
     CGPoint firstPoint = [points[0] CGPointValue];
     CGPoint lastPoint = [[points lastObject] CGPointValue];
-    [path addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
-    [path addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
-    [path closePath];
-    [self.regionMaskLayer setPath:path.CGPath];
+    [fullPath addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
+    [fullPath addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
+    [fullPath closePath];
+    [self.regionMaskLayer setPath:fullPath.CGPath];
 
+    // draw regions
     if (!regions) {
         return;
     }
@@ -236,7 +249,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _lineWidth = lineWidth;
     self.lineMaskLayer.lineWidth = _lineWidth;
-    self.lineShadowLayer.lineWidth = _lineWidth;
+    self.lineBackgroundLayer.lineWidth = _lineWidth;
 }
 
 - (void)setLineColor:(UIColor *)lineColor
@@ -248,12 +261,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     else {
         self.lineView.colors = @[_lineColor, _lineColor];
     }
-}
-
-- (void)setFooterHeight:(CGFloat)footerHeight
-{
-    _footerHeight = footerHeight;
-    [self setNeedsLayout];
+    self.lineBackgroundLayer.strokeColor = [_lineColor colorWithAlphaComponent:_lineInsetAlpha].CGColor;
 }
 
 - (void)setLineTintColor:(UIColor *)lineTintColor
@@ -266,6 +274,20 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         self.lineView.colors = @[self.lineColor, self.lineColor];
     }
 }
+
+- (void)setLineInsetAlpha:(CGFloat)lineInsetAlpha
+{
+    _lineInsetAlpha = lineInsetAlpha;
+    self.lineBackgroundLayer.strokeColor = [self.lineColor colorWithAlphaComponent:_lineInsetAlpha].CGColor;
+}
+
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    _footerHeight = footerHeight;
+    [self setNeedsLayout];
+}
+
+
 
 
 @end
