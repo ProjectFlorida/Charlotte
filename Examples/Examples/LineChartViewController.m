@@ -149,13 +149,23 @@
     return @[
              [CHChartRegion regionWithRange:NSMakeRange(30, 10) color:blue tintColor:self.view.backgroundColor],
              [CHChartRegion regionWithRange:NSMakeRange(65, 10) color:green tintColor:self.view.backgroundColor],
-             [CHChartRegion regionWithRange:NSMakeRange(75, 20) color:blue tintColor:self.view.backgroundColor]
+             [CHChartRegion regionWithRange:NSMakeRange(70, 20) color:blue tintColor:self.view.backgroundColor]
              ];
 }
 
 - (UIColor *)chartView:(CHLineChartView *)chartView lineColorInPage:(NSInteger)page
 {
     return [UIColor whiteColor];
+}
+
+- (NSInteger)chartView:(CHLineChartView *)chartView leftLineInsetInPage:(NSInteger)page
+{
+    return 10;
+}
+
+- (NSInteger)chartView:(CHLineChartView *)chartView rightLineInsetInPage:(NSInteger)page
+{
+    return 5;
 }
 
 - (CGFloat)chartView:(CHLineChartView *)chartView lineWidthInPage:(NSInteger)page

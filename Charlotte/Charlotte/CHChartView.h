@@ -134,8 +134,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView;
 
-@optional
-
 /**
  *  Asks the data source for the specified gridline's line dash pattern.
  *  By default, the gridline will display a solid line.
@@ -195,13 +193,16 @@ extern NSString *const CHSupplementaryElementKindFooter;
 @property (nonatomic, weak) id<CHChartViewDelegate> delegate;
 
 /// Whether or not the chart's x axis is hidden
-@property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden;
+@property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden UI_APPEARANCE_SELECTOR;
 
 /// The chart's header height
-@property (assign, nonatomic) CGFloat headerHeight;
+@property (nonatomic, assign) CGFloat headerHeight UI_APPEARANCE_SELECTOR;
 
 /// The chart's footer height
-@property (assign, nonatomic) CGFloat footerHeight;
+@property (nonatomic, assign) CGFloat footerHeight UI_APPEARANCE_SELECTOR;
+
+/// The chart's page inset
+@property (nonatomic, assign) UIEdgeInsets pageInset UI_APPEARANCE_SELECTOR;
 
 /// The width of the chart's x axis
 @property (nonatomic, assign) CGFloat xAxisLineWidth UI_APPEARANCE_SELECTOR;

@@ -94,6 +94,28 @@ extern NSString *const CHSupplementaryElementKindLine;
  */
 - (UIColor *)chartView:(CHLineChartView *)chartView lineTintColorInPage:(NSInteger)page;
 
+/**
+ *  Asks the data source for the left line inset in the specified page.
+ *  The chart's line will be dimmed on the left up to this index.
+ *
+ *  @param chartView The chart view requesting the line inset.
+ *  @param page      The line's page index
+ *
+ *  @return An index specifying the right edge of the line's left inset.
+ */
+- (NSInteger)chartView:(CHLineChartView *)chartView leftLineInsetInPage:(NSInteger)page;
+
+/**
+ *  Asks the data source for the right line inset in the specified page.
+ *  The chart's line will be dimmed on the left up to this index.
+ *
+ *  @param chartView The chart view requesting the line inset.
+ *  @param page      The line's page index
+ *
+ *  @return An index specifying the right edge of the line's left inset.
+ */
+- (NSInteger)chartView:(CHLineChartView *)chartView rightLineInsetInPage:(NSInteger)page;
+
 @end
 
 @interface CHLineChartView : CHChartView
@@ -106,6 +128,9 @@ extern NSString *const CHSupplementaryElementKindLine;
 
 /// The chart's cursor disappears with this duration.
 @property (nonatomic, assign) CGFloat cursorExitAnimationDuration;
+
+/// The line's insets will be drawn using the line's color with this alpha component.
+@property (nonatomic, assign) CGFloat lineInsetAlpha UI_APPEARANCE_SELECTOR;
 
 /// The width of the cursor column
 @property (nonatomic, assign) CGFloat cursorColumnWidth UI_APPEARANCE_SELECTOR;

@@ -14,9 +14,16 @@ extern NSString *const kCHLineViewReuseId;
 
 @interface CHLineView : UICollectionReusableView
 
+/// The line view's minimum displayable value
 @property (nonatomic, readonly) CGFloat minValue;
+
+/// The line view's maximum displayable value
 @property (nonatomic, readonly) CGFloat maxValue;
+
+/// The line view's footer height (set this to the chart view's footer height)
 @property (nonatomic, assign) CGFloat footerHeight;
+
+/// The line view's interactive point
 @property (nonatomic, strong) CHInteractivePoint *interactivePoint;
 
 /// The line's primary color (drawn on the right).
@@ -28,12 +35,18 @@ extern NSString *const kCHLineViewReuseId;
 /// The line's width in points. Default is 4.0.
 @property (nonatomic, assign) CGFloat lineWidth;
 
+/// The alpha component of the line's inset (applied to lineColor).
+@property (nonatomic, assign) CGFloat lineInsetAlpha;
+
 /**
  *  Draws a line between the given values, with colored regions below the line specified by the given array.
  *
- *  @param regions An array of CHChartRegion objects.
+ *  @param values       An array of y-values describing the line.
+ *  @param regions      An array of CHChartRegion objects.
+ *  @param leftInset    The line will be dimmed on the left up to this index.
+ *  @param rightInset   The line will be dimmed on the right beginning at the index.
  */
-- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions;
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions leftInset:(NSInteger)leftInset rightInset:(NSInteger)rightInset;
 
 /**
  *  Draws the given points
