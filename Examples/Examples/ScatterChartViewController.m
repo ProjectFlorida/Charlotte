@@ -109,15 +109,12 @@
 
 - (void)chartView:(CHScatterChartView *)chartView didSelectInteractivePointInPage:(NSInteger)page frame:(CGRect)frame
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, frame.size.width*4, frame.size.height*4)];
-    view.center = CGPointMake(CGRectGetMidX(frame), CGRectGetMidY(frame));
-    view.backgroundColor = [[UIColor magentaColor] colorWithAlphaComponent:0.5];
-    [self.chartView addSubview:view];
-    [UIView animateWithDuration:1 animations:^{
-        view.alpha = 0;
-    } completion:^(BOOL finished) {
-        [view removeFromSuperview];
-    }];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.text = @"hello there";
+    [label sizeToFit];
+    [[CHTooltipView sharedView] setContentView:label];
+    [[CHTooltipView sharedView] setHandlesDismissal:YES];
+    [[CHTooltipView sharedView] showWithTargetRect:frame inView:chartView];
 }
 
 #pragma mark - CHLineChartDataSource

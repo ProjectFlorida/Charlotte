@@ -14,7 +14,7 @@
 @property (nonatomic, strong) CHLineChartView *chartView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSArray *xAxisLabels;
-@property (nonatomic, strong) UIView *tooltipView;
+@property (nonatomic, strong) UILabel *tooltipLabel;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, assign) NSInteger pointCount;
 
@@ -40,10 +40,9 @@
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
 
-        _tooltipView = [[UIView alloc] initWithFrame:CGRectMake(0, 50, 80, 50)];
-        _tooltipView.backgroundColor = [UIColor whiteColor];
-        _tooltipView.alpha = 0;
-        [_scrollView addSubview:_tooltipView];
+        _tooltipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 80, 50)];
+        _tooltipLabel.textAlignment = NSTextAlignmentCenter;
+        _tooltipLabel.backgroundColor = [UIColor magentaColor];
 
         _pointCount = 100;
         _currentIndex = 0;
@@ -185,22 +184,22 @@
 - (void)chartView:(CHLineChartView *)chartView cursorAppearedInPage:(NSInteger)page
           atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
-    self.tooltipView.alpha = 1;
-    [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
+    [[CHTooltipView sharedView] setContentView:self.tooltipLabel];
+    [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) inView:self.chartView];
+    self.tooltipLabel.text = [NSString stringWithFormat:@"%.2f", value];
 }
 
 - (void)chartView:(CHLineChartView *)chartView cursorMovedInPage:(NSInteger)page
           toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
-    [UIView animateWithDuration:self.chartView.cursorMovementAnimationDuration animations:^{
-        [self.tooltipView setCenter:CGPointMake(position.x, self.tooltipView.center.y)];
-    }];
+    [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) inView:self.chartView];
+    self.tooltipLabel.text = [NSString stringWithFormat:@"%.2f", value];
 }
 
 - (void)chartView:(CHLineChartView *)chartView cursorDisappearedInPage:(NSInteger)page
           atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
-    self.tooltipView.alpha = 0;
+    [[CHTooltipView sharedView] dismiss];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
