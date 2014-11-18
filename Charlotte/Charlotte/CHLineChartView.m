@@ -46,8 +46,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     _cursorExitAnimationDuration = 0.15;
     _highlightColumnWidth = 4;
     _cursorColumnView = [[CHGradientView alloc] initWithFrame:CGRectMake(0, 0,
-                                                                            _highlightColumnWidth,
-                                                                            self.bounds.size.height)];
+                                                                         _highlightColumnWidth,
+                                                                         self.bounds.size.height)];
     _cursorColumnView.locations = @[@0, @0.35, @0.65, @1];
     _cursorColumnView.colors = @[[UIColor colorWithWhite:1 alpha:0.4],
                                   [UIColor colorWithWhite:1 alpha:0]];
@@ -174,6 +174,18 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self.collectionView reloadData];
 }
 
+- (void)setLineDrawingAnimationDuration:(NSTimeInterval)lineDrawingAnimationDuration
+{
+    _lineDrawingAnimationDuration = lineDrawingAnimationDuration;
+    [[CHLineView appearance] setLineDrawingAnimationDuration:_lineDrawingAnimationDuration];
+}
+
+- (void)setRegionEntranceAnimationDuration:(NSTimeInterval)regionEntranceAnimationDuration
+{
+    _regionEntranceAnimationDuration = regionEntranceAnimationDuration;
+    [[CHLineView appearance] setRegionEntranceAnimationDuration:_regionEntranceAnimationDuration];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 // Make sure our gesture recognizer doesn't block other gesture recognizers
@@ -209,17 +221,20 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     NSInteger index = (touchLocation.x - pageInset.left - sectionInset.left)/cellWidth;
 
     // Don't allow interaction in the dimmed line insets
-    CGFloat leftInset = 0;
+    CGFloat leftInsetX = 0;
     if ([self.lineChartDataSource respondsToSelector:@selector(chartView:leftLineInsetInPage:)]) {
-        leftInset = [self.lineChartDataSource chartView:self leftLineInsetInPage:self.currentPage];
+        NSInteger index = [self.lineChartDataSource chartView:self leftLineInsetInPage:self.currentPage];
+        leftInsetX = cellWidth*index + cellWidth/2.0;
     }
-    CGFloat rightInset = 0;
+    CGFloat rightInsetX = 0;
     if ([self.lineChartDataSource respondsToSelector:@selector(chartView:rightLineInsetInPage:)]) {
-        rightInset = [self.lineChartDataSource chartView:self rightLineInsetInPage:self.currentPage];
+        NSInteger index = pointCount - 1 - [self.lineChartDataSource chartView:self
+                                                          rightLineInsetInPage:self.currentPage];
+        rightInsetX = cellWidth*index + cellWidth/2.0;
     }
 
     BOOL locationIsOutsideLine = NO;
-    if (index < leftInset || index >= pointCount - rightInset) {
+    if (touchLocation.x < leftInsetX || touchLocation.x > rightInsetX) {
         locationIsOutsideLine = YES;
     }
 
@@ -230,9 +245,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.headerHeight;
     CGFloat y = (1 - scaledValue)*(height - self.footerHeight) + self.headerHeight;
-    CGFloat x = MIN(MAX(self.collectionViewLayout.pageInset.left + self.collectionViewLayout.sectionInset.left,
-                        touchLocation.x),
-                    self.bounds.size.width - self.collectionViewLayout.pageInset.right - self.collectionViewLayout.sectionInset.right);
+    CGFloat x = (index * cellWidth) + cellWidth*0.5 + pageInset.left + sectionInset.left;
     CGPoint highlightPointPosition = CGPointMake(x, y);
 
     BOOL touchBegan = NO;
@@ -315,8 +328,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         if ([self.dataSource respondsToSelector:@selector(configureXAxisLabel:forPointInPage:atIndex:inChartView:)]) {
             for (int i=0; i < pointCount; i++) {
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-                [self.dataSource configureXAxisLabel:label forPointInPage:indexPath.section atIndex:i inChartView:self];
-                [footerView setXAxisLabel:label atRelativeXPosition:i/(float)pointCount];
+                [self.dataSource configureXAxisLabel:label forPointInPage:indexPath.section
+                                             atIndex:i inChartView:self];
+                CGFloat relativeX = 0.5;
+                if (pointCount > 1) {
+                    relativeX = (i/(float)(pointCount)) + (0.5/(float)(pointCount));
+                }
+                [footerView setXAxisLabel:label atRelativeXPosition:relativeX];
             }
         }
         view = footerView;
@@ -364,7 +382,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             rightInset = [self.lineChartDataSource chartView:self rightLineInsetInPage:indexPath.section];
         }       
         [lineView drawLineWithValues:values regions:regions
-                           leftInset:leftInset rightInset:rightInset];
+                           leftInset:leftInset rightInset:rightInset animated:YES];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

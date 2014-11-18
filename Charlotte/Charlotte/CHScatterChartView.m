@@ -86,7 +86,7 @@
                                                              color:color radius:radius];
             [points addObject:point];
         }
-        [lineView drawScatterPoints:points];
+        [lineView drawScatterPoints:points animated:YES];
 
         if ([self.scatterChartDataSource respondsToSelector:@selector(chartView:viewForInteractivePointInPage:)] &&
             [self.scatterChartDataSource respondsToSelector:@selector(chartView:valueOfInteractivePointInPage:)] &&
@@ -98,7 +98,7 @@
             point.view = view;
             point.value = value;
             point.relativeXPosition = index/(float)count;
-            [lineView drawInteractivePoint:point];
+            [lineView drawInteractivePoint:point animated:YES];
 
         }
     }

@@ -36,6 +36,7 @@
         _chartView.backgroundColor = [UIColor clearColor];
         _chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
         _chartView.headerHeight = 30;
+        _chartView.pageInset = UIEdgeInsetsZero;
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
@@ -44,7 +45,7 @@
         _tooltipLabel.textAlignment = NSTextAlignmentCenter;
         _tooltipLabel.backgroundColor = [UIColor magentaColor];
 
-        _pointCount = 100;
+        _pointCount = 20;
         _currentIndex = 0;
         _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
 
@@ -54,8 +55,17 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
+    [self.chartView reloadData];
+    self.navigationItem.rightBarButtonItem =
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                  target:self action:@selector(refreshAction)];
+}
+
+- (void)refreshAction
+{
     [self.chartView reloadData];
 }
 
@@ -74,13 +84,13 @@
                 inChartView:(CHChartView *)chartView
 {
     NSString *labelText;
-    if (index == 10) {
+    if (index == 1) {
         labelText = @"11:24pm";
     }
-    else if (index == 50) {
+    else if (index == 10) {
         labelText = @"2:58am";
     }
-    else if (index == 90) {
+    else if (index == 18) {
         labelText = @"7:04am";
     }
     if (labelText) {
@@ -146,9 +156,9 @@
     UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:0.5];
     UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:0.5];
     return @[
-             [CHChartRegion regionWithRange:NSMakeRange(30, 10) color:blue tintColor:self.view.backgroundColor],
-             [CHChartRegion regionWithRange:NSMakeRange(65, 10) color:green tintColor:self.view.backgroundColor],
-             [CHChartRegion regionWithRange:NSMakeRange(70, 20) color:blue tintColor:self.view.backgroundColor]
+             [CHChartRegion regionWithRange:NSMakeRange(1, 3) color:blue tintColor:self.view.backgroundColor],
+             [CHChartRegion regionWithRange:NSMakeRange(4, 5) color:green tintColor:self.view.backgroundColor],
+             [CHChartRegion regionWithRange:NSMakeRange(10, 4) color:blue tintColor:self.view.backgroundColor]
              ];
 }
 
@@ -159,12 +169,12 @@
 
 - (NSInteger)chartView:(CHLineChartView *)chartView leftLineInsetInPage:(NSInteger)page
 {
-    return 10;
+    return 1;
 }
 
 - (NSInteger)chartView:(CHLineChartView *)chartView rightLineInsetInPage:(NSInteger)page
 {
-    return 5;
+    return 1;
 }
 
 - (CGFloat)chartView:(CHLineChartView *)chartView lineWidthInPage:(NSInteger)page

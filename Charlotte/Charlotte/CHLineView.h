@@ -38,6 +38,12 @@ extern NSString *const kCHLineViewReuseId;
 /// The alpha component of the line's inset (applied to lineColor).
 @property (nonatomic, assign) CGFloat lineInsetAlpha;
 
+/// The duration of the line drawing animation.
+@property (nonatomic, assign) NSTimeInterval lineDrawingAnimationDuration UI_APPEARANCE_SELECTOR;
+
+/// The duration of the region entrance animation
+@property (nonatomic, assign) NSTimeInterval regionEntranceAnimationDuration UI_APPEARANCE_SELECTOR;
+
 /**
  *  Draws a line between the given values, with colored regions below the line specified by the given array.
  *
@@ -45,22 +51,26 @@ extern NSString *const kCHLineViewReuseId;
  *  @param regions      An array of CHChartRegion objects.
  *  @param leftInset    The line will be dimmed on the left up to this index.
  *  @param rightInset   The line will be dimmed on the right beginning at the index.
+ *  @param animated     Whether the drawing should be animated.
  */
-- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions leftInset:(NSInteger)leftInset rightInset:(NSInteger)rightInset;
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions leftInset:(NSInteger)leftInset
+                rightInset:(NSInteger)rightInset animated:(BOOL)animated;
 
 /**
  *  Draws the given points
  *
- *  @param points An array of CHScatterPoint objects
+ *  @param points       An array of CHScatterPoint objects
+ *  @param animated     Whether the drawing should be animated.
  */
-- (void)drawScatterPoints:(NSArray *)points;
+- (void)drawScatterPoints:(NSArray *)points animated:(BOOL)animated;
 
 /**
  *  Draws the given interactive point
  *
- *  @param point A CHInteractivePoint object
+ *  @param point        A CHInteractivePoint object
+ *  @param animated     Whether the drawing should be animated.
  */
-- (void)drawInteractivePoint:(CHInteractivePoint *)point;
+- (void)drawInteractivePoint:(CHInteractivePoint *)point animated:(BOOL)animated;
 
 /**
  *  Sets the line view's min and max value.

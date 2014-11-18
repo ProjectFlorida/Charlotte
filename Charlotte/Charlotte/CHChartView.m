@@ -102,6 +102,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
     _collectionViewLayout.pageInset = _pageInset;
+    _collectionViewLayout.sectionInset = UIEdgeInsetsZero;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                          collectionViewLayout:_collectionViewLayout];
     _collectionView.translatesAutoresizingMaskIntoConstraints = NO;

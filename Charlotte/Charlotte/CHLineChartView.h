@@ -147,6 +147,12 @@ extern NSString *const CHSupplementaryElementKindLine;
 /// The radius of the cursor point
 @property (nonatomic, assign) CGFloat cursorPointRadius UI_APPEARANCE_SELECTOR;
 
+/// The duration of the line drawing animation.
+@property (nonatomic, assign) NSTimeInterval lineDrawingAnimationDuration UI_APPEARANCE_SELECTOR;
+
+/// The duration of the region entrance animation
+@property (nonatomic, assign) NSTimeInterval regionEntranceAnimationDuration UI_APPEARANCE_SELECTOR;
+
 /**
  *  A Boolean value that determines whether the chart should display a cursor when touched.
  *  The default value is YES.

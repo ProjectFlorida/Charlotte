@@ -16,8 +16,8 @@ typedef NS_ENUM(NSInteger, CHTooltipArrowDirection) {
 };
 
 NSTimeInterval const kDefaultMovementAnimationDuration = 0.2;
-NSTimeInterval const kDefaultEntranceAnimationDuration = 0.15;
-NSTimeInterval const kDefaultExitAnimationDuration = 0.15;
+NSTimeInterval const kDefaultEntranceAnimationDuration = 0.1;
+NSTimeInterval const kDefaultExitAnimationDuration = 0.1;
 CGFloat const kDefaultShadowOpacity = 0.3;
 CGFloat const kDefaultShadowRadius = 1;
 CGFloat const kDefaultCornerRadius = 0;
@@ -329,7 +329,7 @@ CGFloat const kDefaultCornerRadius = 0;
 
     if (shouldFadeIn) {
         positionElements();
-        [UIView animateWithDuration:self.movementAnimationDuration
+        [UIView animateWithDuration:self.entranceAnimationDuration
                               delay:0
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
@@ -354,7 +354,7 @@ CGFloat const kDefaultCornerRadius = 0;
 
 - (void)dismiss
 {
-    [UIView animateWithDuration:self.movementAnimationDuration
+    [UIView animateWithDuration:self.exitAnimationDuration
                           delay:0
                         options:UIViewAnimationOptionCurveEaseIn
                      animations:^{
