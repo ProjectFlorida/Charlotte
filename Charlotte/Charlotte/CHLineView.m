@@ -26,7 +26,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 @property (nonatomic, strong) CAShapeLayer *lineBackgroundLayer;
 @property (nonatomic, strong) CHGradientView *lineView;
 @property (nonatomic, strong) NSArray *regions;
-@property (nonatomic, strong) UIView *regionsView;
+@property (nonatomic, strong) UIView *regionContainerView;
+@property (nonatomic, strong) UIView *scatterPointContainerView;
+@property (nonatomic, assign) BOOL isAnimating;
 
 @end
 
@@ -42,6 +44,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _minValue = 0;
         _maxValue = 1;
         _footerHeight = 30;
+        _lineDrawingAnimationDuration = 1.0;
+        _regionEntranceAnimationDuration = 0.4;
+        _isAnimating = NO;
 
         _lineColor = [UIColor whiteColor];
         _lineTintColor = nil;
@@ -72,10 +77,12 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineView.endPoint = CGPointMake(1, 0.5);
         _lineView.layer.mask = _lineMaskLayer;
 
-        _regionsView = [[UIView alloc] initWithFrame:CGRectZero];
-        _regionsView.layer.mask = _regionMaskLayer;
+        _regionContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+        _regionContainerView.layer.mask = _regionMaskLayer;
+        _scatterPointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
 
-        [self addSubview:_regionsView];
+        [self addSubview:_scatterPointContainerView];
+        [self addSubview:_regionContainerView];
         [self.layer addSublayer:_lineBackgroundLayer];
         [self addSubview:_lineView];
     }
@@ -91,13 +98,14 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     self.lineBackgroundLayer.frame = self.bounds;
     self.lineMaskLayer.frame = self.bounds;
     self.regionMaskLayer.frame = self.bounds;
-    self.regionsView.frame = CGRectMake(0, 0,
-                                        currentSize.width,
-                                        currentSize.height - self.footerHeight - 2);
+    self.regionContainerView.frame = CGRectMake(0, 0,
+                                                currentSize.width,
+                                                currentSize.height - self.footerHeight - 2);
+    self.scatterPointContainerView.frame = self.bounds;
     [self drawLineWithValues:self.lineValues regions:self.regions
-                   leftInset:self.leftInset rightInset:self.rightInset];
-    [self drawScatterPoints:self.scatterPoints];
-    [self drawInteractivePoint:self.interactivePoint];
+                   leftInset:self.leftInset rightInset:self.rightInset animated:NO];
+    [self drawScatterPoints:self.scatterPoints animated:NO];
+    [self drawInteractivePoint:self.interactivePoint animated:NO];
 }
 
 - (void)prepareForReuse
@@ -126,17 +134,17 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    // TODO: animate range change
-    [self drawLineWithValues:self.lineValues regions:self.regions
-                   leftInset:self.leftInset rightInset:self.rightInset];
-    [self drawScatterPoints:self.scatterPoints];
-    [self drawInteractivePoint:self.interactivePoint];
+    [self drawLineWithValues:self.lineValues regions:self.regions leftInset:self.leftInset rightInset:self.rightInset
+                    animated:animated];
+    [self drawScatterPoints:self.scatterPoints animated:animated];
+    [self drawInteractivePoint:self.interactivePoint animated:animated];
     if (completion) {
         completion();
     }
 }
 
-- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions leftInset:(NSInteger)leftInset rightInset:(NSInteger)rightInset;
+- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions
+                 leftInset:(NSInteger)leftInset rightInset:(NSInteger)rightInset animated:(BOOL)animated;
 {
     self.lineValues = values;
     self.regions = regions;
@@ -164,6 +172,33 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [self.lineMaskLayer setPath:insetPath.CGPath];
     [self.lineBackgroundLayer setPath:fullPath.CGPath];
 
+    self.regionContainerView.alpha = 0;
+    if (animated) {
+        [CATransaction begin];
+        self.isAnimating = YES;
+        CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
+        pathAnimation.duration = self.lineDrawingAnimationDuration;
+        pathAnimation.fromValue = @0;
+        pathAnimation.toValue = @1;
+        pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        NSString *strokeEndAnimationKey = @"strokeEndAnimation";
+        [CATransaction setCompletionBlock:^{
+            [UIView animateWithDuration:self.regionEntranceAnimationDuration delay:0
+                                options:UIViewAnimationOptionCurveEaseIn
+                             animations:^{
+                                 self.regionContainerView.alpha = 1;
+                             } completion:^(BOOL finished) {
+                                 self.isAnimating = NO;
+                             }];
+        }];
+        [self.lineMaskLayer addAnimation:pathAnimation forKey:strokeEndAnimationKey];
+        [self.lineBackgroundLayer addAnimation:pathAnimation forKey:strokeEndAnimationKey];
+        [CATransaction commit];
+    }
+    else if (!self.isAnimating) {
+        self.regionContainerView.alpha = 1;
+    }
+
     // update mask layer
     CGPoint firstPoint = [points[0] CGPointValue];
     CGPoint lastPoint = [[points lastObject] CGPointValue];
@@ -179,7 +214,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     else {
         // reset region view
         self.regions = regions;
-        for (UIView *subview in self.regionsView.subviews) {
+        for (UIView *subview in self.regionContainerView.subviews) {
             [subview removeFromSuperview];
         }
 
@@ -188,14 +223,16 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
             CGPoint lastPoint = [points[region.range.location + region.range.length] CGPointValue];
             CGRect regionFrame = CGRectMake(firstPoint.x, 0,
                                             lastPoint.x - firstPoint.x,
-                                            self.regionsView.bounds.size.height);
+                                            self.regionContainerView.bounds.size.height);
             CHGradientView *regionView = [[CHGradientView alloc] initWithFrame:regionFrame];
             regionView.locations = @[@0.8, @1.0];
             regionView.colors = @[region.color,
                                   region.tintColor];
-            [self.regionsView addSubview:regionView];
+            [self.regionContainerView addSubview:regionView];
         }
     }
+
+    self.regionContainerView.alpha = 0;
 }
 
 - (void)resetScatterPoints
@@ -207,7 +244,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [self.scatterPointViews removeAllObjects];
 }
 
-- (void)drawScatterPoints:(NSArray *)points
+- (void)drawScatterPoints:(NSArray *)points animated:(BOOL)animated
 {
     [self resetScatterPoints];
     self.scatterPoints = points;
@@ -219,8 +256,19 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         CGFloat x = self.bounds.size.width * point.relativeXPosition;
         CGFloat y = [self yPositionWithRelativeValue:scaledValue];
         view.center = CGPointMake(x, y);
-        [self insertSubview:view atIndex:0];
+        [self.scatterPointContainerView addSubview:view];
         [self.scatterPointViews addObject:view];
+    }
+    self.scatterPointContainerView.alpha = 0;
+    if (animated) {
+        [UIView animateWithDuration:self.lineDrawingAnimationDuration delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.scatterPointContainerView.alpha = 1;
+                         } completion:nil];
+    }
+    else {
+        self.scatterPointContainerView.alpha = 1;
     }
 }
 
@@ -232,7 +280,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     self.interactivePoint = nil;
 }
 
-- (void)drawInteractivePoint:(CHInteractivePoint *)point
+- (void)drawInteractivePoint:(CHInteractivePoint *)point animated:(BOOL)animated
 {
     [self resetInteractivePoint];
     self.interactivePoint = point;
@@ -240,7 +288,18 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     CGFloat x = self.bounds.size.width * point.relativeXPosition;
     CGFloat y = [self yPositionWithRelativeValue:scaledValue];
     self.interactivePoint.view.center = CGPointMake(x, y);
+    self.interactivePoint.view.alpha = 0;
     [self addSubview:self.interactivePoint.view];
+    if (animated) {
+        [UIView animateWithDuration:self.lineDrawingAnimationDuration delay:0
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self.interactivePoint.view.alpha = 1;
+                         } completion:nil];
+    }
+    else {
+        self.interactivePoint.view.alpha = 1;
+    }
 }
 
 #pragma mark - Setters

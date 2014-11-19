@@ -44,6 +44,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.chartView reloadData];
+    self.navigationItem.rightBarButtonItem =
+    [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
+                                                  target:self action:@selector(refreshAction)];
+}
+
+- (void)refreshAction
+{
+    [self.chartView reloadData];
 }
 
 - (void)viewDidLayoutSubviews
