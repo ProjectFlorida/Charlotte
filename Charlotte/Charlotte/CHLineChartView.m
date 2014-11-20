@@ -26,6 +26,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 @property (nonatomic, strong) CHGradientView *cursorColumnView;
 @property (nonatomic, strong) CHCursorPointView *cursorPointView;
 @property (nonatomic, assign) CGFloat highlightColumnWidth;
+@property (nonatomic, assign) BOOL cursorIsActive;
 
 @end
 
@@ -41,6 +42,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     _lineInsetAlpha = 0.1;
 
     _cursorEnabled = YES;
+    _cursorIsActive = NO;
     _cursorMovementAnimationDuration = 0.2;
     _cursorEntranceAnimationDuration = 0.15;
     _cursorExitAnimationDuration = 0.15;
@@ -250,6 +252,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
     BOOL touchBegan = NO;
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan && !locationIsOutsideLine) {
+        self.cursorIsActive = YES;
         [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
             self.cursorColumnView.alpha = 1;
             self.cursorPointView.alpha = 1;
@@ -257,6 +260,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         touchBegan = YES;
     }
     else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+        self.cursorIsActive = NO;
         [UIView animateWithDuration:self.cursorExitAnimationDuration animations:^{
             self.cursorColumnView.alpha = 0;
             self.cursorPointView.alpha = 0;
@@ -293,7 +297,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
                                       atIndex:index value:value position:highlightPointPosition];
         }
     }
-    else {
+    else if (self.cursorIsActive) {
         if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorMovedInPage:toIndex:value:position:)]) {
             [self.lineChartDelegate chartView:self cursorMovedInPage:self.currentPage
                                       toIndex:index value:value position:highlightPointPosition];

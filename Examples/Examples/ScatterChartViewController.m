@@ -9,7 +9,7 @@
 #import "ScatterChartViewController.h"
 #import <Charlotte/Charlotte.h>
 
-@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate, CHLineChartViewDataSource>
+@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate, CHLineChartViewDataSource, CHTooltipViewDelegate>
 
 @property (nonatomic, strong) CHScatterChartView *chartView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -118,11 +118,14 @@
 - (void)chartView:(CHScatterChartView *)chartView didSelectInteractivePointInPage:(NSInteger)page frame:(CGRect)frame
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.text = @"hello there";
+    label.text = @"wide tooltip, prefersCenterX = YES";
     [label sizeToFit];
+    [[CHTooltipView sharedView] setDefaults];
+    [[CHTooltipView sharedView] setPrefersCenterX:YES];
     [[CHTooltipView sharedView] setContentView:label];
     [[CHTooltipView sharedView] setHandlesDismissal:YES];
     [[CHTooltipView sharedView] showWithTargetRect:frame inView:chartView];
+    [CHTooltipView sharedView].delegate = self;
 }
 
 #pragma mark - CHLineChartDataSource
@@ -203,6 +206,18 @@
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
     return UIStatusBarStyleLightContent;
+}
+
+#pragma mark - CHTooltipViewDelegate
+
+- (void)tooltipDidAppear:(CHTooltipView *)tooltipView
+{
+    NSLog(@"A wild tooltip appears!");
+}
+
+- (void)tooltipDidDisappear:(CHTooltipView *)tooltipView
+{
+    NSLog(@"A wild tooltip disappears!");
 }
 
 @end

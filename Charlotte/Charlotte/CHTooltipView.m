@@ -81,6 +81,7 @@ CGFloat const kDefaultCornerRadius = 0;
         _contentContainerView = [[UIView alloc] initWithFrame:CGRectZero];
         _contentContainerView.backgroundColor = [UIColor whiteColor];
         _contentContainerView.layer.cornerRadius = kDefaultCornerRadius;
+        _contentContainerView.clipsToBounds = YES;
 
         _contentShadowView = [[UIView alloc] initWithFrame:CGRectZero];
         _contentShadowView.backgroundColor = [UIColor whiteColor];
@@ -266,8 +267,8 @@ CGFloat const kDefaultCornerRadius = 0;
             if (self.prefersCenterX) {
                 // attempt to center the tooltip along the x axis
                 CGFloat arrowSideWidth = CGRectGetWidth(arrowFrame)*0.25;
-                CGFloat targetMinX = (CGRectGetWidth(viewFrame) - CGRectGetWidth(contentFrame))*0.5 + arrowSideWidth;
-                CGFloat targetMaxX = CGRectGetWidth(viewFrame) - targetMinX - arrowSideWidth;
+                CGFloat targetMinX = arrowSideWidth;
+                CGFloat targetMaxX = CGRectGetWidth(viewFrame) - arrowSideWidth;
                 if (targetPoint.x > targetMinX && targetPoint.x < targetMaxX) {
                     contentX = CGRectGetMidX(viewFrame);
                 }
@@ -312,8 +313,8 @@ CGFloat const kDefaultCornerRadius = 0;
                 if (self.prefersCenterX) {
                     // attempt to center the tooltip along the x axis
                     CGFloat arrowSideWidth = CGRectGetWidth(arrowFrame)*0.25;
-                    CGFloat targetMinX = (CGRectGetWidth(viewFrame) - CGRectGetWidth(contentFrame))*0.5 + arrowSideWidth;
-                    CGFloat targetMaxX = CGRectGetWidth(viewFrame) - targetMinX - arrowSideWidth;
+                    CGFloat targetMinX = arrowSideWidth;
+                    CGFloat targetMaxX = CGRectGetWidth(viewFrame) - arrowSideWidth;
                     if (targetPoint.x > targetMinX && targetPoint.x < targetMaxX) {
                         contentX = CGRectGetMidX(viewFrame);
                     }
@@ -334,7 +335,11 @@ CGFloat const kDefaultCornerRadius = 0;
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              self.alpha = 1;
-                         } completion:nil];
+                         } completion:^(BOOL finished) {
+                             if ([self.delegate respondsToSelector:@selector(tooltipDidAppear:)]) {
+                                 [self.delegate tooltipDidAppear:self];
+                             }
+                         }];
     }
     else {
         BOOL shouldHideArrow = willChangeArrowDirection();
@@ -361,6 +366,9 @@ CGFloat const kDefaultCornerRadius = 0;
                          self.alpha = 0;
                      } completion:^(BOOL finished) {
                          [self removeFromSuperview];
+                         if ([self.delegate respondsToSelector:@selector(tooltipDidDisappear:)]) {
+                             [self.delegate tooltipDidDisappear:self];
+                         }
                      }];
 }
 
@@ -435,7 +443,10 @@ CGFloat const kDefaultCornerRadius = 0;
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gestureRecognizer
 {
-    [self dismiss];
+    CGPoint location = [gestureRecognizer locationInView:self.backgroundView];
+    if (!CGRectContainsPoint(self.contentContainerView.frame, location)) {
+        [self dismiss];
+    }
 }
 
 @end
