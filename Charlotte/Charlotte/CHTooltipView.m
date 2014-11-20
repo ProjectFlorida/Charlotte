@@ -81,6 +81,7 @@ CGFloat const kDefaultCornerRadius = 0;
         _contentContainerView = [[UIView alloc] initWithFrame:CGRectZero];
         _contentContainerView.backgroundColor = [UIColor whiteColor];
         _contentContainerView.layer.cornerRadius = kDefaultCornerRadius;
+        _contentContainerView.clipsToBounds = YES;
 
         _contentShadowView = [[UIView alloc] initWithFrame:CGRectZero];
         _contentShadowView.backgroundColor = [UIColor whiteColor];
