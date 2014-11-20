@@ -8,6 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class CHTooltipView;
+
+@protocol CHTooltipViewDelegate <NSObject>
+
+@optional
+/// Tells the delegate that the tooltip appeared
+- (void)tooltipDidAppear:(CHTooltipView *)tooltipView;
+
+/// Tells the delegate that the tooltip disappeared
+- (void)tooltipDidDisappear:(CHTooltipView *)tooltipView;
+
+@end
+
 @interface CHTooltipView : UIView
 
 /// The tooltip's content view
@@ -36,6 +49,9 @@
 
 /// The animation duration used to animate the tooltip's disappearance.
 @property (nonatomic, assign) NSTimeInterval exitAnimationDuration UI_APPEARANCE_SELECTOR;
+
+/// The tooltip view's delegate
+@property (nonatomic, weak) id<CHTooltipViewDelegate> delegate;
 
 /**
  *  If `handlesDismissal` is set to YES, tapping outside the tooltip's content frame will dismiss the tooltip.

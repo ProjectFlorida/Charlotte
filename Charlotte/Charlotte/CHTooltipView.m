@@ -334,7 +334,11 @@ CGFloat const kDefaultCornerRadius = 0;
                             options:UIViewAnimationOptionCurveEaseIn
                          animations:^{
                              self.alpha = 1;
-                         } completion:nil];
+                         } completion:^(BOOL finished) {
+                             if ([self.delegate respondsToSelector:@selector(tooltipDidAppear:)]) {
+                                 [self.delegate tooltipDidAppear:self];
+                             }
+                         }];
     }
     else {
         BOOL shouldHideArrow = willChangeArrowDirection();
@@ -361,6 +365,9 @@ CGFloat const kDefaultCornerRadius = 0;
                          self.alpha = 0;
                      } completion:^(BOOL finished) {
                          [self removeFromSuperview];
+                         if ([self.delegate respondsToSelector:@selector(tooltipDidDisappear:)]) {
+                             [self.delegate tooltipDidDisappear:self];
+                         }
                      }];
 }
 
