@@ -443,7 +443,10 @@ CGFloat const kDefaultCornerRadius = 0;
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)gestureRecognizer
 {
-    [self dismiss];
+    CGPoint location = [gestureRecognizer locationInView:self.backgroundView];
+    if (!CGRectContainsPoint(self.contentContainerView.frame, location)) {
+        [self dismiss];
+    }
 }
 
 @end
