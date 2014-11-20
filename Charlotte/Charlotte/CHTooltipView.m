@@ -267,8 +267,8 @@ CGFloat const kDefaultCornerRadius = 0;
             if (self.prefersCenterX) {
                 // attempt to center the tooltip along the x axis
                 CGFloat arrowSideWidth = CGRectGetWidth(arrowFrame)*0.25;
-                CGFloat targetMinX = (CGRectGetWidth(viewFrame) - CGRectGetWidth(contentFrame))*0.5 + arrowSideWidth;
-                CGFloat targetMaxX = CGRectGetWidth(viewFrame) - targetMinX - arrowSideWidth;
+                CGFloat targetMinX = arrowSideWidth;
+                CGFloat targetMaxX = CGRectGetWidth(viewFrame) - arrowSideWidth;
                 if (targetPoint.x > targetMinX && targetPoint.x < targetMaxX) {
                     contentX = CGRectGetMidX(viewFrame);
                 }
@@ -313,8 +313,8 @@ CGFloat const kDefaultCornerRadius = 0;
                 if (self.prefersCenterX) {
                     // attempt to center the tooltip along the x axis
                     CGFloat arrowSideWidth = CGRectGetWidth(arrowFrame)*0.25;
-                    CGFloat targetMinX = (CGRectGetWidth(viewFrame) - CGRectGetWidth(contentFrame))*0.5 + arrowSideWidth;
-                    CGFloat targetMaxX = CGRectGetWidth(viewFrame) - targetMinX - arrowSideWidth;
+                    CGFloat targetMinX = arrowSideWidth;
+                    CGFloat targetMaxX = CGRectGetWidth(viewFrame) - arrowSideWidth;
                     if (targetPoint.x > targetMinX && targetPoint.x < targetMaxX) {
                         contentX = CGRectGetMidX(viewFrame);
                     }

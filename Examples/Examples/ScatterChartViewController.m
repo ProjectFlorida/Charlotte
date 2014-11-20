@@ -118,8 +118,10 @@
 - (void)chartView:(CHScatterChartView *)chartView didSelectInteractivePointInPage:(NSInteger)page frame:(CGRect)frame
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.text = @"hello there";
+    label.text = @"wide tooltip, prefersCenterX = YES";
     [label sizeToFit];
+    [[CHTooltipView sharedView] setDefaults];
+    [[CHTooltipView sharedView] setPrefersCenterX:YES];
     [[CHTooltipView sharedView] setContentView:label];
     [[CHTooltipView sharedView] setHandlesDismissal:YES];
     [[CHTooltipView sharedView] showWithTargetRect:frame inView:chartView];
