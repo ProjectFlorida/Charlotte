@@ -41,6 +41,9 @@
 /// The tooltip's corner radius. Default is 0.0
 @property (nonatomic, assign) CGFloat cornerRadius UI_APPEARANCE_SELECTOR;
 
+/// The size of the tooltip's arrow.
+@property (nonatomic, assign) CGSize arrowSize UI_APPEARANCE_SELECTOR;
+
 /// The animation duration used to move the tooltip to another target rect.
 @property (nonatomic, assign) NSTimeInterval movementAnimationDuration UI_APPEARANCE_SELECTOR;
 

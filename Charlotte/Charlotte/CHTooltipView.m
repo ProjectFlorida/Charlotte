@@ -65,8 +65,9 @@ CGFloat const kDefaultCornerRadius = 0;
                                                                         action:@selector(handleTapGesture:)];
         _tapGestureRecognizer.enabled = _handlesDismissal;
         [_backgroundView addGestureRecognizer:_tapGestureRecognizer];
+        _arrowSize = CGSizeMake(20, 20);
 
-        CGSize arrowSize = [CHTooltipView arrowSizeForDirection:_arrowDirection];
+        CGSize arrowSize = [CHTooltipView arrowSizeForDirection:_arrowDirection size:_arrowSize];
         CGRect arrowFrame = CGRectMake(0, 0, arrowSize.width, arrowSize.height);
         _arrowView = [[UIView alloc] initWithFrame:arrowFrame];
         _arrowView.backgroundColor = [UIColor clearColor];
@@ -104,6 +105,8 @@ CGFloat const kDefaultCornerRadius = 0;
     _movementAnimationDuration = kDefaultMovementAnimationDuration;
     _entranceAnimationDuration = kDefaultEntranceAnimationDuration;
     _exitAnimationDuration = kDefaultExitAnimationDuration;
+    _contentInset = UIEdgeInsetsMake(6, 6, 6, 6);
+    _arrowSize = CGSizeMake(20, 20);
     _backgroundView.backgroundColor = [UIColor clearColor];
     _arrowShapeLayer.fillColor = [UIColor whiteColor].CGColor;
     _contentContainerView.layer.cornerRadius = kDefaultCornerRadius;
@@ -113,16 +116,17 @@ CGFloat const kDefaultCornerRadius = 0;
     _arrowShapeLayer.shadowRadius = kDefaultShadowRadius;
 }
 
-+ (CGSize)arrowSizeForDirection:(CHTooltipArrowDirection)direction
++ (CGSize)arrowSizeForDirection:(CHTooltipArrowDirection)direction size:(CGSize)size
 {
     switch (direction) {
         case CHTooltipArrowDirectionUp:
-        case CHTooltipArrowDirectionDown:
-            return CGSizeMake(40, 20);
+        case CHTooltipArrowDirectionDown: {
+            return CGSizeMake(size.width*2.0, size.height);
             break;
+        }
         case CHTooltipArrowDirectionLeft:
         case CHTooltipArrowDirectionRight:
-            return CGSizeMake(20, 40);
+            return CGSizeMake(size.width, size.height*2.0);
             break;
     }
 }
@@ -243,7 +247,7 @@ CGFloat const kDefaultCornerRadius = 0;
     };
 
     void(^updateArrow)() = ^() {
-        CGSize arrowSize = [[self class] arrowSizeForDirection:self.arrowDirection];
+        CGSize arrowSize = [[self class] arrowSizeForDirection:self.arrowDirection size:self.arrowSize];
         self.arrowView.frame = CGRectMake(self.arrowView.frame.origin.x,
                                           self.arrowView.frame.origin.y,
                                           arrowSize.width, arrowSize.height);
@@ -409,6 +413,11 @@ CGFloat const kDefaultCornerRadius = 0;
     _cornerRadius = radius;
     self.contentContainerView.layer.cornerRadius = radius;
     self.contentShadowView.layer.cornerRadius = radius;
+}
+
+- (void)setArrowSize:(CGSize)arrowSize
+{
+    _arrowSize = arrowSize;
 }
 
 - (void)setTooltipColor:(UIColor *)color

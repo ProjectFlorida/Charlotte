@@ -121,6 +121,7 @@
     label.text = @"wide tooltip, prefersCenterX = YES";
     [label sizeToFit];
     [[CHTooltipView sharedView] setDefaults];
+    [[CHTooltipView sharedView] setArrowSize:CGSizeMake(10, 10)];
     [[CHTooltipView sharedView] setPrefersCenterX:YES];
     [[CHTooltipView sharedView] setContentView:label];
     [[CHTooltipView sharedView] setHandlesDismissal:YES];

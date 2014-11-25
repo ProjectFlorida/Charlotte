@@ -259,7 +259,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         }];
         touchBegan = YES;
     }
-    else if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+    else if (gestureRecognizer.state == UIGestureRecognizerStateEnded ||
+             gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
         self.cursorIsActive = NO;
         [UIView animateWithDuration:self.cursorExitAnimationDuration animations:^{
             self.cursorColumnView.alpha = 0;

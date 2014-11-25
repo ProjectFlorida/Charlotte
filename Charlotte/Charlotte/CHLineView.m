@@ -172,10 +172,10 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [self.lineMaskLayer setPath:insetPath.CGPath];
     [self.lineBackgroundLayer setPath:fullPath.CGPath];
 
-    self.regionContainerView.alpha = 0;
-    if (animated) {
-        [CATransaction begin];
+    if (animated && !self.isAnimating) {
         self.isAnimating = YES;
+        self.regionContainerView.alpha = 0;       
+        [CATransaction begin];
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathAnimation.duration = self.lineDrawingAnimationDuration;
         pathAnimation.fromValue = @0;
@@ -231,8 +231,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
             [self.regionContainerView addSubview:regionView];
         }
     }
-
-    self.regionContainerView.alpha = 0;
 }
 
 - (void)resetScatterPoints

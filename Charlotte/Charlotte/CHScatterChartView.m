@@ -36,7 +36,8 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         self.touchBeganLocation = touchLocation;
     }
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded) {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded ||
+        gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:self.currentPage];
         CHLineView *lineView = [self.visibleLineViews objectForKey:indexPath];
         CGFloat touchMargin = 20;
