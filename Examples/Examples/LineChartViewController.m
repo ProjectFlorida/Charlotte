@@ -84,13 +84,13 @@
                 inChartView:(CHChartView *)chartView
 {
     NSString *labelText;
-    if (index == 1) {
+    if (index == 2) {
         labelText = @"11:24pm";
     }
     else if (index == 10) {
         labelText = @"2:58am";
     }
-    else if (index == 18) {
+    else if (index == 17) {
         labelText = @"7:04am";
     }
     if (labelText) {

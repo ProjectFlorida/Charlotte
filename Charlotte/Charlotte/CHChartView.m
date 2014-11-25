@@ -218,6 +218,14 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     NSInteger count = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
 
+    if (self.gridlines.count) {
+        for (CHGridlineContainer *gridline in self.gridlines) {
+            [gridline.lineView removeFromSuperview];
+            [gridline.labelView removeFromSuperview];
+        }
+        [self.gridlines removeAllObjects];
+    }
+
     if ([self.dataSource respondsToSelector:@selector(labelViewForYAxisInChartView:)]) {
         self.yAxisLabelView = [self.dataSource labelViewForYAxisInChartView:self];
         [self addSubview:self.yAxisLabelView];
@@ -333,6 +341,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 - (void)reloadData
 {
     [self.collectionView reloadData];
+    [self initializeGridlines];
+    [self setNeedsLayout];
 }
 
 - (void)scrollToPage:(NSInteger)page animated:(BOOL)animated
