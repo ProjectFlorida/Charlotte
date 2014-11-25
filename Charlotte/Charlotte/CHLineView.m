@@ -173,7 +173,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [self.lineBackgroundLayer setPath:fullPath.CGPath];
 
     self.regionContainerView.alpha = 0;
-    if (animated) {
+    if (animated && !self.isAnimating) {
         [CATransaction begin];
         self.isAnimating = YES;
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
