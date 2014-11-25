@@ -104,6 +104,7 @@ CGFloat const kDefaultCornerRadius = 0;
     _movementAnimationDuration = kDefaultMovementAnimationDuration;
     _entranceAnimationDuration = kDefaultEntranceAnimationDuration;
     _exitAnimationDuration = kDefaultExitAnimationDuration;
+    _contentInset = UIEdgeInsetsMake(6, 6, 6, 6);
     _backgroundView.backgroundColor = [UIColor clearColor];
     _arrowShapeLayer.fillColor = [UIColor whiteColor].CGColor;
     _contentContainerView.layer.cornerRadius = kDefaultCornerRadius;

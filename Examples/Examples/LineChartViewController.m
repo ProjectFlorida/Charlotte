@@ -195,6 +195,7 @@
           atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     [[CHTooltipView sharedView] setDefaults];
+    [[CHTooltipView sharedView] setContentInset:UIEdgeInsetsZero];
     [[CHTooltipView sharedView] setContentView:self.tooltipLabel];
     [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) inView:self.chartView];
     self.tooltipLabel.text = [NSString stringWithFormat:@"%.2f", value];
