@@ -40,7 +40,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 @property (strong, nonatomic) UIView *xAxisLineView;
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
-@property (assign, nonatomic) NSInteger currentPage;
 @property (assign, nonatomic) NSInteger numberOfAnimationsInProgress;
 
 // An array of CHGridlineContainer objects
@@ -341,21 +340,20 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 - (void)reloadData
 {
     [self.collectionView reloadData];
-    [self initializeGridlines];
     [self setNeedsLayout];
+    [self layoutIfNeeded];
 }
 
-- (void)scrollToPage:(NSInteger)page animated:(BOOL)animated
+- (void)scrollToPage:(NSInteger)page animateScrolling:(BOOL)animateScrolling animateRangeTransition:(BOOL)animateRange;
 {
     CGRect visible = self.scrollView.bounds;
     visible.origin.x = self.scrollView.bounds.size.width*page;
-    [self.scrollView scrollRectToVisible:visible animated:animated];
-    self.currentPage = (int)floorf(self.scrollView.contentOffset.x / self.scrollView.bounds.size.width);
-    [self updateAlphaInVisibleCellsAnimated:animated];
-    if (!animated) {
-        [self updateGridlinesAnimated:NO];
-        [self updateRangeInVisibleCellsAnimated:NO];
-    }
+    [self.scrollView scrollRectToVisible:visible animated:animateScrolling];
+    self.currentPage = page;
+    [self updateVisibleValueLabels];
+    [self updateAlphaInVisibleCellsAnimated:animateRange];
+    [self updateGridlinesAnimated:animateRange];
+    [self updateRangeInVisibleCellsAnimated:animateRange];
 }
 
 - (void)updateRangeInVisibleCellsAnimated:(BOOL)animated {
@@ -369,10 +367,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     }
 }
 
-- (void)updateAlphaInVisibleValueLabels {
+- (void)updateVisibleValueLabels {
     if (!self.hidesValueLabelsOnNonCurrentPages) {
         return;
     }
+
     NSInteger count = self.collectionView.visibleCells.count;
     for (int i = 0; i < count; i++) {
         CHPointCell *cell = self.collectionView.visibleCells[i];
@@ -558,7 +557,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     if (scrollView == self.scrollView) {
         self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
         [self updateRangeInVisibleCellsAnimated:YES];
-        [self updateAlphaInVisibleValueLabels];
+        [self updateVisibleValueLabels];
         [self updateAlphaInVisibleCellsAnimated:YES];
         [self updateGridlinesAnimated:YES];
     }
@@ -569,7 +568,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     if (scrollView == self.scrollView) {
         self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
         [self updateRangeInVisibleCellsAnimated:YES];
-        [self updateAlphaInVisibleValueLabels];
+        [self updateVisibleValueLabels];
         [self updateAlphaInVisibleCellsAnimated:YES];
         [self updateGridlinesAnimated:YES];
     }

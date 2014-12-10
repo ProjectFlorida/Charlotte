@@ -219,6 +219,9 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 @property (nonatomic, assign) BOOL hidesValueLabelsOnNonCurrentPages;
 
+/// The chart's current page.
+@property (assign, nonatomic) NSInteger currentPage;
+
 /**
  *  Reloads the chart view.
  */
@@ -227,9 +230,10 @@ extern NSString *const CHSupplementaryElementKindFooter;
 /**
  *  Scrolls to the specified page
  *
- *  @param page     The new page
- *  @param animated YES if the scrolling should be animated, NO if it should be immediate.
+ *  @param page                     The index of the desired page
+ *  @param animateScrolling         YES if the scrolling should be animated, NO if it should be immediate.
+ *  @param animateRange             YES if the range transition should be animated, NO if it should be immediate.
  */
-- (void)scrollToPage:(NSInteger)page animated:(BOOL)animated;
+- (void)scrollToPage:(NSInteger)page animateScrolling:(BOOL)animateScrolling animateRangeTransition:(BOOL)animateRange;
 
 @end
