@@ -437,6 +437,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         CHGridlineContainer *gridline = self.gridlines[i];
         [self.backgroundView removeConstraint:gridline.lineViewCenterYConstraint];
         [self.overlayView removeConstraint:gridline.labelViewCenterYConstraint];
+        gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
         CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
         gridline.lineViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.lineView
                                                                           attribute:NSLayoutAttributeCenterY

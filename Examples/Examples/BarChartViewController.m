@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSArray *minValues;
 @property (nonatomic, strong) NSArray *maxValues;
+@property (nonatomic, strong) NSArray *averages;
 @property (nonatomic, strong) NSArray *values;
 @property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, strong) NSArray *gridlineValues;
@@ -48,12 +49,13 @@
 
         _minValues = @[@0, @30,  @0];
         _maxValues = @[@80, @90, @140];
+        _averages = @[@50, @60, @80];
         _values = @[@[@0, @20, @30, @40, @50, @60, @30],
                     @[@70, @0, @50, @40, @70, @60, @45],
                     @[@10, @20, @0, @50, @70, @80, @40]];
         _gridlineValues = @[@40, @60, @52, @80, @100, @120];
         _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
-        _gridlineTopLabels = @[@"Critical", @"Run-down", @"Daily avg", @"Solid", @"Strong", @"Superhuman"];
+        _gridlineTopLabels = @[@"Critical", @"Run-down", @"avg", @"Solid", @"Strong", @"Superhuman"];
         _gridlineBottomLabels = @[@"0-39", @"40-59", @"-", @"60-79", @"80-100", @"100+"];
         _currentIndex = 0;
 
@@ -139,7 +141,12 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
 {
-    return [self.gridlineValues[index] floatValue];
+    if (index == 2) {
+        return [self.averages[self.currentIndex] floatValue];
+    }
+    else {
+        return [self.gridlineValues[index] floatValue];
+    }
 }
 
 - (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
