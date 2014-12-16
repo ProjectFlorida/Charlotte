@@ -1,9 +1,9 @@
 Pod::Spec.new do |s|
   s.name         = "Charlotte"
-  s.version      = "0.0.1"
-  s.summary      = "iOS Charts"
+  s.version      = "0.7.1"
+  s.summary      = "highly customizable interactive charts"
   s.description  = <<-DESC
-   This is an iOS library for creating customizable interactive charts.
+   Highly customizable interactive charts
                    DESC
   s.homepage     = "http://github.com/ProjectFlorida/Charlotte"
   s.license      = 'MIT'
