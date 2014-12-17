@@ -340,8 +340,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 - (void)reloadData
 {
     [self.collectionView reloadData];
+    [self updateGridlinesAnimated:NO];
     [self setNeedsLayout];
-    [self layoutIfNeeded];
 }
 
 - (void)scrollToPage:(NSInteger)page animateScrolling:(BOOL)animateScrolling animateRangeTransition:(BOOL)animateRange;
