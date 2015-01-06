@@ -206,13 +206,19 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             gridline.lineView.lineWidth = [self.dataSource chartView:self lineWidthForHorizontalGridlineAtIndex:i];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineDashPatternForHorizontalGridlineAtIndex:)]) {
-            gridline.lineView.lineDashPattern = [self.dataSource chartView:self lineDashPatternForHorizontalGridlineAtIndex:i];
+            gridline.lineView.lineDashPattern = [self.dataSource chartView:self
+                               lineDashPatternForHorizontalGridlineAtIndex:i];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:labelPositionForHorizontalGridlineAtIndex:)]) {
             CHViewPosition position = [self.dataSource chartView:self labelPositionForHorizontalGridlineAtIndex:i];
             gridline.lineView.labelViewPosition = position;
             gridline.labelView.labelViewPosition = position;
         }
+        if ([self.dataSource respondsToSelector:@selector(chartView:leftFadeWidthForHorizontalGridlineAtIndex:)]) {
+            gridline.lineView.leftFadeWidth = [self.dataSource chartView:self
+                               leftFadeWidthForHorizontalGridlineAtIndex:i];
+        }
+
         [self.backgroundView addSubview:gridline.lineView];
         [self.overlayView addSubview:gridline.labelView];
 
