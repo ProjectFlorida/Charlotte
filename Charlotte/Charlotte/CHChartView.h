@@ -179,6 +179,17 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (CHViewPosition)chartView:(CHChartView *)chartView labelPositionForHorizontalGridlineAtIndex:(NSInteger)index;
 
+/**
+ *  Asks the data source for the relative width over which the specified gridline should fade in.
+ *  This should be a value in the range [0, 1.0]. By default, the fade width is zero (no fade).
+ *
+ *  @param chartView The chart view requesting the position
+ *  @param index     The index of the gridline
+ *
+ *  @return A CHViewPosition value.
+ */
+- (CGFloat)chartView:(CHChartView *)chartView leftFadeWidthForHorizontalGridlineAtIndex:(NSInteger)index;
+
 @end
 
 @protocol CHChartViewDelegate <NSObject>

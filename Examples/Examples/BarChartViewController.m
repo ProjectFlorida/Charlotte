@@ -232,6 +232,16 @@
     }
 }
 
+- (CGFloat)chartView:(CHChartView *)chartView leftFadeWidthForHorizontalGridlineAtIndex:(NSInteger)index
+{
+    if (index == 2) {
+        return 0.3;
+    }
+    else {
+        return 0;
+    }
+}
+
 #pragma mark - CHBarChartDataSource
 
 - (UIColor *)chartView:(CHBarChartView *)chartView colorForBarWithValue:(CGFloat)value
