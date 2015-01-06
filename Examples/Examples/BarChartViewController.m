@@ -80,7 +80,10 @@
     CGRect bounds = self.view.bounds;
     self.scrollView.frame = bounds;
     self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height*1.5);
-    self.chartView.frame = CGRectMake(0, 50, CGRectGetWidth(bounds), 300);
+    self.chartView.frame = CGRectMake(0, 50, CGRectGetWidth(bounds), 350);
+    CGFloat pageMargin = CGRectGetWidth(bounds)*0.1;
+    self.chartView.sectionInset = UIEdgeInsetsMake(0, pageMargin*0.5, 0, pageMargin*0.5);
+    self.chartView.pageInset = UIEdgeInsetsMake(0, pageMargin, 0, pageMargin);
 }
 
 #pragma mark - CHChartViewDataSource

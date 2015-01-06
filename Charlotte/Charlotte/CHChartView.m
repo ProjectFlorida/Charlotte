@@ -95,6 +95,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
     _pagingAlpha = 0.3;
     _pageInset = UIEdgeInsetsMake(0, 40, 0, 40);
+    _sectionInset = UIEdgeInsetsZero;
     _hidesValueLabelsOnNonCurrentPages = YES;
     _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
@@ -429,6 +430,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self.collectionViewLayout invalidateLayout];
 }
 
+- (void)setSectionInset:(UIEdgeInsets)sectionInset
+{
+    _sectionInset = sectionInset;
+    self.collectionViewLayout.sectionInset = sectionInset;
+    [self.collectionViewLayout invalidateLayout];
+}
+
 - (void)setXAxisLineHidden:(BOOL)xAxisLineHidden
 {
     _xAxisLineHidden = xAxisLineHidden;
@@ -501,8 +509,9 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (scrollView == self.scrollView) {
-        self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
+    CGFloat scrollViewWidth = roundf(scrollView.bounds.size.width);
+    if (scrollView == self.scrollView && scrollViewWidth != 0) {
+        self.currentPage = (int)floorf(roundf(scrollView.contentOffset.x) / scrollViewWidth);
         [self updateRangeInVisibleCellsAnimated:YES];
         [self updateVisibleValueLabels];
         [self updateAlphaInVisibleCellsAnimated:YES];
