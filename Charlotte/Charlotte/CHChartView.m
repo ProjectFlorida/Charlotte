@@ -104,7 +104,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _collectionViewLayout.sectionInset = UIEdgeInsetsZero;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                          collectionViewLayout:_collectionViewLayout];
-    _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.backgroundColor = [UIColor clearColor];
@@ -131,7 +130,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     _scrollView.backgroundColor = [UIColor clearColor];
     _scrollView.delegate = self;
     _scrollView.scrollEnabled = YES;
@@ -143,67 +141,12 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     _backgroundView.clipsToBounds = YES;
     _backgroundView.backgroundColor = [UIColor clearColor];
-    _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:_backgroundView atIndex:0];
 
     _overlayView = [[UIView alloc] initWithFrame:CGRectZero];
     _overlayView.clipsToBounds = YES;
     _overlayView.backgroundColor = [UIColor clearColor];
-    _overlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_overlayView];
-
-    [self initializeConstraints];
-}
-
-- (void)initializeConstraints
-{
-    [self removeConstraints:self.constraints];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView, _scrollView, _backgroundView, _overlayView);
-    NSArray *collectionViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
-                                                                       options:0
-                                                                       metrics:nil
-                                                                         views:views];
-    NSArray *collectionViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_collectionView]|"
-                                                                       options:0
-                                                                       metrics:nil
-                                                                         views:views];
-    NSDictionary *metrics = @{@"left": @(_collectionViewLayout.pageInset.left),
-                              @"right": @(_collectionViewLayout.pageInset.right)};
-    NSArray *scrollViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_scrollView]-(right)-|"
-                                                                   options:0
-                                                                   metrics:metrics
-                                                                     views:views];
-    NSArray *scrollViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView]|"
-                                                                   options:0
-                                                                   metrics:nil
-                                                                     views:views];
-    NSArray *backgroundViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundView]|"
-                                                                       options:0
-                                                                       metrics:nil
-                                                                         views:views];
-    NSArray *backgroundViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(h)-[_backgroundView]-(f)-|"
-                                                                       options:0
-                                                                       metrics:@{@"h": @(_collectionViewLayout.headerHeight),
-                                                                                 @"f": @(_collectionViewLayout.footerHeight)}
-                                                                         views:views];
-    NSArray *overlayViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_overlayView]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-    NSArray *overlayViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(h)-[_overlayView]-(f)-|"
-                                                                    options:0
-                                                                    metrics:@{@"h": @(_collectionViewLayout.headerHeight),
-                                                                              @"f": @(_collectionViewLayout.footerHeight)}
-                                                                      views:views];
-    [self addConstraints:collectionViewH];
-    [self addConstraints:collectionViewV];
-    [self addConstraints:scrollViewH];
-    [self addConstraints:scrollViewV];
-    [self addConstraints:backgroundViewH];
-    [self addConstraints:backgroundViewV];
-    [self addConstraints:overlayViewH];
-    [self addConstraints:overlayViewV];
 }
 
 + (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
@@ -304,19 +247,24 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     }
 }
 
-- (void)updateConstraints
+- (void)layoutSubviews
 {
     if (self.dataSource && !self.gridlines.count) {
         [self initializeGridlines];
     }
-    [super updateConstraints];
-}
-
-- (void)layoutSubviews
-{
     [self.collectionViewLayout invalidateLayout];
     [super layoutSubviews];
     CGRect bounds = self.bounds;
+    self.collectionView.frame = self.bounds;
+    self.scrollView.frame = UIEdgeInsetsInsetRect(self.bounds,
+                                                  UIEdgeInsetsMake(0, self.collectionViewLayout.pageInset.left,
+                                                                   0, self.collectionViewLayout.pageInset.right));
+    self.backgroundView.frame = UIEdgeInsetsInsetRect(self.bounds,
+                                                      UIEdgeInsetsMake(self.collectionViewLayout.headerHeight, 0,
+                                                                       self.collectionViewLayout.footerHeight, 0));
+    self.overlayView.frame = UIEdgeInsetsInsetRect(self.bounds,
+                                                   UIEdgeInsetsMake(self.collectionViewLayout.headerHeight, 0,
+                                                                    self.collectionViewLayout.footerHeight, 0));
     [self.scrollView setContentSize:self.collectionViewLayout.collectionViewContentSize];
     [self updateAlphaInVisibleCellsAnimated:NO];
     self.scrollView.contentOffset = CGPointMake(self.currentPage*self.scrollView.bounds.size.width, 0);
@@ -519,7 +467,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     _headerHeight = headerHeight;
     self.collectionViewLayout.headerHeight = headerHeight;
-    [self initializeConstraints];
     [self updateGridlinesAnimated:NO];
     [self updateRangeInVisibleCellsAnimated:NO];
     [self setNeedsLayout];
@@ -529,7 +476,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     _footerHeight = footerHeight;
     self.collectionViewLayout.footerHeight = footerHeight;
-    [self initializeConstraints];
     [self updateGridlinesAnimated:NO];
     [self updateRangeInVisibleCellsAnimated:NO];
     [self setNeedsLayout];

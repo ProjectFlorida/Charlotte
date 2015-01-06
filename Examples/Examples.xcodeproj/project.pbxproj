@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		2ABFA9EEFB0AE0575F01FB39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF6BB140587CBE8F591CA018 /* libPods.a */; };
-		960D95BF1A378BC300080AA0 /* EndlessBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 960D95BE1A378BC300080AA0 /* EndlessBarChartViewController.m */; };
 		96A1B8F119FFDAE3001C5001 /* ScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */; };
 		96ABA3811A125BFE006F93D7 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ABA3801A125BFE006F93D7 /* TableViewController.m */; };
 		96DDD69F19DC9DA9005CCD07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD69E19DC9DA9005CCD07 /* main.m */; };
@@ -32,8 +31,6 @@
 
 /* Begin PBXFileReference section */
 		5967F1C6EDCDAF3721E10F26 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
-		960D95BD1A378BC300080AA0 /* EndlessBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndlessBarChartViewController.h; sourceTree = "<group>"; };
-		960D95BE1A378BC300080AA0 /* EndlessBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndlessBarChartViewController.m; sourceTree = "<group>"; };
 		96A1B8EF19FFDAE3001C5001 /* ScatterChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScatterChartViewController.h; sourceTree = "<group>"; };
 		96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScatterChartViewController.m; sourceTree = "<group>"; };
 		96ABA37F1A125BFE006F93D7 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
@@ -112,8 +109,6 @@
 				96ABA3801A125BFE006F93D7 /* TableViewController.m */,
 				96DDD6A319DC9DA9005CCD07 /* BarChartViewController.h */,
 				96DDD6A419DC9DA9005CCD07 /* BarChartViewController.m */,
-				960D95BD1A378BC300080AA0 /* EndlessBarChartViewController.h */,
-				960D95BE1A378BC300080AA0 /* EndlessBarChartViewController.m */,
 				96DDD6A619DC9DA9005CCD07 /* LineChartViewController.h */,
 				96DDD6A719DC9DA9005CCD07 /* LineChartViewController.m */,
 				96A1B8EF19FFDAE3001C5001 /* ScatterChartViewController.h */,
@@ -298,7 +293,6 @@
 				96ABA3811A125BFE006F93D7 /* TableViewController.m in Sources */,
 				96DDD6A219DC9DA9005CCD07 /* AppDelegate.m in Sources */,
 				96DDD6A519DC9DA9005CCD07 /* BarChartViewController.m in Sources */,
-				960D95BF1A378BC300080AA0 /* EndlessBarChartViewController.m in Sources */,
 				96DDD69F19DC9DA9005CCD07 /* main.m in Sources */,
 				96A1B8F119FFDAE3001C5001 /* ScatterChartViewController.m in Sources */,
 			);
