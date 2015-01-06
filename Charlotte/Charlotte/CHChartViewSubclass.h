@@ -29,7 +29,6 @@
  */
 - (void)initialize;
 - (void)initializeGridlines;
-- (void)initializeConstraints;
 - (void)updateRangeInVisibleCellsAnimated:(BOOL)animated;
 - (void)updateAlphaInVisibleCells;
 
