@@ -47,9 +47,9 @@
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
 
-        _minValues = @[@0, @30,  @0];
-        _maxValues = @[@80, @90, @140];
-        _averages = @[@50, @60, @80];
+        _minValues = @[@0, @35,  @0];
+        _maxValues = @[@75, @90, @80];
+        _averages = @[@50, @45, @55];
         _values = @[@[@0, @20, @30, @40, @50, @60, @30],
                     @[@70, @0, @50, @40, @70, @60, @45],
                     @[@10, @20, @0, @50, @70, @80, @40]];
