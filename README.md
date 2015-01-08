@@ -20,5 +20,5 @@ To push an updated version:
 - `git tag -a v7.2.0 -m "Bugfixes"`
 - `git push --tags`
 5. Push the updated podspec to our private repo
-- `pod repo push florida Charlotte.podspec --ignore-warnings`
+- `pod repo push florida Charlotte.podspec --allow-warnings`
 6. Merge your release branch back into develop
