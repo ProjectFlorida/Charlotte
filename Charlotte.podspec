@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "Charlotte"
-  s.version      = "0.7.3"
+  s.version      = "0.7.4"
   s.summary      = "highly customizable interactive charts"
   s.description  = <<-DESC
    Highly customizable interactive charts

@@ -249,19 +249,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                              CGRectGetMidY(self.yAxisLabelView.frame));
     self.xAxisLineView.frame = CGRectMake(0, CGRectGetHeight(bounds) - self.footerHeight,
                                           CGRectGetWidth(bounds), _xAxisLineWidth);
-
-    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
-    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-    CGRect backgroundViewBounds = self.backgroundView.bounds;
-    for (CHGridlineContainer *gridline in self.gridlines) {
-        CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
-        gridline.labelGridlineView.frame = CGRectMake(0, 0, CGRectGetWidth(backgroundViewBounds),
-                                                      gridline.labelGridlineView.intrinsicContentSize.height);
-        gridline.labelGridlineView.center = CGPointMake(CGRectGetMidX(backgroundViewBounds),
-                                                       (1 - scaledValue)*CGRectGetMaxY(backgroundViewBounds));
-        gridline.lineGridlineView.frame = gridline.labelGridlineView.frame;
-        [self updateVisibilityOfGridline:gridline];
-    }
+    [self updateGridlinesAnimated:NO];
 }
 
 - (void)didMoveToWindow
@@ -377,7 +365,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
         void(^layoutBlock)() = ^() {
             gridline.labelGridlineView.frame = CGRectMake(0, 0, CGRectGetWidth(backgroundViewBounds),
-                                                          gridline.labelGridlineView.intrinsicContentSize.height);
+                                                          10);
             gridline.labelGridlineView.center = CGPointMake(CGRectGetMidX(backgroundViewBounds),
                                                             (1 - scaledValue)*CGRectGetMaxY(backgroundViewBounds));
             gridline.lineGridlineView.frame = gridline.labelGridlineView.frame;
@@ -400,10 +388,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     }
 }
 
-/// Hide the given gridline if its label view is partially obscured
+/// Hide the given gridline if it's partially obscured
 - (void)updateVisibilityOfGridline:(CHGridlineContainer *)gridline
 {
-    CGRect labelViewFrame = [gridline.labelGridlineView convertRect:gridline.labelGridlineView.labelView.frame
+    CGRect labelViewFrame = [gridline.labelGridlineView convertRect:gridline.labelGridlineView.frame
                                                              toView:self];
     BOOL fullyVisible = CGRectContainsRect(self.overlayView.bounds, labelViewFrame);
     if (fullyVisible) {

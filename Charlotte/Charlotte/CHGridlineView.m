@@ -13,6 +13,7 @@
 @property (nonatomic, strong, readwrite) UIView *labelView;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) CAGradientLayer *gradientLayer;
+@property (nonatomic, assign) CGSize labelViewSize;
 
 @end
 
@@ -75,11 +76,6 @@
     self.lineLayer.path = path.CGPath;
 }
 
-- (CGSize)intrinsicContentSize
-{
-    return CGSizeMake(UIViewNoIntrinsicMetric, CGRectGetMaxY(self.labelView.frame));
-}
-
 - (void)initialize
 {
     _labelViewPosition = CHViewPositionBottomLeft;
@@ -118,6 +114,7 @@
         [_labelView removeFromSuperview];
     }
     _labelView = view;
+    _labelViewSize = view.frame.size;
     [self addSubview:_labelView];
     [self setNeedsLayout];
 }
