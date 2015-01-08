@@ -80,17 +80,15 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
                    withReuseIdentifier:kCHLineViewReuseId];
     self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
-
-    [self initializeConstraints];
 }
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     self.cursorColumnView.frame = CGRectMake(self.cursorColumnView.frame.origin.x,
-                                                0,
-                                                self.cursorColumnView.frame.size.width,
-                                                self.bounds.size.height - self.footerHeight);
+                                             0,
+                                             self.cursorColumnView.frame.size.width,
+                                             self.bounds.size.height - self.footerHeight);
 }
 
 - (void)updateAlphaInVisibleLineViews

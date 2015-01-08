@@ -19,8 +19,10 @@ CGFloat const kCHPageTransitionAnimationDuration = 0.5;
 CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 @interface CHGridlineContainer : NSObject
-@property (strong, nonatomic) CHGridlineView *labelView;
-@property (strong, nonatomic) CHGridlineView *lineView;
+/// The line view containing the gridline's label
+@property (strong, nonatomic) CHGridlineView *labelGridlineView;
+/// The line view containing the gridline's line
+@property (strong, nonatomic) CHGridlineView *lineGridlineView;
 @property (assign, nonatomic) CGFloat value;
 @property (strong, nonatomic) NSLayoutConstraint *labelViewCenterYConstraint;
 @property (strong, nonatomic) NSLayoutConstraint *lineViewCenterYConstraint;
@@ -95,6 +97,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
     _pagingAlpha = 0.3;
     _pageInset = UIEdgeInsetsMake(0, 40, 0, 40);
+    _sectionInset = UIEdgeInsetsZero;
     _hidesValueLabelsOnNonCurrentPages = YES;
     _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
@@ -104,7 +107,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _collectionViewLayout.sectionInset = UIEdgeInsetsZero;
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectZero
                                          collectionViewLayout:_collectionViewLayout];
-    _collectionView.translatesAutoresizingMaskIntoConstraints = NO;
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.backgroundColor = [UIColor clearColor];
@@ -131,7 +133,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
-    _scrollView.translatesAutoresizingMaskIntoConstraints = NO;
     _scrollView.backgroundColor = [UIColor clearColor];
     _scrollView.delegate = self;
     _scrollView.scrollEnabled = YES;
@@ -143,67 +144,12 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
     _backgroundView.clipsToBounds = YES;
     _backgroundView.backgroundColor = [UIColor clearColor];
-    _backgroundView.translatesAutoresizingMaskIntoConstraints = NO;
     [self insertSubview:_backgroundView atIndex:0];
 
     _overlayView = [[UIView alloc] initWithFrame:CGRectZero];
     _overlayView.clipsToBounds = YES;
     _overlayView.backgroundColor = [UIColor clearColor];
-    _overlayView.translatesAutoresizingMaskIntoConstraints = NO;
     [self addSubview:_overlayView];
-
-    [self initializeConstraints];
-}
-
-- (void)initializeConstraints
-{
-    [self removeConstraints:self.constraints];
-
-    NSDictionary *views = NSDictionaryOfVariableBindings(_collectionView, _scrollView, _backgroundView, _overlayView);
-    NSArray *collectionViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_collectionView]|"
-                                                                       options:0
-                                                                       metrics:nil
-                                                                         views:views];
-    NSArray *collectionViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_collectionView]|"
-                                                                       options:0
-                                                                       metrics:nil
-                                                                         views:views];
-    NSDictionary *metrics = @{@"left": @(_collectionViewLayout.pageInset.left),
-                              @"right": @(_collectionViewLayout.pageInset.right)};
-    NSArray *scrollViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|-(left)-[_scrollView]-(right)-|"
-                                                                   options:0
-                                                                   metrics:metrics
-                                                                     views:views];
-    NSArray *scrollViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scrollView]|"
-                                                                   options:0
-                                                                   metrics:nil
-                                                                     views:views];
-    NSArray *backgroundViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_backgroundView]|"
-                                                                       options:0
-                                                                       metrics:nil
-                                                                         views:views];
-    NSArray *backgroundViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(h)-[_backgroundView]-(f)-|"
-                                                                       options:0
-                                                                       metrics:@{@"h": @(_collectionViewLayout.headerHeight),
-                                                                                 @"f": @(_collectionViewLayout.footerHeight)}
-                                                                         views:views];
-    NSArray *overlayViewH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_overlayView]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:views];
-    NSArray *overlayViewV = [NSLayoutConstraint constraintsWithVisualFormat:@"V:|-(h)-[_overlayView]-(f)-|"
-                                                                    options:0
-                                                                    metrics:@{@"h": @(_collectionViewLayout.headerHeight),
-                                                                              @"f": @(_collectionViewLayout.footerHeight)}
-                                                                      views:views];
-    [self addConstraints:collectionViewH];
-    [self addConstraints:collectionViewV];
-    [self addConstraints:scrollViewH];
-    [self addConstraints:scrollViewV];
-    [self addConstraints:backgroundViewH];
-    [self addConstraints:backgroundViewV];
-    [self addConstraints:overlayViewH];
-    [self addConstraints:overlayViewV];
 }
 
 + (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
@@ -213,14 +159,12 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 - (void)initializeGridlines
 {
-    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
-    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     NSInteger count = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
 
     if (self.gridlines.count) {
         for (CHGridlineContainer *gridline in self.gridlines) {
-            [gridline.lineView removeFromSuperview];
-            [gridline.labelView removeFromSuperview];
+            [gridline.lineGridlineView removeFromSuperview];
+            [gridline.labelGridlineView removeFromSuperview];
         }
         [self.gridlines removeAllObjects];
     }
@@ -233,17 +177,15 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = [[CHGridlineContainer alloc] init];
-        gridline.lineView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
-        gridline.lineView.translatesAutoresizingMaskIntoConstraints = NO;
-        gridline.labelView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
-        gridline.labelView.translatesAutoresizingMaskIntoConstraints = NO;
-        gridline.labelView.lineColor = [UIColor clearColor];
+        gridline.lineGridlineView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
+        gridline.labelGridlineView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
+        gridline.labelGridlineView.lineColor = [UIColor clearColor];
         gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
         if ([self.dataSource respondsToSelector:@selector(chartView:labelViewForHorizontalGridlineWithValue:atIndex:)]) {
             UIView *labelView = [self.dataSource chartView:self
                    labelViewForHorizontalGridlineWithValue:gridline.value atIndex:i];
-            [gridline.lineView setLabelView:labelView];
-            [gridline.labelView setLabelView:labelView];
+            [gridline.lineGridlineView setLabelView:labelView];
+            [gridline.labelGridlineView setLabelView:labelView];
         }
         else {
             // default label
@@ -252,71 +194,53 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             label.text = [NSString stringWithFormat:@"%d", (int)roundf(gridline.value)];
             label.textColor = [UIColor whiteColor];
             [label sizeToFit];
-            [gridline.lineView setLabelView:label];
-            [gridline.labelView setLabelView:label];
+            [gridline.lineGridlineView setLabelView:label];
+            [gridline.labelGridlineView setLabelView:label];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineColorForHorizontalGridlineAtIndex:)]) {
-            gridline.lineView.lineColor = [self.dataSource chartView:self lineColorForHorizontalGridlineAtIndex:i];
+            gridline.lineGridlineView.lineColor = [self.dataSource chartView:self lineColorForHorizontalGridlineAtIndex:i];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineWidthForHorizontalGridlineAtIndex:)]) {
-            gridline.lineView.lineWidth = [self.dataSource chartView:self lineWidthForHorizontalGridlineAtIndex:i];
+            gridline.lineGridlineView.lineWidth = [self.dataSource chartView:self lineWidthForHorizontalGridlineAtIndex:i];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineDashPatternForHorizontalGridlineAtIndex:)]) {
-            gridline.lineView.lineDashPattern = [self.dataSource chartView:self lineDashPatternForHorizontalGridlineAtIndex:i];
+            gridline.lineGridlineView.lineDashPattern = [self.dataSource chartView:self
+                               lineDashPatternForHorizontalGridlineAtIndex:i];
         }
         if ([self.dataSource respondsToSelector:@selector(chartView:labelPositionForHorizontalGridlineAtIndex:)]) {
             CHViewPosition position = [self.dataSource chartView:self labelPositionForHorizontalGridlineAtIndex:i];
-            gridline.lineView.labelViewPosition = position;
-            gridline.labelView.labelViewPosition = position;
+            gridline.lineGridlineView.labelViewPosition = position;
+            gridline.labelGridlineView.labelViewPosition = position;
         }
-        [self.backgroundView addSubview:gridline.lineView];
-        [self.overlayView addSubview:gridline.labelView];
+        if ([self.dataSource respondsToSelector:@selector(chartView:leftFadeWidthForHorizontalGridlineAtIndex:)]) {
+            gridline.lineGridlineView.leftFadeWidth = [self.dataSource chartView:self
+                               leftFadeWidthForHorizontalGridlineAtIndex:i];
+        }
 
-        NSArray *lineViewConstraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[g]|"
-                                                                                options:0
-                                                                                metrics:nil
-                                                                                  views:@{@"g": gridline.lineView}];
-
-        NSArray *labelViewConstraintsH = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[g]|"
-                                                                                 options:0
-                                                                                 metrics:nil
-                                                                                   views:@{@"g": gridline.labelView}];
-        CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
-        gridline.lineViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.lineView
-                                                                          attribute:NSLayoutAttributeCenterY
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:self.backgroundView
-                                                                          attribute:NSLayoutAttributeBottom
-                                                                         multiplier:1 - scaledValue
-                                                                           constant:0];
-        gridline.labelViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.labelView
-                                                                           attribute:NSLayoutAttributeCenterY
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.overlayView
-                                                                           attribute:NSLayoutAttributeBottom
-                                                                          multiplier:1 - scaledValue
-                                                                            constant:0];
-        [self.backgroundView addConstraint:gridline.lineViewCenterYConstraint];
-        [self.backgroundView addConstraints:lineViewConstraintsH];
-        [self.overlayView addConstraint:gridline.labelViewCenterYConstraint];
-        [self.overlayView addConstraints:labelViewConstraintsH];
+        [self.backgroundView addSubview:gridline.lineGridlineView];
+        [self.overlayView addSubview:gridline.labelGridlineView];
         [self.gridlines addObject:gridline];
     }
 }
 
-- (void)updateConstraints
+- (void)layoutSubviews
 {
     if (self.dataSource && !self.gridlines.count) {
         [self initializeGridlines];
     }
-    [super updateConstraints];
-}
-
-- (void)layoutSubviews
-{
     [self.collectionViewLayout invalidateLayout];
     [super layoutSubviews];
     CGRect bounds = self.bounds;
+    self.collectionView.frame = self.bounds;
+    self.scrollView.frame = UIEdgeInsetsInsetRect(bounds,
+                                                  UIEdgeInsetsMake(0, self.collectionViewLayout.pageInset.left,
+                                                                   0, self.collectionViewLayout.pageInset.right));
+    self.backgroundView.frame = UIEdgeInsetsInsetRect(bounds,
+                                                      UIEdgeInsetsMake(self.collectionViewLayout.headerHeight, 0,
+                                                                       self.collectionViewLayout.footerHeight, 0));
+    self.overlayView.frame = UIEdgeInsetsInsetRect(bounds,
+                                                   UIEdgeInsetsMake(self.collectionViewLayout.headerHeight, 0,
+                                                                    self.collectionViewLayout.footerHeight, 0));
     [self.scrollView setContentSize:self.collectionViewLayout.collectionViewContentSize];
     [self updateAlphaInVisibleCellsAnimated:NO];
     self.scrollView.contentOffset = CGPointMake(self.currentPage*self.scrollView.bounds.size.width, 0);
@@ -325,6 +249,19 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
                                              CGRectGetMidY(self.yAxisLabelView.frame));
     self.xAxisLineView.frame = CGRectMake(0, CGRectGetHeight(bounds) - self.footerHeight,
                                           CGRectGetWidth(bounds), _xAxisLineWidth);
+
+    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
+    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    CGRect backgroundViewBounds = self.backgroundView.bounds;
+    for (CHGridlineContainer *gridline in self.gridlines) {
+        CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
+        gridline.labelGridlineView.frame = CGRectMake(0, 0, CGRectGetWidth(backgroundViewBounds),
+                                                      gridline.labelGridlineView.intrinsicContentSize.height);
+        gridline.labelGridlineView.center = CGPointMake(CGRectGetMidX(backgroundViewBounds),
+                                                       (1 - scaledValue)*CGRectGetMaxY(backgroundViewBounds));
+        gridline.lineGridlineView.frame = gridline.labelGridlineView.frame;
+        [self updateVisibilityOfGridline:gridline];
+    }
 }
 
 - (void)didMoveToWindow
@@ -433,42 +370,49 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     NSInteger count = self.gridlines.count;
+    CGRect backgroundViewBounds = self.backgroundView.bounds;
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = self.gridlines[i];
-        [self.backgroundView removeConstraint:gridline.lineViewCenterYConstraint];
-        [self.overlayView removeConstraint:gridline.labelViewCenterYConstraint];
         gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
         CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
-        gridline.lineViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.lineView
-                                                                          attribute:NSLayoutAttributeCenterY
-                                                                          relatedBy:NSLayoutRelationEqual
-                                                                             toItem:self.backgroundView
-                                                                          attribute:NSLayoutAttributeBottom
-                                                                         multiplier:1 - scaledValue
-                                                                           constant:0];
-        gridline.labelViewCenterYConstraint = [NSLayoutConstraint constraintWithItem:gridline.labelView
-                                                                           attribute:NSLayoutAttributeCenterY
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.overlayView
-                                                                           attribute:NSLayoutAttributeBottom
-                                                                          multiplier:1 - scaledValue
-                                                                            constant:0];
+        void(^layoutBlock)() = ^() {
+            gridline.labelGridlineView.frame = CGRectMake(0, 0, CGRectGetWidth(backgroundViewBounds),
+                                                          gridline.labelGridlineView.intrinsicContentSize.height);
+            gridline.labelGridlineView.center = CGPointMake(CGRectGetMidX(backgroundViewBounds),
+                                                            (1 - scaledValue)*CGRectGetMaxY(backgroundViewBounds));
+            gridline.lineGridlineView.frame = gridline.labelGridlineView.frame;
+            [self updateVisibilityOfGridline:gridline];
+        };
 
-        [self.backgroundView addConstraint:gridline.lineViewCenterYConstraint];
-        [self.overlayView addConstraint:gridline.labelViewCenterYConstraint];
         if (animated) {
             self.numberOfAnimationsInProgress++;
             [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
                  usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
                   initialSpringVelocity:0 options:0 animations:^{
-                      [self layoutIfNeeded];
+                      layoutBlock();
                   } completion:^(BOOL finished) {
                       self.numberOfAnimationsInProgress--;
                   }];
         }
         else {
-            [self layoutIfNeeded];
+            layoutBlock();
         }
+    }
+}
+
+/// Hide the given gridline if its label view is partially obscured
+- (void)updateVisibilityOfGridline:(CHGridlineContainer *)gridline
+{
+    CGRect labelViewFrame = [gridline.labelGridlineView convertRect:gridline.labelGridlineView.labelView.frame
+                                                             toView:self];
+    BOOL fullyVisible = CGRectContainsRect(self.overlayView.bounds, labelViewFrame);
+    if (fullyVisible) {
+        gridline.labelGridlineView.alpha = 1;
+        gridline.lineGridlineView.alpha = 1;
+    }
+    else {
+        gridline.labelGridlineView.alpha = 0;
+        gridline.lineGridlineView.alpha = 0;
     }
 }
 
@@ -478,6 +422,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     _pageInset = pageInset;
     self.collectionViewLayout.pageInset = pageInset;
+    [self.collectionViewLayout invalidateLayout];
+}
+
+- (void)setSectionInset:(UIEdgeInsets)sectionInset
+{
+    _sectionInset = sectionInset;
+    self.collectionViewLayout.sectionInset = sectionInset;
     [self.collectionViewLayout invalidateLayout];
 }
 
@@ -519,7 +470,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     _headerHeight = headerHeight;
     self.collectionViewLayout.headerHeight = headerHeight;
-    [self initializeConstraints];
     [self updateGridlinesAnimated:NO];
     [self updateRangeInVisibleCellsAnimated:NO];
     [self setNeedsLayout];
@@ -529,7 +479,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     _footerHeight = footerHeight;
     self.collectionViewLayout.footerHeight = footerHeight;
-    [self initializeConstraints];
     [self updateGridlinesAnimated:NO];
     [self updateRangeInVisibleCellsAnimated:NO];
     [self setNeedsLayout];
@@ -555,23 +504,26 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    if (scrollView == self.scrollView) {
-        self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
-        [self updateRangeInVisibleCellsAnimated:YES];
-        [self updateVisibleValueLabels];
-        [self updateAlphaInVisibleCellsAnimated:YES];
-        [self updateGridlinesAnimated:YES];
-    }
+    [self scrollViewDidStopMoving:scrollView];
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    if (scrollView == self.scrollView) {
-        self.currentPage = (int)floorf(scrollView.contentOffset.x / scrollView.bounds.size.width);
-        [self updateRangeInVisibleCellsAnimated:YES];
-        [self updateVisibleValueLabels];
-        [self updateAlphaInVisibleCellsAnimated:YES];
-        [self updateGridlinesAnimated:YES];
+    [self scrollViewDidStopMoving:scrollView];
+}
+
+- (void)scrollViewDidStopMoving:(UIScrollView *)scrollView
+{
+    CGFloat scrollViewWidth = roundf(scrollView.bounds.size.width);
+    if (scrollView == self.scrollView && scrollViewWidth != 0) {
+        NSInteger newCurrentPage = (int)floorf(roundf(scrollView.contentOffset.x) / scrollViewWidth);
+        if (newCurrentPage != self.currentPage) {
+            self.currentPage = newCurrentPage;
+            [self updateRangeInVisibleCellsAnimated:YES];
+            [self updateVisibleValueLabels];
+            [self updateAlphaInVisibleCellsAnimated:YES];
+            [self updateGridlinesAnimated:YES];
+        }
     }
 }
 

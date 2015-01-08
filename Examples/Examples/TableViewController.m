@@ -10,7 +10,6 @@
 #import "BarChartViewController.h"
 #import "LineChartViewController.h"
 #import "ScatterChartViewController.h"
-#import "EndlessBarChartViewController.h"
 
 @interface TableViewController ()
 
@@ -32,7 +31,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    return 4;
+    return 3;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -47,9 +46,6 @@
             break;
         case 2:
             cell.textLabel.text = @"CHScatterChartView";
-            break;
-        case 3:
-            cell.textLabel.text = @"Endless CHBarChartView";
             break;
         default:
             break;
@@ -75,11 +71,6 @@
         }
         case 2: {
             ScatterChartViewController *vc = [[ScatterChartViewController alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            break;
-        }
-        case 3: {
-            EndlessBarChartViewController *vc = [[EndlessBarChartViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

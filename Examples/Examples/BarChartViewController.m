@@ -47,9 +47,9 @@
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
 
-        _minValues = @[@0, @30,  @0];
-        _maxValues = @[@80, @90, @140];
-        _averages = @[@50, @60, @80];
+        _minValues = @[@0, @35,  @0];
+        _maxValues = @[@75, @90, @80];
+        _averages = @[@50, @45, @55];
         _values = @[@[@0, @20, @30, @40, @50, @60, @30],
                     @[@70, @0, @50, @40, @70, @60, @45],
                     @[@10, @20, @0, @50, @70, @80, @40]];
@@ -80,7 +80,10 @@
     CGRect bounds = self.view.bounds;
     self.scrollView.frame = bounds;
     self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height*1.5);
-    self.chartView.frame = CGRectMake(0, 50, CGRectGetWidth(bounds), 300);
+    self.chartView.frame = CGRectMake(0, 50, CGRectGetWidth(bounds), 350);
+    CGFloat pageMargin = CGRectGetWidth(bounds)*0.1;
+    self.chartView.sectionInset = UIEdgeInsetsMake(0, pageMargin*0.5, 0, pageMargin*0.5);
+    self.chartView.pageInset = UIEdgeInsetsMake(0, pageMargin, 0, pageMargin);
 }
 
 #pragma mark - CHChartViewDataSource
@@ -226,6 +229,16 @@
     }
     else {
         return CHViewPositionBottomLeft;
+    }
+}
+
+- (CGFloat)chartView:(CHChartView *)chartView leftFadeWidthForHorizontalGridlineAtIndex:(NSInteger)index
+{
+    if (index == 2) {
+        return 0.3;
+    }
+    else {
+        return 0;
     }
 }
 

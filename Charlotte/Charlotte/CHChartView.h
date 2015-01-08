@@ -179,6 +179,17 @@ extern NSString *const CHSupplementaryElementKindFooter;
  */
 - (CHViewPosition)chartView:(CHChartView *)chartView labelPositionForHorizontalGridlineAtIndex:(NSInteger)index;
 
+/**
+ *  Asks the data source for the relative width over which the specified gridline should fade in.
+ *  This should be a value in the range [0, 1.0]. By default, the fade width is zero (no fade).
+ *
+ *  @param chartView The chart view requesting the position
+ *  @param index     The index of the gridline
+ *
+ *  @return A CHViewPosition value.
+ */
+- (CGFloat)chartView:(CHChartView *)chartView leftFadeWidthForHorizontalGridlineAtIndex:(NSInteger)index;
+
 @end
 
 @protocol CHChartViewDelegate <NSObject>
@@ -201,8 +212,11 @@ extern NSString *const CHSupplementaryElementKindFooter;
 /// The chart's footer height
 @property (nonatomic, assign) CGFloat footerHeight UI_APPEARANCE_SELECTOR;
 
-/// The chart's page inset
+/// The chart's page inset. This refers to the spacing between a page's edges and the view's bounds.
 @property (nonatomic, assign) UIEdgeInsets pageInset UI_APPEARANCE_SELECTOR;
+
+/// The chart's section inset. This refers to the spacing at the outer edges of the section.
+@property (nonatomic, assign) UIEdgeInsets sectionInset UI_APPEARANCE_SELECTOR;
 
 /// The width of the chart's x axis
 @property (nonatomic, assign) CGFloat xAxisLineWidth UI_APPEARANCE_SELECTOR;

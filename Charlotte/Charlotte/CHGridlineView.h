@@ -18,6 +18,13 @@ typedef NS_ENUM(NSInteger, CHViewPosition) {
 @property (nonatomic, assign) CHViewPosition labelViewPosition;
 @property (nonatomic, assign) CGFloat lineWidth;
 @property (nonatomic, strong) UIColor *lineColor;
+@property (nonatomic, readonly) UIView *labelView;
+
+/**
+ *  The gridline will fade in from the left over this width. Set this to a value in the range [0, 1.0].
+ *  Default is 0.
+ */
+@property (nonatomic, assign) CGFloat leftFadeWidth;
 
 /**
  *  The dash pattern applied to the line’s path when stroked.
