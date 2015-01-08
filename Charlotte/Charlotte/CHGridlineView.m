@@ -10,7 +10,7 @@
 
 @interface CHGridlineView ()
 
-@property (nonatomic, strong) UIView *labelView;
+@property (nonatomic, strong, readwrite) UIView *labelView;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) CAGradientLayer *gradientLayer;
 
@@ -56,7 +56,7 @@
     switch (self.labelViewPosition) {
         case CHViewPositionBottomLeft:
             [self.labelView setCenter:CGPointMake((labelSize.width/2.0) + self.layoutMargins.left,
-                                              midY + (labelSize.height/2.0) + self.layoutMargins.top)];
+                                                  midY + (labelSize.height/2.0) + self.layoutMargins.top)];
             [path moveToPoint:CGPointMake(0, midY)];
             [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds), midY)];
             break;
@@ -112,12 +112,12 @@
     [self setNeedsLayout];
 }
 
-- (void)setLabelView:(UILabel *)label
+- (void)setLabelView:(UIView *)view
 {
     if (_labelView) {
         [_labelView removeFromSuperview];
     }
-    _labelView = label;
+    _labelView = view;
     [self addSubview:_labelView];
     [self setNeedsLayout];
 }
