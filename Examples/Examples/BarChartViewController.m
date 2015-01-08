@@ -47,12 +47,16 @@
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
 
-        _minValues = @[@0, @35,  @0];
-        _maxValues = @[@75, @90, @80];
-        _averages = @[@50, @45, @55];
-        _values = @[@[@0, @20, @30, @40, @50, @60, @30],
+        _minValues = @[@0, @0, @0, @35,  @0];
+        _maxValues = @[@120, @120, @75, @90, @80];
+        _averages = @[@35, @40, @50, @45, @55];
+        _values = @[
+                    @[@0, @20, @30, @40, @50, @60, @30],
+                    @[@0, @20, @30, @40, @50, @60, @30],
+                    @[@0, @20, @30, @40, @50, @60, @30],
                     @[@70, @0, @50, @40, @70, @60, @45],
-                    @[@10, @20, @0, @50, @70, @80, @40]];
+                    @[@10, @20, @0, @50, @70, @80, @40]
+                    ];
         _gridlineValues = @[@40, @60, @52, @80, @100, @120];
         _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
         _gridlineTopLabels = @[@"Critical", @"Run-down", @"avg", @"Solid", @"Strong", @"Superhuman"];
