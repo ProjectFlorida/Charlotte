@@ -392,7 +392,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     CGRect labelViewFrame = [gridline.labelGridlineView convertRect:gridline.labelGridlineView.bounds
                                                              toView:self];
-    BOOL fullyVisible = CGRectContainsRect(self.overlayView.bounds, labelViewFrame);
+    BOOL fullyVisible = CGRectContainsRect(self.overlayView.frame, labelViewFrame);
     if (fullyVisible) {
         gridline.labelGridlineView.alpha = 1;
         gridline.lineGridlineView.alpha = 1;
