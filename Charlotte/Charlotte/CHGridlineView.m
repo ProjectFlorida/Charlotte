@@ -123,13 +123,19 @@
 {
     _lineColor = lineColor;
     self.lineLayer.strokeColor = lineColor.CGColor;
-    self.gradientLayer.colors = @[(id)[UIColor clearColor].CGColor, (id)lineColor.CGColor];
+    self.gradientLayer.colors = @[(id)[UIColor clearColor].CGColor,
+                                  (id)[lineColor colorWithAlphaComponent:0].CGColor,
+                                  (id)[lineColor colorWithAlphaComponent:0.6].CGColor,
+                                  (id)lineColor.CGColor];
 }
 
 - (void)setLeftFadeWidth:(CGFloat)leftFadeWidth
 {
     _leftFadeWidth = leftFadeWidth;
-    self.gradientLayer.locations = @[@0, @(leftFadeWidth)];
+    self.gradientLayer.locations = @[@0,
+                                     @(leftFadeWidth*0.4),
+                                     @(leftFadeWidth*0.8),
+                                     @(leftFadeWidth)];
 }
 
 - (void)setLineWidth:(CGFloat)lineWidth
