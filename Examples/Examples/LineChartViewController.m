@@ -136,7 +136,7 @@
 
 - (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
 {
-    return 6.1;
+    return 5.7;
 }
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
