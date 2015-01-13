@@ -24,7 +24,6 @@
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, strong) UIColor *barColor;
 @property (nonatomic, strong) UIColor *barTintColor;
-@property (nonatomic, strong) UIColor *incompleteColor;
 
 @end
 
@@ -64,11 +63,10 @@
         _currentIndex = 0;
 
         _barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-        _barTintColor = [UIColor colorWithRed:0.52 green:0.62 blue:0.77 alpha:1];
-        _incompleteColor = [UIColor colorWithRed:0.35 green:0.41 blue:0.5 alpha:1];
+        _barTintColor = [UIColor colorWithRed:0.52 green:0.88 blue:0.78 alpha:1];
 
         [self.view addSubview:_scrollView];
-        self.view.backgroundColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
+        self.view.backgroundColor = [UIColor colorWithRed:0.33 green:0.62 blue:0.55 alpha:1];
     }
     return self;
 }
@@ -127,7 +125,7 @@
     label.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
     label.font = [UIFont boldSystemFontOfSize:18];
     label.alpha = (value == 0) ? 0 : 1;
-    label.textColor = (index == 5) ? self.incompleteColor : [UIColor whiteColor];
+    label.textColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
     [label sizeToFit];
 }
 
@@ -164,8 +162,6 @@
         label.textAlignment = NSTextAlignmentRight;
         label.font = [UIFont boldSystemFontOfSize:12];
         label.numberOfLines = 0;
-        label.shadowColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
-        label.shadowOffset = CGSizeMake(1, 1);
         label.text = self.gridlineTopLabels[index];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         paragraphStyle.lineBreakMode = label.lineBreakMode;
@@ -176,7 +172,7 @@
                                                                  NSParagraphStyleAttributeName: paragraphStyle}
                                                        context:nil];
         label.frame = CGRectMake(0, 0, boundingRect.size.width, boundingRect.size.height);
-        label.textColor = [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1];
+        label.textColor = [UIColor colorWithWhite:0.8 alpha:1.0];
         return label;
     }
     else {
@@ -185,16 +181,12 @@
         topLabel.text = self.gridlineTopLabels[index];
         topLabel.font = [UIFont boldSystemFontOfSize:12];
         topLabel.textColor = [UIColor whiteColor];
-        topLabel.shadowColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
-        topLabel.shadowOffset = CGSizeMake(1, 1);
         [topLabel sizeToFit];
         [view addSubview:topLabel];
         UILabel *bottomLabel = [[UILabel alloc] init];
         bottomLabel.text = self.gridlineBottomLabels[index];
         bottomLabel.font = [UIFont boldSystemFontOfSize:14];
         bottomLabel.textColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1];
-        bottomLabel.shadowColor = [UIColor colorWithRed:0.14 green:0.19 blue:0.27 alpha:1];
-        bottomLabel.shadowOffset = CGSizeMake(1, 1);
         [bottomLabel sizeToFit];
         bottomLabel.frame = CGRectMake(0, CGRectGetMaxY(topLabel.frame) + 2,
                                        bottomLabel.frame.size.width, bottomLabel.frame.size.height);
@@ -219,7 +211,7 @@
 - (UIColor *)chartView:(CHChartView *)chartView lineColorForHorizontalGridlineAtIndex:(NSInteger)index
 {
     if (index == 2) {
-        return [UIColor colorWithRed:0.82 green:0.89 blue:1 alpha:1];
+        return [UIColor colorWithRed:0.79 green:1 blue:0.95 alpha:1];
     }
     else {
         return [[UIColor whiteColor] colorWithAlphaComponent:0.5];
@@ -288,7 +280,7 @@
                 inPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (index == 5) {
-        return self.incompleteColor;
+        return [UIColor colorWithWhite:0.5 alpha:1];
     }
     else {
         return nil;
