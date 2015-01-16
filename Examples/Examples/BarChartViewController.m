@@ -23,7 +23,6 @@
 @property (nonatomic, strong) NSArray *gridlineBottomLabels;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, strong) UIColor *barColor;
-@property (nonatomic, strong) UIColor *barTintColor;
 
 @end
 
@@ -42,6 +41,7 @@
         _chartView.xAxisLineHidden = YES;
         _chartView.headerHeight = 0;
         _chartView.backgroundColor = [UIColor clearColor];
+        _chartView.relativeBarWidth = 0.3;
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
@@ -63,7 +63,6 @@
         _currentIndex = 0;
 
         _barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-        _barTintColor = [UIColor colorWithRed:0.52 green:0.88 blue:0.78 alpha:1];
 
         [self.view addSubview:_scrollView];
         self.view.backgroundColor = [UIColor colorWithRed:0.33 green:0.62 blue:0.55 alpha:1];
@@ -251,17 +250,6 @@
     }
     else {
         return [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-    }
-}
-
-- (UIColor *)chartView:(CHBarChartView *)chartView tintColorForBarWithValue:(CGFloat)value
-                inPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    if (value == 0 || index == 5) {
-        return nil;
-    }
-    else {
-        return self.barTintColor;
     }
 }
 

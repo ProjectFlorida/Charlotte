@@ -15,8 +15,10 @@ extern NSString *const kCHBarCellReuseId;
 
 @property (nonatomic, strong) UIColor *barColor;
 @property (nonatomic, strong) UIColor *borderColor;
-@property (nonatomic, strong) UIColor *tintColor;
 @property (nonatomic, assign) CGFloat borderWidth;
 @property (nonatomic, strong) NSArray *borderDashPattern;
+
+/// the width of the bar view relative to the cell's width
+@property (nonatomic, assign) CGFloat relativeBarWidth;
 
 @end

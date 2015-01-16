@@ -15,8 +15,6 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
 @interface CHBarCell ()
 
-/// the width of the bar view relative to the bar cell's width
-@property (nonatomic, assign) CGFloat relativeBarWidth;
 @property (nonatomic, strong) CAShapeLayer *borderLayer;
 
 @end
@@ -30,7 +28,6 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         _relativeBarWidth = 0.5;
         _barColor = [UIColor whiteColor];
         _borderColor = [UIColor whiteColor];
-        _tintColor = [UIColor whiteColor];
         _borderWidth = 2;
         _borderDashPattern = @[@2, @2];
 
@@ -41,10 +38,6 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         _borderLayer.lineDashPattern = _borderDashPattern;
 
         [self.pointView.layer addSublayer:_borderLayer];
-        self.pointView.locations = @[@0, @1];
-        self.pointView.startPoint = CGPointMake(0.5, 0);
-        self.pointView.endPoint = CGPointMake(0.5, 1);
-        self.pointView.colors = @[_barColor, _tintColor];
         self.pointView.backgroundColor = [UIColor clearColor];
         self.pointView.backgroundColor = [UIColor clearColor];
     }
@@ -83,6 +76,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
     frame.origin.y = MIN(maxY, frame.origin.y);
     frame.size.height = barHeight;
+    frame.size.width = barWidth;
     return frame;
 }
 
@@ -91,25 +85,13 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 - (void)setBarColor:(UIColor *)barColor
 {
     _barColor = barColor;
-    self.pointView.colors = @[_barColor, self.tintColor];
+    self.pointView.backgroundColor = self.barColor;
 }
 
 - (void)setBorderColor:(UIColor *)borderColor
 {
     _borderColor = borderColor;
     self.borderLayer.strokeColor = borderColor.CGColor;
-}
-
-- (void)setTintColor:(UIColor *)tintColor
-{
-    if (!tintColor) {
-        _tintColor = self.barColor;
-        self.pointView.colors = @[self.barColor, _tintColor];
-    }
-    else {
-        _tintColor = tintColor;
-        self.pointView.colors = @[self.barColor, tintColor];
-    }
 }
 
 - (void)setBorderWidth:(CGFloat)borderWidth

@@ -17,7 +17,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 @property (nonatomic, readwrite) CGFloat value;
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
-@property (nonatomic, strong) CHGradientView *pointView;
+@property (nonatomic, strong) UIView *pointView;
 
 @end
 
