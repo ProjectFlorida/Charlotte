@@ -16,6 +16,7 @@
 {
     self.cellReuseId = kCHBarCellReuseId;
     self.cellClass = [CHBarCell class];
+    self.relativeBarWidth = 0.5;
 
     [super initialize];
 }
@@ -27,6 +28,8 @@
 {
     CHBarCell *cell = (CHBarCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
 
+    cell.relativeBarWidth = self.relativeBarWidth;
+
     if ([self.barChartDataSource respondsToSelector:@selector(chartView:colorForBarWithValue:inPage:atIndex:)]) {
         cell.barColor = [self.barChartDataSource chartView:self colorForBarWithValue:cell.value
                                                     inPage:indexPath.section atIndex:indexPath.row];
@@ -35,11 +38,6 @@
     if ([self.barChartDataSource respondsToSelector:@selector(chartView:borderDashPatternForBarWithValue:inPage:atIndex:)]) {
         cell.borderDashPattern = [self.barChartDataSource chartView:self borderDashPatternForBarWithValue:cell.value
                                                              inPage:indexPath.section atIndex:indexPath.row];
-    }
-
-    if ([self.barChartDataSource respondsToSelector:@selector(chartView:tintColorForBarWithValue:inPage:atIndex:)]) {
-        cell.tintColor = [self.barChartDataSource chartView:self tintColorForBarWithValue:cell.value
-                                                     inPage:indexPath.section atIndex:indexPath.row];
     }
 
     if ([self.barChartDataSource respondsToSelector:@selector(chartView:borderWidthForBarWithValue:inPage:atIndex:)]) {

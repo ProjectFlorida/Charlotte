@@ -19,11 +19,8 @@
 @property (nonatomic, strong) NSArray *values;
 @property (nonatomic, strong) NSArray *xAxisLabels;
 @property (nonatomic, strong) NSArray *gridlineValues;
-@property (nonatomic, strong) NSArray *gridlineTopLabels;
-@property (nonatomic, strong) NSArray *gridlineBottomLabels;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, strong) UIColor *barColor;
-@property (nonatomic, strong) UIColor *barTintColor;
 
 @end
 
@@ -42,6 +39,7 @@
         _chartView.xAxisLineHidden = YES;
         _chartView.headerHeight = 0;
         _chartView.backgroundColor = [UIColor clearColor];
+        _chartView.relativeBarWidth = 0.3;
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
@@ -56,14 +54,11 @@
                     @[@70, @0, @50, @40, @70, @60, @45],
                     @[@10, @20, @0, @50, @70, @80, @40]
                     ];
-        _gridlineValues = @[@40, @60, @52, @80, @100, @120];
+        _gridlineValues = @[@0, @40, @52, @60, @80, @100, @120];
         _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
-        _gridlineTopLabels = @[@"Critical", @"Run-down", @"avg", @"Solid", @"Strong", @"Superhuman"];
-        _gridlineBottomLabels = @[@"0-39", @"40-59", @"-", @"60-79", @"80-100", @"100+"];
         _currentIndex = 0;
 
-        _barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-        _barTintColor = [UIColor colorWithRed:0.52 green:0.88 blue:0.78 alpha:1];
+        _barColor = [UIColor whiteColor];
 
         [self.view addSubview:_scrollView];
         self.view.backgroundColor = [UIColor colorWithRed:0.33 green:0.62 blue:0.55 alpha:1];
@@ -154,47 +149,49 @@
     }
 }
 
-- (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
+- (UIView *)chartView:(CHChartView *)chartView leftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
 {
-    if (index == 2) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.lineBreakMode = NSLineBreakByWordWrapping;
-        label.textAlignment = NSTextAlignmentRight;
+    if (index != 2) {
+        UILabel *label = [[UILabel alloc] init];
+        label.text = [NSString stringWithFormat:@"%d", (int)value];
         label.font = [UIFont boldSystemFontOfSize:12];
-        label.numberOfLines = 0;
-        label.text = self.gridlineTopLabels[index];
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        paragraphStyle.lineBreakMode = label.lineBreakMode;
-        paragraphStyle.alignment = label.textAlignment;
-        CGRect boundingRect = [label.text boundingRectWithSize:CGSizeMake(40, 0)
-                                                       options:NSStringDrawingUsesLineFragmentOrigin
-                                                    attributes:@{NSFontAttributeName: label.font,
-                                                                 NSParagraphStyleAttributeName: paragraphStyle}
-                                                       context:nil];
-        label.frame = CGRectMake(0, 0, boundingRect.size.width, boundingRect.size.height);
-        label.textColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+        label.textColor = [UIColor whiteColor];
+        [label sizeToFit];
         return label;
     }
     else {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectZero];
-        UILabel *topLabel = [[UILabel alloc] init];
-        topLabel.text = self.gridlineTopLabels[index];
-        topLabel.font = [UIFont boldSystemFontOfSize:12];
-        topLabel.textColor = [UIColor whiteColor];
-        [topLabel sizeToFit];
-        [view addSubview:topLabel];
-        UILabel *bottomLabel = [[UILabel alloc] init];
-        bottomLabel.text = self.gridlineBottomLabels[index];
-        bottomLabel.font = [UIFont boldSystemFontOfSize:14];
-        bottomLabel.textColor = [UIColor colorWithRed:0.6 green:0.6 blue:0.6 alpha:1];
-        [bottomLabel sizeToFit];
-        bottomLabel.frame = CGRectMake(0, CGRectGetMaxY(topLabel.frame) + 2,
-                                       bottomLabel.frame.size.width, bottomLabel.frame.size.height);
-        [view addSubview:bottomLabel];
-        view.frame = CGRectMake(0, 0,
-                                MAX(CGRectGetWidth(topLabel.frame), CGRectGetWidth(bottomLabel.frame)),
-                                CGRectGetMaxY(bottomLabel.frame));
-        return view;
+        return nil;
+    }
+}
+
+- (UIView *)chartView:(CHChartView *)chartView lowerLeftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
+{
+    if (index != 2 && value != 0) {
+        UILabel *label = [[UILabel alloc] init];
+        label.text = [NSString stringWithFormat:@"%d", arc4random_uniform(100)];
+        label.font = [UIFont boldSystemFontOfSize:12];
+        label.textColor = [UIColor lightGrayColor];
+        [label sizeToFit];
+        return label;
+    }
+    else {
+        return nil;
+    }
+}
+
+- (UIView *)chartView:(CHChartView *)chartView rightLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
+{
+    if (index == 2) {
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.font = [UIFont boldSystemFontOfSize:12];
+        label.numberOfLines = 0;
+        label.text = @"Avg";
+        label.textColor = [UIColor colorWithWhite:0.8 alpha:1.0];
+        [label sizeToFit];
+        return label;
+    }
+    else {
+        return nil;
     }
 }
 
@@ -218,23 +215,13 @@
     }
 }
 
-- (CHViewPosition)chartView:(CHChartView *)chartView labelPositionForHorizontalGridlineAtIndex:(NSInteger)index
+- (UIEdgeInsets)chartView:(CHChartView *)chartView lineInsetForHorizontalGridlineAtIndex:(NSInteger)index
 {
     if (index == 2) {
-        return CHViewPositionCenterRight;
+        return UIEdgeInsetsMake(0, 0, 0, 30);
     }
     else {
-        return CHViewPositionBottomLeft;
-    }
-}
-
-- (CGFloat)chartView:(CHChartView *)chartView leftFadeWidthForHorizontalGridlineAtIndex:(NSInteger)index
-{
-    if (index == 2) {
-        return 0.3;
-    }
-    else {
-        return 0;
+        return UIEdgeInsetsMake(0, 30, 0, 0);
     }
 }
 
@@ -251,17 +238,6 @@
     }
     else {
         return [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-    }
-}
-
-- (UIColor *)chartView:(CHBarChartView *)chartView tintColorForBarWithValue:(CGFloat)value
-                inPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    if (value == 0 || index == 5) {
-        return nil;
-    }
-    else {
-        return self.barTintColor;
     }
 }
 

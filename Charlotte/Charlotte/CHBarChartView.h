@@ -48,18 +48,6 @@
 - (UIColor *)chartView:(CHBarChartView *)chartView borderColorForBarWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index;
 
 /**
- *  Asks the data source for the specified bar's tint color.
- *  If a tint color is provided, the bar will be drawn with a gradient from its color to its tint color.
- *
- *  @param chartView The chart view requesting the tint color
- *  @param page      The page index of the bar
- *  @param index     The index of the bar in the chart page
- *
- *  @return A UIColor object. You may return nil.
- */
-- (UIColor *)chartView:(CHBarChartView *)chartView tintColorForBarWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index;
-
-/**
  *  Asks the data source for the specified bar's border width.
  *
  *  @param chartview the chart view requesting the border width
@@ -75,5 +63,11 @@
 @interface CHBarChartView : CHChartView
 
 @property (nonatomic, weak) id<CHBarChartViewDataSource> barChartDataSource;
+
+/**
+ *  The width of bars relative to their maximum width. Default is 0.5.
+ *  If this value is set to 1.0, bars will be flush with each other.
+ */
+@property (nonatomic, assign) CGFloat relativeBarWidth;
 
 @end
