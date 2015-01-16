@@ -10,10 +10,7 @@
 
 @interface CHGridlineView ()
 
-@property (nonatomic, strong, readwrite) UIView *labelView;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
-@property (nonatomic, strong) CAGradientLayer *gradientLayer;
-@property (nonatomic, assign) CGSize labelViewSize;
 
 @end
 
@@ -49,37 +46,39 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.lineLayer.frame = self.bounds;
-    self.gradientLayer.frame = self.bounds;
+
     CGFloat midY = CGRectGetMidY(self.bounds);
-    CGSize labelSize = self.labelView.bounds.size;
-    UIBezierPath *path = [UIBezierPath bezierPath];
-    switch (self.labelViewPosition) {
-        case CHViewPositionBottomLeft:
-            [self.labelView setCenter:CGPointMake((labelSize.width/2.0) + self.layoutMargins.left,
-                                                  midY + (labelSize.height/2.0) + self.layoutMargins.top)];
-            [path moveToPoint:CGPointMake(0, midY)];
-            [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds), midY)];
-            break;
 
-        case CHViewPositionCenterRight:
-            [self.labelView setCenter:CGPointMake(self.bounds.size.width - (labelSize.width/2.0) - self.layoutMargins.right,
-                                                  midY)];
-            [path moveToPoint:CGPointMake(0, midY)];
-            [path addLineToPoint:CGPointMake(CGRectGetMinX(self.labelView.frame),
-                                             midY)];
-            break;
-
-        default:
-            break;
+    if (!CGRectEqualToRect(self.lineLayer.frame, self.bounds)) {
+        self.lineLayer.frame = self.bounds;
+        UIBezierPath *path = [UIBezierPath bezierPath];
+        [path moveToPoint:CGPointMake(self.lineInset.left, midY)];
+        [path addLineToPoint:CGPointMake(CGRectGetMaxX(self.bounds) - self.lineInset.right, midY)];
+        self.lineLayer.path = path.CGPath;
     }
-    self.lineLayer.path = path.CGPath;
+
+    if (self.leftLabelView) {
+        CGSize size = self.leftLabelView.bounds.size;
+        [self.leftLabelView setCenter:CGPointMake(size.width/2.0, midY)];
+    }
+
+    if (self.lowerLeftLabelView) {
+        CGFloat leftLabelMaxY = CGRectGetMaxY(self.leftLabelView.frame);
+        CGSize size = self.lowerLeftLabelView.bounds.size;
+        [self.lowerLeftLabelView setCenter:CGPointMake(size.width/2.0, leftLabelMaxY + size.height/2.0)];
+    }
+
+    if (self.rightLabelView) {
+        CGSize rightLabelSize = self.rightLabelView.bounds.size;
+        [self.rightLabelView setCenter:CGPointMake(CGRectGetWidth(self.bounds) - (rightLabelSize.width/2.0),
+                                                   midY)];
+    }
+
 }
 
 - (void)initialize
 {
-    _labelViewPosition = CHViewPositionBottomLeft;
-    _leftFadeWidth = 0;
+    _lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
 
     _lineDashPattern = nil;
     _lineLayer = [CAShapeLayer layer];
@@ -88,34 +87,47 @@
     _lineLayer.lineCap = kCALineCapRound;
     _lineLayer.lineWidth = 1;
     _lineLayer.lineDashPattern = _lineDashPattern;
-    _gradientLayer = [CAGradientLayer layer];
-    _gradientLayer.startPoint = CGPointMake(0, 0.5);
-    _gradientLayer.endPoint = CGPointMake(1, 0.5);
-    _gradientLayer.locations = @[@0, @(_leftFadeWidth)];
-    _gradientLayer.colors = @[(id)[UIColor clearColor].CGColor, (id)_lineColor.CGColor];
-    _gradientLayer.mask = _lineLayer;
-    [self.layer addSublayer:_gradientLayer];
+    [self.layer addSublayer:_lineLayer];
 
-    _labelView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self addSubview:_labelView];
+    _leftLabelView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self addSubview:_leftLabelView];
 }
 
 #pragma mark - Setters
 
-- (void)setLabelViewPosition:(CHViewPosition)labelPosition
+- (void)setLineInset:(UIEdgeInsets)lineInset
 {
-    _labelViewPosition = labelPosition;
+    _lineInset = lineInset;
     [self setNeedsLayout];
 }
 
-- (void)setLabelView:(UIView *)view
+- (void)setLeftLabelView:(UIView *)view
 {
-    if (_labelView) {
-        [_labelView removeFromSuperview];
+    if (_leftLabelView) {
+        [_leftLabelView removeFromSuperview];
     }
-    _labelView = view;
-    _labelViewSize = view.frame.size;
-    [self addSubview:_labelView];
+    _leftLabelView = view;
+    [self addSubview:_leftLabelView];
+    [self setNeedsLayout];
+}
+
+- (void)setLowerLeftLabelView:(UIView *)view
+{
+    if (_lowerLeftLabelView) {
+        [_lowerLeftLabelView removeFromSuperview];
+    }
+    _lowerLeftLabelView = view;
+    [self addSubview:_lowerLeftLabelView];
+    [self setNeedsLayout];
+}
+
+- (void)setRightLabelView:(UIView *)view
+{
+    if (_rightLabelView) {
+        [_rightLabelView removeFromSuperview];
+    }
+    _rightLabelView = view;
+    [self addSubview:_rightLabelView];
     [self setNeedsLayout];
 }
 
@@ -123,19 +135,6 @@
 {
     _lineColor = lineColor;
     self.lineLayer.strokeColor = lineColor.CGColor;
-    self.gradientLayer.colors = @[(id)[UIColor clearColor].CGColor,
-                                  (id)[lineColor colorWithAlphaComponent:0].CGColor,
-                                  (id)[lineColor colorWithAlphaComponent:0.6].CGColor,
-                                  (id)lineColor.CGColor];
-}
-
-- (void)setLeftFadeWidth:(CGFloat)leftFadeWidth
-{
-    _leftFadeWidth = leftFadeWidth;
-    self.gradientLayer.locations = @[@0,
-                                     @(leftFadeWidth*0.4),
-                                     @(leftFadeWidth*0.8),
-                                     @(leftFadeWidth)];
 }
 
 - (void)setLineWidth:(CGFloat)lineWidth

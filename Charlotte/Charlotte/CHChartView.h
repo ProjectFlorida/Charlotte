@@ -113,8 +113,8 @@ extern NSString *const CHSupplementaryElementKindFooter;
 - (void)configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
 
 /**
- *  Asks the data source for a view to use as the specified gridline's label.
- *  By default, a gridline will display its value, rounded to the nearest integer.
+ *  Asks the data source for a view to use as the specified gridline's left label.
+ *  By default, a gridline will have a left label displaying its value rounded to the nearest integer.
  *
  *  @param chartView The chart view requesting the label view
  *  @param value     The value of the gridline
@@ -122,7 +122,30 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *
  *  @return A UIView object.
  */
-- (UIView *)chartView:(CHChartView *)chartView labelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
+- (UIView *)chartView:(CHChartView *)chartView leftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
+
+/**
+ *  Asks the data source for a view to use as the specified gridline's lower left label.
+ *  Default is no label. Use this method to add subtitles to gridlines.
+ *
+ *  @param chartView The chart view requesting the label view
+ *  @param value     The value of the gridline
+ *  @param index     The index of the gridline
+ *
+ *  @return A UIView object.
+ */
+- (UIView *)chartView:(CHChartView *)chartView lowerLeftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
+
+/**
+ *  Asks the data source for a view to use as the specified gridline's right label. Default is no label.
+ *
+ *  @param chartView The chart view requesting the label view
+ *  @param value     The value of the gridline
+ *  @param index     The index of the gridline
+ *
+ *  @return A UIView object.
+ */
+- (UIView *)chartView:(CHChartView *)chartView rightLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
 
 /**
  *  Asks the data source for a view to use as the chart's y-axis label. 
@@ -169,26 +192,14 @@ extern NSString *const CHSupplementaryElementKindFooter;
 - (CGFloat)chartView:(CHChartView *)chartView lineWidthForHorizontalGridlineAtIndex:(NSInteger)index;
 
 /**
- *  Asks the data source for the position of the label on the specified gridline.
- *  By default, the label will be positioned at the bottom left corner of the gridline view.
+ *  Asks the data source for the inset of the specified gridline's line.
  *
- *  @param chartView The chart view requesting the position
+ *  @param chartView The chart view requesting the line inset
  *  @param index     The index of the gridline
  *
- *  @return A CHViewPosition value.
+ *  @return A UIEdgeInsets value. Only left and right insets are honored.
  */
-- (CHViewPosition)chartView:(CHChartView *)chartView labelPositionForHorizontalGridlineAtIndex:(NSInteger)index;
-
-/**
- *  Asks the data source for the relative width over which the specified gridline should fade in.
- *  This should be a value in the range [0, 1.0]. By default, the fade width is zero (no fade).
- *
- *  @param chartView The chart view requesting the position
- *  @param index     The index of the gridline
- *
- *  @return A CHViewPosition value.
- */
-- (CGFloat)chartView:(CHChartView *)chartView leftFadeWidthForHorizontalGridlineAtIndex:(NSInteger)index;
+- (UIEdgeInsets)chartView:(CHChartView *)chartView lineInsetForHorizontalGridlineAtIndex:(NSInteger)index;
 
 @end
 
