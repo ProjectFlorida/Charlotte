@@ -63,6 +63,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
 - (CGRect)pointViewFrame
 {
+    CGFloat centerX = CGRectGetMidX(self.bounds);
     CGRect frame = [super pointViewFrame];
     CGFloat height = self.bounds.size.height;
     CGFloat barWidth = self.relativeBarWidth * self.bounds.size.width;
@@ -71,12 +72,13 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     CGFloat maxY = height - self.footerHeight - barWidth;
 
     // top of bar should align with value (rather than center of point)
-    frame.origin.y += barWidth/2.0;
+    frame.origin.y += self.bounds.size.width/4.0;
     CGFloat barHeight = MAX(height - self.footerHeight - frame.origin.y, barWidth);
 
     frame.origin.y = MIN(maxY, frame.origin.y);
     frame.size.height = barHeight;
     frame.size.width = barWidth;
+    frame.origin.x = centerX - frame.size.width/2.0;
     return frame;
 }
 

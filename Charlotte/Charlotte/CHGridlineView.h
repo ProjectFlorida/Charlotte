@@ -8,23 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, CHViewPosition) {
-    CHViewPositionBottomLeft,
-    CHViewPositionCenterRight
-};
-
 @interface CHGridlineView : UIView
 
-@property (nonatomic, assign) CHViewPosition labelViewPosition;
 @property (nonatomic, assign) CGFloat lineWidth;
 @property (nonatomic, strong) UIColor *lineColor;
-@property (nonatomic, readonly) UIView *labelView;
+@property (nonatomic, strong) UIView *leftLabelView;
+@property (nonatomic, strong) UIView *lowerLeftLabelView;
+@property (nonatomic, strong) UIView *rightLabelView;
 
-/**
- *  The gridline will fade in from the left over this width. Set this to a value in the range [0, 1.0].
- *  Default is 0.
- */
-@property (nonatomic, assign) CGFloat leftFadeWidth;
+/// The gridline's line inset. Only left and right insets are honored.
+@property (nonatomic, assign) UIEdgeInsets lineInset;
 
 /**
  *  The dash pattern applied to the line’s path when stroked.
@@ -34,7 +27,5 @@ typedef NS_ENUM(NSInteger, CHViewPosition) {
  *  Default is nil, a solid line.
  */
 @property (nonatomic, assign) NSArray *lineDashPattern;
-
-- (void)setLabelView:(UIView *)view;
 
 @end
