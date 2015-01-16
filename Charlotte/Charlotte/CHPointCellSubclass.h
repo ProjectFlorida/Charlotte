@@ -14,7 +14,7 @@
 @property (nonatomic, readwrite) CGFloat value;
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
-@property (nonatomic, strong) CHGradientView *pointView;
+@property (nonatomic, strong) UIView *pointView;
 
 /// Returns the cell's value relative to its display range.
 - (CGFloat)scaledValue;
