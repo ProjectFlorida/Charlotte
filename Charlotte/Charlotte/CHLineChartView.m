@@ -39,7 +39,9 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [super initialize];
 
-    _lineInsetAlpha = 0.1;
+    _lineWidth = 2;
+    _lineColor = [UIColor whiteColor];
+    _lineTintColor = nil;
 
     _cursorEnabled = YES;
     _cursorIsActive = NO;
@@ -168,22 +170,10 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     self.cursorColumnView.colors = @[self.cursorColumnView.colors[0], cursorColumnTintColor];
 }
 
-- (void)setLineInsetAlpha:(CGFloat)lineInsetAlpha
-{
-    _lineInsetAlpha = lineInsetAlpha;
-    [self.collectionView reloadData];
-}
-
 - (void)setLineDrawingAnimationDuration:(NSTimeInterval)lineDrawingAnimationDuration
 {
     _lineDrawingAnimationDuration = lineDrawingAnimationDuration;
     [[CHLineView appearance] setLineDrawingAnimationDuration:_lineDrawingAnimationDuration];
-}
-
-- (void)setRegionEntranceAnimationDuration:(NSTimeInterval)regionEntranceAnimationDuration
-{
-    _regionEntranceAnimationDuration = regionEntranceAnimationDuration;
-    [[CHLineView appearance] setRegionEntranceAnimationDuration:_regionEntranceAnimationDuration];
 }
 
 #pragma mark - UIGestureRecognizerDelegate
@@ -220,24 +210,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat cellWidth = (self.bounds.size.width - sectionInsetWidth - pageInsetWidth)/pointCount;
     NSInteger index = (touchLocation.x - pageInset.left - sectionInset.left)/cellWidth;
 
-    // Don't allow interaction in the dimmed line insets
-    CGFloat leftInsetX = 0;
-    if ([self.lineChartDataSource respondsToSelector:@selector(chartView:leftLineInsetInPage:)]) {
-        NSInteger index = [self.lineChartDataSource chartView:self leftLineInsetInPage:self.currentPage];
-        leftInsetX = cellWidth*index + cellWidth/2.0;
-    }
-    CGFloat rightInsetX = 0;
-    if ([self.lineChartDataSource respondsToSelector:@selector(chartView:rightLineInsetInPage:)]) {
-        NSInteger index = pointCount - 1 - [self.lineChartDataSource chartView:self
-                                                          rightLineInsetInPage:self.currentPage];
-        rightInsetX = cellWidth*index + cellWidth/2.0;
-    }
-
-    BOOL locationIsOutsideLine = NO;
-    if (touchLocation.x < leftInsetX || touchLocation.x > rightInsetX) {
-        locationIsOutsideLine = YES;
-    }
-
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     index = MIN(MAX(0, index), pointCount - 1);
@@ -249,7 +221,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGPoint highlightPointPosition = CGPointMake(x, y);
 
     BOOL touchBegan = NO;
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan && !locationIsOutsideLine) {
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         self.cursorIsActive = YES;
         [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
             self.cursorColumnView.alpha = 1;
@@ -270,10 +242,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             }
         }];
         self.touchGR.enabled = NO;
-    }
-
-    if (locationIsOutsideLine) {
-        return;
     }
 
     void(^updateBlock)() = ^() {
@@ -355,37 +323,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
             [values addObject:@(value)];
         }
 
-        lineView.lineColor = [UIColor whiteColor];
-        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:lineColorInPage:)]) {
-            lineView.lineColor = [self.lineChartDataSource chartView:self lineColorInPage:indexPath.section];
-        }
-
-        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:lineTintColorInPage:)]) {
-            lineView.lineTintColor = [self.lineChartDataSource chartView:self lineTintColorInPage:indexPath.section];
-        }
-
-        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:lineWidthInPage:)]) {
-            lineView.lineWidth = [self.lineChartDataSource chartView:self lineWidthInPage:indexPath.section];
-        }
-
-        NSArray *regions = nil;
-        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:regionsInPage:)]) {
-            regions = [self.lineChartDataSource chartView:self regionsInPage:self.currentPage];
-        }
+        lineView.lineWidth = self.lineWidth;
+        lineView.lineColor = self.lineColor;
+        lineView.lineTintColor = self.lineTintColor;
 
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
 
-        lineView.lineInsetAlpha = self.lineInsetAlpha;
-        CGFloat leftInset = 0;
-        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:leftLineInsetInPage:)]) {
-            leftInset = [self.lineChartDataSource chartView:self leftLineInsetInPage:indexPath.section];
-        }
-        CGFloat rightInset = 0;
-        if ([self.lineChartDataSource respondsToSelector:@selector(chartView:rightLineInsetInPage:)]) {
-            rightInset = [self.lineChartDataSource chartView:self rightLineInsetInPage:indexPath.section];
-        }       
-        [lineView drawLineWithValues:values regions:regions
-                           leftInset:leftInset rightInset:rightInset animated:YES];
+        [lineView drawLineWithValues:values animated:YES];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

@@ -36,7 +36,6 @@
         _chartView.delegate = self;
         _chartView.dataSource = self;
         _chartView.barChartDataSource = self;
-        _chartView.xAxisLineHidden = YES;
         _chartView.headerHeight = 0;
         _chartView.backgroundColor = [UIColor clearColor];
         _chartView.relativeBarWidth = 0.3;

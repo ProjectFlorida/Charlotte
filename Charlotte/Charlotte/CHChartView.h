@@ -148,16 +148,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
 - (UIView *)chartView:(CHChartView *)chartView rightLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
 
 /**
- *  Asks the data source for a view to use as the chart's y-axis label. 
- *  Note: This view will be displayed in the chart's header. Remember to adjust the chart's headerHeight accordingly.
- *
- *  @param chartView The chart view requesting the label view
- *
- *  @return A UIView object.
- */
-- (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView;
-
-/**
  *  Asks the data source for the specified gridline's line dash pattern.
  *  By default, the gridline will display a solid line.
  *
@@ -214,9 +204,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
 @property (nonatomic, weak) id<CHChartViewDataSource> dataSource;
 @property (nonatomic, weak) id<CHChartViewDelegate> delegate;
 
-/// Whether or not the chart's x axis is hidden
-@property (nonatomic, assign, getter=isXAxisLineHidden) BOOL xAxisLineHidden UI_APPEARANCE_SELECTOR;
-
 /// The chart's header height
 @property (nonatomic, assign) CGFloat headerHeight UI_APPEARANCE_SELECTOR;
 
@@ -229,14 +216,11 @@ extern NSString *const CHSupplementaryElementKindFooter;
 /// The chart's section inset. This refers to the spacing at the outer edges of the section.
 @property (nonatomic, assign) UIEdgeInsets sectionInset UI_APPEARANCE_SELECTOR;
 
-/// The width of the chart's x axis
-@property (nonatomic, assign) CGFloat xAxisLineWidth UI_APPEARANCE_SELECTOR;
-
-/// The color of the chart's x axis
-@property (nonatomic, strong) UIColor *xAxisLineColor UI_APPEARANCE_SELECTOR;
-
 /// When chart elements page into view, their alpha values will transition from this value to 1.0.
 @property (nonatomic, assign) CGFloat pagingAlpha UI_APPEARANCE_SELECTOR;
+
+/// The view used as the chart's y-axis label
+@property (nonatomic, strong) UIView *yAxisLabelView;
 
 /**
  *  A Boolean value indicating whether value labels should be hidden on pages that aren't the current page.

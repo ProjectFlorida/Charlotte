@@ -1,5 +1,5 @@
 PODS:
-  - Charlotte (0.0.1)
+  - Charlotte (0.7.7)
 
 DEPENDENCIES:
   - Charlotte (from `..`)
@@ -9,6 +9,6 @@ EXTERNAL SOURCES:
     :path: ..
 
 SPEC CHECKSUMS:
-  Charlotte: b302d2ef5d9c7051ea2f53a80db2a50628c01db9
+  Charlotte: 4f43487ea8a10ed20ffeb8da9a32266d33f52460
 
-COCOAPODS: 0.34.4
+COCOAPODS: 0.35.0
