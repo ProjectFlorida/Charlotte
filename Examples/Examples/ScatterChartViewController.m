@@ -31,6 +31,7 @@ CHTooltipViewDelegate>
         _chartView.scatterChartDelegate = self;
         _chartView.headerHeight = 0;
         _chartView.lineTintColor = [UIColor colorWithRed:1 green:0.74 blue:0.63 alpha:1];
+        _chartView.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];

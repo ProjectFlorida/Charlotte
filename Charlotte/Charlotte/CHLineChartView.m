@@ -283,6 +283,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 {
     CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
     cell.pointView.hidden = YES;
+    cell.xAxisLabel.hidden = YES;
     return cell;
 }
 

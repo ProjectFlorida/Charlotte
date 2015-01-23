@@ -89,6 +89,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     self.maxValue = 1;
     self.footerHeight = 30;
     self.xAxisLabel.text = @"";
+    [self.xAxisLabel sizeToFit];
     [self updateAnimated:NO completion:nil];
 }
 
