@@ -35,26 +35,16 @@ extern NSString *const kCHLineViewReuseId;
 /// The line's width in points. Default is 4.0.
 @property (nonatomic, assign) CGFloat lineWidth;
 
-/// The alpha component of the line's inset (applied to lineColor).
-@property (nonatomic, assign) CGFloat lineInsetAlpha;
-
 /// The duration of the line drawing animation.
 @property (nonatomic, assign) NSTimeInterval lineDrawingAnimationDuration UI_APPEARANCE_SELECTOR;
 
-/// The duration of the region entrance animation
-@property (nonatomic, assign) NSTimeInterval regionEntranceAnimationDuration UI_APPEARANCE_SELECTOR;
-
 /**
- *  Draws a line between the given values, with colored regions below the line specified by the given array.
+ *  Draws a line between the given values
  *
  *  @param values       An array of y-values describing the line.
- *  @param regions      An array of CHChartRegion objects.
- *  @param leftInset    The line will be dimmed on the left up to this index.
- *  @param rightInset   The line will be dimmed on the right beginning at the index.
  *  @param animated     Whether the drawing should be animated.
  */
-- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions leftInset:(NSInteger)leftInset
-                rightInset:(NSInteger)rightInset animated:(BOOL)animated;
+- (void)drawLineWithValues:(NSArray *)values animated:(BOOL)animated;
 
 /**
  *  Draws the given points

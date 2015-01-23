@@ -9,7 +9,8 @@
 #import "ScatterChartViewController.h"
 #import <Charlotte/Charlotte.h>
 
-@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate, CHLineChartViewDataSource, CHTooltipViewDelegate>
+@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate,
+CHTooltipViewDelegate>
 
 @property (nonatomic, strong) CHScatterChartView *chartView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -26,11 +27,10 @@
         _chartView = [[CHScatterChartView alloc] initWithFrame:CGRectZero];
         _chartView.backgroundColor = [UIColor clearColor];
         _chartView.dataSource = self;
-        _chartView.lineChartDataSource = self;
-        _chartView.xAxisLineHidden = YES;
         _chartView.scatterChartDataSource = self;
         _chartView.scatterChartDelegate = self;
         _chartView.headerHeight = 0;
+        _chartView.lineTintColor = [UIColor colorWithRed:1 green:0.74 blue:0.63 alpha:1];
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
@@ -127,13 +127,6 @@
     [[CHTooltipView sharedView] setHandlesDismissal:YES];
     [[CHTooltipView sharedView] showWithTargetRect:frame inView:chartView];
     [CHTooltipView sharedView].delegate = self;
-}
-
-#pragma mark - CHLineChartDataSource
-
-- (UIColor *)chartView:(CHLineChartView *)chartView lineTintColorInPage:(NSInteger)page
-{
-    return [UIColor colorWithRed:1 green:0.74 blue:0.63 alpha:1];
 }
 
 #pragma mark - CHChartViewDataSource

@@ -38,8 +38,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 @property (strong, nonatomic) CHPagingChartFlowLayout *collectionViewLayout;
 @property (strong, nonatomic) UIView *backgroundView;
 @property (strong, nonatomic) UIView *overlayView;
-@property (strong, nonatomic) UIView *yAxisLabelView;
-@property (strong, nonatomic) UIView *xAxisLineView;
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
 @property (assign, nonatomic) NSInteger numberOfAnimationsInProgress;
@@ -86,14 +84,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _currentPage = 0;
     _footerHeight = 30;
     _headerHeight = 30;
-
-    _xAxisLineHidden = NO;
-    _xAxisLineWidth = 1;
-    _xAxisLineColor = [UIColor colorWithWhite:1.0 alpha:0.5];
-    _xAxisLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, _xAxisLineWidth)];
-    _xAxisLineView.backgroundColor = _xAxisLineColor;
-    _xAxisLineView.hidden = _xAxisLineHidden;
-    [self addSubview:_xAxisLineView];
 
     _pagingAlpha = 0.3;
     _pageInset = UIEdgeInsetsMake(0, 40, 0, 40);
@@ -167,12 +157,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             [gridline.labelGridlineView removeFromSuperview];
         }
         [self.gridlines removeAllObjects];
-    }
-
-    if ([self.dataSource respondsToSelector:@selector(labelViewForYAxisInChartView:)]) {
-        self.yAxisLabelView = [self.dataSource labelViewForYAxisInChartView:self];
-        [self addSubview:self.yAxisLabelView];
-        [self setNeedsLayout];
     }
 
     for (int i = 0; i < count; i++) {
@@ -253,8 +237,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     self.collectionView.contentOffset = self.scrollView.contentOffset;
     self.yAxisLabelView.center = CGPointMake(CGRectGetMidX(self.yAxisLabelView.frame),
                                              CGRectGetMidY(self.yAxisLabelView.frame));
-    self.xAxisLineView.frame = CGRectMake(0, CGRectGetHeight(bounds) - self.footerHeight,
-                                          CGRectGetWidth(bounds), _xAxisLineWidth);
     [self updateGridlinesAnimated:NO];
 }
 
@@ -425,24 +407,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self.collectionViewLayout invalidateLayout];
 }
 
-- (void)setXAxisLineHidden:(BOOL)xAxisLineHidden
-{
-    _xAxisLineHidden = xAxisLineHidden;
-    self.xAxisLineView.hidden = _xAxisLineHidden;
-}
-
-- (void)setXAxisLineColor:(UIColor *)xAxisLineColor
-{
-    _xAxisLineColor = xAxisLineColor;
-    self.xAxisLineView.backgroundColor = _xAxisLineColor;
-}
-
-- (void)setXAxisLineWidth:(CGFloat)xAxisLineWidth
-{
-    _xAxisLineWidth = xAxisLineWidth;
-    [self setNeedsLayout];
-}
-
 - (void)setCurrentPage:(NSInteger)currentPage
 {
     CGFloat maxPage = 1;
@@ -477,12 +441,20 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self setNeedsLayout];
 }
 
-- (void)setNumberOfAnimationsInProgress:(NSInteger)numberOfAnimationsInProgress {
+- (void)setNumberOfAnimationsInProgress:(NSInteger)numberOfAnimationsInProgress
+{
     if (numberOfAnimationsInProgress < 0) {
         numberOfAnimationsInProgress = 0;
     }
     _numberOfAnimationsInProgress = numberOfAnimationsInProgress;
     self.scrollView.scrollEnabled = numberOfAnimationsInProgress == 0;
+}
+
+- (void)setYAxisLabelView:(UIView *)yAxisLabelView
+{
+    _yAxisLabelView = yAxisLabelView;
+    [self addSubview:_yAxisLabelView];
+    [self setNeedsLayout];
 }
 
 #pragma mark - UIScrollViewDelegate

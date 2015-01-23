@@ -9,7 +9,7 @@
 #import "LineChartViewController.h"
 #import <Charlotte/Charlotte.h>
 
-@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHLineChartViewDelegate, CHLineChartViewDataSource>
+@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHLineChartViewDelegate>
 
 @property (nonatomic, strong) CHLineChartView *chartView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -32,11 +32,16 @@
         _chartView.dataSource = self;
         _chartView.delegate = self;
         _chartView.lineChartDelegate = self;
-        _chartView.lineChartDataSource = self;
         _chartView.backgroundColor = [UIColor clearColor];
         _chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
         _chartView.headerHeight = 30;
-        _chartView.pageInset = UIEdgeInsetsZero;
+        _chartView.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
+        _chartView.lineWidth = 3;
+        _chartView.lineColor = [UIColor whiteColor];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+        label.text = @"❤️";
+        [label sizeToFit];
+        _chartView.yAxisLabelView = label;
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
@@ -105,14 +110,6 @@
     [label sizeToFit];
 }
 
-- (UIView *)labelViewForYAxisInChartView:(CHChartView *)chartView
-{
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-    label.text = @"❤️";
-    [label sizeToFit];
-    return label;
-}
-
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
 {
     return self.pointCount;
@@ -147,39 +144,6 @@
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
 {
     return index + 1;
-}
-
-#pragma mark CHLineChartDataSource
-
-- (NSArray *)chartView:(CHLineChartView *)chartView regionsInPage:(NSInteger)page
-{
-    UIColor *blue = [UIColor colorWithRed:0.35 green:0.54 blue:0.82 alpha:0.5];
-    UIColor *green = [UIColor colorWithRed:0.47 green:0.69 blue:0.02 alpha:0.5];
-    return @[
-             [CHChartRegion regionWithRange:NSMakeRange(1, 3) color:blue tintColor:self.view.backgroundColor],
-             [CHChartRegion regionWithRange:NSMakeRange(4, 5) color:green tintColor:self.view.backgroundColor],
-             [CHChartRegion regionWithRange:NSMakeRange(10, 4) color:blue tintColor:self.view.backgroundColor]
-             ];
-}
-
-- (UIColor *)chartView:(CHLineChartView *)chartView lineColorInPage:(NSInteger)page
-{
-    return [UIColor whiteColor];
-}
-
-- (NSInteger)chartView:(CHLineChartView *)chartView leftLineInsetInPage:(NSInteger)page
-{
-    return 1;
-}
-
-- (NSInteger)chartView:(CHLineChartView *)chartView rightLineInsetInPage:(NSInteger)page
-{
-    return 1;
-}
-
-- (CGFloat)chartView:(CHLineChartView *)chartView lineWidthInPage:(NSInteger)page
-{
-    return 3;
 }
 
 #pragma mark CHChartViewDelegate

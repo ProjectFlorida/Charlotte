@@ -10,25 +10,17 @@
 #import "CHChartViewSubclass.h"
 #import "UIBezierPath+Interpolation.h"
 #import "CHGradientView.h"
-#import "CHChartRegion.h"
 
 NSString *const kCHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
-@property (nonatomic, assign) NSInteger leftInset;
-@property (nonatomic, assign) NSInteger rightInset;
 @property (nonatomic, strong) NSArray *lineValues;
 @property (nonatomic, strong) NSArray *scatterPoints;
 @property (nonatomic, strong) NSMutableArray *scatterPointViews;
 @property (nonatomic, strong) CAShapeLayer *lineMaskLayer;
-@property (nonatomic, strong) CAShapeLayer *regionMaskLayer;
-@property (nonatomic, strong) CAShapeLayer *lineBackgroundLayer;
 @property (nonatomic, strong) CHGradientView *lineView;
-@property (nonatomic, strong) NSArray *regions;
-@property (nonatomic, strong) UIView *regionContainerView;
 @property (nonatomic, strong) UIView *scatterPointContainerView;
-@property (nonatomic, assign) BOOL isAnimating;
 
 @end
 
@@ -45,13 +37,10 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _maxValue = 1;
         _footerHeight = 30;
         _lineDrawingAnimationDuration = 1.0;
-        _regionEntranceAnimationDuration = 0.4;
-        _isAnimating = NO;
 
         _lineColor = [UIColor whiteColor];
         _lineTintColor = nil;
         _lineWidth = 4;
-        _lineInsetAlpha = 0.1;
 
         _lineMaskLayer = [CAShapeLayer layer];
         _lineMaskLayer.lineCap = kCALineCapRound;
@@ -59,31 +48,15 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineMaskLayer.fillColor = nil;
         _lineMaskLayer.strokeColor = [UIColor whiteColor].CGColor;
 
-        _lineBackgroundLayer = [CAShapeLayer layer];
-        _lineBackgroundLayer.shadowOpacity = 0;
-        _lineBackgroundLayer.shadowRadius = 1;
-        _lineBackgroundLayer.shadowOffset = CGSizeMake(0, 1);
-        _lineBackgroundLayer.lineCap = _lineMaskLayer.lineCap;
-        _lineBackgroundLayer.lineWidth = _lineMaskLayer.lineWidth;
-        _lineBackgroundLayer.fillColor = nil;
-        _lineBackgroundLayer.strokeColor = [_lineColor colorWithAlphaComponent:_lineInsetAlpha].CGColor;
-
-        _regionMaskLayer = [CAShapeLayer layer];
-        _regionMaskLayer.frame = self.bounds;
-
         _lineView = [[CHGradientView alloc] initWithFrame:CGRectZero];
         _lineView.colors = @[_lineColor, _lineColor];
         _lineView.startPoint = CGPointMake(0, 0.5);
         _lineView.endPoint = CGPointMake(1, 0.5);
         _lineView.layer.mask = _lineMaskLayer;
 
-        _regionContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        _regionContainerView.layer.mask = _regionMaskLayer;
         _scatterPointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
 
         [self addSubview:_scatterPointContainerView];
-        [self addSubview:_regionContainerView];
-        [self.layer addSublayer:_lineBackgroundLayer];
         [self addSubview:_lineView];
     }
     return self;
@@ -93,17 +66,10 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     [super layoutSubviews];
 
-    CGSize currentSize = self.bounds.size;
     self.lineView.frame = self.bounds;
-    self.lineBackgroundLayer.frame = self.bounds;
     self.lineMaskLayer.frame = self.bounds;
-    self.regionMaskLayer.frame = self.bounds;
-    self.regionContainerView.frame = CGRectMake(0, 0,
-                                                currentSize.width,
-                                                currentSize.height - self.footerHeight - 2);
     self.scatterPointContainerView.frame = self.bounds;
-    [self drawLineWithValues:self.lineValues regions:self.regions
-                   leftInset:self.leftInset rightInset:self.rightInset animated:NO];
+    [self drawLineWithValues:self.lineValues animated:NO];
     [self drawScatterPoints:self.scatterPoints animated:NO];
     [self drawInteractivePoint:self.interactivePoint animated:NO];
 }
@@ -134,8 +100,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self drawLineWithValues:self.lineValues regions:self.regions leftInset:self.leftInset rightInset:self.rightInset
-                    animated:animated];
+    [self drawLineWithValues:self.lineValues animated:animated];
     [self drawScatterPoints:self.scatterPoints animated:animated];
     [self drawInteractivePoint:self.interactivePoint animated:animated];
     if (completion) {
@@ -143,13 +108,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     }
 }
 
-- (void)drawLineWithValues:(NSArray *)values regions:(NSArray *)regions
-                 leftInset:(NSInteger)leftInset rightInset:(NSInteger)rightInset animated:(BOOL)animated;
+- (void)drawLineWithValues:(NSArray *)values animated:(BOOL)animated
 {
     self.lineValues = values;
-    self.regions = regions;
-    self.leftInset = leftInset;
-    self.rightInset = rightInset;
 
     NSInteger count = values.count;
     if (!count) {
@@ -166,15 +127,9 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         [points addObject:pointValue];
     }
     UIBezierPath *fullPath = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
-    NSArray *insetPoints = [points subarrayWithRange:NSMakeRange(self.leftInset,
-                                                                 count - self.leftInset - self.rightInset)];
-    UIBezierPath *insetPath = [UIBezierPath interpolateCGPointsWithHermite:insetPoints closed:NO];
-    [self.lineMaskLayer setPath:insetPath.CGPath];
-    [self.lineBackgroundLayer setPath:fullPath.CGPath];
+    [self.lineMaskLayer setPath:fullPath.CGPath];
 
-    if (animated && !self.isAnimating) {
-        self.isAnimating = YES;
-        self.regionContainerView.alpha = 0;       
+    if (animated) {
         [CATransaction begin];
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
         pathAnimation.duration = self.lineDrawingAnimationDuration;
@@ -182,21 +137,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         pathAnimation.toValue = @1;
         pathAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
         NSString *strokeEndAnimationKey = @"strokeEndAnimation";
-        [CATransaction setCompletionBlock:^{
-            [UIView animateWithDuration:self.regionEntranceAnimationDuration delay:0
-                                options:UIViewAnimationOptionCurveEaseIn
-                             animations:^{
-                                 self.regionContainerView.alpha = 1;
-                             } completion:^(BOOL finished) {
-                                 self.isAnimating = NO;
-                             }];
-        }];
         [self.lineMaskLayer addAnimation:pathAnimation forKey:strokeEndAnimationKey];
-        [self.lineBackgroundLayer addAnimation:pathAnimation forKey:strokeEndAnimationKey];
         [CATransaction commit];
-    }
-    else if (!self.isAnimating) {
-        self.regionContainerView.alpha = 1;
     }
 
     // update mask layer
@@ -205,32 +147,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     [fullPath addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
     [fullPath addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
     [fullPath closePath];
-    [self.regionMaskLayer setPath:fullPath.CGPath];
-
-    // draw regions
-    if (!regions) {
-        return;
-    }
-    else {
-        // reset region view
-        self.regions = regions;
-        for (UIView *subview in self.regionContainerView.subviews) {
-            [subview removeFromSuperview];
-        }
-
-        for (CHChartRegion *region in self.regions) {
-            CGPoint firstPoint = [points[region.range.location] CGPointValue];
-            CGPoint lastPoint = [points[region.range.location + region.range.length] CGPointValue];
-            CGRect regionFrame = CGRectMake(firstPoint.x, 0,
-                                            lastPoint.x - firstPoint.x,
-                                            self.regionContainerView.bounds.size.height);
-            CHGradientView *regionView = [[CHGradientView alloc] initWithFrame:regionFrame];
-            regionView.locations = @[@0.8, @1.0];
-            regionView.colors = @[region.color,
-                                  region.tintColor];
-            [self.regionContainerView addSubview:regionView];
-        }
-    }
 }
 
 - (void)resetScatterPoints
@@ -306,7 +222,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _lineWidth = lineWidth;
     self.lineMaskLayer.lineWidth = _lineWidth;
-    self.lineBackgroundLayer.lineWidth = _lineWidth;
 }
 
 - (void)setLineColor:(UIColor *)lineColor
@@ -318,7 +233,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     else {
         self.lineView.colors = @[_lineColor, _lineColor];
     }
-    self.lineBackgroundLayer.strokeColor = [_lineColor colorWithAlphaComponent:_lineInsetAlpha].CGColor;
 }
 
 - (void)setLineTintColor:(UIColor *)lineTintColor
@@ -332,19 +246,10 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     }
 }
 
-- (void)setLineInsetAlpha:(CGFloat)lineInsetAlpha
-{
-    _lineInsetAlpha = lineInsetAlpha;
-    self.lineBackgroundLayer.strokeColor = [self.lineColor colorWithAlphaComponent:_lineInsetAlpha].CGColor;
-}
-
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
     [self setNeedsLayout];
 }
-
-
-
 
 @end
