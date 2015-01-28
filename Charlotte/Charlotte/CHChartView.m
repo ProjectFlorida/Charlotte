@@ -253,6 +253,10 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 - (void)reloadData
 {
     [self.collectionView reloadData];
+    NSUInteger numberOfGridlines = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
+    if ([self.gridlines count] != numberOfGridlines) {
+        [self initializeGridlines];
+    }
     [self updateGridlinesAnimated:NO];
     [self setNeedsLayout];
 }

@@ -138,7 +138,7 @@
 
 - (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
 {
-    return 6;
+    return 3 + arc4random_uniform(3);
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
