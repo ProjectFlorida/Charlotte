@@ -17,6 +17,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) UIView *pointView;
+@property (nonatomic, strong) UIView *pointContainerView;
 
 @end
 
@@ -33,12 +34,14 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
         _maxValue = 1;
         _animationDuration = 0;
 
+        _pointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
         _xAxisLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _pointView = [[UIView alloc] initWithFrame:CGRectZero];
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 
+        [_pointContainerView addSubview:_pointView];
+        [self addSubview:_pointContainerView];
         [self addSubview:_xAxisLabel];
-        [self addSubview:_pointView];
         [self addSubview:_valueLabel];
     }
     return self;
@@ -74,6 +77,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     self.xAxisLabel.center = CGPointMake(centerX,
                                          height - self.footerHeight/2.0);
 
+    self.pointContainerView.frame = self.bounds;
     self.pointView.frame = [self pointViewFrame];
     self.pointView.layer.cornerRadius = self.pointView.bounds.size.width / 2.0;
 

@@ -47,7 +47,7 @@
         [_scrollView addSubview:_chartView];
 
         _minValues = @[@0, @0, @0, @0,  @0];
-        _maxValues = @[@120, @120, @75, @90, @80];
+        _maxValues = @[@120, @40, @75, @60, @50];
         _averages = @[@35, @40, @50, @45, @55];
         _values = @[
                     @[@0, @20, @30, @40, @50, @60, @30],

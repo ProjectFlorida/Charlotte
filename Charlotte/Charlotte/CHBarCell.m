@@ -16,6 +16,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 @interface CHBarCell ()
 
 @property (nonatomic, strong) CAShapeLayer *borderLayer;
+@property (nonatomic, strong) CAGradientLayer *gradientMaskLayer;
 
 @end
 
@@ -37,6 +38,13 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
         _borderLayer.strokeColor = _borderColor.CGColor;
         _borderLayer.lineDashPattern = _borderDashPattern;
 
+        _gradientMaskLayer = [CAGradientLayer layer];
+        _gradientMaskLayer.startPoint = CGPointMake(0.5, 0);
+        _gradientMaskLayer.endPoint = CGPointMake(0.5, 1);
+        _gradientMaskLayer.locations = @[@0, @(0.15)];
+        _gradientMaskLayer.colors = @[(id)[UIColor clearColor].CGColor, (id)[UIColor whiteColor].CGColor];
+        self.pointContainerView.layer.mask = _gradientMaskLayer;
+
         [self.pointView.layer addSublayer:_borderLayer];
         self.pointView.backgroundColor = [UIColor clearColor];
         self.pointView.backgroundColor = [UIColor clearColor];
@@ -46,6 +54,7 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
 
 - (void)layoutSubviews {
     [super layoutSubviews];
+    self.gradientMaskLayer.frame = self.bounds;
     if (!CGRectEqualToRect(self.borderLayer.frame, self.pointView.bounds)) {
         self.borderLayer.frame = self.pointView.bounds;
         self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
@@ -59,6 +68,15 @@ CGFloat const kCHZeroValueAnimationDuration = 0.2;
     self.borderLayer.frame = self.pointView.bounds;
     self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
                                                        cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;
+}
+
+- (CGPoint)valueLabelCenter
+{
+    CGFloat valueLabelHeight = CGRectGetHeight(self.valueLabel.frame);
+    CGFloat y = CGRectGetMinY(self.pointView.frame) - valueLabelHeight/2.0 - self.layoutMargins.bottom/2.0;
+    CGFloat minY = CGRectGetMinY(self.bounds) + valueLabelHeight/2.0;
+    y = MAX(y, minY);
+    return CGPointMake(self.pointView.center.x, y);
 }
 
 - (CGRect)pointViewFrame
