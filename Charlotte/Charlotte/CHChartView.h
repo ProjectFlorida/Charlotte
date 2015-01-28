@@ -9,9 +9,6 @@
 #import "CHGridlineView.h"
 @import UIKit;
 
-extern CGFloat const kCHPageTransitionAnimationDuration;
-extern CGFloat const kCHPageTransitionAnimationSpringDamping;
-
 extern NSString *const CHSupplementaryElementKindHeader;
 extern NSString *const CHSupplementaryElementKindFooter;
 
@@ -221,6 +218,12 @@ extern NSString *const CHSupplementaryElementKindFooter;
 
 /// The view used as the chart's y-axis label
 @property (nonatomic, strong) UIView *yAxisLabelView;
+
+/// The duration of the page transition animation
+@property (nonatomic, assign) CGFloat pageTransitionAnimationDuration UI_APPEARANCE_SELECTOR;
+
+/// The spring damping of the page transition animation
+@property (nonatomic, assign) CGFloat pageTransitionAnimationSpringDamping UI_APPEARANCE_SELECTOR;
 
 /**
  *  A Boolean value indicating whether value labels should be hidden on pages that aren't the current page.

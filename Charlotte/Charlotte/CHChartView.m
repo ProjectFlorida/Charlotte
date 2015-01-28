@@ -15,8 +15,6 @@
 
 NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
 NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindFooter";
-CGFloat const kCHPageTransitionAnimationDuration = 0.5;
-CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 
 @interface CHGridlineContainer : NSObject
 /// The line view containing the gridline's label
@@ -40,7 +38,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 @property (strong, nonatomic) UIView *overlayView;
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
-@property (assign, nonatomic) NSInteger numberOfAnimationsInProgress;
 
 // An array of CHGridlineContainer objects
 @property (strong, nonatomic) NSMutableArray *gridlines;
@@ -85,11 +82,13 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     _footerHeight = 30;
     _headerHeight = 30;
 
+    _pageTransitionAnimationDuration = 0.5;
+    _pageTransitionAnimationSpringDamping = 0.7;
+
     _pagingAlpha = 0.3;
     _pageInset = UIEdgeInsetsMake(0, 40, 0, 40);
     _sectionInset = UIEdgeInsetsZero;
     _hidesValueLabelsOnNonCurrentPages = YES;
-    _numberOfAnimationsInProgress = 0;
     _gridlines = [NSMutableArray array];
 
     _collectionViewLayout = [[CHPagingChartFlowLayout alloc] init];
@@ -268,10 +267,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     for (CHPointCell *cell in self.collectionView.visibleCells) {
-        self.numberOfAnimationsInProgress++;
-        [cell setMinValue:min maxValue:max animated:animated completion:^{
-            self.numberOfAnimationsInProgress--;
-        }];
+        [cell setMinValue:min maxValue:max animated:animated completion:nil];
     }
 }
 
@@ -284,15 +280,15 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     for (int i = 0; i < count; i++) {
         CHPointCell *cell = self.collectionView.visibleCells[i];
         if (cell.page == self.currentPage) {
-            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
-                 usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping initialSpringVelocity:0
+            [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
+                 usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseIn animations:^{
                                     cell.valueLabel.transform = CGAffineTransformIdentity;
                                 } completion:nil];
         }
         else {
-            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
-                 usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping initialSpringVelocity:0
+            [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
+                 usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseOut animations:^{
                                     cell.valueLabel.transform = CGAffineTransformMakeScale(0.0, 0.0);
                                 } completion:nil];
@@ -326,7 +322,7 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
             if (alpha < cell.alpha) {
                 options = UIViewAnimationOptionCurveEaseOut;
             }
-            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
+            [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
                                 options:options animations:^{
                                     cell.alpha = alpha;
                                 } completion:nil];
@@ -355,14 +351,11 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
         };
 
         if (animated) {
-            self.numberOfAnimationsInProgress++;
-            [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
-                 usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
+            [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
+                 usingSpringWithDamping:self.pageTransitionAnimationSpringDamping
                   initialSpringVelocity:0 options:0 animations:^{
                       layoutBlock();
-                  } completion:^(BOOL finished) {
-                      self.numberOfAnimationsInProgress--;
-                  }];
+                  } completion:nil];
         }
         else {
             layoutBlock();
@@ -436,20 +429,16 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
     [self setNeedsLayout];
 }
 
-- (void)setNumberOfAnimationsInProgress:(NSInteger)numberOfAnimationsInProgress
-{
-    if (numberOfAnimationsInProgress < 0) {
-        numberOfAnimationsInProgress = 0;
-    }
-    _numberOfAnimationsInProgress = numberOfAnimationsInProgress;
-    self.scrollView.scrollEnabled = numberOfAnimationsInProgress == 0;
-}
-
 - (void)setYAxisLabelView:(UIView *)yAxisLabelView
 {
     _yAxisLabelView = yAxisLabelView;
     [self addSubview:_yAxisLabelView];
     [self setNeedsLayout];
+}
+
+- (void)setPageTransitionAnimationDuration:(CGFloat)pageTransitionAnimationDuration
+{
+    _pageTransitionAnimationDuration = pageTransitionAnimationDuration;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -509,6 +498,8 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
 {
     CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
                                                                   forIndexPath:indexPath];
+    cell.animationDuration = self.pageTransitionAnimationDuration;
+    cell.animationSpringDamping = self.pageTransitionAnimationSpringDamping;
 
     if ([self.dataSource respondsToSelector:@selector(configureXAxisLabel:forPointInPage:atIndex:inChartView:)]) {
         [self.dataSource configureXAxisLabel:cell.xAxisLabel forPointInPage:indexPath.section atIndex:indexPath.row

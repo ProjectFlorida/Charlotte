@@ -31,6 +31,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
         _value = 0;
         _minValue = 0;
         _maxValue = 1;
+        _animationDuration = 0;
 
         _xAxisLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _pointView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -106,8 +107,8 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
 {
     if (animated) {
-        [UIView animateWithDuration:kCHPageTransitionAnimationDuration delay:0
-             usingSpringWithDamping:kCHPageTransitionAnimationSpringDamping
+        [UIView animateWithDuration:self.animationDuration delay:0
+             usingSpringWithDamping:self.animationSpringDamping
               initialSpringVelocity:0 options:0 animations:^{
                   [self reload];
               } completion:^(BOOL finished) {

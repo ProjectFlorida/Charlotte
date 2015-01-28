@@ -18,8 +18,9 @@ extern NSString *const kCHPointCellReuseId;
 @property (nonatomic, readonly) CGFloat maxValue;
 @property (nonatomic, strong) UILabel *xAxisLabel;
 @property (nonatomic, strong) UILabel *valueLabel;
-
 @property (nonatomic, assign) CGFloat footerHeight;
+@property (nonatomic, assign) CGFloat animationDuration;
+@property (nonatomic, assign) CGFloat animationSpringDamping;
 
 - (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;

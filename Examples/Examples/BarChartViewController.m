@@ -32,6 +32,9 @@
     if (self) {
         self.title = @"CHBarChartView";
 
+        [[CHBarChartView appearance] setPageTransitionAnimationDuration:0.5];
+        [[CHBarChartView appearance] setPageTransitionAnimationSpringDamping:0.7];
+
         _chartView = [[CHBarChartView alloc] initWithFrame:CGRectZero];
         _chartView.delegate = self;
         _chartView.dataSource = self;
@@ -43,7 +46,7 @@
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
 
-        _minValues = @[@0, @0, @0, @35,  @0];
+        _minValues = @[@0, @0, @0, @0,  @0];
         _maxValues = @[@120, @120, @75, @90, @80];
         _averages = @[@35, @40, @50, @45, @55];
         _values = @[
