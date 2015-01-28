@@ -181,15 +181,6 @@ CGFloat const kCHPageTransitionAnimationSpringDamping = 0.7;
               rightLabelViewForHorizontalGridlineWithValue:gridline.value atIndex:i];
             gridline.labelGridlineView.rightLabelView = labelView;
         }
-        else {
-            // default label
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-            label.font = [UIFont boldSystemFontOfSize:13];
-            label.text = [NSString stringWithFormat:@"%d", (int)roundf(gridline.value)];
-            label.textColor = [UIColor whiteColor];
-            [label sizeToFit];
-            [gridline.labelGridlineView setLeftLabelView:label];
-        }
         if ([self.dataSource respondsToSelector:@selector(chartView:lineColorForHorizontalGridlineAtIndex:)]) {
             gridline.lineGridlineView.lineColor = [self.dataSource chartView:self
                                        lineColorForHorizontalGridlineAtIndex:i];

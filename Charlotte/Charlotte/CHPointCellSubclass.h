@@ -7,7 +7,6 @@
 //
 
 #import "CHPointCell.h"
-#import "CHGradientView.h"
 
 @interface CHPointCell (CHPointCellProtected)
 
