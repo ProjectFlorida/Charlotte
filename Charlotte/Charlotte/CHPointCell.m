@@ -8,7 +8,6 @@
 
 #import "CHPointCell.h"
 #import "CHChartView.h"
-#import "CHGradientView.h"
 
 NSString *const kCHPointCellReuseId = @"CHPointCell";
 
@@ -34,7 +33,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
         _maxValue = 1;
 
         _xAxisLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _pointView = [[CHGradientView alloc] initWithFrame:CGRectZero];
+        _pointView = [[UIView alloc] initWithFrame:CGRectZero];
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 
         [self addSubview:_xAxisLabel];
