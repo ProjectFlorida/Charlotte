@@ -10,6 +10,7 @@
 #import "BarChartViewController.h"
 #import "LineChartViewController.h"
 #import "ScatterChartViewController.h"
+#import "IntervalChartViewController.h"
 
 @interface TableViewController ()
 
@@ -30,8 +31,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return 3;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -46,6 +46,9 @@
             break;
         case 2:
             cell.textLabel.text = @"CHScatterChartView";
+            break;
+        case 3:
+            cell.textLabel.text = @"CHIntervalChartView";
             break;
         default:
             break;
@@ -71,6 +74,11 @@
         }
         case 2: {
             ScatterChartViewController *vc = [[ScatterChartViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 3: {
+            IntervalChartViewController *vc = [[IntervalChartViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

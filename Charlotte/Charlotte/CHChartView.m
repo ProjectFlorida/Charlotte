@@ -29,7 +29,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 @implementation CHGridlineContainer
 @end
 
-@interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIGestureRecognizerDelegate>
+@interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIScrollView *scrollView;
