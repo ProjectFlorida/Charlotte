@@ -61,20 +61,17 @@ extern NSString *const CHSupplementaryElementKindLine;
 /// The chart's cursor disappears with this duration.
 @property (nonatomic, assign) CGFloat cursorExitAnimationDuration;
 
-/// The width of the cursor column
-@property (nonatomic, assign) CGFloat cursorColumnWidth UI_APPEARANCE_SELECTOR;
+/// The width of the cursor
+@property (nonatomic, assign) CGFloat cursorWidth UI_APPEARANCE_SELECTOR;
 
-/// The color of the cursor column
-@property (nonatomic, strong) UIColor *cursorColumnColor UI_APPEARANCE_SELECTOR;
+/// The top inset of the cursor
+@property (nonatomic, assign) CGFloat cursorTopInset UI_APPEARANCE_SELECTOR;
 
-/** 
- *  The tint color of the cursor column.
- *  If a tint color is provided, a gradient will be drawn from the column color (top) to the tint color (bottom)
- */
-@property (nonatomic, strong) UIColor *cursorColumnTintColor UI_APPEARANCE_SELECTOR;
+/// The radius of the cursor dot
+@property (nonatomic, assign) CGFloat cursorDotRadius UI_APPEARANCE_SELECTOR;
 
-/// The radius of the cursor point
-@property (nonatomic, assign) CGFloat cursorPointRadius UI_APPEARANCE_SELECTOR;
+/// The color of the cursor
+@property (nonatomic, strong) UIColor *cursorColor UI_APPEARANCE_SELECTOR;
 
 /// The duration of the line drawing animation.
 @property (nonatomic, assign) NSTimeInterval lineDrawingAnimationDuration UI_APPEARANCE_SELECTOR;

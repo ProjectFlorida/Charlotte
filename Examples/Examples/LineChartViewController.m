@@ -33,7 +33,6 @@
         _chartView.delegate = self;
         _chartView.lineChartDelegate = self;
         _chartView.backgroundColor = [UIColor clearColor];
-        _chartView.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
         _chartView.headerHeight = 30;
         _chartView.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
         _chartView.lineWidth = 3;
@@ -48,7 +47,7 @@
 
         _tooltipLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 80, 50)];
         _tooltipLabel.textAlignment = NSTextAlignmentCenter;
-        _tooltipLabel.backgroundColor = [UIColor magentaColor];
+        _tooltipLabel.backgroundColor = [UIColor whiteColor];
 
         _pointCount = 20;
         _currentIndex = 0;
@@ -61,7 +60,7 @@
 {
     [super loadView];
     [self.view addSubview:_scrollView];
-    self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
+    self.view.backgroundColor = [UIColor lightGrayColor];
 }
 
 - (void)viewDidLoad

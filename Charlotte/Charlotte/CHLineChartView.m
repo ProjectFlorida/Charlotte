@@ -12,7 +12,6 @@
 #import "CHChartViewSubclass.h"
 #import "CHPagingLineChartFlowLayout.h"
 #import "CHTouchGestureRecognizer.h"
-#import "CHCursorPointView.h"
 #import "CHGradientView.h"
 #import "CHFooterView.h"
 
@@ -23,9 +22,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 @property (nonatomic, strong) NSMapTable *visibleLineViews;
 @property (nonatomic, strong) CHTouchGestureRecognizer *touchGR;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
-@property (nonatomic, strong) CHGradientView *cursorColumnView;
-@property (nonatomic, strong) CHCursorPointView *cursorPointView;
-@property (nonatomic, assign) CGFloat highlightColumnWidth;
+@property (nonatomic, strong) UIView *cursorView;
+@property (nonatomic, strong) UIView *cursorDotView;
 @property (nonatomic, assign) BOOL cursorIsActive;
 
 @end
@@ -48,21 +46,18 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     _cursorMovementAnimationDuration = 0.2;
     _cursorEntranceAnimationDuration = 0.15;
     _cursorExitAnimationDuration = 0.15;
-    _highlightColumnWidth = 4;
-    _cursorColumnView = [[CHGradientView alloc] initWithFrame:CGRectMake(0, 0,
-                                                                         _highlightColumnWidth,
-                                                                         self.bounds.size.height)];
-    _cursorColumnView.locations = @[@0, @0.35, @0.65, @1];
-    _cursorColumnView.colors = @[[UIColor colorWithWhite:1 alpha:0.4],
-                                  [UIColor colorWithWhite:1 alpha:0]];
-    _cursorColumnView.startPoint = CGPointMake(0.5, 0);
-    _cursorColumnView.endPoint = CGPointMake(0.5, 1);
-    _cursorColumnView.alpha = 0;
-    [self addSubview:_cursorColumnView];
-
-    _cursorPointView = [[CHCursorPointView alloc] initWithFrame:CGRectMake(0, 0, 16, 16)];
-    _cursorPointView.alpha = 0;
-    [self addSubview:_cursorPointView];
+    _cursorWidth = 1;
+    _cursorDotRadius = 4;
+    _cursorTopInset = 20;
+    _cursorView = [[UIView alloc] initWithFrame:CGRectZero];
+    _cursorView.backgroundColor = [UIColor whiteColor];
+    _cursorView.alpha = 0;
+    _cursorDotView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, _cursorDotRadius*2, _cursorDotRadius*2)];
+    _cursorDotView.backgroundColor = [UIColor whiteColor];
+    _cursorDotView.layer.cornerRadius = _cursorDotRadius;
+    _cursorDotView.alpha = 0;
+    [self addSubview:_cursorView];
+    [self addSubview:_cursorDotView];
 
     _visibleLineViews = [NSMapTable strongToWeakObjectsMapTable];
 
@@ -87,10 +82,6 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    self.cursorColumnView.frame = CGRectMake(self.cursorColumnView.frame.origin.x,
-                                             0,
-                                             self.cursorColumnView.frame.size.width,
-                                             self.bounds.size.height - self.footerHeight);
 }
 
 - (void)updateAlphaInVisibleLineViews
@@ -141,33 +132,20 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 }
 
 #pragma mark - Setters
-
-- (void)setCursorColumnWidth:(CGFloat)cursorColumnWidth
+- (void)setCursorColor:(UIColor *)cursorColor
 {
-    _cursorColumnWidth = cursorColumnWidth;
-    CGRect currentFrame = self.cursorColumnView.frame;
-    self.cursorColumnView.frame = CGRectMake(currentFrame.origin.x, currentFrame.origin.y,
-                                             cursorColumnWidth, currentFrame.size.height);
+    _cursorColor = cursorColor;
+    self.cursorView.backgroundColor = cursorColor;
+    self.cursorDotView.backgroundColor = cursorColor;
 }
 
-- (void)setCursorPointRadius:(CGFloat)cursorPointRadius
+- (void)setCursorDotRadius:(CGFloat)cursorDotRadius
 {
-    _cursorPointRadius = cursorPointRadius;
-    CGRect currentFrame = self.cursorPointView.frame;
-    self.cursorColumnView.frame = CGRectMake(currentFrame.origin.x, currentFrame.origin.y,
-                                             cursorPointRadius*2.0, currentFrame.size.height);
-}
-
-- (void)setCursorColumnColor:(UIColor *)cursorColumnColor
-{
-    _cursorColumnColor = cursorColumnColor;
-    self.cursorColumnView.colors = @[cursorColumnColor, self.cursorColumnView.colors[1]];
-}
-
-- (void)setCursorColumnTintColor:(UIColor *)cursorColumnTintColor
-{
-    _cursorColumnTintColor = cursorColumnTintColor;
-    self.cursorColumnView.colors = @[self.cursorColumnView.colors[0], cursorColumnTintColor];
+    _cursorDotRadius = cursorDotRadius;
+    self.cursorDotView.frame = CGRectMake(CGRectGetMinX(self.cursorDotView.frame),
+                                          CGRectGetMinY(self.cursorDotView.frame),
+                                          cursorDotRadius*2, cursorDotRadius*2);
+    self.cursorDotView.layer.cornerRadius = cursorDotRadius;
 }
 
 - (void)setLineDrawingAnimationDuration:(NSTimeInterval)lineDrawingAnimationDuration
@@ -224,8 +202,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
         self.cursorIsActive = YES;
         [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
-            self.cursorColumnView.alpha = 1;
-            self.cursorPointView.alpha = 1;
+            self.cursorView.alpha = 1;
+            self.cursorDotView.alpha = 1;
         }];
         touchBegan = YES;
     }
@@ -233,8 +211,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
              gestureRecognizer.state == UIGestureRecognizerStateCancelled) {
         self.cursorIsActive = NO;
         [UIView animateWithDuration:self.cursorExitAnimationDuration animations:^{
-            self.cursorColumnView.alpha = 0;
-            self.cursorPointView.alpha = 0;
+            self.cursorView.alpha = 0;
+            self.cursorDotView.alpha = 0;
         } completion:^(BOOL finished) {
             if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorDisappearedInPage:atIndex:value:position:)]) {
                 [self.lineChartDelegate chartView:self cursorDisappearedInPage:self.currentPage
@@ -245,8 +223,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     }
 
     void(^updateBlock)() = ^() {
-        [self.cursorPointView setCenter:CGPointMake(x, y)];
-        [self.cursorColumnView setCenter:CGPointMake(x, self.cursorColumnView.center.y)];
+        self.cursorView.frame = CGRectMake(x - CGRectGetWidth(self.cursorView.bounds)/2.0,
+                                           self.cursorTopInset,
+                                           self.cursorWidth,
+                                           MAX(0, y - self.cursorTopInset));
+        self.cursorDotView.center = CGPointMake(x, y);
     };
 
     if (!touchBegan) {
