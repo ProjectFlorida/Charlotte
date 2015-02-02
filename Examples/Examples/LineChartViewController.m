@@ -53,11 +53,15 @@
         _pointCount = 20;
         _currentIndex = 0;
         _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
-
-        [self.view addSubview:_scrollView];
-        self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
     }
     return self;
+}
+
+- (void)loadView
+{
+    [super loadView];
+    [self.view addSubview:_scrollView];
+    self.view.backgroundColor = [UIColor colorWithRed:0.12 green:0.26 blue:0.49 alpha:1];
 }
 
 - (void)viewDidLoad

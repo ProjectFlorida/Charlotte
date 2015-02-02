@@ -50,9 +50,15 @@
 		96A1B8FD1A000B73001C5001 /* CHScatterPointSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8FC1A000B73001C5001 /* CHScatterPointSpec.m */; };
 		96CC853D19F823C400C96582 /* CHFooterView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96CC853B19F823C400C96582 /* CHFooterView.h */; };
 		96CC853E19F823C400C96582 /* CHFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96CC853C19F823C400C96582 /* CHFooterView.m */; };
+		96D376791A7C2B1C00191411 /* CHIntervalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96D376771A7C2B1C00191411 /* CHIntervalView.h */; };
+		96D3767A1A7C2B1C00191411 /* CHIntervalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D376781A7C2B1C00191411 /* CHIntervalView.m */; };
+		96D5AB161A7C05CF005096DC /* CHIntervalChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96D5AB141A7C05CF005096DC /* CHIntervalChartView.h */; };
+		96D5AB171A7C05CF005096DC /* CHIntervalChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96D5AB151A7C05CF005096DC /* CHIntervalChartView.m */; };
 		96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 96DDD67C19DC9CE8005CCD07 /* Charlotte.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		96EF748C19F6D28B004024EA /* CHGradientView.h in Headers */ = {isa = PBXBuildFile; fileRef = 96EF748A19F6D28B004024EA /* CHGradientView.h */; };
 		96EF748D19F6D28B004024EA /* CHGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = 96EF748B19F6D28B004024EA /* CHGradientView.m */; };
+		96F071421A7C136100B13311 /* CHInterval.h in Headers */ = {isa = PBXBuildFile; fileRef = 96F071401A7C136100B13311 /* CHInterval.h */; };
+		96F071431A7C136100B13311 /* CHInterval.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F071411A7C136100B13311 /* CHInterval.m */; };
 		96FFA1B61A018D610093BC8F /* CHLineChartViewSubclass.h in Headers */ = {isa = PBXBuildFile; fileRef = 96FFA1B51A018D610093BC8F /* CHLineChartViewSubclass.h */; };
 /* End PBXBuildFile section */
 
@@ -109,6 +115,10 @@
 		96A1B8FC1A000B73001C5001 /* CHScatterPointSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHScatterPointSpec.m; sourceTree = "<group>"; };
 		96CC853B19F823C400C96582 /* CHFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHFooterView.h; sourceTree = "<group>"; };
 		96CC853C19F823C400C96582 /* CHFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHFooterView.m; sourceTree = "<group>"; };
+		96D376771A7C2B1C00191411 /* CHIntervalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHIntervalView.h; sourceTree = "<group>"; };
+		96D376781A7C2B1C00191411 /* CHIntervalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHIntervalView.m; sourceTree = "<group>"; };
+		96D5AB141A7C05CF005096DC /* CHIntervalChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHIntervalChartView.h; sourceTree = "<group>"; };
+		96D5AB151A7C05CF005096DC /* CHIntervalChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHIntervalChartView.m; sourceTree = "<group>"; };
 		96DDD67719DC9CE8005CCD07 /* Charlotte.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Charlotte.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD67B19DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD67C19DC9CE8005CCD07 /* Charlotte.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Charlotte.h; sourceTree = "<group>"; };
@@ -116,6 +126,8 @@
 		96DDD68519DC9CE8005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96EF748A19F6D28B004024EA /* CHGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGradientView.h; sourceTree = "<group>"; };
 		96EF748B19F6D28B004024EA /* CHGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGradientView.m; sourceTree = "<group>"; };
+		96F071401A7C136100B13311 /* CHInterval.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHInterval.h; sourceTree = "<group>"; };
+		96F071411A7C136100B13311 /* CHInterval.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHInterval.m; sourceTree = "<group>"; };
 		96FFA1B51A018D610093BC8F /* CHLineChartViewSubclass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLineChartViewSubclass.h; sourceTree = "<group>"; };
 		A1B103F3F5490C4C888EB57F /* Pods-CharlotteTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CharlotteTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CharlotteTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -288,6 +300,12 @@
 				96839AC319EEF3330094AED9 /* CHLineChartView.m */,
 				96A1B8EB19FFD9F4001C5001 /* CHScatterChartView.h */,
 				96A1B8EC19FFD9F4001C5001 /* CHScatterChartView.m */,
+				96D5AB141A7C05CF005096DC /* CHIntervalChartView.h */,
+				96D5AB151A7C05CF005096DC /* CHIntervalChartView.m */,
+				96D376771A7C2B1C00191411 /* CHIntervalView.h */,
+				96D376781A7C2B1C00191411 /* CHIntervalView.m */,
+				96F071401A7C136100B13311 /* CHInterval.h */,
+				96F071411A7C136100B13311 /* CHInterval.m */,
 				964D232819E708FE0096F3FD /* CHChartView.h */,
 				964D232919E708FE0096F3FD /* CHChartView.m */,
 			);
@@ -314,6 +332,7 @@
 				9691DFCC19ED6DF100386A5D /* CHGridlineView.h in Headers */,
 				96839ABC19EEF23E0094AED9 /* CHBarChartView.h in Headers */,
 				964D233219E71AE90096F3FD /* CHPagingChartFlowLayout.h in Headers */,
+				96F071421A7C136100B13311 /* CHInterval.h in Headers */,
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
 				9620455619F590AD0045D3B8 /* CHCursorPointView.h in Headers */,
 				9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */,
@@ -325,7 +344,9 @@
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
 				962BBDB619F03D290038597C /* CHLineView.h in Headers */,
 				96CC853D19F823C400C96582 /* CHFooterView.h in Headers */,
+				96D5AB161A7C05CF005096DC /* CHIntervalChartView.h in Headers */,
 				969E2A5919F1B1050036C0C2 /* UIBezierPath+Interpolation.h in Headers */,
+				96D376791A7C2B1C00191411 /* CHIntervalView.h in Headers */,
 				964D233619E7510E0096F3FD /* CHBarCell.h in Headers */,
 				969E2A5D19F1B11E0036C0C2 /* CGPointExtension.h in Headers */,
 				96A1B8ED19FFD9F4001C5001 /* CHScatterChartView.h in Headers */,
@@ -473,11 +494,14 @@
 				9688C35319F57E19006D9096 /* CHTouchGestureRecognizer.m in Sources */,
 				96A1B8EE19FFD9F4001C5001 /* CHScatterChartView.m in Sources */,
 				96839ABD19EEF23E0094AED9 /* CHBarChartView.m in Sources */,
+				96D5AB171A7C05CF005096DC /* CHIntervalChartView.m in Sources */,
 				964D233319E71AE90096F3FD /* CHPagingChartFlowLayout.m in Sources */,
+				96D3767A1A7C2B1C00191411 /* CHIntervalView.m in Sources */,
 				96839AC519EEF3330094AED9 /* CHLineChartView.m in Sources */,
 				969E2A5A19F1B1050036C0C2 /* UIBezierPath+Interpolation.m in Sources */,
 				969E2A5E19F1B11E0036C0C2 /* CGPointExtension.m in Sources */,
 				964D232B19E708FE0096F3FD /* CHChartView.m in Sources */,
+				96F071431A7C136100B13311 /* CHInterval.m in Sources */,
 				968E00011A01553300849561 /* CHInteractivePoint.m in Sources */,
 				962BBDB719F03D290038597C /* CHLineView.m in Sources */,
 				968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */,

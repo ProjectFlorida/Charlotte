@@ -61,11 +61,15 @@
         _currentIndex = 0;
 
         _barColor = [UIColor whiteColor];
-
-        [self.view addSubview:_scrollView];
-        self.view.backgroundColor = [UIColor colorWithRed:0.33 green:0.62 blue:0.55 alpha:1];
     }
     return self;
+}
+
+- (void)loadView
+{
+    [super loadView];
+    [self.view addSubview:_scrollView];
+    self.view.backgroundColor = [UIColor colorWithRed:0.33 green:0.62 blue:0.55 alpha:1];
 }
 
 - (void)viewDidLoad {

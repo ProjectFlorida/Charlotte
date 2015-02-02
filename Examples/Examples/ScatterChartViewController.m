@@ -35,11 +35,15 @@ CHTooltipViewDelegate>
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
         [_scrollView addSubview:_chartView];
-
-        [self.view addSubview:_scrollView];
-        self.view.backgroundColor = [UIColor colorWithRed:0.8 green:0.36 blue:0.17 alpha:1];
     }
     return self;
+}
+
+- (void)loadView
+{
+    [super loadView];
+    [self.view addSubview:_scrollView];
+    self.view.backgroundColor = [UIColor colorWithRed:0.8 green:0.36 blue:0.17 alpha:1];
 }
 
 - (void)viewDidLoad {

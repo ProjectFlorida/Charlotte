@@ -17,6 +17,7 @@
 		96DDD6AD19DC9DA9005CCD07 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 96DDD6AC19DC9DA9005CCD07 /* Images.xcassets */; };
 		96DDD6B019DC9DA9005CCD07 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 96DDD6AE19DC9DA9005CCD07 /* LaunchScreen.xib */; };
 		96DDD6BC19DC9DA9005CCD07 /* ExamplesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD6BB19DC9DA9005CCD07 /* ExamplesTests.m */; };
+		96F0713F1A7C0ABA00B13311 /* IntervalChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96F0713E1A7C0ABA00B13311 /* IntervalChartViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,8 @@
 		96DDD6B519DC9DA9005CCD07 /* ExamplesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamplesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD6BA19DC9DA9005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD6BB19DC9DA9005CCD07 /* ExamplesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamplesTests.m; sourceTree = "<group>"; };
+		96F0713D1A7C0ABA00B13311 /* IntervalChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntervalChartViewController.h; sourceTree = "<group>"; };
+		96F0713E1A7C0ABA00B13311 /* IntervalChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntervalChartViewController.m; sourceTree = "<group>"; };
 		B20F3C71C916E8B3D692DCA2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		FF6BB140587CBE8F591CA018 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -113,6 +116,8 @@
 				96DDD6A719DC9DA9005CCD07 /* LineChartViewController.m */,
 				96A1B8EF19FFDAE3001C5001 /* ScatterChartViewController.h */,
 				96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */,
+				96F0713D1A7C0ABA00B13311 /* IntervalChartViewController.h */,
+				96F0713E1A7C0ABA00B13311 /* IntervalChartViewController.m */,
 				96DDD6AC19DC9DA9005CCD07 /* Images.xcassets */,
 				96DDD6AE19DC9DA9005CCD07 /* LaunchScreen.xib */,
 				96DDD69C19DC9DA9005CCD07 /* Supporting Files */,
@@ -289,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96F0713F1A7C0ABA00B13311 /* IntervalChartViewController.m in Sources */,
 				96DDD6A819DC9DA9005CCD07 /* LineChartViewController.m in Sources */,
 				96ABA3811A125BFE006F93D7 /* TableViewController.m in Sources */,
 				96DDD6A219DC9DA9005CCD07 /* AppDelegate.m in Sources */,
