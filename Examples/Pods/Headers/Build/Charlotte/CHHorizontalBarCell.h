@@ -1,0 +1,1 @@
+../../../../../Charlotte/Charlotte/CHHorizontalBarCell.h
