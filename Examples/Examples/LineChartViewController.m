@@ -88,8 +88,10 @@
 
 #pragma mark CHChartViewDataSource
 
-- (void)chartView:(CHChartView *)chartView configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
+   forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
+    CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
     NSString *labelText;
     if (index == 2) {
         labelText = @"11:24pm";
@@ -101,15 +103,14 @@
         labelText = @"7:04am";
     }
     if (labelText) {
-        label.font = [UIFont systemFontOfSize:13];
-        label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
-        label.text = labelText;
-        label.hidden = NO;
+        labelView.font = [UIFont systemFontOfSize:13];
+        labelView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        labelView.text = labelText;
+        labelView.hidden = NO;
     }
     else {
-        label.hidden = YES;
+        labelView.hidden = YES;
     }
-    [label sizeToFit];
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -143,14 +144,14 @@
     return 5.7;
 }
 
-- (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
+- (NSInteger)numberOfGridlinesInChartView:(CHChartView *)chartView
 {
-    return 3 + arc4random_uniform(3);
+    return 6;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
+- (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
 {
-    return index + 1;
+    return index;
 }
 
 #pragma mark CHChartViewDelegate

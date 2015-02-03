@@ -10,14 +10,14 @@
 
 @interface CHGridlineView : UIView
 
-@property (nonatomic, assign) CGFloat lineWidth;
-@property (nonatomic, strong) UIColor *lineColor;
-@property (nonatomic, strong) UIView *leftLabelView;
-@property (nonatomic, strong) UIView *lowerLeftLabelView;
-@property (nonatomic, strong) UIView *rightLabelView;
+/// The width of the gridline
+@property (nonatomic, assign) CGFloat lineWidth UI_APPEARANCE_SELECTOR;
+
+/// The color of the gridline
+@property (nonatomic, strong) UIColor *lineColor UI_APPEARANCE_SELECTOR;
 
 /// The gridline's line inset. Only left and right insets are honored.
-@property (nonatomic, assign) UIEdgeInsets lineInset;
+@property (nonatomic, assign) UIEdgeInsets lineInset UI_APPEARANCE_SELECTOR;
 
 /**
  *  The dash pattern applied to the line’s path when stroked.
@@ -26,6 +26,25 @@
  *
  *  Default is nil, a solid line.
  */
-@property (nonatomic, assign) NSArray *lineDashPattern;
+@property (nonatomic, assign) NSArray *lineDashPattern UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, strong) UIFont *leftLabelFont UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIFont *lowerLeftLabelFont UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIFont *rightLabelFont UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, strong) UIColor *leftLabelColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *lowerLeftLabelColor UI_APPEARANCE_SELECTOR;
+@property (nonatomic, strong) UIColor *rightLabelColor UI_APPEARANCE_SELECTOR;
+
+/// The distance of the left label from the left edge
+@property (nonatomic, assign) CGFloat leftLabelInset UI_APPEARANCE_SELECTOR;
+@property (nonatomic, assign) CGFloat rightLabelInset UI_APPEARANCE_SELECTOR;
+
+/// The spacing between the left label and the lower left label. Default is 0.
+@property (nonatomic, assign) CGFloat spacingBelowLeftLabel UI_APPEARANCE_SELECTOR;
+
+@property (nonatomic, strong) NSString *leftLabelText;
+@property (nonatomic, strong) NSString *lowerLeftLabelText;
+@property (nonatomic, strong) NSString *rightLabelText;
 
 @end

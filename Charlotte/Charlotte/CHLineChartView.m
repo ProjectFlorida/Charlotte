@@ -32,7 +32,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)initialize
 {
-    self.cellReuseId = kCHPointCellReuseId;
+    self.cellReuseId = CHPointCellReuseId;
     self.cellClass = [CHPointCell class];
 
     [super initialize];
@@ -74,7 +74,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [self.collectionView registerClass:[CHLineView class]
             forSupplementaryViewOfKind:CHSupplementaryElementKindLine
-                   withReuseIdentifier:kCHLineViewReuseId];
+                   withReuseIdentifier:CHLineViewReuseId];
     self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 }
@@ -272,7 +272,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 {
     CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
     cell.pointView.hidden = YES;
-    cell.xAxisLabel.hidden = YES;
+    cell.xAxisLabelView.hidden = YES;
     return cell;
 }
 
@@ -286,23 +286,24 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
     if (kind == CHSupplementaryElementKindFooter) {
         CHFooterView *footerView = (CHFooterView *)view;
-        if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabel:forPointInPage:atIndex:)]) {
+        if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabelView:forPointInPage:atIndex:)]) {
             for (int i=0; i < pointCount; i++) {
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-                [self.dataSource chartView:self configureXAxisLabel:label forPointInPage:indexPath.section
+                UIView *labelView = [[self.xAxisLabelViewClass alloc] init];
+                [self.dataSource chartView:self configureXAxisLabelView:labelView forPointInPage:indexPath.section
                                    atIndex:i];
+                [labelView sizeToFit];
                 CGFloat relativeX = 0.5;
                 if (pointCount > 1) {
                     relativeX = (i/(float)(pointCount)) + (0.5/(float)(pointCount));
                 }
-                [footerView setXAxisLabel:label atRelativeXPosition:relativeX];
+                [footerView setXAxisLabelView:labelView atRelativeXPosition:relativeX];
             }
         }
         view = footerView;
     }
     else if (kind == CHSupplementaryElementKindLine) {
         CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
-                                                                  withReuseIdentifier:kCHLineViewReuseId
+                                                                  withReuseIdentifier:CHLineViewReuseId
                                                                          forIndexPath:indexPath];
         lineView.footerHeight = self.footerHeight;
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];

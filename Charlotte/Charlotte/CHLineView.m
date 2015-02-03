@@ -11,7 +11,7 @@
 #import "UIBezierPath+Interpolation.h"
 #import "CHGradientView.h"
 
-NSString *const kCHLineViewReuseId = @"CHLineView";
+NSString *const CHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 

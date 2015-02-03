@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kCHHeaderViewReuseId;
+extern NSString *const CHHeaderViewReuseId;
 
 @interface CHHeaderView : UICollectionReusableView
 

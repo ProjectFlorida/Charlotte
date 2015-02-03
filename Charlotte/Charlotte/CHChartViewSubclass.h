@@ -14,6 +14,7 @@
 
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
+@property (strong, nonatomic) Class xAxisLabelViewClass;
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIView *backgroundView;

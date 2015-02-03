@@ -10,7 +10,7 @@
 #import "CHScatterPoint.h"
 #import "CHInteractivePoint.h"
 
-extern NSString *const kCHLineViewReuseId;
+extern NSString *const CHLineViewReuseId;
 
 @interface CHLineView : UICollectionReusableView
 

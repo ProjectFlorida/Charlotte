@@ -63,7 +63,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *
  *  @return The total number of gridlines in the chart view
  */
-- (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView;
+- (NSInteger)numberOfGridlinesInChartView:(CHChartView *)chartView;
 
 /**
  *  Asks the data source for the value of the specified gridline
@@ -73,7 +73,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *
  *  @return The value of the gridline
  */
-- (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index;
+- (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index;
 
 @optional
 
@@ -88,7 +88,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
 
 /**
  *  Asks the data source to configure the label displayed above the specified point.
- *  Note: Remember to resize the given label to the desired size after configuring it.
  *
  *  @param chartView The chart view providing the label
  *  @param label     The label to configure
@@ -99,94 +98,27 @@ extern NSString *const CHSupplementaryElementKindFooter;
           atIndex:(NSInteger)index;
 
 /**
- *  Asks the data source to configure the label to display on the x-axis below the specified point.
- *  Note: Remember to resize the given label to the desired size after configuring it.
+ *  Asks the data source to configure the label view to display on the x-axis below the specified point.
  *
- *  @param chartView The chart view providing the label
- *  @param label     The label to configure
+ *  @param chartView The chart view providing the label view
+ *  @param view      The view to configure. 
+ *                   Unless you register your own xAxisLabelViewClass, this view will be a CHXAxisLabelView.
  *  @param page      A page index in the chart view
  *  @param index     A point index in the chart page
  */
-- (void)chartView:(CHChartView *)chartView configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+- (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
+   forPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 /**
- *  Asks the data source for a view to use as the specified gridline's left label.
- *  By default, a gridline will have a left label displaying its value rounded to the nearest integer.
+ *  Asks the data source to configure the gridline view at the given index
  *
- *  @param chartView The chart view requesting the label view
- *  @param value     The value of the gridline
- *  @param index     The index of the gridline
- *
- *  @return A UIView object.
+ *  @param chartView    The chart view providing the gridline view
+ *  @param gridlineView The gridline view to configure
+ *  @param value        The value of the gridline
+ *  @param index        The index of the gridline
  */
-- (UIView *)chartView:(CHChartView *)chartView leftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
-
-/**
- *  Asks the data source for a view to use as the specified gridline's lower left label.
- *  Default is no label. Use this method to add subtitles to gridlines.
- *
- *  @param chartView The chart view requesting the label view
- *  @param value     The value of the gridline
- *  @param index     The index of the gridline
- *
- *  @return A UIView object.
- */
-- (UIView *)chartView:(CHChartView *)chartView lowerLeftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
-
-/**
- *  Asks the data source for a view to use as the specified gridline's right label. Default is no label.
- *
- *  @param chartView The chart view requesting the label view
- *  @param value     The value of the gridline
- *  @param index     The index of the gridline
- *
- *  @return A UIView object.
- */
-- (UIView *)chartView:(CHChartView *)chartView rightLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index;
-
-/**
- *  Asks the data source for the specified gridline's line dash pattern.
- *  By default, the gridline will display a solid line.
- *
- *  The dash pattern is specified as an array of NSNumber objects that specify the lengths
- *  of the painted segments and unpainted segments, respectively, of the dash pattern.
- *
- *  @param chartView The chart view requesting the line dash pattern
- *  @param index     The index of the gridline
- *
- *  @return An array of NSNumber objects.
- */
-- (NSArray *)chartView:(CHChartView *)chartView lineDashPatternForHorizontalGridlineAtIndex:(NSInteger)index;
-
-/**
- *  Asks the data source for the color of the specified gridline's line.
- *
- *  @param chartView The chart view requesting the line color
- *  @param index     The index of the gridline
- *
- *  @return A UIColor object.
- */
-- (UIColor *)chartView:(CHChartView *)chartView lineColorForHorizontalGridlineAtIndex:(NSInteger)index;
-
-/**
- *  Asks the data source for the width of the specified gridline's line.
- *
- *  @param chartView The chart view requesting the line color
- *  @param index     The index of the gridline
- *
- *  @return A float value indicating the width of the line in points.
- */
-- (CGFloat)chartView:(CHChartView *)chartView lineWidthForHorizontalGridlineAtIndex:(NSInteger)index;
-
-/**
- *  Asks the data source for the inset of the specified gridline's line.
- *
- *  @param chartView The chart view requesting the line inset
- *  @param index     The index of the gridline
- *
- *  @return A UIEdgeInsets value. Only left and right insets are honored.
- */
-- (UIEdgeInsets)chartView:(CHChartView *)chartView lineInsetForHorizontalGridlineAtIndex:(NSInteger)index;
+- (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView
+        withValue:(CGFloat)value atIndex:(NSInteger)index;
 
 @end
 
@@ -247,5 +179,12 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *  @param animateRange             YES if the range transition should be animated, NO if it should be immediate.
  */
 - (void)scrollToPage:(NSInteger)page animateScrolling:(BOOL)animateScrolling animateRangeTransition:(BOOL)animateRange;
+
+/**
+ *  Registers the class for use in creating x-axis label views. CHXAxisLabelView is registered by default.
+ *
+ *  @param class The UIView subclass to use for creating x axis label views
+ */
+- (void)registerXAxisLabelViewClass:(Class)class;
 
 @end
