@@ -500,26 +500,31 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
                                                                   forIndexPath:indexPath];
     cell.animationDuration = self.pageTransitionAnimationDuration;
     cell.animationSpringDamping = self.pageTransitionAnimationSpringDamping;
+    cell.footerHeight = self.footerHeight;
 
-    if ([self.dataSource respondsToSelector:@selector(configureXAxisLabel:forPointInPage:atIndex:inChartView:)]) {
-        [self.dataSource configureXAxisLabel:cell.xAxisLabel forPointInPage:indexPath.section atIndex:indexPath.row
-                                 inChartView:self];
+    if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabel:forPointInPage:atIndex:)]) {
+        [self.dataSource chartView:self configureXAxisLabel:cell.xAxisLabel forPointInPage:indexPath.section
+                           atIndex:indexPath.row];
         [cell setNeedsLayout];
     }
 
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-    CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
-    cell.footerHeight = self.footerHeight;
 
-    if ([self.dataSource respondsToSelector:@selector(configureLabel:forPointWithValue:inPage:atIndex:inChartView:)]) {
-        [self.dataSource configureLabel:cell.valueLabel forPointWithValue:value inPage:indexPath.section
-                                atIndex:indexPath.row inChartView:self];
+    // TODO: check for nil
+    NSNumber *value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
+    if ([self.dataSource respondsToSelector:@selector(chartView:configureLabel:forPointInPage:atIndex:)]) {
+        [self.dataSource chartView:self
+                    configureLabel:cell.valueLabel
+                    forPointInPage:indexPath.section
+                           atIndex:indexPath.row];
         [cell setNeedsLayout];
     }
 
     [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];
-    [cell setValue:value animated:NO completion:nil];
+    [cell setValue:[value floatValue]
+          animated:NO
+        completion:nil];
     cell.page = indexPath.section;
     cell.alpha = (cell.page == self.currentPage) ? 1 : self.pagingAlpha;
     if (self.hidesValueLabelsOnNonCurrentPages) {

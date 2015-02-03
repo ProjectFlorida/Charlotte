@@ -32,9 +32,9 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *  @param page      The index of the page in `chartView`
  *  @param index     The index of the point in `page`
  *
- *  @return The point's value.
+ *  @return The point's value as a boxed float. Return nil or NSNull to represent a missing value.
  */
-- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
+- (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 /**
  *  Asks the data source for the minimum y value in the specified page.
@@ -90,24 +90,24 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *  Asks the data source to configure the label displayed above the specified point.
  *  Note: Remember to resize the given label to the desired size after configuring it.
  *
+ *  @param chartView The chart view providing the label
  *  @param label     The label to configure
- *  @param value     The point's value
  *  @param page      The point's page index in the chart view
  *  @param index     The point's index in the chart page
- *  @param chartView The chart view providing the label
  */
-- (void)configureLabel:(UILabel *)label forPointWithValue:(CGFloat)value inPage:(NSInteger)page atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
+- (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
+          atIndex:(NSInteger)index;
 
 /**
  *  Asks the data source to configure the label to display on the x-axis below the specified point.
  *  Note: Remember to resize the given label to the desired size after configuring it.
  *
+ *  @param chartView The chart view providing the label
  *  @param label     The label to configure
  *  @param page      A page index in the chart view
  *  @param index     A point index in the chart page
- *  @param chartView The chart view providing the label
  */
-- (void)configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
+- (void)chartView:(CHChartView *)chartView configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index;
 
 /**
  *  Asks the data source for a view to use as the specified gridline's left label.

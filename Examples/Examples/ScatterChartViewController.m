@@ -136,8 +136,7 @@ CHTooltipViewDelegate>
 
 #pragma mark - CHChartViewDataSource
 
-- (void)configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
-                inChartView:(CHChartView *)chartView
+- (void)chartView:(CHChartView *)chartView configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     NSString *labelText;
     if (index == 10) {
@@ -172,13 +171,13 @@ CHTooltipViewDelegate>
     return 60;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return pow(1.3, (index/20.0));
+    return @(pow(1.3, (index/20.0)));
 }
 
-- (void)configureLabel:(UILabel *)label forPointWithValue:(CGFloat)value inPage:(NSInteger)page
-               atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
+- (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
+          atIndex:(NSInteger)index
 {
     label.hidden = YES;
 }
