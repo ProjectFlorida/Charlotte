@@ -117,7 +117,13 @@
 
 - (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return self.values[page][index];
+    NSNumber *value = self.values[page][index];
+    if ([value floatValue] == 0) {
+        return nil;
+    }
+    else {
+        return self.values[page][index];
+    }
 }
 
 - (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page

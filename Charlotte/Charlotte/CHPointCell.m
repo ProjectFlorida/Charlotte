@@ -13,7 +13,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 
 @interface CHPointCell ()
 
-@property (nonatomic, readwrite) CGFloat value;
+@property (nonatomic, readwrite) NSNumber *value;
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
 @property (nonatomic, strong) UIView *pointView;
@@ -99,7 +99,8 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 
 - (CGFloat)scaledValue
 {
-    return (self.value - self.minValue)/(self.maxValue - self.minValue);
+    CGFloat value = self.value ? [self.value floatValue] : 0;
+    return (value - self.minValue)/(self.maxValue - self.minValue);
 }
 
 - (void)reload
@@ -131,7 +132,7 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 
 #pragma mark - Setters
 
-- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)setValue:(NSNumber *)value animated:(BOOL)animated completion:(void (^)(void))completion;
 {
     self.value = value;
     [self updateAnimated:animated completion:completion];

@@ -511,8 +511,6 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
 
-    // TODO: check for nil
-    NSNumber *value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
     if ([self.dataSource respondsToSelector:@selector(chartView:configureLabel:forPointInPage:atIndex:)]) {
         [self.dataSource chartView:self
                     configureLabel:cell.valueLabel
@@ -522,7 +520,9 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     }
 
     [cell setMinValue:minValue maxValue:maxValue animated:NO completion:nil];
-    [cell setValue:[value floatValue]
+
+    NSNumber *value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:indexPath.row];
+    [cell setValue:value
           animated:NO
         completion:nil];
     cell.page = indexPath.section;
@@ -557,8 +557,6 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     }
     return view;
 }
-
-#pragma mark - UICollectionViewDelegate
 
 #pragma mark - UICollectionViewDelegateFlowLayout
 

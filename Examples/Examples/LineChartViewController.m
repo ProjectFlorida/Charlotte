@@ -119,7 +119,12 @@
 
 - (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return @(sin(index*3)*sin(index*2) + page + 3);
+    if (index == 5 || index == 10) {
+        return nil;
+    }
+    else {
+        return @(sin(index*3)*sin(index*2) + page + 3);
+    }
 }
 
 - (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page

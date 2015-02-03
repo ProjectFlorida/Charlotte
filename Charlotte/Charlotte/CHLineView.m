@@ -111,24 +111,41 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)drawLineWithValues:(NSArray *)values animated:(BOOL)animated
 {
     self.lineValues = values;
-
     NSInteger count = values.count;
     if (!count) {
         return;
     }
-    // draw line
-    NSMutableArray *points = [NSMutableArray arrayWithCapacity:count];
-    for (int i = 0; i < count; i++) {
-        CGFloat x = [self xPositionWithIndex:i inCount:count];
-        CGFloat value = [values[i] floatValue];
-        CGFloat scaledValue = [CHChartView scaledValue:value minValue:self.minValue maxValue:self.maxValue];
-        CGFloat y = [self yPositionWithRelativeValue:scaledValue];
-        NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
-        [points addObject:pointValue];
-    }
-    UIBezierPath *fullPath = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
-    [self.lineMaskLayer setPath:fullPath.CGPath];
 
+    // transform the values array (which may contain nulls) into an array of bezier paths
+    NSMutableArray *paths = [NSMutableArray array];
+    NSMutableArray *points = [NSMutableArray array];
+    NSUInteger i = 0;
+    while (i < count) {
+        id value = values[i];
+        BOOL valueIsNull = [value isKindOfClass:[NSNull class]];
+        if (!valueIsNull) {
+            CGFloat x = [self xPositionWithIndex:i inCount:count];
+            CGFloat floatValue = [value floatValue];
+            CGFloat scaledValue = [CHChartView scaledValue:floatValue minValue:self.minValue maxValue:self.maxValue];
+            CGFloat y = [self yPositionWithRelativeValue:scaledValue];
+            NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
+            [points addObject:pointValue];
+        }
+        if ((valueIsNull || i == count - 1) && [points count] > 0) {
+            UIBezierPath *path = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
+            [paths addObject:path];
+            [points removeAllObjects];
+        }
+        i++;
+    }
+
+    // concatenate the paths
+    UIBezierPath *fullPath = [UIBezierPath bezierPath];
+    for (UIBezierPath *path in paths) {
+        [fullPath appendPath:path];
+    }
+
+    [self.lineMaskLayer setPath:fullPath.CGPath];
     if (animated) {
         [CATransaction begin];
         CABasicAnimation *pathAnimation = [CABasicAnimation animationWithKeyPath:@"strokeEnd"];
@@ -140,13 +157,6 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         [self.lineMaskLayer addAnimation:pathAnimation forKey:strokeEndAnimationKey];
         [CATransaction commit];
     }
-
-    // update mask layer
-    CGPoint firstPoint = [points[0] CGPointValue];
-    CGPoint lastPoint = [[points lastObject] CGPointValue];
-    [fullPath addLineToPoint:CGPointMake(lastPoint.x, self.bounds.size.height)];
-    [fullPath addLineToPoint:CGPointMake(firstPoint.x, self.bounds.size.height)];
-    [fullPath closePath];
 }
 
 - (void)resetScatterPoints

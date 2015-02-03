@@ -192,7 +192,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     index = MIN(MAX(0, index), pointCount - 1);
     NSNumber *value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
-    // TODO check for nil
+    BOOL isOnNullValue = !value || [value isKindOfClass:[NSNull class]];
+
     CGFloat scaledValue = [CHChartView scaledValue:[value floatValue]
                                           minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.headerHeight;
@@ -201,7 +202,8 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGPoint highlightPointPosition = CGPointMake(x, y);
 
     BOOL touchBegan = NO;
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if ((gestureRecognizer.state == UIGestureRecognizerStateBegan && !isOnNullValue) ||
+        (gestureRecognizer.state == UIGestureRecognizerStateChanged && !self.cursorIsActive && !isOnNullValue)) {
         self.cursorIsActive = YES;
         [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
             self.cursorView.alpha = 1;
@@ -231,6 +233,10 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
                                            MAX(0, y - self.cursorTopInset));
         self.cursorDotView.center = CGPointMake(x, y);
     };
+
+    if (isOnNullValue) {
+        return;
+    }
 
     if (!touchBegan) {
         [UIView animateWithDuration:self.cursorMovementAnimationDuration animations:^{
@@ -303,7 +309,10 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
         NSMutableArray *values = [NSMutableArray arrayWithCapacity:pointCount];
         for (int i = 0; i < pointCount; i++) {
-            NSNumber *value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
+            id value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
+            if (!value) {
+                value = [NSNull null];
+            }
             [values addObject:value];
         }
 
@@ -312,8 +321,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         lineView.lineTintColor = self.lineTintColor;
 
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-
-        // TODO: check for NSNull
         [lineView drawLineWithValues:values animated:YES];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;

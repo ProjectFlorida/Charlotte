@@ -13,7 +13,7 @@ extern NSString *const kCHPointCellReuseId;
 @interface CHPointCell : UICollectionViewCell
 
 @property (nonatomic, assign) NSInteger page;
-@property (nonatomic, readonly) CGFloat value;
+@property (nonatomic, readonly) NSNumber *value;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
 @property (nonatomic, strong) UILabel *xAxisLabel;
@@ -22,7 +22,7 @@ extern NSString *const kCHPointCellReuseId;
 @property (nonatomic, assign) CGFloat animationDuration;
 @property (nonatomic, assign) CGFloat animationSpringDamping;
 
-- (void)setValue:(CGFloat)value animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)setValue:(NSNumber *)value animated:(BOOL)animated completion:(void (^)(void))completion;
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end
