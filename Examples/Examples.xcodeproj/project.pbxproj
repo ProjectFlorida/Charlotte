@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2ABFA9EEFB0AE0575F01FB39 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FF6BB140587CBE8F591CA018 /* libPods.a */; };
+		96326E421A7FD10F00DEE36F /* HorizontalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96326E411A7FD10F00DEE36F /* HorizontalBarChartViewController.m */; };
 		96A1B8F119FFDAE3001C5001 /* ScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */; };
 		96ABA3811A125BFE006F93D7 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ABA3801A125BFE006F93D7 /* TableViewController.m */; };
 		96DDD69F19DC9DA9005CCD07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD69E19DC9DA9005CCD07 /* main.m */; };
@@ -32,6 +33,8 @@
 
 /* Begin PBXFileReference section */
 		5967F1C6EDCDAF3721E10F26 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		96326E401A7FD10F00DEE36F /* HorizontalBarChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HorizontalBarChartViewController.h; sourceTree = "<group>"; };
+		96326E411A7FD10F00DEE36F /* HorizontalBarChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HorizontalBarChartViewController.m; sourceTree = "<group>"; };
 		96A1B8EF19FFDAE3001C5001 /* ScatterChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScatterChartViewController.h; sourceTree = "<group>"; };
 		96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScatterChartViewController.m; sourceTree = "<group>"; };
 		96ABA37F1A125BFE006F93D7 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
@@ -118,6 +121,8 @@
 				96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */,
 				96F0713D1A7C0ABA00B13311 /* IntervalChartViewController.h */,
 				96F0713E1A7C0ABA00B13311 /* IntervalChartViewController.m */,
+				96326E401A7FD10F00DEE36F /* HorizontalBarChartViewController.h */,
+				96326E411A7FD10F00DEE36F /* HorizontalBarChartViewController.m */,
 				96DDD6AC19DC9DA9005CCD07 /* Images.xcassets */,
 				96DDD6AE19DC9DA9005CCD07 /* LaunchScreen.xib */,
 				96DDD69C19DC9DA9005CCD07 /* Supporting Files */,
@@ -295,6 +300,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				96F0713F1A7C0ABA00B13311 /* IntervalChartViewController.m in Sources */,
+				96326E421A7FD10F00DEE36F /* HorizontalBarChartViewController.m in Sources */,
 				96DDD6A819DC9DA9005CCD07 /* LineChartViewController.m in Sources */,
 				96ABA3811A125BFE006F93D7 /* TableViewController.m in Sources */,
 				96DDD6A219DC9DA9005CCD07 /* AppDelegate.m in Sources */,

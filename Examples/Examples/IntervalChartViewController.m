@@ -57,7 +57,7 @@
 {
     [super viewDidLayoutSubviews];
     CGRect bounds = self.view.bounds;
-    self.chartView.frame = CGRectMake(0, 100, CGRectGetWidth(bounds), 100);
+    self.chartView.frame = CGRectMake(10, 100, CGRectGetWidth(bounds) - 20, 100);
 }
 
 @end
