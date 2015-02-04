@@ -22,6 +22,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _lineWidth = 1;
         _lineInset = UIEdgeInsetsMake(0, 0, 0, 0);
         _leftLabelInset = 5;
         _rightLabelInset = 5;

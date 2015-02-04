@@ -147,7 +147,8 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 
 + (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
 {
-    return (value - min)/(max - min);
+    CGFloat denominator = max - min;
+    return denominator == 0 ? 0 : (value - min)/(max - min);
 }
 
 - (void)initializeGridlines
@@ -178,6 +179,9 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
             gridline.lineGridlineView.lineWidth = gridline.labelGridlineView.lineWidth;
             gridline.lineGridlineView.lineInset = gridline.labelGridlineView.lineInset;
             gridline.lineGridlineView.lineDashPattern = gridline.labelGridlineView.lineDashPattern;
+
+            // Hide the line from the label gridline view
+            gridline.labelGridlineView.lineColor = [UIColor clearColor];
         }
 
         [self.backgroundView addSubview:gridline.lineGridlineView];

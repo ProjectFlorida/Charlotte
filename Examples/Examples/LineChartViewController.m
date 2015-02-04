@@ -37,6 +37,15 @@
         _chartView.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
         _chartView.lineWidth = 3;
         _chartView.lineColor = [UIColor whiteColor];
+        _chartView.cursorColor = [UIColor colorWithRed:0.56 green:0.8 blue:0.07 alpha:1];
+        [_chartView setLineColors:@[
+                                    [UIColor colorWithRed:0.56 green:0.8 blue:0.07 alpha:1],
+                                    [UIColor colorWithRed:0.45 green:0.65 blue:0.04 alpha:1],
+                                    [UIColor colorWithRed:0.31 green:0.46 blue:0 alpha:1]
+                                    ]
+                        locations:@[@(1.5), @(2.5), @(3.5)]];
+        
+
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = @"❤️";
         [label sizeToFit];
@@ -60,7 +69,7 @@
 {
     [super loadView];
     [self.view addSubview:_scrollView];
-    self.view.backgroundColor = [UIColor lightGrayColor];
+    self.view.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
 }
 
 - (void)viewDidLoad
@@ -124,7 +133,7 @@
         return nil;
     }
     else {
-        return @(sin(index*3)*sin(index*2) + page + 3);
+        return @(sin(index*3)*sin(index*2)*2 + 2);
     }
 }
 
@@ -152,6 +161,15 @@
 - (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
 {
     return index;
+}
+
+- (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
+{
+    gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
+    gridlineView.leftLabelText = [NSString stringWithFormat:@"%.0f", value];
+    gridlineView.leftLabelColor = [UIColor darkGrayColor];
+    gridlineView.lineColor = [UIColor lightGrayColor];
+    gridlineView.lineWidth = 1;
 }
 
 #pragma mark CHChartViewDelegate
