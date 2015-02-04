@@ -10,8 +10,8 @@
 #import "CHChartView.h"
 #import "CHPointCellSubclass.h"
 
-NSString *const kCHBarCellReuseId = @"CHBarCell";
-CGFloat const kCHZeroValueAnimationDuration = 0.2;
+NSString *const CHBarCellReuseId = @"CHBarCell";
+CGFloat const CHZeroValueAnimationDuration = 0.2;
 
 @interface CHBarCell ()
 

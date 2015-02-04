@@ -8,17 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kCHFooterViewReuseId;
+extern NSString *const CHFooterViewReuseId;
 
 @interface CHFooterView : UICollectionReusableView
 
 /**
- *  Displays the given x axis label at the given relative position. If there is already a label at the given position,
- *  it will be replaced with the new label.
+ *  Displays the given x-axis label view at the given relative position. 
+ *  If there is already a view at the given position, it will be replaced with the new view.
  *
- *  @param label A UILabel object
- *  @param position The relative position on the x-axis at which the label should be displayed
+ *  @param view     A UIView
+ *  @param position The relative position on the x-axis at which the view should be displayed
  */
-- (void)setXAxisLabel:(UILabel *)label atRelativeXPosition:(CGFloat)position;
+- (void)setXAxisLabelView:(UIView *)view atRelativeXPosition:(CGFloat)position;
 
 @end

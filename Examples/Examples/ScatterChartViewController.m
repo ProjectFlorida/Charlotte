@@ -30,7 +30,6 @@ CHTooltipViewDelegate>
         _chartView.scatterChartDataSource = self;
         _chartView.scatterChartDelegate = self;
         _chartView.headerHeight = 0;
-        _chartView.lineTintColor = [UIColor colorWithRed:1 green:0.74 blue:0.63 alpha:1];
         _chartView.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -136,8 +135,10 @@ CHTooltipViewDelegate>
 
 #pragma mark - CHChartViewDataSource
 
-- (void)chartView:(CHChartView *)chartView configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
+   forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
+    CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
     NSString *labelText;
     if (index == 10) {
         labelText = @"March";
@@ -155,15 +156,15 @@ CHTooltipViewDelegate>
         labelText = @"July";
     }
     if (labelText) {
-        label.font = [UIFont boldSystemFontOfSize:13];
-        label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
-        label.text = labelText;
-        label.hidden = NO;
+        labelView.font = [UIFont boldSystemFontOfSize:13];
+        labelView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        labelView.text = labelText;
+        labelView.hidden = NO;
+        labelView.tickColor = [UIColor clearColor];
     }
     else {
-        label.hidden = YES;
+        labelView.hidden = YES;
     }
-    [label sizeToFit];
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -192,12 +193,12 @@ CHTooltipViewDelegate>
     return 6;
 }
 
-- (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
+- (NSInteger)numberOfGridlinesInChartView:(CHChartView *)chartView
 {
     return 5;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
+- (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
 {
     return index + 1;
 }

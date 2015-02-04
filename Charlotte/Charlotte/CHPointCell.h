@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const kCHPointCellReuseId;
+extern NSString *const CHPointCellReuseId;
 
 @interface CHPointCell : UICollectionViewCell
 
@@ -16,7 +16,8 @@ extern NSString *const kCHPointCellReuseId;
 @property (nonatomic, readonly) NSNumber *value;
 @property (nonatomic, readonly) CGFloat minValue;
 @property (nonatomic, readonly) CGFloat maxValue;
-@property (nonatomic, strong) UILabel *xAxisLabel;
+@property (nonatomic, strong) UIView *xAxisLabelView;
+@property (nonatomic, strong) Class xAxisLabelViewClass;
 @property (nonatomic, strong) UILabel *valueLabel;
 @property (nonatomic, assign) CGFloat footerHeight;
 @property (nonatomic, assign) CGFloat animationDuration;

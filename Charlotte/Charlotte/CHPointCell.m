@@ -9,7 +9,7 @@
 #import "CHPointCell.h"
 #import "CHChartView.h"
 
-NSString *const kCHPointCellReuseId = @"CHPointCell";
+NSString *const CHPointCellReuseId = @"CHPointCell";
 
 @interface CHPointCell ()
 
@@ -35,13 +35,11 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
         _animationDuration = 0;
 
         _pointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        _xAxisLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _pointView = [[UIView alloc] initWithFrame:CGRectZero];
         _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 
         [_pointContainerView addSubview:_pointView];
         [self addSubview:_pointContainerView];
-        [self addSubview:_xAxisLabel];
         [self addSubview:_valueLabel];
     }
     return self;
@@ -71,12 +69,9 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 {
     [super layoutSubviews];
 
-    CGFloat height = self.bounds.size.height;
-    CGFloat centerX = CGRectGetMidX(self.bounds);
-
-    self.xAxisLabel.center = CGPointMake(centerX,
-                                         height - self.footerHeight/2.0);
-
+    self.xAxisLabelView.frame = CGRectMake(0,
+                                           CGRectGetHeight(self.bounds) - self.footerHeight,
+                                           CGRectGetWidth(self.bounds), self.footerHeight);
     self.pointContainerView.frame = self.bounds;
     self.pointView.frame = [self pointViewFrame];
     self.pointView.layer.cornerRadius = self.pointView.bounds.size.width / 2.0;
@@ -92,15 +87,14 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
     self.minValue = 0;
     self.maxValue = 1;
     self.footerHeight = 30;
-    self.xAxisLabel.text = @"";
-    [self.xAxisLabel sizeToFit];
     [self updateAnimated:NO completion:nil];
 }
 
 - (CGFloat)scaledValue
 {
+    CGFloat denominator = (self.maxValue - self.minValue);
     CGFloat value = self.value ? [self.value floatValue] : 0;
-    return (value - self.minValue)/(self.maxValue - self.minValue);
+    return denominator == 0 ? 0 : (value - self.minValue)/denominator;
 }
 
 - (void)reload
@@ -131,6 +125,18 @@ NSString *const kCHPointCellReuseId = @"CHPointCell";
 }
 
 #pragma mark - Setters
+
+- (void)setXAxisLabelViewClass:(Class)xAxisLabelViewClass
+{
+    _xAxisLabelViewClass = xAxisLabelViewClass;
+    if (self.xAxisLabelView) {
+        [self.xAxisLabelView removeFromSuperview];
+        self.xAxisLabelView = nil;
+    }
+    self.xAxisLabelView = [[self.xAxisLabelViewClass alloc] init];
+    [self addSubview:self.xAxisLabelView];
+    [self setNeedsLayout];
+}
 
 - (void)setValue:(NSNumber *)value animated:(BOOL)animated completion:(void (^)(void))completion;
 {

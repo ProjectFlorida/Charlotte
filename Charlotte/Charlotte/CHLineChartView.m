@@ -25,6 +25,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 @property (nonatomic, strong) UIView *cursorView;
 @property (nonatomic, strong) UIView *cursorDotView;
 @property (nonatomic, assign) BOOL cursorIsActive;
+@property (nonatomic, strong) NSArray *lineGradientColors;
+@property (nonatomic, strong) NSArray *lineGradientLocations;
 
 @end
 
@@ -32,14 +34,13 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)initialize
 {
-    self.cellReuseId = kCHPointCellReuseId;
+    self.cellReuseId = CHPointCellReuseId;
     self.cellClass = [CHPointCell class];
 
     [super initialize];
 
     _lineWidth = 2;
     _lineColor = [UIColor whiteColor];
-    _lineTintColor = nil;
 
     _cursorEnabled = YES;
     _cursorIsActive = NO;
@@ -74,7 +75,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     [self.collectionView registerClass:[CHLineView class]
             forSupplementaryViewOfKind:CHSupplementaryElementKindLine
-                   withReuseIdentifier:kCHLineViewReuseId];
+                   withReuseIdentifier:CHLineViewReuseId];
     self.collectionViewLayout = [[CHPagingLineChartFlowLayout alloc] init];
     [self.collectionView setCollectionViewLayout:self.collectionViewLayout animated:NO];
 }
@@ -129,6 +130,13 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 {
     [super updateRangeInVisibleCellsAnimated:animated];
     [self updateRangeInVisibleLineViewsAnimated:animated];
+}
+
+- (void)setLineColors:(NSArray *)colors locations:(NSArray *)locations
+{
+    _lineGradientColors = colors;
+    _lineGradientLocations = locations;
+    [self reloadData];
 }
 
 #pragma mark - Setters
@@ -272,7 +280,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 {
     CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
     cell.pointView.hidden = YES;
-    cell.xAxisLabel.hidden = YES;
+    cell.xAxisLabelView.hidden = YES;
     return cell;
 }
 
@@ -286,23 +294,24 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
     if (kind == CHSupplementaryElementKindFooter) {
         CHFooterView *footerView = (CHFooterView *)view;
-        if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabel:forPointInPage:atIndex:)]) {
+        if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabelView:forPointInPage:atIndex:)]) {
             for (int i=0; i < pointCount; i++) {
-                UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-                [self.dataSource chartView:self configureXAxisLabel:label forPointInPage:indexPath.section
+                UIView *labelView = [[self.xAxisLabelViewClass alloc] init];
+                [self.dataSource chartView:self configureXAxisLabelView:labelView forPointInPage:indexPath.section
                                    atIndex:i];
+                [labelView sizeToFit];
                 CGFloat relativeX = 0.5;
                 if (pointCount > 1) {
                     relativeX = (i/(float)(pointCount)) + (0.5/(float)(pointCount));
                 }
-                [footerView setXAxisLabel:label atRelativeXPosition:relativeX];
+                [footerView setXAxisLabelView:labelView atRelativeXPosition:relativeX];
             }
         }
         view = footerView;
     }
     else if (kind == CHSupplementaryElementKindLine) {
         CHLineView *lineView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindLine
-                                                                  withReuseIdentifier:kCHLineViewReuseId
+                                                                  withReuseIdentifier:CHLineViewReuseId
                                                                          forIndexPath:indexPath];
         lineView.footerHeight = self.footerHeight;
         CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
@@ -318,10 +327,12 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
         lineView.lineWidth = self.lineWidth;
         lineView.lineColor = self.lineColor;
-        lineView.lineTintColor = self.lineTintColor;
 
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        [lineView drawLineWithValues:values animated:YES];
+        [lineView drawLineWithValues:values
+                              colors:self.lineGradientColors
+                           locations:self.lineGradientLocations
+                            animated:YES];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

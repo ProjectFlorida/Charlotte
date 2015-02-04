@@ -11,11 +11,13 @@
 #import "UIBezierPath+Interpolation.h"
 #import "CHGradientView.h"
 
-NSString *const kCHLineViewReuseId = @"CHLineView";
+NSString *const CHLineViewReuseId = @"CHLineView";
 
 @interface CHLineView ()
 
 @property (nonatomic, strong) NSArray *lineValues;
+@property (nonatomic, strong) NSArray *gradientLocations;
+@property (nonatomic, strong) NSArray *gradientColors;
 @property (nonatomic, strong) NSArray *scatterPoints;
 @property (nonatomic, strong) NSMutableArray *scatterPointViews;
 @property (nonatomic, strong) CAShapeLayer *lineMaskLayer;
@@ -31,6 +33,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     self = [super initWithFrame:frame];
     if (self) {
         _lineValues = @[];
+        _gradientLocations = @[];
         _scatterPoints = @[];
         _scatterPointViews = [NSMutableArray array];
         _minValue = 0;
@@ -39,7 +42,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineDrawingAnimationDuration = 1.0;
 
         _lineColor = [UIColor whiteColor];
-        _lineTintColor = nil;
+        _gradientColors = @[_lineColor];
         _lineWidth = 4;
 
         _lineMaskLayer = [CAShapeLayer layer];
@@ -49,9 +52,10 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
         _lineMaskLayer.strokeColor = [UIColor whiteColor].CGColor;
 
         _lineView = [[CHGradientView alloc] initWithFrame:CGRectZero];
-        _lineView.colors = @[_lineColor, _lineColor];
-        _lineView.startPoint = CGPointMake(0, 0.5);
-        _lineView.endPoint = CGPointMake(1, 0.5);
+        _lineView.colors = _gradientColors;
+        _lineView.locations = _gradientLocations;
+        _lineView.startPoint = CGPointMake(0.5, 1);
+        _lineView.endPoint = CGPointMake(0.5, 0);
         _lineView.layer.mask = _lineMaskLayer;
 
         _scatterPointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
@@ -66,10 +70,11 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     [super layoutSubviews];
 
-    self.lineView.frame = self.bounds;
-    self.lineMaskLayer.frame = self.bounds;
+    self.lineView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds),
+                                     CGRectGetHeight(self.bounds) - self.footerHeight);
+    self.lineMaskLayer.frame = self.lineView.frame;
     self.scatterPointContainerView.frame = self.bounds;
-    [self drawLineWithValues:self.lineValues animated:NO];
+    [self drawLineWithValues:self.lineValues colors:self.gradientColors locations:self.gradientLocations animated:NO];
     [self drawScatterPoints:self.scatterPoints animated:NO];
     [self drawInteractivePoint:self.interactivePoint animated:NO];
 }
@@ -100,7 +105,8 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self drawLineWithValues:self.lineValues animated:animated];
+    [self drawLineWithValues:self.lineValues colors:self.gradientColors
+                   locations:self.gradientLocations animated:animated];
     [self drawScatterPoints:self.scatterPoints animated:animated];
     [self drawInteractivePoint:self.interactivePoint animated:animated];
     if (completion) {
@@ -108,9 +114,13 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     }
 }
 
-- (void)drawLineWithValues:(NSArray *)values animated:(BOOL)animated
+- (void)drawLineWithValues:(NSArray *)values colors:(NSArray *)colors
+                 locations:(NSArray *)locations animated:(BOOL)animated
 {
     self.lineValues = values;
+    self.gradientColors = colors;
+    self.gradientLocations = locations;
+
     NSInteger count = values.count;
     if (!count) {
         return;
@@ -237,23 +247,7 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
 - (void)setLineColor:(UIColor *)lineColor
 {
     _lineColor = lineColor;
-    if (self.lineTintColor) {
-        self.lineView.colors = @[self.lineTintColor, _lineColor];
-    }
-    else {
-        self.lineView.colors = @[_lineColor, _lineColor];
-    }
-}
-
-- (void)setLineTintColor:(UIColor *)lineTintColor
-{
-    _lineTintColor = lineTintColor;
-    if (_lineTintColor) {
-        self.lineView.colors = @[_lineTintColor, self.lineColor];
-    }
-    else {
-        self.lineView.colors = @[self.lineColor, self.lineColor];
-    }
+    self.lineView.colors = @[lineColor];
 }
 
 - (void)setFooterHeight:(CGFloat)footerHeight
@@ -261,5 +255,25 @@ NSString *const kCHLineViewReuseId = @"CHLineView";
     _footerHeight = footerHeight;
     [self setNeedsLayout];
 }
+
+- (void)setGradientLocations:(NSArray *)gradientLocations
+{
+    _gradientLocations = gradientLocations;
+    NSMutableArray *scaledLocations = [NSMutableArray array];
+    for (NSNumber *location in gradientLocations) {
+        CGFloat scaledValue = [CHChartView scaledValue:[location floatValue]
+                                              minValue:self.minValue
+                                              maxValue:self.maxValue];
+        [scaledLocations addObject:@(scaledValue)];
+    }
+    self.lineView.locations = scaledLocations;
+}
+
+- (void)setGradientColors:(NSArray *)gradientColors
+{
+    _gradientColors = gradientColors;
+    self.lineView.colors = gradientColors;
+}
+
 
 @end

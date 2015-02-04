@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CHPointCell.h"
 
-extern NSString *const kCHBarCellReuseId;
+extern NSString *const CHBarCellReuseId;
 
 @interface CHBarCell : CHPointCell
 

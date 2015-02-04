@@ -8,7 +8,7 @@
 
 #import "CHHeaderView.h"
 
-NSString *const kCHHeaderViewReuseId = @"CHHeaderView";
+NSString *const CHHeaderViewReuseId = @"CHHeaderView";
 
 @interface CHHeaderView ()
 

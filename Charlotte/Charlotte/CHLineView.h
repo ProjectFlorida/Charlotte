@@ -10,7 +10,7 @@
 #import "CHScatterPoint.h"
 #import "CHInteractivePoint.h"
 
-extern NSString *const kCHLineViewReuseId;
+extern NSString *const CHLineViewReuseId;
 
 @interface CHLineView : UICollectionReusableView
 
@@ -26,11 +26,8 @@ extern NSString *const kCHLineViewReuseId;
 /// The line view's interactive point
 @property (nonatomic, strong) CHInteractivePoint *interactivePoint;
 
-/// The line's primary color (drawn on the right).
+/// The line's color
 @property (nonatomic, strong) UIColor *lineColor;
-
-/// The line's tint color (drawn on the left). Set this to nil for no tint.
-@property (nonatomic, strong) UIColor *lineTintColor;
 
 /// The line's width in points. Default is 4.0.
 @property (nonatomic, assign) CGFloat lineWidth;
@@ -42,9 +39,12 @@ extern NSString *const kCHLineViewReuseId;
  *  Draws a line between the given values
  *
  *  @param values       An array of y-values describing the line.
+ *  @param colors       An array of UIColor objects with which to draw the line's gradient (from bottom to top)
+ *  @param locations    An array of y-values defining the line's gradient stops (from bottom to top)
  *  @param animated     Whether the drawing should be animated.
  */
-- (void)drawLineWithValues:(NSArray *)values animated:(BOOL)animated;
+- (void)drawLineWithValues:(NSArray *)values colors:(NSArray *)colors
+                 locations:(NSArray *)locations animated:(BOOL)animated;
 
 /**
  *  Draws the given points

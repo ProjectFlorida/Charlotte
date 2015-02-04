@@ -8,12 +8,12 @@
 
 #import "CHFooterView.h"
 
-NSString *const kCHFooterViewReuseId = @"CHFooterView";
+NSString *const CHFooterViewReuseId = @"CHFooterView";
 
 @interface CHFooterView ()
 
-/// Keys are boxed NSNumbers representing relative x position. Values are UILabels.
-@property (nonatomic, strong) NSMutableDictionary *xAxisLabels;
+/// Keys are boxed NSNumbers representing relative x position. Values are UIViews.
+@property (nonatomic, strong) NSMutableDictionary *xAxisLabelViews;
 
 @end
 
@@ -23,7 +23,7 @@ NSString *const kCHFooterViewReuseId = @"CHFooterView";
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _xAxisLabels = [NSMutableDictionary dictionary];
+        _xAxisLabelViews = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -32,22 +32,22 @@ NSString *const kCHFooterViewReuseId = @"CHFooterView";
 {
     [super layoutSubviews];
 
-    [self.xAxisLabels enumerateKeysAndObjectsUsingBlock:^(NSNumber *position, UILabel *label, BOOL *stop) {
+    [self.xAxisLabelViews enumerateKeysAndObjectsUsingBlock:^(NSNumber *position, UIView *view, BOOL *stop) {
         CGFloat x = self.bounds.size.width * [position floatValue];
-        label.center = CGPointMake(x, CGRectGetMidY(self.bounds));
+        view.center = CGPointMake(x, CGRectGetMidY(view.bounds));
     }];
 }
 
-- (void)setXAxisLabel:(UILabel *)label atRelativeXPosition:(CGFloat)position
+- (void)setXAxisLabelView:(UIView *)view atRelativeXPosition:(CGFloat)position
 {
-    UILabel *existingLabel = self.xAxisLabels[@(position)];
-    if (existingLabel) {
-        [existingLabel removeFromSuperview];
+    UIView *existingLabelView = self.xAxisLabelViews[@(position)];
+    if (existingLabelView) {
+        [existingLabelView removeFromSuperview];
     }
     CGFloat x = self.bounds.size.width * position;
-    label.center = CGPointMake(x, CGRectGetMidY(self.bounds));
-    self.xAxisLabels[@(position)] = label;
-    [self addSubview:label];
+    view.center = CGPointMake(x, CGRectGetMidY(view.bounds));
+    self.xAxisLabelViews[@(position)] = view;
+    [self addSubview:view];
 }
 
 @end

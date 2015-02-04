@@ -14,7 +14,7 @@
 
 - (void)initialize
 {
-    self.cellReuseId = kCHBarCellReuseId;
+    self.cellReuseId = CHBarCellReuseId;
     self.cellClass = [CHBarCell class];
     self.relativeBarWidth = 0.5;
 

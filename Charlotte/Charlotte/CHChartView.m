@@ -12,6 +12,7 @@
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
 #import "CHPointCell.h"
+#import "CHXAxisLabelView.h"
 
 NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
 NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindFooter";
@@ -38,6 +39,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 @property (strong, nonatomic) UIView *overlayView;
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
+@property (strong, nonatomic) Class xAxisLabelViewClass;
 
 // An array of CHGridlineContainer objects
 @property (strong, nonatomic) NSMutableArray *gridlines;
@@ -110,15 +112,17 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
         _cellClass = [CHPointCell class];
     }
     if (!_cellReuseId) {
-        _cellReuseId = kCHPointCellReuseId;
+        _cellReuseId = CHPointCellReuseId;
     }
+    _xAxisLabelViewClass = [CHXAxisLabelView class];
+
     [_collectionView registerClass:_cellClass forCellWithReuseIdentifier:_cellReuseId];
     [_collectionView registerClass:[CHHeaderView class]
         forSupplementaryViewOfKind:CHSupplementaryElementKindHeader
-               withReuseIdentifier:kCHHeaderViewReuseId];
+               withReuseIdentifier:CHHeaderViewReuseId];
     [_collectionView registerClass:[CHFooterView class]
         forSupplementaryViewOfKind:CHSupplementaryElementKindFooter
-               withReuseIdentifier:kCHFooterViewReuseId];
+               withReuseIdentifier:CHFooterViewReuseId];
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -143,12 +147,13 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 
 + (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max
 {
-    return (value - min)/(max - min);
+    CGFloat denominator = max - min;
+    return denominator == 0 ? 0 : (value - min)/(max - min);
 }
 
 - (void)initializeGridlines
 {
-    NSInteger count = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
+    NSInteger count = [self.dataSource numberOfGridlinesInChartView:self];
 
     if (self.gridlines.count) {
         for (CHGridlineContainer *gridline in self.gridlines) {
@@ -164,37 +169,19 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
         gridline.lineGridlineView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
         gridline.labelGridlineView = [[CHGridlineView alloc] initWithFrame:CGRectZero];
         gridline.labelGridlineView.lineColor = [UIColor clearColor];
-        gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
-        if ([self.dataSource respondsToSelector:@selector(chartView:leftLabelViewForHorizontalGridlineWithValue:atIndex:)]) {
-            UIView *labelView = [self.dataSource chartView:self
-               leftLabelViewForHorizontalGridlineWithValue:gridline.value atIndex:i];
-            gridline.labelGridlineView.leftLabelView = labelView;
-        }
-        if ([self.dataSource respondsToSelector:@selector(chartView:lowerLeftLabelViewForHorizontalGridlineWithValue:atIndex:)]) {
-            UIView *labelView = [self.dataSource chartView:self
-               lowerLeftLabelViewForHorizontalGridlineWithValue:gridline.value atIndex:i];
-            gridline.labelGridlineView.lowerLeftLabelView = labelView;
-        }
-        if ([self.dataSource respondsToSelector:@selector(chartView:rightLabelViewForHorizontalGridlineWithValue:atIndex:)]) {
-            UIView *labelView = [self.dataSource chartView:self
-              rightLabelViewForHorizontalGridlineWithValue:gridline.value atIndex:i];
-            gridline.labelGridlineView.rightLabelView = labelView;
-        }
-        if ([self.dataSource respondsToSelector:@selector(chartView:lineColorForHorizontalGridlineAtIndex:)]) {
-            gridline.lineGridlineView.lineColor = [self.dataSource chartView:self
-                                       lineColorForHorizontalGridlineAtIndex:i];
-        }
-        if ([self.dataSource respondsToSelector:@selector(chartView:lineWidthForHorizontalGridlineAtIndex:)]) {
-            gridline.lineGridlineView.lineWidth = [self.dataSource chartView:self
-                                       lineWidthForHorizontalGridlineAtIndex:i];
-        }
-        if ([self.dataSource respondsToSelector:@selector(chartView:lineDashPatternForHorizontalGridlineAtIndex:)]) {
-            gridline.lineGridlineView.lineDashPattern = [self.dataSource chartView:self
-                                       lineDashPatternForHorizontalGridlineAtIndex:i];
-        }
-        if ([self.dataSource respondsToSelector:@selector(chartView:lineInsetForHorizontalGridlineAtIndex:)]) {
-            gridline.lineGridlineView.lineInset = [self.dataSource chartView:self
-                                       lineInsetForHorizontalGridlineAtIndex:i];
+        gridline.value = [self.dataSource chartView:self valueForGridlineAtIndex:i];
+
+        if ([self.dataSource respondsToSelector:@selector(chartView:configureGridlineView:withValue:atIndex:)]) {
+            [self.dataSource chartView:self configureGridlineView:gridline.labelGridlineView
+                             withValue:gridline.value atIndex:i];
+            // Copy line properties to the line gridline view
+            gridline.lineGridlineView.lineColor = gridline.labelGridlineView.lineColor;
+            gridline.lineGridlineView.lineWidth = gridline.labelGridlineView.lineWidth;
+            gridline.lineGridlineView.lineInset = gridline.labelGridlineView.lineInset;
+            gridline.lineGridlineView.lineDashPattern = gridline.labelGridlineView.lineDashPattern;
+
+            // Hide the line from the label gridline view
+            gridline.labelGridlineView.lineColor = [UIColor clearColor];
         }
 
         [self.backgroundView addSubview:gridline.lineGridlineView];
@@ -243,7 +230,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 - (void)reloadData
 {
     [self.collectionView reloadData];
-    NSUInteger numberOfGridlines = [self.dataSource numberOfHorizontalGridlinesInChartView:self];
+    NSUInteger numberOfGridlines = [self.dataSource numberOfGridlinesInChartView:self];
     if ([self.gridlines count] != numberOfGridlines) {
         [self initializeGridlines];
     }
@@ -340,7 +327,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     CGRect backgroundViewBounds = self.backgroundView.bounds;
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = self.gridlines[i];
-        gridline.value = [self.dataSource chartView:self valueForHorizontalGridlineAtIndex:i];
+        gridline.value = [self.dataSource chartView:self valueForGridlineAtIndex:i];
         CGFloat scaledValue = [CHChartView scaledValue:gridline.value minValue:min maxValue:max];
         void(^layoutBlock)() = ^() {
             gridline.labelGridlineView.frame = CGRectMake(0, 0, CGRectGetWidth(backgroundViewBounds), 40);
@@ -377,6 +364,13 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
         gridline.labelGridlineView.alpha = 0;
         gridline.lineGridlineView.alpha = 0;
     }
+}
+
+#pragma mark - Custom classes
+
+- (void)registerXAxisLabelViewClass:(Class)class
+{
+    _xAxisLabelViewClass = class;
 }
 
 #pragma mark - Custom setters
@@ -498,12 +492,13 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 {
     CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
                                                                   forIndexPath:indexPath];
+    cell.xAxisLabelViewClass = self.xAxisLabelViewClass;
     cell.animationDuration = self.pageTransitionAnimationDuration;
     cell.animationSpringDamping = self.pageTransitionAnimationSpringDamping;
     cell.footerHeight = self.footerHeight;
 
-    if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabel:forPointInPage:atIndex:)]) {
-        [self.dataSource chartView:self configureXAxisLabel:cell.xAxisLabel forPointInPage:indexPath.section
+    if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabelView:forPointInPage:atIndex:)]) {
+        [self.dataSource chartView:self configureXAxisLabelView:cell.xAxisLabelView forPointInPage:indexPath.section
                            atIndex:indexPath.row];
         [cell setNeedsLayout];
     }
@@ -545,13 +540,13 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     UICollectionReusableView *view;
     if (kind == CHSupplementaryElementKindHeader) {
         CHHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
-                                                                      withReuseIdentifier:kCHHeaderViewReuseId
+                                                                      withReuseIdentifier:CHHeaderViewReuseId
                                                                              forIndexPath:indexPath];
         view = headerView;
     }
     else if (kind == CHSupplementaryElementKindFooter) {
         CHFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
-                                                                      withReuseIdentifier:kCHFooterViewReuseId
+                                                                      withReuseIdentifier:CHFooterViewReuseId
                                                                              forIndexPath:indexPath];
         view = footerView;
     }

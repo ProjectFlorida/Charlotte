@@ -96,18 +96,18 @@
     return self.minValues.count;
 }
 
-- (void)chartView:(CHChartView *)chartView configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page
-          atIndex:(NSInteger)index
+- (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
+   forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    label.text = self.xAxisLabels[index];
-    label.font = [UIFont systemFontOfSize:13];
+    CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
+    labelView.text = self.xAxisLabels[index];
+    labelView.font = [UIFont systemFontOfSize:13];
     if (index == 3) {
-        label.textColor = [UIColor whiteColor];
+        labelView.textColor = [UIColor whiteColor];
     }
     else {
-        label.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        labelView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     }
-    [label sizeToFit];
 }
 
 - (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
@@ -147,12 +147,12 @@
     return [self.maxValues[page] floatValue];
 }
 
-- (NSInteger)numberOfHorizontalGridlinesInChartView:(CHChartView *)chartView
+- (NSInteger)numberOfGridlinesInChartView:(CHChartView *)chartView
 {
     return self.gridlineValues.count;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForHorizontalGridlineAtIndex:(NSInteger)index
+- (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
 {
     if (index == 2) {
         return [self.averages[self.currentIndex] floatValue];
@@ -162,79 +162,25 @@
     }
 }
 
-- (UIView *)chartView:(CHChartView *)chartView leftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
+- (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
 {
     if (index != 2) {
-        UILabel *label = [[UILabel alloc] init];
-        label.text = [NSString stringWithFormat:@"%d", (int)value];
-        label.font = [UIFont boldSystemFontOfSize:12];
-        label.textColor = [UIColor whiteColor];
-        [label sizeToFit];
-        return label;
+        gridlineView.leftLabelText = [NSString stringWithFormat:@"%d", (int)value];
+        gridlineView.leftLabelFont = [UIFont boldSystemFontOfSize:12];
+        gridlineView.leftLabelColor = [UIColor whiteColor];
+        gridlineView.lowerLeftLabelText = @"foo";
+        gridlineView.lowerLeftLabelFont = [UIFont systemFontOfSize:12];
+        gridlineView.lowerLeftLabelColor = [UIColor grayColor];
+        gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
+        gridlineView.lineColor = [UIColor colorWithWhite:1 alpha:0.5];
     }
     else {
-        return nil;
-    }
-}
-
-- (UIView *)chartView:(CHChartView *)chartView lowerLeftLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
-{
-    if (index != 2 && value != 0) {
-        UILabel *label = [[UILabel alloc] init];
-        label.text = [NSString stringWithFormat:@"%d", arc4random_uniform(100)];
-        label.font = [UIFont boldSystemFontOfSize:12];
-        label.textColor = [UIColor lightGrayColor];
-        [label sizeToFit];
-        return label;
-    }
-    else {
-        return nil;
-    }
-}
-
-- (UIView *)chartView:(CHChartView *)chartView rightLabelViewForHorizontalGridlineWithValue:(CGFloat)value atIndex:(NSInteger)index
-{
-    if (index == 2) {
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-        label.font = [UIFont boldSystemFontOfSize:12];
-        label.numberOfLines = 0;
-        label.text = @"Avg";
-        label.textColor = [UIColor colorWithWhite:0.8 alpha:1.0];
-        [label sizeToFit];
-        return label;
-    }
-    else {
-        return nil;
-    }
-}
-
-- (NSArray *)chartView:(CHChartView *)chartView lineDashPatternForHorizontalGridlineAtIndex:(NSInteger)index
-{
-    if (index == 2) {
-        return @[@1, @3];
-    }
-    else {
-        return nil;
-    }
-}
-
-- (UIColor *)chartView:(CHChartView *)chartView lineColorForHorizontalGridlineAtIndex:(NSInteger)index
-{
-    if (index == 2) {
-        return [UIColor colorWithRed:0.79 green:1 blue:0.95 alpha:1];
-    }
-    else {
-        return [[UIColor whiteColor] colorWithAlphaComponent:0.5];
-    }
-}
-
-- (UIEdgeInsets)chartView:(CHChartView *)chartView lineInsetForHorizontalGridlineAtIndex:(NSInteger)index
-{
-    if (index == 2) {
-        return UIEdgeInsetsMake(0, 0, 0, 30);
-    }
-    else {
-        return UIEdgeInsetsMake(0, 30, 0, 0);
+        gridlineView.rightLabelText = @"Avg";
+        gridlineView.rightLabelColor = [UIColor grayColor];
+        gridlineView.rightLabelFont = [UIFont boldSystemFontOfSize:13];
+        gridlineView.lineDashPattern = @[@1, @3];
+        gridlineView.lineInset = UIEdgeInsetsMake(0, 0, 0, 30);
+        gridlineView.lineColor = [UIColor grayColor];
     }
 }
 
