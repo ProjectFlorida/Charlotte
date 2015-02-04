@@ -191,15 +191,19 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
     index = MIN(MAX(0, index), pointCount - 1);
-    CGFloat value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
-    CGFloat scaledValue = [CHChartView scaledValue:value minValue:min maxValue:max];
+    NSNumber *value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
+    BOOL isOnNullValue = !value || [value isKindOfClass:[NSNull class]];
+
+    CGFloat scaledValue = [CHChartView scaledValue:[value floatValue]
+                                          minValue:min maxValue:max];
     CGFloat height = self.bounds.size.height - self.headerHeight;
     CGFloat y = (1 - scaledValue)*(height - self.footerHeight) + self.headerHeight;
     CGFloat x = (index * cellWidth) + cellWidth*0.5 + pageInset.left + sectionInset.left;
     CGPoint highlightPointPosition = CGPointMake(x, y);
 
     BOOL touchBegan = NO;
-    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+    if ((gestureRecognizer.state == UIGestureRecognizerStateBegan && !isOnNullValue) ||
+        (gestureRecognizer.state == UIGestureRecognizerStateChanged && !self.cursorIsActive && !isOnNullValue)) {
         self.cursorIsActive = YES;
         [UIView animateWithDuration:self.cursorEntranceAnimationDuration animations:^{
             self.cursorView.alpha = 1;
@@ -216,7 +220,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         } completion:^(BOOL finished) {
             if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorDisappearedInPage:atIndex:value:position:)]) {
                 [self.lineChartDelegate chartView:self cursorDisappearedInPage:self.currentPage
-                                          atIndex:index value:value position:highlightPointPosition];
+                                          atIndex:index value:[value floatValue] position:highlightPointPosition];
             }
         }];
         self.touchGR.enabled = NO;
@@ -230,6 +234,10 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         self.cursorDotView.center = CGPointMake(x, y);
     };
 
+    if (isOnNullValue) {
+        return;
+    }
+
     if (!touchBegan) {
         [UIView animateWithDuration:self.cursorMovementAnimationDuration animations:^{
             updateBlock();
@@ -242,13 +250,13 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     if (touchBegan) {
         if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorAppearedInPage:atIndex:value:position:)]) {
             [self.lineChartDelegate chartView:self cursorAppearedInPage:self.currentPage
-                                      atIndex:index value:value position:highlightPointPosition];
+                                      atIndex:index value:[value floatValue] position:highlightPointPosition];
         }
     }
     else if (self.cursorIsActive) {
         if ([self.lineChartDelegate respondsToSelector:@selector(chartView:cursorMovedInPage:toIndex:value:position:)]) {
             [self.lineChartDelegate chartView:self cursorMovedInPage:self.currentPage
-                                      toIndex:index value:value position:highlightPointPosition];
+                                      toIndex:index value:[value floatValue] position:highlightPointPosition];
         }
     }
 }
@@ -278,11 +286,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:indexPath.section];
     if (kind == CHSupplementaryElementKindFooter) {
         CHFooterView *footerView = (CHFooterView *)view;
-        if ([self.dataSource respondsToSelector:@selector(configureXAxisLabel:forPointInPage:atIndex:inChartView:)]) {
+        if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabel:forPointInPage:atIndex:)]) {
             for (int i=0; i < pointCount; i++) {
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
-                [self.dataSource configureXAxisLabel:label forPointInPage:indexPath.section
-                                             atIndex:i inChartView:self];
+                [self.dataSource chartView:self configureXAxisLabel:label forPointInPage:indexPath.section
+                                   atIndex:i];
                 CGFloat relativeX = 0.5;
                 if (pointCount > 1) {
                     relativeX = (i/(float)(pointCount)) + (0.5/(float)(pointCount));
@@ -301,8 +309,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
         NSMutableArray *values = [NSMutableArray arrayWithCapacity:pointCount];
         for (int i = 0; i < pointCount; i++) {
-            CGFloat value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
-            [values addObject:@(value)];
+            id value = [self.dataSource chartView:self valueForPointInPage:indexPath.section atIndex:i];
+            if (!value) {
+                value = [NSNull null];
+            }
+            [values addObject:value];
         }
 
         lineView.lineWidth = self.lineWidth;
@@ -310,7 +321,6 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
         lineView.lineTintColor = self.lineTintColor;
 
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-
         [lineView drawLineWithValues:values animated:YES];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;

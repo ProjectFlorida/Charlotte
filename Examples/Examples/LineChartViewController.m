@@ -88,8 +88,7 @@
 
 #pragma mark CHChartViewDataSource
 
-- (void)configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
-                inChartView:(CHChartView *)chartView
+- (void)chartView:(CHChartView *)chartView configureXAxisLabel:(UILabel *)label forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     NSString *labelText;
     if (index == 2) {
@@ -118,13 +117,18 @@
     return self.pointCount;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return sin(index*3)*sin(index*2) + page + 3;
+    if (index == 5 || index == 10) {
+        return nil;
+    }
+    else {
+        return @(sin(index*3)*sin(index*2) + page + 3);
+    }
 }
 
-- (void)configureLabel:(UILabel *)label forPointWithValue:(CGFloat)value inPage:(NSInteger)page
-               atIndex:(NSInteger)index inChartView:(CHChartView *)chartView;
+- (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
+          atIndex:(NSInteger)index
 {
     label.hidden = YES;
 }
