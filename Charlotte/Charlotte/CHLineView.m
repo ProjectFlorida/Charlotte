@@ -33,7 +33,7 @@ NSString *const CHLineViewReuseId = @"CHLineView";
     self = [super initWithFrame:frame];
     if (self) {
         _lineValues = @[];
-        _gradientLocations = @[];
+        _gradientLocations = @[@0];
         _scatterPoints = @[];
         _scatterPointViews = [NSMutableArray array];
         _minValue = 0;
@@ -258,6 +258,9 @@ NSString *const CHLineViewReuseId = @"CHLineView";
 
 - (void)setGradientLocations:(NSArray *)gradientLocations
 {
+    if ([gradientLocations count] == 0) {
+        return;
+    }
     _gradientLocations = gradientLocations;
     NSMutableArray *scaledLocations = [NSMutableArray array];
     for (NSNumber *location in gradientLocations) {
@@ -271,6 +274,9 @@ NSString *const CHLineViewReuseId = @"CHLineView";
 
 - (void)setGradientColors:(NSArray *)gradientColors
 {
+    if ([gradientColors count] == 0) {
+        return;
+    }
     _gradientColors = gradientColors;
     self.lineView.colors = gradientColors;
 }

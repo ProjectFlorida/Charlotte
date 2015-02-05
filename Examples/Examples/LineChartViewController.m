@@ -44,7 +44,7 @@
                                     [UIColor colorWithRed:0.31 green:0.46 blue:0 alpha:1]
                                     ]
                         locations:@[@(1.5), @(2.5), @(3.5)]];
-        
+
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = @"❤️";
