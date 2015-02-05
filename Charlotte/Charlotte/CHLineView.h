@@ -29,6 +29,14 @@ extern NSString *const CHLineViewReuseId;
 /// The line's color
 @property (nonatomic, strong) UIColor *lineColor;
 
+/// The line's gradient colors (ordered from bottom to top)
+@property (nonatomic, strong) NSArray *gradientColors;
+
+/// The line's gradient stops.
+@property (nonatomic, strong) NSArray *gradientLocations;
+
+/// The line's gradient locations
+
 /// The line's width in points. Default is 4.0.
 @property (nonatomic, assign) CGFloat lineWidth;
 
@@ -39,12 +47,9 @@ extern NSString *const CHLineViewReuseId;
  *  Draws a line between the given values
  *
  *  @param values       An array of y-values describing the line.
- *  @param colors       An array of UIColor objects with which to draw the line's gradient (from bottom to top)
- *  @param locations    An array of y-values defining the line's gradient stops (from bottom to top)
  *  @param animated     Whether the drawing should be animated.
  */
-- (void)drawLineWithValues:(NSArray *)values colors:(NSArray *)colors
-                 locations:(NSArray *)locations animated:(BOOL)animated;
+- (void)drawLineWithValues:(NSArray *)values animated:(BOOL)animated;
 
 /**
  *  Draws the given points

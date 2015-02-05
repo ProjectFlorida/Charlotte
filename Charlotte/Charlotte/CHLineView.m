@@ -16,8 +16,6 @@ NSString *const CHLineViewReuseId = @"CHLineView";
 @interface CHLineView ()
 
 @property (nonatomic, strong) NSArray *lineValues;
-@property (nonatomic, strong) NSArray *gradientLocations;
-@property (nonatomic, strong) NSArray *gradientColors;
 @property (nonatomic, strong) NSArray *scatterPoints;
 @property (nonatomic, strong) NSMutableArray *scatterPointViews;
 @property (nonatomic, strong) CAShapeLayer *lineMaskLayer;
@@ -74,7 +72,7 @@ NSString *const CHLineViewReuseId = @"CHLineView";
                                      CGRectGetHeight(self.bounds) - self.footerHeight);
     self.lineMaskLayer.frame = self.lineView.frame;
     self.scatterPointContainerView.frame = self.bounds;
-    [self drawLineWithValues:self.lineValues colors:self.gradientColors locations:self.gradientLocations animated:NO];
+    [self drawLineWithValues:self.lineValues animated:NO];
     [self drawScatterPoints:self.scatterPoints animated:NO];
     [self drawInteractivePoint:self.interactivePoint animated:NO];
 }
@@ -105,8 +103,7 @@ NSString *const CHLineViewReuseId = @"CHLineView";
 {
     _minValue = minValue;
     _maxValue = maxValue;
-    [self drawLineWithValues:self.lineValues colors:self.gradientColors
-                   locations:self.gradientLocations animated:animated];
+    [self drawLineWithValues:self.lineValues animated:animated];
     [self drawScatterPoints:self.scatterPoints animated:animated];
     [self drawInteractivePoint:self.interactivePoint animated:animated];
     if (completion) {
@@ -114,13 +111,9 @@ NSString *const CHLineViewReuseId = @"CHLineView";
     }
 }
 
-- (void)drawLineWithValues:(NSArray *)values colors:(NSArray *)colors
-                 locations:(NSArray *)locations animated:(BOOL)animated
+- (void)drawLineWithValues:(NSArray *)values animated:(BOOL)animated
 {
     self.lineValues = values;
-    self.gradientColors = colors;
-    self.gradientLocations = locations;
-
     NSInteger count = values.count;
     if (!count) {
         return;
@@ -258,12 +251,29 @@ NSString *const CHLineViewReuseId = @"CHLineView";
 
 - (void)setGradientLocations:(NSArray *)gradientLocations
 {
-    if ([gradientLocations count] == 0) {
+    _gradientLocations = gradientLocations;
+    [self setScaledGradientLocations];
+}
+
+- (void)setMinValue:(CGFloat)minValue
+{
+    _minValue = minValue;
+    [self setScaledGradientLocations];
+}
+
+- (void)setMaxValue:(CGFloat)maxValue
+{
+    _maxValue = maxValue;
+    [self setScaledGradientLocations];
+}
+
+- (void)setScaledGradientLocations
+{
+    if ([self.gradientLocations count] == 0) {
         return;
     }
-    _gradientLocations = gradientLocations;
     NSMutableArray *scaledLocations = [NSMutableArray array];
-    for (NSNumber *location in gradientLocations) {
+    for (NSNumber *location in self.gradientLocations) {
         CGFloat scaledValue = [CHChartView scaledValue:[location floatValue]
                                               minValue:self.minValue
                                               maxValue:self.maxValue];

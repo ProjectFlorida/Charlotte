@@ -165,19 +165,22 @@
 - (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
 {
     if (index != 2) {
-        gridlineView.leftLabelText = [NSString stringWithFormat:@"%d", (int)value];
-        gridlineView.leftLabelFont = [UIFont boldSystemFontOfSize:12];
-        gridlineView.leftLabelColor = [UIColor whiteColor];
-        gridlineView.lowerLeftLabelText = @"foo";
-        gridlineView.lowerLeftLabelFont = [UIFont systemFontOfSize:12];
-        gridlineView.lowerLeftLabelColor = [UIColor grayColor];
+        gridlineView.leftLabel.text = [NSString stringWithFormat:@"%d", (int)value];
+        gridlineView.leftLabel.font = [UIFont boldSystemFontOfSize:12];
+        gridlineView.leftLabel.textColor = [UIColor whiteColor];
+        [gridlineView.leftLabel sizeToFit];
+        gridlineView.lowerLeftLabel.text = @"foo";
+        gridlineView.lowerLeftLabel.font = [UIFont systemFontOfSize:12];
+        gridlineView.lowerLeftLabel.textColor = [UIColor grayColor];
+        [gridlineView.lowerLeftLabel sizeToFit];
         gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
         gridlineView.lineColor = [UIColor colorWithWhite:1 alpha:0.5];
     }
     else {
-        gridlineView.rightLabelText = @"Avg";
-        gridlineView.rightLabelColor = [UIColor grayColor];
-        gridlineView.rightLabelFont = [UIFont boldSystemFontOfSize:13];
+        gridlineView.rightLabel.text = @"Avg";
+        gridlineView.rightLabel.textColor = [UIColor grayColor];
+        gridlineView.rightLabel.font = [UIFont boldSystemFontOfSize:13];
+        [gridlineView.rightLabel sizeToFit];
         gridlineView.lineDashPattern = @[@1, @3];
         gridlineView.lineInset = UIEdgeInsetsMake(0, 0, 0, 30);
         gridlineView.lineColor = [UIColor grayColor];

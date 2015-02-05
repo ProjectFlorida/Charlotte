@@ -9,9 +9,6 @@
 #import "CHGridlineView.h"
 
 @interface CHGridlineView ()
-@property (nonatomic, strong) UILabel *leftLabel;
-@property (nonatomic, strong) UILabel *lowerLeftLabel;
-@property (nonatomic, strong) UILabel *rightLabel;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 
 @end
@@ -96,84 +93,6 @@
 {
     _lineDashPattern = lineDashPattern;
     self.lineLayer.lineDashPattern = lineDashPattern;
-}
-
-- (void)setLeftLabelFont:(UIFont *)font
-{
-    _leftLabelFont = font;
-    if (self.leftLabel.font != font) {
-        self.leftLabel.font = font;
-        [self.leftLabel sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setLowerLeftLabelFont:(UIFont *)font
-{
-    _lowerLeftLabelFont = font;
-    if (self.lowerLeftLabel.font != font) {
-        self.lowerLeftLabel.font = font;
-        [self.lowerLeftLabel sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setRightLabelFont:(UIFont *)font
-{
-    _rightLabelFont = font;
-    if (self.rightLabel.font != font) {
-        self.rightLabel.font = font;
-        [self.rightLabel sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setLeftLabelText:(NSString *)text
-{
-    _leftLabelText = text;
-    if (![self.leftLabel.text isEqualToString:text]) {
-        self.leftLabel.text = text;
-        [self.leftLabel sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setLowerLeftLabelText:(NSString *)text
-{
-    _lowerLeftLabelText = text;
-    if (![self.lowerLeftLabel.text isEqualToString:text]) {
-        self.lowerLeftLabel.text = text;
-        [self.lowerLeftLabel sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setRightLabelText:(NSString *)text
-{
-    _rightLabelText = text;
-    if (![self.rightLabel.text isEqualToString:text]) {
-        self.rightLabel.text = text;
-        [self.rightLabel sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setLeftLabelColor:(UIColor *)leftLabelColor
-{
-    _leftLabelColor = leftLabelColor;
-    self.leftLabel.textColor = leftLabelColor;
-}
-
-- (void)setLowerLeftLabelColor:(UIColor *)lowerLeftLabelColor
-{
-    _lowerLeftLabelColor = lowerLeftLabelColor;
-    self.lowerLeftLabel.textColor = lowerLeftLabelColor;
-}
-
-- (void)setRightLabelColor:(UIColor *)rightLabelColor
-{
-    _rightLabelColor = rightLabelColor;
-    self.rightLabel.textColor = rightLabelColor;
 }
 
 - (void)setLeftLabelInset:(CGFloat)leftLabelInset

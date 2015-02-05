@@ -28,23 +28,23 @@
  */
 @property (nonatomic, assign) NSArray *lineDashPattern UI_APPEARANCE_SELECTOR;
 
-@property (nonatomic, strong) UIFont *leftLabelFont UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIFont *lowerLeftLabelFont UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIFont *rightLabelFont UI_APPEARANCE_SELECTOR;
+/// Left label
+@property (nonatomic, strong) UILabel *leftLabel;
 
-@property (nonatomic, strong) UIColor *leftLabelColor UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *lowerLeftLabelColor UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *rightLabelColor UI_APPEARANCE_SELECTOR;
+/// Lower left label
+@property (nonatomic, strong) UILabel *lowerLeftLabel;
 
-/// The distance of the left label from the left edge
+/// Right label
+@property (nonatomic, strong) UILabel *rightLabel;
+
+/// The distance from the left label (and lower left label) from the left edge
 @property (nonatomic, assign) CGFloat leftLabelInset UI_APPEARANCE_SELECTOR;
+
+/// The distance from the right label to the right edge
 @property (nonatomic, assign) CGFloat rightLabelInset UI_APPEARANCE_SELECTOR;
 
 /// The spacing between the left label and the lower left label. Default is 0.
 @property (nonatomic, assign) CGFloat spacingBelowLeftLabel UI_APPEARANCE_SELECTOR;
 
-@property (nonatomic, strong) NSString *leftLabelText;
-@property (nonatomic, strong) NSString *lowerLeftLabelText;
-@property (nonatomic, strong) NSString *rightLabelText;
 
 @end

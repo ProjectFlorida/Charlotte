@@ -41,6 +41,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
     _lineWidth = 2;
     _lineColor = [UIColor whiteColor];
+    _lineGradientColors = @[_lineColor];
+    _lineGradientLocations = @[@0];
 
     _cursorEnabled = YES;
     _cursorIsActive = NO;
@@ -134,8 +136,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)setLineColors:(NSArray *)colors locations:(NSArray *)locations
 {
-    _lineGradientColors = colors;
-    _lineGradientLocations = locations;
+    self.lineGradientColors = colors;
+    self.lineGradientLocations = locations;
     [self reloadData];
 }
 
@@ -327,12 +329,11 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 
         lineView.lineWidth = self.lineWidth;
         lineView.lineColor = self.lineColor;
+        lineView.gradientColors = self.lineGradientColors;
+        lineView.gradientLocations = self.lineGradientLocations;
 
         [lineView setMinValue:min maxValue:max animated:NO completion:nil];
-        [lineView drawLineWithValues:values
-                              colors:self.lineGradientColors
-                           locations:self.lineGradientLocations
-                            animated:YES];
+        [lineView drawLineWithValues:values animated:YES];
         [self.visibleLineViews setObject:lineView forKey:indexPath];
         view = lineView;
     }

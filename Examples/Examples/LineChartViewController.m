@@ -75,10 +75,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.chartView reloadData];
     self.navigationItem.rightBarButtonItem =
     [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh
                                                   target:self action:@selector(refreshAction)];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.chartView reloadData];
 }
 
 - (void)refreshAction
@@ -166,10 +171,12 @@
 - (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
 {
     gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
-    gridlineView.leftLabelText = [NSString stringWithFormat:@"%.0f", value];
-    gridlineView.leftLabelColor = [UIColor darkGrayColor];
+    gridlineView.leftLabel.text = [NSString stringWithFormat:@"%.0f", value];
+    gridlineView.leftLabel.textColor = [UIColor darkGrayColor];
+    [gridlineView.leftLabel sizeToFit];
     gridlineView.lineColor = [UIColor lightGrayColor];
     gridlineView.lineWidth = 1;
+    [gridlineView setNeedsLayout];
 }
 
 #pragma mark CHChartViewDelegate
