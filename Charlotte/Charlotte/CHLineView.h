@@ -32,7 +32,7 @@ extern NSString *const CHLineViewReuseId;
 /// The line's gradient colors (ordered from bottom to top)
 @property (nonatomic, strong) NSArray *gradientColors;
 
-/// The line's gradient stops.
+/// The y-values of the line's gradient stops. Note that behavior is undefined for y values outside the line's range.
 @property (nonatomic, strong) NSArray *gradientLocations;
 
 /// The line's gradient locations

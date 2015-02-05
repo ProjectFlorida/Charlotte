@@ -97,7 +97,7 @@ extern NSString *const CHSupplementaryElementKindLine;
  *
  *  @param colors    An array of UIColor objects
  *  @param locations An array of y-values defining gradient stops. 
- *                   This array must be the same length as the colors array.
+ *                   Note that behavior is undefined for y values outside the line's range.
  */
 - (void)setLineColors:(NSArray *)colors locations:(NSArray *)locations;
 

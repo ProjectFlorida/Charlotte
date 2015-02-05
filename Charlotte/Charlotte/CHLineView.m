@@ -277,6 +277,8 @@ NSString *const CHLineViewReuseId = @"CHLineView";
         CGFloat scaledValue = [CHChartView scaledValue:[location floatValue]
                                               minValue:self.minValue
                                               maxValue:self.maxValue];
+        // Clamp between 0 and 1
+        scaledValue = MIN(MAX(scaledValue, 0), 1);
         [scaledLocations addObject:@(scaledValue)];
     }
     self.lineView.locations = scaledLocations;
