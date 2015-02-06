@@ -136,7 +136,9 @@ NSString *const CHLineViewReuseId = @"CHLineView";
         }
         if ((valueIsNull || i == count - 1) && [points count] > 0) {
             UIBezierPath *path = [UIBezierPath interpolateCGPointsWithHermite:points closed:NO];
-            [paths addObject:path];
+            if (path) {
+                [paths addObject:path];
+            }
             [points removeAllObjects];
         }
         i++;
