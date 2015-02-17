@@ -81,7 +81,7 @@
 
 - (CGFloat)horizontalBarChartView:(CHHorizontalBarChartView *)chartView valueOfBarAtIndex:(NSUInteger)index
 {
-    NSArray *values = @[@20, @50, @70];
+    NSArray *values = @[@120, @0, @70];
     if (!self.loaded) {
         values = @[@0, @0, @0];
     }

@@ -76,10 +76,10 @@
     self.leftLabel.center = CGPointMake(CGRectGetMidX(self.leftLabel.bounds), CGRectGetMidY(self.leftLabel.bounds));
     self.rightLabel.center = CGPointMake(CGRectGetWidth(bounds) - CGRectGetMidX(self.rightLabel.bounds),
                                          CGRectGetMidY(self.rightLabel.bounds));
-    self.barView.frame = CGRectMake(0,
-                                    CGRectGetHeight(bounds) - self.barHeight,
-                                    self.barWidth * CGRectGetWidth(bounds),
-                                    self.barHeight);
+
+    CGFloat actualBarWidth = MIN(MAX(self.barHeight, self.barWidth*CGRectGetWidth(bounds)), CGRectGetWidth(bounds));
+    self.barView.frame = CGRectMake(0, CGRectGetHeight(bounds) - self.barHeight,
+                                    actualBarWidth, self.barHeight);
     self.barView.layer.cornerRadius = CGRectGetHeight(self.barView.frame)/2.0;
 
     if (!CGRectEqualToRect(self.lineLayer.frame, self.barView.frame)) {
