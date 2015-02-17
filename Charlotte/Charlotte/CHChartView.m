@@ -459,7 +459,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 {
     CGFloat scrollViewWidth = roundf(scrollView.bounds.size.width);
     if (scrollView == self.scrollView && scrollViewWidth != 0) {
-        NSInteger newCurrentPage = (int)floorf(roundf(scrollView.contentOffset.x) / scrollViewWidth);
+        NSInteger newCurrentPage = (int)roundf(roundf(scrollView.contentOffset.x) / scrollViewWidth);
         if (newCurrentPage != self.currentPage) {
             self.currentPage = newCurrentPage;
             [self updateRangeInVisibleCellsAnimated:YES];
