@@ -86,8 +86,11 @@
                                        CGRectGetMidY(self.barLabelContainerView.bounds));
     self.barLabelContainerView.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(self.barView.frame));
 
-    if (!CGRectEqualToRect(self.lineLayer.frame, self.barView.frame)) {
-        self.lineLayer.frame = self.barView.frame;
+    CGRect expectedLineLayerFrame = CGRectMake(CGRectGetMinX(self.barView.frame),
+                                               CGRectGetMinY(self.barView.frame),
+                                               CGRectGetWidth(self.bounds), CGRectGetHeight(self.barView.frame));
+    if (!CGRectEqualToRect(self.lineLayer.frame, expectedLineLayerFrame)) {
+        self.lineLayer.frame = expectedLineLayerFrame;
         UIBezierPath *path = [UIBezierPath bezierPath];
         [path moveToPoint:CGPointMake(0, CGRectGetMidY(self.barView.bounds))];
         [path addLineToPoint:CGPointMake(CGRectGetWidth(bounds), CGRectGetMidY(self.barView.bounds))];
