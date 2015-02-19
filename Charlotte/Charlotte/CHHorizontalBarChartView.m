@@ -30,9 +30,6 @@ NSString *const CHHorizontalBarCellReuseId = @"CHHorizontalBarCell";
         _rightLabelFont = [UIFont systemFontOfSize:13];
         _lineDashPattern = @[@0.5, @3];
         _lineColor = [UIColor darkGrayColor];
-        _averageTickColor = [UIColor grayColor];
-        _averageTickInverseColor = [UIColor whiteColor];
-        _averageTickWidth = 0.5;
         _animationDuration = 0.5;
         _animationSpringDamping = 0.7;
 
@@ -87,29 +84,14 @@ NSString *const CHHorizontalBarCellReuseId = @"CHHorizontalBarCell";
     for (CHHorizontalBarCell *cell in self.collectionView.visibleCells) {
         NSUInteger index = cell.index;
         CGFloat max = [self.dataSource maxValueInHorizontalBarChartView:self];
-        CGFloat average = [self.dataSource averageValueInHorizontalBarChartView:self];
         CGFloat value = [self.dataSource horizontalBarChartView:self valueOfBarAtIndex:index];
 
         CGFloat barWidth = max == 0 ? 0 : value/max;
-        CGFloat averagePosition = max == 0 ? 0 : average/max;
         [cell setBarWidth:barWidth animated:YES];
-        [cell setAveragePosition:averagePosition animated:YES];
 
-        if ([self.dataSource respondsToSelector:@selector(horizontalBarChartView:leftLabelTextForBarWithValue:atIndex:)]) {
-            NSString *leftLabelText = [self.dataSource horizontalBarChartView:self leftLabelTextForBarWithValue:value
-                                                                      atIndex:index];
-            if (![cell.leftLabelText isEqualToString:leftLabelText]) {
-                cell.leftLabelText = leftLabelText;
-            }
+        if ([self.dataSource respondsToSelector:@selector(horizontalBarChartView:configureBar:withValue:atIndex:)]) {
+            [self.dataSource horizontalBarChartView:self configureBar:cell withValue:value atIndex:index];
         }
-        if ([self.dataSource respondsToSelector:@selector(horizontalBarChartView:rightLabelTextForBarWithValue:atIndex:)]) {
-            NSString *rightLabelText = [self.dataSource horizontalBarChartView:self rightLabelTextForBarWithValue:value
-                                                                      atIndex:index];
-            if (![cell.rightLabelText isEqualToString:rightLabelText]) {
-                cell.rightLabelText = rightLabelText;
-            }
-        }
-
     }
 }
 
@@ -163,33 +145,6 @@ NSString *const CHHorizontalBarCellReuseId = @"CHHorizontalBarCell";
     [self.collectionView reloadData];
 }
 
-- (void)setAverageTickColor:(UIColor *)averageTickColor
-{
-    if (_averageTickColor == averageTickColor) {
-        return;
-    }
-    _averageTickColor = averageTickColor;
-    [self.collectionView reloadData];
-}
-
-- (void)setAverageTickInverseColor:(UIColor *)averageTickInverseColor
-{
-    if (_averageTickInverseColor == averageTickInverseColor) {
-        return;
-    }
-    _averageTickInverseColor = averageTickInverseColor;
-    [self.collectionView reloadData];
-}
-
-- (void)setAverageTickWidth:(CGFloat)averageTickWidth
-{
-    if (_averageTickWidth == averageTickWidth) {
-        return;
-    }
-    _averageTickWidth = averageTickWidth;
-    [self.collectionView reloadData];
-}
-
 - (void)setBarHeight:(CGFloat)barHeight
 {
     if (_barHeight == barHeight) {
@@ -238,35 +193,18 @@ NSString *const CHHorizontalBarCellReuseId = @"CHHorizontalBarCell";
     cell.rightLabelFont = self.rightLabelFont;
     cell.lineDashPattern = self.lineDashPattern;
     cell.lineColor = self.lineColor;
-    cell.averageTickColor = self.averageTickColor;
-    cell.averageTickInverseColor = self.averageTickInverseColor;
-    cell.averageTickWidth = self.averageTickWidth;
     cell.index = indexPath.row;
     cell.animationDuration = self.animationSpringDamping;
     cell.animationSpringDamping = self.animationDuration;
 
     CGFloat max = [self.dataSource maxValueInHorizontalBarChartView:self];
-    CGFloat average = [self.dataSource averageValueInHorizontalBarChartView:self];
     CGFloat value = [self.dataSource horizontalBarChartView:self valueOfBarAtIndex:indexPath.row];
 
     CGFloat barWidth = max == 0 ? 0 : value/max;
-    CGFloat averagePosition = max == 0 ? 0 : average/max;
     [cell setBarWidth:barWidth animated:NO];
-    [cell setAveragePosition:averagePosition animated:NO];
 
-    if ([self.dataSource respondsToSelector:@selector(horizontalBarChartView:leftLabelTextForBarWithValue:atIndex:)]) {
-        cell.leftLabelText = [self.dataSource horizontalBarChartView:self leftLabelTextForBarWithValue:value
-                                                             atIndex:indexPath.row];
-    }
-    if ([self.dataSource respondsToSelector:@selector(horizontalBarChartView:rightLabelTextForBarWithValue:atIndex:)]) {
-        cell.rightLabelText = [self.dataSource horizontalBarChartView:self rightLabelTextForBarWithValue:value
-                                                              atIndex:indexPath.row];
-    }
-    if ([self.dataSource respondsToSelector:@selector(horizontalBarChartView:colorOfBarAtIndex:)]) {
-        UIColor *color = [self.dataSource horizontalBarChartView:self colorOfBarAtIndex:indexPath.row];
-        cell.leftLabelColor = color;
-        cell.rightLabelColor = color;
-        cell.barColor = color;
+    if ([self.dataSource respondsToSelector:@selector(horizontalBarChartView:configureBar:withValue:atIndex:)]) {
+        [self.dataSource horizontalBarChartView:self configureBar:cell withValue:value atIndex:indexPath.row];
     }
 
     return cell;

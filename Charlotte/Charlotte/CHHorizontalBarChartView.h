@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class CHHorizontalBarChartView;
+@class CHHorizontalBarChartView, CHHorizontalBarCell;
 
 @protocol CHHorizontalBarChartViewDataSource <NSObject>
 
@@ -20,17 +20,8 @@
 /// NOTE: currently, only a min value of 0 is supported
 - (CGFloat)maxValueInHorizontalBarChartView:(CHHorizontalBarChartView *)chartView;
 
-- (CGFloat)averageValueInHorizontalBarChartView:(CHHorizontalBarChartView *)chartView;
-
-@optional
-// TODO: documentation
-- (UIColor *)horizontalBarChartView:(CHHorizontalBarChartView *)chartView colorOfBarAtIndex:(NSUInteger)index;
-
-- (NSString *)horizontalBarChartView:(CHHorizontalBarChartView *)chartView leftLabelTextForBarWithValue:(CGFloat)value
-                             atIndex:(NSUInteger)index;
-
-- (NSString *)horizontalBarChartView:(CHHorizontalBarChartView *)chartView rightLabelTextForBarWithValue:(CGFloat)value
-                             atIndex:(NSUInteger)index;
+- (void)horizontalBarChartView:(CHHorizontalBarChartView *)chartView configureBar:(CHHorizontalBarCell *)barCell
+                     withValue:(CGFloat)value atIndex:(NSUInteger)index;
 
 @end
 
@@ -53,15 +44,6 @@
 
 /// The color of each bar's line
 @property (nonatomic, strong) UIColor *lineColor UI_APPEARANCE_SELECTOR;
-
-/// The color of each bar's average tick
-@property (nonatomic, strong) UIColor *averageTickColor UI_APPEARANCE_SELECTOR;
-
-/// The color of the average tick when on top of a bar
-@property (nonatomic, strong) UIColor *averageTickInverseColor UI_APPEARANCE_SELECTOR;
-
-/// The width of each bar's average tick
-@property (nonatomic, assign) CGFloat averageTickWidth UI_APPEARANCE_SELECTOR;
 
 /// The height of each bar
 @property (nonatomic, assign) CGFloat barHeight UI_APPEARANCE_SELECTOR;

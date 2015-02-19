@@ -12,15 +12,13 @@
 
 @property (nonatomic, strong) UILabel *leftLabel;
 @property (nonatomic, strong) UILabel *rightLabel;
+@property (nonatomic, strong) UILabel *barLabel;
+@property (nonatomic, strong) UIView *barLabelContainerView;
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 @property (nonatomic, strong) UIView *barView;
-@property (nonatomic, strong) UIView *averageTickView;
 
 /// The width of the bar (relative to the cell's width)
 @property (nonatomic, assign) CGFloat barWidth;
-
-/// The x position of the average tick (specified as a relative position)
-@property (nonatomic, assign) CGFloat averagePosition;
 
 @end
 
@@ -32,15 +30,13 @@
     if (self) {
         _lineColor = [UIColor darkGrayColor];
         _barColor = [UIColor darkGrayColor];
-        _averageTickColor = [UIColor darkGrayColor];
-        _averageTickInverseColor = [UIColor whiteColor];
+        _barLabelBackgroundColor = [UIColor whiteColor];
         _leftLabelFont = [UIFont systemFontOfSize:13];
-        _rightLabelFont = [UIFont systemFontOfSize:13];
+        _rightLabelFont = _leftLabelFont;
+        _barLabelFont = _leftLabelFont;
         _lineDashPattern = @[@0.5, @3];
         _barHeight = 9;
         _barWidth = 0.5;
-        _averagePosition = 0.2;
-        _averageTickWidth = 0.5;
         _animationDuration = 0.4;
         _animationSpringDamping = 0.7;
 
@@ -50,6 +46,12 @@
         _rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         _rightLabel.font = _rightLabelFont;
         _rightLabel.textAlignment = NSTextAlignmentRight;
+        _barLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _barLabel.font = _barLabelFont;
+        _barLabel.textAlignment = NSTextAlignmentCenter;
+        _barLabelContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+        _barLabelContainerView.backgroundColor = _barLabelBackgroundColor;
+        [_barLabelContainerView addSubview:_barLabel];
         _lineLayer = [CAShapeLayer layer];
         _lineLayer.strokeColor = _lineColor.CGColor;
         _lineLayer.lineWidth = 1;
@@ -57,14 +59,12 @@
         _lineLayer.lineDashPattern = _lineDashPattern;
         _barView = [[UIView alloc] initWithFrame:CGRectZero];
         _barView.backgroundColor = _barColor;
-        _averageTickView = [[UIView alloc] initWithFrame:CGRectZero];
-        _averageTickView.backgroundColor = _averageTickColor;
 
         [self.layer addSublayer:_lineLayer];
         [self addSubview:_barView];
-        [self addSubview:_averageTickView];
         [self addSubview:_leftLabel];
         [self addSubview:_rightLabel];
+        [self addSubview:_barLabelContainerView];
     }
     return self;
 }
@@ -77,10 +77,14 @@
     self.rightLabel.center = CGPointMake(CGRectGetWidth(bounds) - CGRectGetMidX(self.rightLabel.bounds),
                                          CGRectGetMidY(self.rightLabel.bounds));
 
-    CGFloat actualBarWidth = MIN(MAX(self.barHeight, self.barWidth*CGRectGetWidth(bounds)), CGRectGetWidth(bounds));
+    CGFloat actualBarWidth = MIN(self.barWidth*CGRectGetWidth(bounds), CGRectGetWidth(bounds));
     self.barView.frame = CGRectMake(0, CGRectGetHeight(bounds) - self.barHeight,
                                     actualBarWidth, self.barHeight);
     self.barView.layer.cornerRadius = CGRectGetHeight(self.barView.frame)/2.0;
+    self.barLabelContainerView.frame = CGRectInset(self.barLabel.bounds, -2, 0);
+    self.barLabel.center = CGPointMake(CGRectGetMidX(self.barLabelContainerView.bounds),
+                                       CGRectGetMidY(self.barLabelContainerView.bounds));
+    self.barLabelContainerView.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(self.barView.frame));
 
     if (!CGRectEqualToRect(self.lineLayer.frame, self.barView.frame)) {
         self.lineLayer.frame = self.barView.frame;
@@ -88,18 +92,6 @@
         [path moveToPoint:CGPointMake(0, CGRectGetMidY(self.barView.bounds))];
         [path addLineToPoint:CGPointMake(CGRectGetWidth(bounds), CGRectGetMidY(self.barView.bounds))];
         self.lineLayer.path = path.CGPath;
-    }
-
-    self.averageTickView.frame = CGRectMake(self.averagePosition*CGRectGetWidth(self.bounds),
-                                            CGRectGetMinY(self.barView.frame),
-                                            self.averageTickWidth,
-                                            CGRectGetHeight(self.barView.frame));
-    BOOL averageTickIsInsideBar = CGRectContainsRect(self.barView.frame, self.averageTickView.frame);
-    if (averageTickIsInsideBar) {
-        self.averageTickView.backgroundColor = self.averageTickInverseColor;
-    }
-    else {
-        self.averageTickView.backgroundColor = self.averageTickColor;
     }
 }
 
@@ -113,16 +105,6 @@
           initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
               [self layoutSubviews];
           } completion:nil];
-}
-
-- (void)setAveragePosition:(CGFloat)averagePosition animated:(BOOL)animated
-{
-    _averagePosition = averagePosition;
-    CGFloat duration = animated ? self.animationDuration : 0;
-    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:self.animationSpringDamping
-          initialSpringVelocity:0 options:UIViewAnimationOptionCurveEaseIn animations:^{
-              [self layoutSubviews];
-    } completion:nil];
 }
 
 - (void)setLeftLabelFont:(UIFont *)leftLabelFont
@@ -141,6 +123,16 @@
     if (self.rightLabel.font != rightLabelFont) {
         self.rightLabel.font = rightLabelFont;
         [self.rightLabel sizeToFit];
+        [self setNeedsLayout];
+    }
+}
+
+- (void)setBarLabelFont:(UIFont *)barLabelFont
+{
+    _barLabelFont = barLabelFont;
+    if (self.barLabel.font != barLabelFont) {
+        self.barLabel.font = barLabelFont;
+        [self.barLabel sizeToFit];
         [self setNeedsLayout];
     }
 }
@@ -165,6 +157,16 @@
     }
 }
 
+- (void)setBarLabelText:(NSString *)barLabelText
+{
+    _barLabelText = barLabelText;
+    if (![self.barLabel.text isEqualToString:barLabelText]) {
+        self.barLabel.text = barLabelText;
+        [self.barLabel sizeToFit];
+        [self setNeedsLayout];
+    }
+}
+
 - (void)setBarColor:(UIColor *)barColor
 {
     _barColor = barColor;
@@ -183,28 +185,22 @@
     self.rightLabel.textColor = rightLabelColor;
 }
 
-- (void)setAverageTickColor:(UIColor *)averageTickColor
+- (void)setBarLabelColor:(UIColor *)barLabelColor
 {
-    _averageTickColor = averageTickColor;
-    [self setNeedsLayout];
+    _barLabelColor = barLabelColor;
+    self.barLabel.textColor = barLabelColor;
 }
 
-- (void)setAverageTickInverseColor:(UIColor *)averageTickInverseColor
+- (void)setBarLabelBackgroundColor:(UIColor *)color
 {
-    _averageTickInverseColor = averageTickInverseColor;
-    [self setNeedsLayout];
+    _barLabelBackgroundColor = color;
+    self.barLabelContainerView.backgroundColor = color;
 }
 
 - (void)setLineWidth:(CGFloat)lineWidth
 {
     _lineWidth = lineWidth;
     self.lineLayer.lineWidth = lineWidth;
-}
-
-- (void)setAverageTickWidth:(CGFloat)averageTickWidth
-{
-    _averageTickWidth = averageTickWidth;
-    [self setNeedsLayout];
 }
 
 - (void)setLineColor:(UIColor *)lineColor
