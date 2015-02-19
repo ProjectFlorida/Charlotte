@@ -61,7 +61,7 @@
 
 - (NSUInteger)numberOfBarsInHorizontalBarChartView:(CHHorizontalBarChartView *)chartView
 {
-    return 3;
+    return 4;
 }
 
 - (CGFloat)maxValueInHorizontalBarChartView:(CHHorizontalBarChartView *)chartView
@@ -81,34 +81,29 @@
 
 - (CGFloat)horizontalBarChartView:(CHHorizontalBarChartView *)chartView valueOfBarAtIndex:(NSUInteger)index
 {
-    NSArray *values = @[@20, @50, @70];
+    NSArray *values = @[@120, @0, @70, @0];
     if (!self.loaded) {
-        values = @[@0, @0, @0];
+        values = @[@0, @0, @0, @0];
     }
     return [values[index] floatValue];
 }
 
-- (UIColor *)horizontalBarChartView:(CHHorizontalBarChartView *)chartView colorOfBarAtIndex:(NSUInteger)index
+- (void)horizontalBarChartView:(CHHorizontalBarChartView *)chartView configureBar:(CHHorizontalBarCell *)barCell
+                     withValue:(CGFloat)value atIndex:(NSUInteger)index
 {
     NSArray *colors = @[
                         [UIColor purpleColor],
                         [UIColor grayColor],
+                        [UIColor grayColor],
                         [UIColor grayColor]
                         ];
-    return colors[index];
-}
-
-- (NSString *)horizontalBarChartView:(CHHorizontalBarChartView *)chartView leftLabelTextForBarWithValue:(CGFloat)value
-                             atIndex:(NSUInteger)index
-{
-    NSArray *strings = @[@"foo", @"bar", @"baz"];
-    return strings[index];
-}
-
-- (NSString *)horizontalBarChartView:(CHHorizontalBarChartView *)chartView rightLabelTextForBarWithValue:(CGFloat)value
-                             atIndex:(NSUInteger)index
-{
-    return [NSString stringWithFormat:@"%.0f min", value];
+    NSArray *leftLabels = @[@"foo", @"bar", @"baz", @"qux"];
+    barCell.barColor = colors[index];
+    barCell.leftLabelText = leftLabels[index];
+    barCell.rightLabelText = [NSString stringWithFormat:@"%.0f min", value];
+    if (index == 3) {
+        barCell.barLabelText = @"NO DATA";
+    }
 }
 
 @end

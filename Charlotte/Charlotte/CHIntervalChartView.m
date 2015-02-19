@@ -73,7 +73,6 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
     }
 
     if (animated) {
-
         CGFloat delay = 0;
         for (CHIntervalView *view in self.intervalViews) {
             [UIView animateWithDuration:self.animationDuration delay:delay
@@ -85,7 +84,9 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
         }
     }
     else {
-        [self setNeedsLayout];
+        for (CHIntervalView *view in self.intervalViews) {
+            view.transform = CGAffineTransformIdentity;
+        }
     }
 }
 

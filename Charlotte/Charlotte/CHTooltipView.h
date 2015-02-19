@@ -93,10 +93,11 @@
  *  Once it is set, the target rectangle does not track the view; if the view moves or changes size, you must update the
  *  target rectangle accordingly.
  *
- *  @param targetRect   A rectangle that defines the area that is to be the target of the tooltip
- *  @param view         The view in which `targetRect` appears.
+ *  @param targetRect       A rectangle that defines the area that is to be the target of the tooltip
+ *  @param view             The view relative to which `targetRect` is specified
+ *  @param containingView   The view in which the tooltip should be displayed
  */
-- (void)showWithTargetRect:(CGRect)targetRect inView:(UIView *)view;
+- (void)showWithTargetRect:(CGRect)targetRect relativeToView:(UIView *)view inView:(UIView *)containingView;
 
 /**
  *  Hides the tooltip.
