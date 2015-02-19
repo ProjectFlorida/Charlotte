@@ -189,18 +189,12 @@ CGFloat const kDefaultCornerRadius = 0;
     self.contentShadowView.frame = self.contentContainerView.frame;
 }
 
-- (void)showWithTargetRect:(CGRect)targetRect inView:(UIView *)view
+- (void)showWithTargetRect:(CGRect)targetRect relativeToView:(UIView *)view inView:(UIView *)containingView
 {
     BOOL shouldFadeIn = NO;
     if (!self.superview) {
-        NSEnumerator *frontToBackWindows = [[[UIApplication sharedApplication] windows] reverseObjectEnumerator];
-        for (UIWindow *window in frontToBackWindows) {
-            if (window.windowLevel == UIWindowLevelNormal) {
-                shouldFadeIn = YES;
-                [window addSubview:self];
-                break;
-            }
-        }
+        shouldFadeIn = YES;
+        [containingView addSubview:self];
     }
 
     CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
@@ -223,7 +217,7 @@ CGFloat const kDefaultCornerRadius = 0;
     CGFloat cornerRadius = self.contentContainerView.layer.cornerRadius;
     CGFloat minContentX = CGRectGetWidth(contentFrame)*0.5;
     CGFloat maxContentX = CGRectGetWidth(viewFrame) - CGRectGetWidth(contentFrame)*0.5;
-    CGFloat minContentY = CGRectGetHeight(contentFrame)*0.5 + CGRectGetHeight(statusBarFrame);
+    CGFloat minContentY = 0;
     CGFloat maxContentY = CGRectGetHeight(viewFrame) - CGRectGetHeight(contentFrame)*0.5;
     __block CGFloat minArrowX, maxArrowX, minArrowY, maxArrowY;
 

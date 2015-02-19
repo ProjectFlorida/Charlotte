@@ -129,7 +129,7 @@ CHTooltipViewDelegate>
     [[CHTooltipView sharedView] setPrefersCenterX:YES];
     [[CHTooltipView sharedView] setContentView:label];
     [[CHTooltipView sharedView] setHandlesDismissal:YES];
-    [[CHTooltipView sharedView] showWithTargetRect:frame inView:chartView];
+    [[CHTooltipView sharedView] showWithTargetRect:frame relativeToView:chartView inView:self.view];
     [CHTooltipView sharedView].delegate = self;
 }
 

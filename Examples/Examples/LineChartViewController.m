@@ -96,7 +96,7 @@
     [super viewDidLayoutSubviews];
     CGRect bounds = self.view.bounds;
     self.scrollView.frame = bounds;
-    self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height*1.5);
+    self.scrollView.contentSize = CGSizeMake(bounds.size.width, bounds.size.height*2);
     self.chartView.frame = CGRectMake(0, 100, CGRectGetWidth(bounds), 300);
 }
 
@@ -194,14 +194,14 @@
     [[CHTooltipView sharedView] setDefaults];
     [[CHTooltipView sharedView] setContentInset:UIEdgeInsetsZero];
     [[CHTooltipView sharedView] setContentView:self.tooltipLabel];
-    [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) inView:self.chartView];
+    [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) relativeToView:self.chartView inView:self.view];
     self.tooltipLabel.text = [NSString stringWithFormat:@"%.2f", value];
 }
 
 - (void)chartView:(CHLineChartView *)chartView cursorMovedInPage:(NSInteger)page
           toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
-    [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) inView:self.chartView];
+    [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) relativeToView:self.chartView inView:self.view];
     self.tooltipLabel.text = [NSString stringWithFormat:@"%.2f", value];
 }
 
