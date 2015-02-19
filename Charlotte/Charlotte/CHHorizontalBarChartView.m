@@ -26,12 +26,6 @@ NSString *const CHHorizontalBarCellReuseId = @"CHHorizontalBarCell";
     if (self) {
         _cellHeight = 35;
         _lineSpacing = 20;
-        _leftLabelFont = [UIFont systemFontOfSize:13];
-        _rightLabelFont = [UIFont systemFontOfSize:13];
-        _lineDashPattern = @[@0.5, @3];
-        _lineColor = [UIColor darkGrayColor];
-        _animationDuration = 0.5;
-        _animationSpringDamping = 0.7;
 
         _collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
         _collectionViewLayout.sectionInset = UIEdgeInsetsZero;
@@ -109,69 +103,6 @@ NSString *const CHHorizontalBarCellReuseId = @"CHHorizontalBarCell";
     self.collectionViewLayout.minimumLineSpacing = lineSpacing;
 }
 
-- (void)setLeftLabelFont:(UIFont *)leftLabelFont
-{
-    if (_leftLabelFont == leftLabelFont) {
-        return;
-    }
-    _leftLabelFont = leftLabelFont;
-    [self.collectionView reloadData];
-}
-
-- (void)setRightLabelFont:(UIFont *)rightLabelFont
-{
-    if (_rightLabelFont == rightLabelFont) {
-        return;
-    }
-    _rightLabelFont = rightLabelFont;
-    [self.collectionView reloadData];
-}
-
-- (void)setLineDashPattern:(NSArray *)lineDashPattern
-{
-    if (_lineDashPattern == lineDashPattern) {
-        return;
-    }
-    _lineDashPattern = lineDashPattern;
-    [self.collectionView reloadData];
-}
-
-- (void)setLineColor:(UIColor *)lineColor
-{
-    if (_lineColor == lineColor) {
-        return;
-    }
-    _lineColor = lineColor;
-    [self.collectionView reloadData];
-}
-
-- (void)setBarHeight:(CGFloat)barHeight
-{
-    if (_barHeight == barHeight) {
-        return;
-    }
-    _barHeight = barHeight;
-    [self.collectionView reloadData];
-}
-
-- (void)setAnimationDuration:(CGFloat)reloadAnimationDuration
-{
-    if (_animationDuration == reloadAnimationDuration) {
-        return;
-    }
-    _animationDuration = reloadAnimationDuration;
-    [self.collectionView reloadData];
-}
-
-- (void)setAnimationSpringDamping:(CGFloat)reloadAnimationSpringDamping
-{
-    if (_animationSpringDamping == reloadAnimationSpringDamping) {
-        return;
-    }
-    _animationSpringDamping = reloadAnimationSpringDamping;
-    [self.collectionView reloadData];
-}
-
 #pragma mark - UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -189,13 +120,7 @@ NSString *const CHHorizontalBarCellReuseId = @"CHHorizontalBarCell";
 {
     CHHorizontalBarCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CHHorizontalBarCellReuseId
                                                                           forIndexPath:indexPath];
-    cell.leftLabelFont = self.leftLabelFont;
-    cell.rightLabelFont = self.rightLabelFont;
-    cell.lineDashPattern = self.lineDashPattern;
-    cell.lineColor = self.lineColor;
     cell.index = indexPath.row;
-    cell.animationDuration = self.animationSpringDamping;
-    cell.animationSpringDamping = self.animationDuration;
 
     CGFloat max = [self.dataSource maxValueInHorizontalBarChartView:self];
     CGFloat value = [self.dataSource horizontalBarChartView:self valueOfBarAtIndex:indexPath.row];

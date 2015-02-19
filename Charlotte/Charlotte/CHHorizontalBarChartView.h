@@ -30,29 +30,8 @@
 /// The height of each cell. Each cell contains a bar and its corresponding labels.
 @property (nonatomic, assign) CGFloat cellHeight UI_APPEARANCE_SELECTOR;
 
-/// The font used for the left label of each bar
-@property (nonatomic, strong) UIFont *leftLabelFont UI_APPEARANCE_SELECTOR;
-
-/// The font used for the right label of each bar
-@property (nonatomic, strong) UIFont *rightLabelFont UI_APPEARANCE_SELECTOR;
-
 /// The spacing between adjacent cells
 @property (nonatomic, assign) CGFloat lineSpacing UI_APPEARANCE_SELECTOR;
-
-/// The dash pattern for each bar's line
-@property (nonatomic, strong) NSArray *lineDashPattern UI_APPEARANCE_SELECTOR;
-
-/// The color of each bar's line
-@property (nonatomic, strong) UIColor *lineColor UI_APPEARANCE_SELECTOR;
-
-/// The height of each bar
-@property (nonatomic, assign) CGFloat barHeight UI_APPEARANCE_SELECTOR;
-
-/// The duration of the reload animation
-@property (nonatomic, assign) CGFloat animationDuration UI_APPEARANCE_SELECTOR;
-
-/// The spring damping of the reload animation
-@property (nonatomic, assign) CGFloat animationSpringDamping UI_APPEARANCE_SELECTOR;
 
 @property (nonatomic, weak) id<CHHorizontalBarChartViewDataSource> dataSource;
 
