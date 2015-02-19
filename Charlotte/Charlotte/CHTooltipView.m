@@ -197,7 +197,6 @@ CGFloat const kDefaultCornerRadius = 0;
         [containingView addSubview:self];
     }
 
-    CGRect statusBarFrame = [UIApplication sharedApplication].statusBarFrame;
     CGRect contentFrame = self.contentContainerView.frame;
     CGRect viewFrame = self.frame;
     __block CGRect arrowFrame = self.arrowView.frame;
@@ -211,15 +210,14 @@ CGFloat const kDefaultCornerRadius = 0;
     CGPoint centerRight = CGPointMake(CGRectGetMaxX(targetRect), CGRectGetMidY(targetRect));
     centerRight = [view convertPoint:centerRight toView:self];
 
-    CGFloat distanceToTop = centerTop.y - CGRectGetHeight(statusBarFrame);
+    CGFloat distanceToTop = centerTop.y;
     CGFloat distanceToRight = CGRectGetWidth(viewFrame) - centerTop.x;
     CGFloat distanceToLeft = centerTop.x;
     CGFloat cornerRadius = self.contentContainerView.layer.cornerRadius;
     CGFloat minContentX = CGRectGetWidth(contentFrame)*0.5;
     CGFloat maxContentX = CGRectGetWidth(viewFrame) - CGRectGetWidth(contentFrame)*0.5;
-    CGFloat minContentY = 0;
     CGFloat maxContentY = CGRectGetHeight(viewFrame) - CGRectGetHeight(contentFrame)*0.5;
-    __block CGFloat minArrowX, maxArrowX, minArrowY, maxArrowY;
+    __block CGFloat minArrowX, maxArrowX, maxArrowY;
 
     BOOL(^willChangeArrowDirection)() = ^BOOL() {
         CHTooltipArrowDirection newDirection;
@@ -248,7 +246,6 @@ CGFloat const kDefaultCornerRadius = 0;
         arrowFrame = self.arrowView.frame;
         minArrowX = CGRectGetWidth(arrowFrame)*0.25 + cornerRadius;
         maxArrowX = CGRectGetWidth(viewFrame) - CGRectGetWidth(arrowFrame)*0.25 - cornerRadius;
-        minArrowY = CGRectGetHeight(arrowFrame)*0.25 + CGRectGetHeight(statusBarFrame) + cornerRadius;
         maxArrowY = CGRectGetHeight(viewFrame) - CGRectGetHeight(arrowFrame)*0.25 - cornerRadius;
         self.arrowShapeLayer.frame = self.arrowView.bounds;
         self.arrowShapeLayer.path = [self arrowPathForDirection:self.arrowDirection].CGPath;
@@ -283,10 +280,10 @@ CGFloat const kDefaultCornerRadius = 0;
                 updateArrow();
                 CGPoint targetPoint = centerRight;
                 CGFloat contentX = targetPoint.x - CGRectGetWidth(arrowFrame)*0.5 - CGRectGetWidth(contentFrame)*0.5;
-                CGFloat contentY = MAX(MIN(targetPoint.y, maxContentY), minContentY);
+                CGFloat contentY = MIN(targetPoint.y, maxContentY);
                 self.contentContainerView.center = CGPointMake(contentX, contentY);
                 CGFloat arrowX = targetPoint.x - CGRectGetWidth(arrowFrame)*0.5;
-                CGFloat arrowY = MAX(MIN(targetPoint.y, maxArrowY), minArrowY);
+                CGFloat arrowY = MIN(targetPoint.y, maxArrowY);
                 self.arrowView.center = CGPointMake(arrowX, arrowY);
             }
             // point left
@@ -295,10 +292,10 @@ CGFloat const kDefaultCornerRadius = 0;
                 updateArrow();
                 CGPoint targetPoint = centerLeft;
                 CGFloat contentX = targetPoint.x + CGRectGetWidth(contentFrame)*0.5 + CGRectGetWidth(arrowFrame)*0.5;
-                CGFloat contentY = MAX(MIN(targetPoint.y, maxContentY), minContentY);
+                CGFloat contentY = MIN(targetPoint.y, maxContentY);
                 self.contentContainerView.center = CGPointMake(contentX, contentY);
                 CGFloat arrowX = targetPoint.x + CGRectGetWidth(arrowFrame)*0.5;
-                CGFloat arrowY = MAX(MIN(targetPoint.y, maxArrowY), minArrowY);
+                CGFloat arrowY = MIN(targetPoint.y, maxArrowY);
                 self.arrowView.center = CGPointMake(arrowX, arrowY);
             }
             // point up
