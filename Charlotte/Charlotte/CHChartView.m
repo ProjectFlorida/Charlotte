@@ -106,6 +106,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     _collectionView.bounces = NO;
     _collectionView.decelerationRate = UIScrollViewDecelerationRateFast;
     _collectionView.scrollEnabled = NO;
+    _collectionView.scrollsToTop = NO;
 
     // When overriding initialize, subclasses may set cellClass and cellReuseId before calling super.
     if (!_cellClass) {
@@ -132,6 +133,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     _scrollView.pagingEnabled = YES;
     _scrollView.showsVerticalScrollIndicator = NO;
     _scrollView.showsHorizontalScrollIndicator = NO;
+    _scrollView.scrollsToTop = NO;
     [self addSubview:_scrollView];
 
     _backgroundView = [[UIView alloc] initWithFrame:CGRectZero];
