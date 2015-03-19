@@ -36,11 +36,13 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 
         _pointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
         _pointView = [[UIView alloc] initWithFrame:CGRectZero];
-        _valueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _lowerValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _upperValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
 
         [_pointContainerView addSubview:_pointView];
         [self addSubview:_pointContainerView];
-        [self addSubview:_valueLabel];
+        [self addSubview:_lowerValueLabel];
+        [self addSubview:_upperValueLabel];
     }
     return self;
 }
@@ -60,7 +62,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 
 - (CGPoint)valueLabelCenter
 {
-    CGFloat valueLabelHeight = CGRectGetHeight(self.valueLabel.frame);
+    CGFloat valueLabelHeight = CGRectGetHeight(self.lowerValueLabel.frame);
     CGFloat y = CGRectGetMinY(self.pointView.frame) - valueLabelHeight/2.0 - self.layoutMargins.bottom/2.0;
     return CGPointMake(self.pointView.center.x, y);
 }
@@ -76,7 +78,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
     self.pointView.frame = [self pointViewFrame];
     self.pointView.layer.cornerRadius = self.pointView.bounds.size.width / 2.0;
 
-    self.valueLabel.center = [self valueLabelCenter];
+    self.lowerValueLabel.center = [self valueLabelCenter];
 }
 
 - (void)prepareForReuse
@@ -100,7 +102,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 - (void)reload
 {
     self.pointView.frame = [self pointViewFrame];
-    self.valueLabel.center = [self valueLabelCenter];
+    self.upperValueLabel.center = [self valueLabelCenter];
 }
 
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion

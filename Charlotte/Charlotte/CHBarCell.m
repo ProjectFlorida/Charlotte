@@ -72,7 +72,7 @@ CGFloat const CHZeroValueAnimationDuration = 0.2;
 
 - (CGPoint)valueLabelCenter
 {
-    CGFloat valueLabelHeight = CGRectGetHeight(self.valueLabel.frame);
+    CGFloat valueLabelHeight = CGRectGetHeight(self.lowerValueLabel.frame);
     CGFloat y = CGRectGetMinY(self.pointView.frame) - valueLabelHeight/2.0 - self.layoutMargins.bottom/2.0;
     CGFloat minY = CGRectGetMinY(self.bounds) + valueLabelHeight/2.0;
     y = MAX(y, minY);
