@@ -12,18 +12,37 @@ extern NSString *const CHPointCellReuseId;
 
 @interface CHPointCell : UICollectionViewCell
 
-@property (nonatomic, assign) NSInteger page;
+/// The cell's page
+@property (nonatomic, readwrite) NSInteger page;
+
+/// The cell's value
 @property (nonatomic, readonly) NSNumber *value;
-@property (nonatomic, readonly) CGFloat minValue;
-@property (nonatomic, readonly) CGFloat maxValue;
+
+/// The cell's x-axis label view
 @property (nonatomic, strong) UIView *xAxisLabelView;
+
+/// The class used to create the cell's x-axis label
 @property (nonatomic, strong) Class xAxisLabelViewClass;
-@property (nonatomic, strong) UILabel *valueLabel;
+
+/// The cell's upper value label
+@property (nonatomic, strong) UILabel *upperValueLabel;
+
+/// The cell's lower value label
+@property (nonatomic, strong) UILabel *lowerValueLabel;
+
+/// The cell's footer height
 @property (nonatomic, assign) CGFloat footerHeight;
+
+/// The duration of cell animations
 @property (nonatomic, assign) CGFloat animationDuration;
+
+/// The spring damping of cell animations
 @property (nonatomic, assign) CGFloat animationSpringDamping;
 
+/// Sets the cell's value
 - (void)setValue:(NSNumber *)value animated:(BOOL)animated completion:(void (^)(void))completion;
+
+/// Sets the cell's range
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 
 @end
