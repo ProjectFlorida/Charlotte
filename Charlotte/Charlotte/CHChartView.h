@@ -12,7 +12,7 @@
 extern NSString *const CHSupplementaryElementKindHeader;
 extern NSString *const CHSupplementaryElementKindFooter;
 
-@class CHChartView, CHPointCell;
+@class CHChartView, CHBarChartCell;
 @protocol CHChartViewDataSource <NSObject>
 
 /**
@@ -94,7 +94,7 @@ extern NSString *const CHSupplementaryElementKindFooter;
  *  @param page      The point's page index in the chart view
  *  @param index     The point's index in the chart page
  */
-- (void)chartView:(CHChartView *)chartView configureCell:(CHPointCell *)cell forPointInPage:(NSInteger)page
+- (void)chartView:(CHChartView *)chartView configureCell:(CHBarChartCell *)cell forPointInPage:(NSInteger)page
           atIndex:(NSInteger)index;
 
 /**

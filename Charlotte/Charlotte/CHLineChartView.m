@@ -35,7 +35,7 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 - (void)initialize
 {
     self.cellReuseId = CHPointCellReuseId;
-    self.cellClass = [CHPointCell class];
+    self.cellClass = [CHBarChartCell class];
 
     [super initialize];
 
@@ -280,7 +280,7 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    CHBarChartCell *cell = (CHBarChartCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
     cell.pointView.hidden = YES;
     cell.xAxisLabelView.hidden = YES;
     return cell;
