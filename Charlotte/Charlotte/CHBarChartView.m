@@ -7,15 +7,15 @@
 //
 
 #import "CHBarChartView.h"
-#import "CHBarCell.h"
 #import "CHChartViewSubclass.h"
+#import "CHBarChartCell.h"
 
 @implementation CHBarChartView
 
 - (void)initialize
 {
-    self.cellReuseId = CHBarCellReuseId;
-    self.cellClass = [CHBarCell class];
+    self.cellReuseId = CHPointCellReuseId;
+    self.cellClass = [CHBarChartCell class];
     self.relativeBarWidth = 0.5;
 
     [super initialize];
@@ -26,7 +26,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CHBarCell *cell = (CHBarCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    CHBarChartCell *cell = (CHBarChartCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
 
     cell.relativeBarWidth = self.relativeBarWidth;
 

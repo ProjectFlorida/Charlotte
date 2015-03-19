@@ -10,7 +10,7 @@
 	<string>46</string>
 	<key>objects</key>
 	<dict>
-		<key>067B250B662CB460C542C966</key>
+		<key>000FAF1647C37E3045AE2463</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -19,142 +19,94 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>CHHorizontalBarChartView.m</string>
+			<string>CHIntervalChartView.m</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHHorizontalBarChartView.m</string>
+			<string>Charlotte/Charlotte/CHIntervalChartView.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>06DF6E365C2C4698B24ED227</key>
+		<key>044D627207D6600BB446F65F</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
+			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>CHScatterPoint.h</string>
+			<string>CHScatterChartView.m</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHScatterPoint.h</string>
+			<string>Charlotte/Charlotte/CHScatterChartView.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>07532D462F703FB58757969C</key>
+		<key>04C337CAC1F4C3983C71A635</key>
 		<dict>
-			<key>fileRef</key>
-			<string>26BCB2A7479915B7202981D5</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>077E8749B47319F6CDEC5FE6</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6638FA4E601DB88369A52DDF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>08B59EDBF0B96D4345B82B63</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>path</key>
-			<string>Pods.debug.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>0CDC4494CC26E109D44A9516</key>
-		<dict>
-			<key>attributes</key>
+			<key>baseConfigurationReference</key>
+			<string>C239E8728FC614358D937FA5</string>
+			<key>buildSettings</key>
 			<dict>
-				<key>LastUpgradeCheck</key>
-				<string>0510</string>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>NO</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_DYNAMIC_NO_PIC</key>
+				<string>NO</string>
+				<key>GCC_OPTIMIZATION_LEVEL</key>
+				<string>0</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Charlotte/Pods-Charlotte-prefix.pch</string>
+				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
+				<array>
+					<string>DEBUG=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
+				<string>NO</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
 			</dict>
-			<key>buildConfigurationList</key>
-			<string>AD90F8257D6DBC2A82589A95</string>
-			<key>compatibilityVersion</key>
-			<string>Xcode 3.2</string>
-			<key>developmentRegion</key>
-			<string>English</string>
-			<key>hasScannedForEncodings</key>
-			<string>0</string>
 			<key>isa</key>
-			<string>PBXProject</string>
-			<key>knownRegions</key>
-			<array>
-				<string>en</string>
-			</array>
-			<key>mainGroup</key>
-			<string>5DDB8C057A6039485FD68054</string>
-			<key>productRefGroup</key>
-			<string>596EF45E59A4E04D50620495</string>
-			<key>projectDirPath</key>
-			<string></string>
-			<key>projectReferences</key>
-			<array/>
-			<key>projectRoot</key>
-			<string></string>
-			<key>targets</key>
-			<array>
-				<string>2F63744E9ECB2BFD6923150E</string>
-				<string>85F5154157B93B24C571B999</string>
-			</array>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Debug</string>
 		</dict>
-		<key>10BE8CA311B0F3C45FB1B8E5</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>CE8AA240C68094EFE6C22503</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>128F86F1DECCCD594EB1C867</key>
-		<dict>
-			<key>fileRef</key>
-			<string>19F1AF3819551C68140F3C80</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>13CD4BEB63FAC81E2CD22A29</key>
+		<key>05012821DEC3F1F38A5FF4A0</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
+			<string>text</string>
 			<key>name</key>
-			<string>CHBarChartView.h</string>
+			<string>Podfile</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHBarChartView.h</string>
+			<string>../Podfile</string>
 			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
+			<string>SOURCE_ROOT</string>
+			<key>xcLanguageSpecificationIdentifier</key>
+			<string>xcode.lang.ruby</string>
 		</dict>
-		<key>148AFD6411A72FA3C2328F5E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHHorizontalBarChartView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHHorizontalBarChartView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>1614427060DA361B00E9042F</key>
+		<key>06451BC88C4729741A3978ED</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -163,13 +115,13 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>CHLineChartView.m</string>
+			<string>CHHorizontalBarCell.m</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHLineChartView.m</string>
+			<string>Charlotte/Charlotte/CHHorizontalBarCell.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>19F1AF3819551C68140F3C80</key>
+		<key>078375724E0D47FF056F0C93</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -178,13 +130,13 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>UIBezierPath+Interpolation.m</string>
+			<string>CHLineView.m</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/UIBezierPath+Interpolation.m</string>
+			<string>Charlotte/Charlotte/CHLineView.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>1A1D021F92D2E7C619007332</key>
+		<key>08025877DDB7228ACA7B15EF</key>
 		<dict>
 			<key>buildSettings</key>
 			<dict>
@@ -246,27 +198,128 @@
 			<key>name</key>
 			<string>Release</string>
 		</dict>
-		<key>1A67E6DF16CC52E2706B6E6A</key>
+		<key>087288470EE87C2B512E0113</key>
 		<dict>
-			<key>children</key>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
 			<array>
-				<string>C6DD9529EE3BFC142F209B05</string>
+				<string>7F4FDA1CCCE97D045365805C</string>
+				<string>C251D9E2E9BD72ECDA742941</string>
+				<string>A641395B4A30CB8DB8C5968F</string>
+				<string>0C2AF52A7538E02897F0E73C</string>
+				<string>8A533C0C60EA2FD568D61D7A</string>
+				<string>89DC1AB81BF65BCE42FB66A8</string>
+				<string>3C36F655E85AF83D572F2B60</string>
+				<string>60E68974D68725B63773C33B</string>
+				<string>F1FE76D4F4B1533B6D013004</string>
+				<string>9668E1EF290E03E43BD61629</string>
+				<string>7A4B57CFFEB0BECEFFC78926</string>
+				<string>2BC577F904EAF0731B612EC8</string>
+				<string>C3482EAADDA087C20F66678D</string>
+				<string>4D8E3F19FAB305A41185BAC8</string>
+				<string>41A9CB45BA8AFB61FD86B933</string>
+				<string>1C9D5BD0D0C41ABA579AAC87</string>
+				<string>4A450900D8FEB5A4B498F575</string>
+				<string>117A30B9729699D4D9F400A6</string>
+				<string>3F942E4A26033F515CE59F34</string>
+				<string>9CEAA2D23370D271337F6CD4</string>
+				<string>1ECAEA2EA21B64AA5D4C3729</string>
+				<string>B6DED7766A21DE30C214F047</string>
+				<string>E6DBA2878D09BD7B800C85DD</string>
+				<string>B3AC4F4689252A0BBE441AA0</string>
+				<string>59753B23451C5DA025939414</string>
 			</array>
 			<key>isa</key>
-			<string>PBXGroup</string>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>098F7753D00B7609410590DF</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
 			<key>name</key>
-			<string>iOS</string>
+			<string>CHHorizontalBarCell.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHHorizontalBarCell.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>1A71407BD01803EB284B0D10</key>
+		<key>0A7D7DB7E9021939BC4D86B9</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>UIBezierPath+Interpolation.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/UIBezierPath+Interpolation.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>0BBD6AC70ED26D8F0F7405F3</key>
 		<dict>
 			<key>fileRef</key>
-			<string>06DF6E365C2C4698B24ED227</string>
+			<string>978A7B34FCB765C7CD0656C5</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>1A82F93FE04D40B01E0EEE14</key>
+		<key>0C2AF52A7538E02897F0E73C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>F7CB4856BE69EDAD047CAE6E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0CCE82CB133F0BE2A7EB548C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>62F0A50A2F71774254E874B6</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>0E408F95047351741C5BA7DE</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXTargetDependency</string>
+			<key>name</key>
+			<string>Pods-Charlotte</string>
+			<key>target</key>
+			<string>52336BA314A94DB55BF7C4B3</string>
+			<key>targetProxy</key>
+			<string>A8B43478646E24D4ABF6052A</string>
+		</dict>
+		<key>117A30B9729699D4D9F400A6</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C93D26A1277BCAF5ED9B1D37</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>14721DD2C86EE787C652CFA3</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHHeaderView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHHeaderView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>15A3D5C9AEF2F1198ADE41B3</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -279,203 +332,20 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>1B2C080DC84246245BC9B188</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHTouchGestureRecognizer.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHTouchGestureRecognizer.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>205FFDB067708FEE067CA035</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHHeaderView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHHeaderView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>24EF99128D4415F7AC7CAD4C</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>path</key>
-			<string>Pods-Charlotte-prefix.pch</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>26BCB2A7479915B7202981D5</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHGridlineView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHGridlineView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>26C376931EC0A75A467B45D7</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6E8DD28A9DBB4DEB3B435224</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>282F02E49708C5378C7AC5C1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>702B34A5B304946D135F9920</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>284F346074F496F18852C9C2</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHGradientView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHGradientView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>2D0937C5EE39AE7687063D13</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>libPods.a</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>2DA47866AD46DF513E8AE603</key>
-		<dict>
-			<key>fileRef</key>
-			<string>1B2C080DC84246245BC9B188</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>2E196094F94315FCC6D2947B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>748764EAA03F59270BFACF4F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>2EDC27F5301D5DADE3916062</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>3507F5E2D281D0E8AA2BD123</string>
-				<string>BC9FF3A9844605D3CD1FAF44</string>
-				<string>F3925E64C77EABA658CCDF65</string>
-				<string>7301AAE674CC42603A7FE180</string>
-				<string>13CD4BEB63FAC81E2CD22A29</string>
-				<string>D62897162788A058602BD5CB</string>
-				<string>6CFE1266D18ED4822ABA0357</string>
-				<string>E728207CCF7C528C0557D503</string>
-				<string>8054B5EB508F236584862B95</string>
-				<string>93BFE96F329343BA482A50C7</string>
-				<string>44067894460A29AC63EC26A3</string>
-				<string>645F727B9DF7540AA39B8530</string>
-				<string>284F346074F496F18852C9C2</string>
-				<string>D3AEDD5A6E9B74A47A95582C</string>
-				<string>26BCB2A7479915B7202981D5</string>
-				<string>6E8DD28A9DBB4DEB3B435224</string>
-				<string>205FFDB067708FEE067CA035</string>
-				<string>D426D7EA896BF129725C86DA</string>
-				<string>BB9F090AF38D024A7D92161A</string>
-				<string>148AFD6411A72FA3C2328F5E</string>
-				<string>067B250B662CB460C542C966</string>
-				<string>6AD54BF16FA6EE7E1700961F</string>
-				<string>443D81FB125364B6D37C5FF6</string>
-				<string>9BF101A90DC842452C55F3B1</string>
-				<string>6091C7F71F58047B34D4A164</string>
-				<string>CFFA6BCB7CB0E56854531BBE</string>
-				<string>5F411423AF0F247FE2B94F50</string>
-				<string>C4DF2A741498942FA8531CD6</string>
-				<string>ACFB1ADF45068711AC835CFE</string>
-				<string>B94A85042CF971AC32EFE43E</string>
-				<string>1614427060DA361B00E9042F</string>
-				<string>CAC23C6910349BCAD115AE36</string>
-				<string>5F7E277798C4BE161AC3E41E</string>
-				<string>F103957DA54625ACBF267471</string>
-				<string>9F506B29EC1AF5ADF6BBBD16</string>
-				<string>77D5678CEDE67F0A9B19A200</string>
-				<string>BA3DFAB0A866F8A2D54DD09B</string>
-				<string>D90BB906900D9F7BC60C7DAF</string>
-				<string>986127F18294C99FD6D7CB67</string>
-				<string>702B34A5B304946D135F9920</string>
-				<string>FBF544A9ED6F535CE20AE4E0</string>
-				<string>43A2EC1086AD3EDD87C8A108</string>
-				<string>EF9F58FAE888FDE15A090708</string>
-				<string>06DF6E365C2C4698B24ED227</string>
-				<string>952B1E19395E1DFE0D194F20</string>
-				<string>59FDF09352C4B64569FB43EA</string>
-				<string>6638FA4E601DB88369A52DDF</string>
-				<string>94221BFCE3616674F30C0440</string>
-				<string>1B2C080DC84246245BC9B188</string>
-				<string>68A05CC8A80DE27F7A3ED9FC</string>
-				<string>5A4ED699D59ED45710B72B32</string>
-				<string>748764EAA03F59270BFACF4F</string>
-				<string>E2184E6BECF0F2FDC187658E</string>
-				<string>19F1AF3819551C68140F3C80</string>
-				<string>75CD85BFC9083A516155A826</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Charlotte</string>
-			<key>path</key>
-			<string>../..</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>2F63744E9ECB2BFD6923150E</key>
+		<key>165B9A66657132CD093A8714</key>
 		<dict>
 			<key>buildConfigurationList</key>
-			<string>9299FB02E211BEBF5AC85019</string>
+			<string>484611C6C7AC7C52153C7432</string>
 			<key>buildPhases</key>
 			<array>
-				<string>EBE1943E4F850F58B696C4DD</string>
-				<string>987188E2FEEA9D4BCE6922E5</string>
+				<string>976A866FC3BC5CE1E51ED110</string>
+				<string>D509D05766FB53B42FB2EBCE</string>
 			</array>
 			<key>buildRules</key>
 			<array/>
 			<key>dependencies</key>
 			<array>
-				<string>FAB1AA05C766A72D01E4FDFE</string>
+				<string>0E408F95047351741C5BA7DE</string>
 			</array>
 			<key>isa</key>
 			<string>PBXNativeTarget</string>
@@ -484,11 +354,80 @@
 			<key>productName</key>
 			<string>Pods</string>
 			<key>productReference</key>
-			<string>2D0937C5EE39AE7687063D13</string>
+			<string>42F097EAD5F18404BEEF6CDF</string>
 			<key>productType</key>
 			<string>com.apple.product-type.library.static</string>
 		</dict>
-		<key>3507F5E2D281D0E8AA2BD123</key>
+		<key>170722B0D8C175412031D188</key>
+		<dict>
+			<key>fileRef</key>
+			<string>14721DD2C86EE787C652CFA3</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1A5284A4156E3C4D9DBB8447</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>A15D3830A1D454A77E77F9A8</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Development Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>1C9D5BD0D0C41ABA579AAC87</key>
+		<dict>
+			<key>fileRef</key>
+			<string>078375724E0D47FF056F0C93</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1D0744DD48EEB0B22A19B484</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3DDBECD8A9256428A7401B15</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>1ECAEA2EA21B64AA5D4C3729</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3FD8CBC29CF9150355D69FBD</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>243BC267E90103BD2C66DB9B</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHBarChartView.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHBarChartView.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>24B95B0800F7E3812688FCDF</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>25F994F8B154654434430BEE</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -497,49 +436,48 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
 			<key>name</key>
-			<string>CGPointExtension.h</string>
+			<string>CHGridlineView.h</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CGPointExtension.h</string>
+			<string>Charlotte/Charlotte/CHGridlineView.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>37DD96F5D2AB76D85F272E45</key>
+		<key>2BC577F904EAF0731B612EC8</key>
 		<dict>
 			<key>fileRef</key>
-			<string>D62897162788A058602BD5CB</string>
+			<string>720A0A2FD1ECEC4F0BD0C463</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>401711FA99D0EE43D47EFDF3</key>
+		<key>2CC5DA943072F8A244A72ECB</key>
 		<dict>
 			<key>fileRef</key>
-			<string>5E62F9DEAE0C331F0D138D3D</string>
+			<string>A0B43CDBF422C57005E0FD12</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>43A2EC1086AD3EDD87C8A108</key>
+		<key>2DBCB6F4A1E56818A0F4572F</key>
 		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
+			<key>buildConfigurations</key>
+			<array>
+				<string>04C337CAC1F4C3983C71A635</string>
+				<string>A469DDA8497604B703B5FC38</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
 			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHScatterChartView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHScatterChartView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
+			<string>XCConfigurationList</string>
 		</dict>
-		<key>43D2217DFE6BBA629EFF74A3</key>
+		<key>2DDC159A6DC905E11CC9C2C1</key>
 		<dict>
 			<key>fileRef</key>
-			<string>13CD4BEB63FAC81E2CD22A29</string>
+			<string>5A34C2E93022F5F201244C17</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>44067894460A29AC63EC26A3</key>
+		<key>2F1B3DE48C77FA0A35E1915C</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -554,119 +492,22 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>44127E0D39AD3ABE1F4EFA3B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>BB9F090AF38D024A7D92161A</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>443D81FB125364B6D37C5FF6</key>
+		<key>32BE9AC293A961CF5F135922</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
+			<string>sourcecode.c.h</string>
 			<key>name</key>
-			<string>CHInteractivePoint.m</string>
+			<string>CHIntervalChartView.h</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHInteractivePoint.m</string>
+			<string>Charlotte/Charlotte/CHIntervalChartView.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>45245480DBB59A2C91C2F6B0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>F3925E64C77EABA658CCDF65</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>45604E90416CC19251A59F2E</key>
-		<dict>
-			<key>fileRef</key>
-			<string>067B250B662CB460C542C966</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>459483FD1B910D34F326A5C7</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>5388F47C0389FB31C2C4153A</string>
-				<string>D8FA4B97D7EFF9CE58BC4D1C</string>
-				<string>5C1BDE5081B0D969129E7A78</string>
-				<string>E346B52271978D6A41FB34F6</string>
-				<string>EFDC9BBDE8587B84C76D8E91</string>
-				<string>08B59EDBF0B96D4345B82B63</string>
-				<string>1A82F93FE04D40B01E0EEE14</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Pods</string>
-			<key>path</key>
-			<string>Target Support Files/Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>4736A75C7F50980D905A1B7F</key>
-		<dict>
-			<key>fileRef</key>
-			<string>94221BFCE3616674F30C0440</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>475327CE74931386E0FB4585</key>
-		<dict>
-			<key>fileRef</key>
-			<string>CFFA6BCB7CB0E56854531BBE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>496C1BA2235F063EC5010C38</key>
-		<dict>
-			<key>fileRef</key>
-			<string>5F7E277798C4BE161AC3E41E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>4A1D7FDA3CD68B17EBF10EE2</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>459483FD1B910D34F326A5C7</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Targets Support Files</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>4E60C55D14EA9C471D950819</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D426D7EA896BF129725C86DA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>5030978F9F419CD47ADF83AE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D90BB906900D9F7BC60C7DAF</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>5083D4BE839ABB2A99EFE9D6</key>
-		<dict>
-			<key>fileRef</key>
-			<string>BC9FF3A9844605D3CD1FAF44</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>5388F47C0389FB31C2C4153A</key>
+		<key>35B6E6D25B3CFC38E85F6C8B</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -679,37 +520,496 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>53FC6ECF6BEE2F3994183F3F</key>
+		<key>3A57CE28ABAFAE6CFD6696A8</key>
 		<dict>
-			<key>fileRef</key>
-			<string>77D5678CEDE67F0A9B19A200</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>552D035E2A222EFD3475C254</key>
-		<dict>
-			<key>containerPortal</key>
-			<string>0CDC4494CC26E109D44A9516</string>
-			<key>isa</key>
-			<string>PBXContainerItemProxy</string>
-			<key>proxyType</key>
+			<key>includeInIndex</key>
 			<string>1</string>
-			<key>remoteGlobalIDString</key>
-			<string>85F5154157B93B24C571B999</string>
-			<key>remoteInfo</key>
-			<string>Pods-Charlotte</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHTouchGestureRecognizer.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHTouchGestureRecognizer.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
 		</dict>
-		<key>569D93CFDECDDC76A5C4355F</key>
+		<key>3A9A68D3A915A1ABC450B2B8</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHBarChartCell.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHBarChartCell.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3BBBFC66F4E56D4FB6CA524E</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHIntervalView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHIntervalView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3C36F655E85AF83D572F2B60</key>
 		<dict>
 			<key>fileRef</key>
-			<string>1614427060DA361B00E9042F</string>
+			<string>A76E53D864E44469CBA48351</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>56EAD67A4E436AAADB856504</key>
+		<key>3DDBECD8A9256428A7401B15</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHBarChartView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHBarChartView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>3F942E4A26033F515CE59F34</key>
+		<dict>
+			<key>fileRef</key>
+			<string>044D627207D6600BB446F65F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>3FD8CBC29CF9150355D69FBD</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHTooltipView.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHTooltipView.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>41A9CB45BA8AFB61FD86B933</key>
+		<dict>
+			<key>fileRef</key>
+			<string>4AA9E88FEF8FF5F6D77E7FA6</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>42F097EAD5F18404BEEF6CDF</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>46396D086FE337DDCEB417D0</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHHeaderView.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHHeaderView.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>47E5EE29E3D64C176502BCDB</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHHorizontalBarChartView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHHorizontalBarChartView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>484611C6C7AC7C52153C7432</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>799557FDEA405EF6D7F2F79B</string>
+				<string>EB6863AEF20E9ECA2A3EC8F7</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>4876B5341618FA0C277805A8</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>CC6B60E160C9D499014D8241</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>48BD079B78A3B297FBC2D466</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHLineView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHLineView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4A3E94EEA31D5E15C8C898C8</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHInterval.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHInterval.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4A450900D8FEB5A4B498F575</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B70F7A3E35AF1FE5D5E44D3F</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>4AA9E88FEF8FF5F6D77E7FA6</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHLineChartView.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHLineChartView.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4B23BC6FF181CB8E5578D58B</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>7C6345771AA4930335A23A16</string>
+				<string>C239E8728FC614358D937FA5</string>
+				<string>DF1C75A2518842553444C356</string>
+				<string>5E36FDDCA14BE166E3552B8F</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Support Files</string>
+			<key>path</key>
+			<string>Examples/Pods/Target Support Files/Pods-Charlotte</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4C60FB07AE5372D247437BE7</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHHorizontalBarChartView.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHHorizontalBarChartView.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>4CC7CEA859E3A6EFC86046D5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3A9A68D3A915A1ABC450B2B8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>4D8E3F19FAB305A41185BAC8</key>
+		<dict>
+			<key>fileRef</key>
+			<string>A0E757E1D967F2A219B646AC</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>5016705BA3395468F0DE8C9F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>4A3E94EEA31D5E15C8C898C8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>50319C75DCEC521E6F7520F3</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3BBBFC66F4E56D4FB6CA524E</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>52336BA314A94DB55BF7C4B3</key>
+		<dict>
+			<key>buildConfigurationList</key>
+			<string>2DBCB6F4A1E56818A0F4572F</string>
+			<key>buildPhases</key>
+			<array>
+				<string>087288470EE87C2B512E0113</string>
+				<string>4876B5341618FA0C277805A8</string>
+				<string>816DF66A6802564B10DDFBCD</string>
+			</array>
+			<key>buildRules</key>
+			<array/>
+			<key>dependencies</key>
+			<array/>
+			<key>isa</key>
+			<string>PBXNativeTarget</string>
+			<key>name</key>
+			<string>Pods-Charlotte</string>
+			<key>productName</key>
+			<string>Pods-Charlotte</string>
+			<key>productReference</key>
+			<string>92D450B3CBE83ED3C37F6C7D</string>
+			<key>productType</key>
+			<string>com.apple.product-type.library.static</string>
+		</dict>
+		<key>528A888565852BBE1911623B</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHChartView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHChartView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>5852C68EAAA77CAFD2B3ABF4</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHScatterPoint.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHScatterPoint.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>58E7F4E192ED71667A1A0722</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHTooltipView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHTooltipView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>59753B23451C5DA025939414</key>
+		<dict>
+			<key>fileRef</key>
+			<string>0A7D7DB7E9021939BC4D86B9</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>5A34C2E93022F5F201244C17</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHPointCellSubclass.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHPointCellSubclass.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>5BACEEDEA54F8ACA36250EA5</key>
+		<dict>
+			<key>fileRef</key>
+			<string>58E7F4E192ED71667A1A0722</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>5E36FDDCA14BE166E3552B8F</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-Charlotte-prefix.pch</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>60E68974D68725B63773C33B</key>
+		<dict>
+			<key>fileRef</key>
+			<string>46396D086FE337DDCEB417D0</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>62F0A50A2F71774254E874B6</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHFooterView.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHFooterView.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>720A0A2FD1ECEC4F0BD0C463</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHInterval.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHInterval.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>74723A259429D3DAC7DDBAAC</key>
+		<dict>
+			<key>fileRef</key>
+			<string>32BE9AC293A961CF5F135922</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>7554FB71CCC5C575ECB5EA1F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>BF819C486EE97AE0A895F917</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>761B63EF404147FE84429636</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHBarChartCell.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHBarChartCell.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>77C86AB333F1A2DC272006B7</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B7F202C45A081483303EA9BC</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>7901622EC27D538305B2FD46</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHXAxisLabelView.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHXAxisLabelView.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>795F2DEF4893792831621828</key>
+		<dict>
+			<key>fileRef</key>
+			<string>24B95B0800F7E3812688FCDF</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>799557FDEA405EF6D7F2F79B</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>08B59EDBF0B96D4345B82B63</string>
+			<string>BFD774B8A8290E57E8CB115A</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
@@ -753,187 +1053,87 @@
 			<key>name</key>
 			<string>Debug</string>
 		</dict>
-		<key>596EF45E59A4E04D50620495</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>2D0937C5EE39AE7687063D13</string>
-				<string>EB1B63E2608B1C3994288F56</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Products</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>59FDF09352C4B64569FB43EA</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHTooltipView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHTooltipView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5A4ED699D59ED45710B72B32</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHXAxisLabelView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHXAxisLabelView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5C1BDE5081B0D969129E7A78</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>Pods-dummy.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5D9F0951EF1A7FBFB0194B65</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>2EDC27F5301D5DADE3916062</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Development Pods</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5DDB8C057A6039485FD68054</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>7DB06549EF5E0F3F8C556499</string>
-				<string>5D9F0951EF1A7FBFB0194B65</string>
-				<string>C75C3B0B8CAACC4B40327EBB</string>
-				<string>596EF45E59A4E04D50620495</string>
-				<string>4A1D7FDA3CD68B17EBF10EE2</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5E62F9DEAE0C331F0D138D3D</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>path</key>
-			<string>Pods-Charlotte-dummy.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5F411423AF0F247FE2B94F50</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHIntervalChartView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHIntervalChartView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>5F7E277798C4BE161AC3E41E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHLineView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHLineView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6091C7F71F58047B34D4A164</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHInterval.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHInterval.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>645F727B9DF7540AA39B8530</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHGradientView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHGradientView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6638FA4E601DB88369A52DDF</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHTooltipView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHTooltipView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>675222D1A2FE05F7CE62D2AC</key>
+		<key>7A4B57CFFEB0BECEFFC78926</key>
 		<dict>
 			<key>fileRef</key>
-			<string>9F506B29EC1AF5ADF6BBBD16</string>
+			<string>EB2AB7AD0D2DD16B83BADB3E</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>68A05CC8A80DE27F7A3ED9FC</key>
+		<key>7C6345771AA4930335A23A16</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-Charlotte.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>7F4FDA1CCCE97D045365805C</key>
+		<dict>
+			<key>fileRef</key>
+			<string>ED945714C4DF8483DFD63F94</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>816DF66A6802564B10DDFBCD</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>A14D34E136944D8A4F0F5400</string>
+				<string>4CC7CEA859E3A6EFC86046D5</string>
+				<string>1D0744DD48EEB0B22A19B484</string>
+				<string>C7FD04160B51E27D6A3ECC14</string>
+				<string>0BBD6AC70ED26D8F0F7405F3</string>
+				<string>0CCE82CB133F0BE2A7EB548C</string>
+				<string>99BCCD0406D54685396A4FED</string>
+				<string>E41057534515B3F7D12BCD54</string>
+				<string>170722B0D8C175412031D188</string>
+				<string>A6F16A21A1F0C0F3E158CBD2</string>
+				<string>CE2BC3476A9BC7E59C64E965</string>
+				<string>7554FB71CCC5C575ECB5EA1F</string>
+				<string>5016705BA3395468F0DE8C9F</string>
+				<string>74723A259429D3DAC7DDBAAC</string>
+				<string>50319C75DCEC521E6F7520F3</string>
+				<string>CDA759ABD7B76D50F9FE5C80</string>
+				<string>F8F7114807574AA0F5D13402</string>
+				<string>F650B699549220420D197059</string>
+				<string>D56DB5B245B2479E8E6DF7E1</string>
+				<string>D916E43B6E7C2385B6BA362A</string>
+				<string>2DDC159A6DC905E11CC9C2C1</string>
+				<string>2CC5DA943072F8A244A72ECB</string>
+				<string>D3D375B2089DF8EBD376C18F</string>
+				<string>5BACEEDEA54F8ACA36250EA5</string>
+				<string>B58D394FB43C65298E6AC3DC</string>
+				<string>A10828FF5FF593EF60F2D646</string>
+				<string>CB19FFAAF1018B5234302187</string>
+				<string>77C86AB333F1A2DC272006B7</string>
+			</array>
+			<key>isa</key>
+			<string>PBXHeadersBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>83BE637C6678131DA58F4C20</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>path</key>
+			<string>Pods-environment.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>84ADA1E7875C23D5BCD6894C</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -948,7 +1148,7 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>6AD54BF16FA6EE7E1700961F</key>
+		<key>8534F8A3FD2997BCBDB100CC</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -957,13 +1157,75 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
 			<key>name</key>
-			<string>CHInteractivePoint.h</string>
+			<string>CHTouchGestureRecognizer.h</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHInteractivePoint.h</string>
+			<string>Charlotte/Charlotte/CHTouchGestureRecognizer.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>6C2CC531F9042F7E7DB408CB</key>
+		<key>89DC1AB81BF65BCE42FB66A8</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9C1E08FBD867E455A92A36C5</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>8A533C0C60EA2FD568D61D7A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>2F1B3DE48C77FA0A35E1915C</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>92D450B3CBE83ED3C37F6C7D</key>
+		<dict>
+			<key>explicitFileType</key>
+			<string>archive.ar</string>
+			<key>includeInIndex</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>path</key>
+			<string>libPods-Charlotte.a</string>
+			<key>sourceTree</key>
+			<string>BUILT_PRODUCTS_DIR</string>
+		</dict>
+		<key>9668E1EF290E03E43BD61629</key>
+		<dict>
+			<key>fileRef</key>
+			<string>4C60FB07AE5372D247437BE7</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>976A866FC3BC5CE1E51ED110</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>795F2DEF4893792831621828</string>
+			</array>
+			<key>isa</key>
+			<string>PBXSourcesBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>978A7B34FCB765C7CD0656C5</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHChartViewSubclass.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHChartViewSubclass.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>9988CEE6AF39743EC6F40433</key>
 		<dict>
 			<key>buildSettings</key>
 			<dict>
@@ -1030,74 +1292,14 @@
 			<key>name</key>
 			<string>Debug</string>
 		</dict>
-		<key>6CFE1266D18ED4822ABA0357</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHChartView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHChartView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6E8DD28A9DBB4DEB3B435224</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHHeaderView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHHeaderView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>6ED68C68521D4EAFBF47711C</key>
+		<key>99BCCD0406D54685396A4FED</key>
 		<dict>
 			<key>fileRef</key>
-			<string>EF9F58FAE888FDE15A090708</string>
+			<string>B8B8158B237FF0B9CA5002A5</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>702B34A5B304946D135F9920</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHPointCell.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHPointCell.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>7301AAE674CC42603A7FE180</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHBarCell.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHBarCell.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>748764EAA03F59270BFACF4F</key>
+		<key>9B72FB20CB53D344331E1C90</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1112,32 +1314,7 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>758B5F9AC085DBF4733001EB</key>
-		<dict>
-			<key>fileRef</key>
-			<string>284F346074F496F18852C9C2</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>75CD85BFC9083A516155A826</key>
-		<dict>
-			<key>children</key>
-			<array>
-				<string>AB93750D28E622B39D41530E</string>
-				<string>B70020CF839283EA707CED2C</string>
-				<string>5E62F9DEAE0C331F0D138D3D</string>
-				<string>24EF99128D4415F7AC7CAD4C</string>
-			</array>
-			<key>isa</key>
-			<string>PBXGroup</string>
-			<key>name</key>
-			<string>Support Files</string>
-			<key>path</key>
-			<string>Examples/Pods/Target Support Files/Pods-Charlotte</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>77D5678CEDE67F0A9B19A200</key>
+		<key>9C1E08FBD867E455A92A36C5</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1146,512 +1323,20 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>CHPagingChartFlowLayout.m</string>
+			<string>CHGradientView.m</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHPagingChartFlowLayout.m</string>
+			<string>Charlotte/Charlotte/CHGradientView.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>77F63511E7BB7C662F8575D2</key>
+		<key>9CEAA2D23370D271337F6CD4</key>
 		<dict>
 			<key>fileRef</key>
-			<string>F103957DA54625ACBF267471</string>
+			<string>5852C68EAAA77CAFD2B3ABF4</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>7DB06549EF5E0F3F8C556499</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text</string>
-			<key>name</key>
-			<string>Podfile</string>
-			<key>path</key>
-			<string>../Podfile</string>
-			<key>sourceTree</key>
-			<string>SOURCE_ROOT</string>
-			<key>xcLanguageSpecificationIdentifier</key>
-			<string>xcode.lang.ruby</string>
-		</dict>
-		<key>7FBEBC1BF7F04C8F73390EF2</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>E4EC99805845212E2ABA439E</string>
-				<string>872E79D9FE10CB5EDC31AEEF</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>7FE4B6D74ACDE70526CBD21B</key>
-		<dict>
-			<key>fileRef</key>
-			<string>C4DF2A741498942FA8531CD6</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>8054B5EB508F236584862B95</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHChartViewSubclass.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHChartViewSubclass.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>85F5154157B93B24C571B999</key>
-		<dict>
-			<key>buildConfigurationList</key>
-			<string>7FBEBC1BF7F04C8F73390EF2</string>
-			<key>buildPhases</key>
-			<array>
-				<string>902A432CD62745ACF464A097</string>
-				<string>10BE8CA311B0F3C45FB1B8E5</string>
-				<string>F225DD2DFD0FC0B212B049AE</string>
-			</array>
-			<key>buildRules</key>
-			<array/>
-			<key>dependencies</key>
-			<array/>
-			<key>isa</key>
-			<string>PBXNativeTarget</string>
-			<key>name</key>
-			<string>Pods-Charlotte</string>
-			<key>productName</key>
-			<string>Pods-Charlotte</string>
-			<key>productReference</key>
-			<string>EB1B63E2608B1C3994288F56</string>
-			<key>productType</key>
-			<string>com.apple.product-type.library.static</string>
-		</dict>
-		<key>872E79D9FE10CB5EDC31AEEF</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>B70020CF839283EA707CED2C</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>YES</string>
-				<key>DSTROOT</key>
-				<string>/tmp/xcodeproj.dst</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/Pods-Charlotte/Pods-Charlotte-prefix.pch</string>
-				<key>INSTALL_PATH</key>
-				<string>$(BUILT_PRODUCTS_DIR)</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>OTHER_CFLAGS</key>
-				<array>
-					<string>-DNS_BLOCK_ASSERTIONS=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>OTHER_CPLUSPLUSFLAGS</key>
-				<array>
-					<string>-DNS_BLOCK_ASSERTIONS=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>OTHER_LDFLAGS</key>
-				<string></string>
-				<key>OTHER_LIBTOOLFLAGS</key>
-				<string></string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
-				<string>$(TARGET_NAME)</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>901527EF1DCE9BD467772931</key>
-		<dict>
-			<key>fileRef</key>
-			<string>FBF544A9ED6F535CE20AE4E0</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>902A432CD62745ACF464A097</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>5083D4BE839ABB2A99EFE9D6</string>
-				<string>ACD6DECB35A80C6F97AC9BB1</string>
-				<string>37DD96F5D2AB76D85F272E45</string>
-				<string>F06FCA2828E8EEAF26C803BD</string>
-				<string>E37F2001BFDB013783C78BB7</string>
-				<string>758B5F9AC085DBF4733001EB</string>
-				<string>07532D462F703FB58757969C</string>
-				<string>B935D5EE0A35C0466E7D57C2</string>
-				<string>44127E0D39AD3ABE1F4EFA3B</string>
-				<string>45604E90416CC19251A59F2E</string>
-				<string>BE6FFD913F8999E58F9A4AF9</string>
-				<string>A6F2D1AF683F4F5C0A76D0ED</string>
-				<string>D738B9D0498867E5169AEB9E</string>
-				<string>ABCB52493229CCCABCA1ADE5</string>
-				<string>569D93CFDECDDC76A5C4355F</string>
-				<string>77F63511E7BB7C662F8575D2</string>
-				<string>53FC6ECF6BEE2F3994183F3F</string>
-				<string>5030978F9F419CD47ADF83AE</string>
-				<string>282F02E49708C5378C7AC5C1</string>
-				<string>6ED68C68521D4EAFBF47711C</string>
-				<string>C610E1C34145DC3597AE4102</string>
-				<string>077E8749B47319F6CDEC5FE6</string>
-				<string>2DA47866AD46DF513E8AE603</string>
-				<string>FC4C4010252E971837C1A954</string>
-				<string>401711FA99D0EE43D47EFDF3</string>
-				<string>128F86F1DECCCD594EB1C867</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>9299FB02E211BEBF5AC85019</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>56EAD67A4E436AAADB856504</string>
-				<string>A78DAD4728CCA5399A52FA21</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>93BFE96F329343BA482A50C7</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHFooterView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHFooterView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>94221BFCE3616674F30C0440</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHTouchGestureRecognizer.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHTouchGestureRecognizer.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9483C0B15AB44EFA10731FED</key>
-		<dict>
-			<key>fileRef</key>
-			<string>E2184E6BECF0F2FDC187658E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>952B1E19395E1DFE0D194F20</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHScatterPoint.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHScatterPoint.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>986127F18294C99FD6D7CB67</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHPointCell.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHPointCell.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>987188E2FEEA9D4BCE6922E5</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>CE33CCC13FB50C4A0C7B0E91</string>
-			</array>
-			<key>isa</key>
-			<string>PBXFrameworksBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>98901D7065794107F49FBECC</key>
-		<dict>
-			<key>fileRef</key>
-			<string>8054B5EB508F236584862B95</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>98C20F2A625B263C21276BD0</key>
-		<dict>
-			<key>fileRef</key>
-			<string>645F727B9DF7540AA39B8530</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>9BF101A90DC842452C55F3B1</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHInterval.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHInterval.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>9F506B29EC1AF5ADF6BBBD16</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHPagingChartFlowLayout.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHPagingChartFlowLayout.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>A6F2D1AF683F4F5C0A76D0ED</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6091C7F71F58047B34D4A164</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>A78DAD4728CCA5399A52FA21</key>
-		<dict>
-			<key>baseConfigurationReference</key>
-			<string>1A82F93FE04D40B01E0EEE14</string>
-			<key>buildSettings</key>
-			<dict>
-				<key>ALWAYS_SEARCH_USER_PATHS</key>
-				<string>NO</string>
-				<key>COPY_PHASE_STRIP</key>
-				<string>YES</string>
-				<key>DSTROOT</key>
-				<string>/tmp/xcodeproj.dst</string>
-				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
-				<string>YES</string>
-				<key>INSTALL_PATH</key>
-				<string>$(BUILT_PRODUCTS_DIR)</string>
-				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
-				<string>8.0</string>
-				<key>OTHER_CFLAGS</key>
-				<array>
-					<string>-DNS_BLOCK_ASSERTIONS=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>OTHER_CPLUSPLUSFLAGS</key>
-				<array>
-					<string>-DNS_BLOCK_ASSERTIONS=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>OTHER_LDFLAGS</key>
-				<string></string>
-				<key>OTHER_LIBTOOLFLAGS</key>
-				<string></string>
-				<key>PRODUCT_NAME</key>
-				<string>$(TARGET_NAME)</string>
-				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
-				<string>$(TARGET_NAME)</string>
-				<key>SDKROOT</key>
-				<string>iphoneos</string>
-				<key>SKIP_INSTALL</key>
-				<string>YES</string>
-				<key>VALIDATE_PRODUCT</key>
-				<string>YES</string>
-			</dict>
-			<key>isa</key>
-			<string>XCBuildConfiguration</string>
-			<key>name</key>
-			<string>Release</string>
-		</dict>
-		<key>A94C55F520DF71922820C9CE</key>
-		<dict>
-			<key>fileRef</key>
-			<string>986127F18294C99FD6D7CB67</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>AB93750D28E622B39D41530E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>path</key>
-			<string>Pods-Charlotte.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>ABCB52493229CCCABCA1ADE5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>ACFB1ADF45068711AC835CFE</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>ABF01060A0B2EAF204116F47</key>
-		<dict>
-			<key>fileRef</key>
-			<string>3507F5E2D281D0E8AA2BD123</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>AC230DDBBA3229EDB7559EE2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6AD54BF16FA6EE7E1700961F</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>ACD6DECB35A80C6F97AC9BB1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>7301AAE674CC42603A7FE180</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>ACFB1ADF45068711AC835CFE</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHIntervalView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHIntervalView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>AD90F8257D6DBC2A82589A95</key>
-		<dict>
-			<key>buildConfigurations</key>
-			<array>
-				<string>6C2CC531F9042F7E7DB408CB</string>
-				<string>1A1D021F92D2E7C619007332</string>
-			</array>
-			<key>defaultConfigurationIsVisible</key>
-			<string>0</string>
-			<key>defaultConfigurationName</key>
-			<string>Release</string>
-			<key>isa</key>
-			<string>XCConfigurationList</string>
-		</dict>
-		<key>AEF0A84F2AB5EF17F61AA298</key>
-		<dict>
-			<key>fileRef</key>
-			<string>93BFE96F329343BA482A50C7</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B68E7D9F28C1A59B028F94E5</key>
-		<dict>
-			<key>fileRef</key>
-			<string>68A05CC8A80DE27F7A3ED9FC</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B70020CF839283EA707CED2C</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.xcconfig</string>
-			<key>path</key>
-			<string>Pods-Charlotte-Private.xcconfig</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>B935D5EE0A35C0466E7D57C2</key>
-		<dict>
-			<key>fileRef</key>
-			<string>205FFDB067708FEE067CA035</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>B94A85042CF971AC32EFE43E</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHLineChartView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHLineChartView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>BA3DFAB0A866F8A2D54DD09B</key>
+		<key>9E1B937CCADE01AB1BA1C2A8</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1666,58 +1351,14 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>BB9F090AF38D024A7D92161A</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHHorizontalBarCell.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHHorizontalBarCell.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>BC9FF3A9844605D3CD1FAF44</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CGPointExtension.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CGPointExtension.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>BE6FFD913F8999E58F9A4AF9</key>
+		<key>A0525DF5F073D5302521A38E</key>
 		<dict>
 			<key>fileRef</key>
-			<string>443D81FB125364B6D37C5FF6</string>
+			<string>CE78F1D6152D2934BAE2ED8B</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>BEED816A5CB4AEC73AC9947A</key>
-		<dict>
-			<key>fileRef</key>
-			<string>43A2EC1086AD3EDD87C8A108</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C3A55E75732D4E6C955F06B7</key>
-		<dict>
-			<key>fileRef</key>
-			<string>9BF101A90DC842452C55F3B1</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C4DF2A741498942FA8531CD6</key>
+		<key>A0B43CDBF422C57005E0FD12</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1726,53 +1367,159 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
 			<key>name</key>
-			<string>CHIntervalView.h</string>
+			<string>CHScatterChartView.h</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHIntervalView.h</string>
+			<string>Charlotte/Charlotte/CHScatterChartView.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>C610E1C34145DC3597AE4102</key>
+		<key>A0E757E1D967F2A219B646AC</key>
 		<dict>
-			<key>fileRef</key>
-			<string>952B1E19395E1DFE0D194F20</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>C6DD9529EE3BFC142F209B05</key>
-		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
-			<string>wrapper.framework</string>
+			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>Foundation.framework</string>
+			<string>CHIntervalView.m</string>
 			<key>path</key>
-			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework</string>
+			<string>Charlotte/Charlotte/CHIntervalView.m</string>
 			<key>sourceTree</key>
-			<string>DEVELOPER_DIR</string>
+			<string>&lt;group&gt;</string>
 		</dict>
-		<key>C71BE4B9162BCE7B3BBF94A1</key>
+		<key>A10828FF5FF593EF60F2D646</key>
 		<dict>
 			<key>fileRef</key>
-			<string>5C1BDE5081B0D969129E7A78</string>
+			<string>84ADA1E7875C23D5BCD6894C</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>C75C3B0B8CAACC4B40327EBB</key>
+		<key>A14D34E136944D8A4F0F5400</key>
+		<dict>
+			<key>fileRef</key>
+			<string>BBFB6F5152869CF19C6638CE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>A15D3830A1D454A77E77F9A8</key>
 		<dict>
 			<key>children</key>
 			<array>
-				<string>1A67E6DF16CC52E2706B6E6A</string>
+				<string>BBFB6F5152869CF19C6638CE</string>
+				<string>ED945714C4DF8483DFD63F94</string>
+				<string>3A9A68D3A915A1ABC450B2B8</string>
+				<string>761B63EF404147FE84429636</string>
+				<string>3DDBECD8A9256428A7401B15</string>
+				<string>243BC267E90103BD2C66DB9B</string>
+				<string>528A888565852BBE1911623B</string>
+				<string>F7CB4856BE69EDAD047CAE6E</string>
+				<string>978A7B34FCB765C7CD0656C5</string>
+				<string>62F0A50A2F71774254E874B6</string>
+				<string>2F1B3DE48C77FA0A35E1915C</string>
+				<string>B8B8158B237FF0B9CA5002A5</string>
+				<string>9C1E08FBD867E455A92A36C5</string>
+				<string>25F994F8B154654434430BEE</string>
+				<string>A76E53D864E44469CBA48351</string>
+				<string>14721DD2C86EE787C652CFA3</string>
+				<string>46396D086FE337DDCEB417D0</string>
+				<string>098F7753D00B7609410590DF</string>
+				<string>06451BC88C4729741A3978ED</string>
+				<string>47E5EE29E3D64C176502BCDB</string>
+				<string>4C60FB07AE5372D247437BE7</string>
+				<string>BF819C486EE97AE0A895F917</string>
+				<string>EB2AB7AD0D2DD16B83BADB3E</string>
+				<string>4A3E94EEA31D5E15C8C898C8</string>
+				<string>720A0A2FD1ECEC4F0BD0C463</string>
+				<string>32BE9AC293A961CF5F135922</string>
+				<string>000FAF1647C37E3045AE2463</string>
+				<string>3BBBFC66F4E56D4FB6CA524E</string>
+				<string>A0E757E1D967F2A219B646AC</string>
+				<string>B110E5E3680E5B2C96C5F8AE</string>
+				<string>4AA9E88FEF8FF5F6D77E7FA6</string>
+				<string>A5209BAA89483E8CFB7BCFDF</string>
+				<string>48BD079B78A3B297FBC2D466</string>
+				<string>078375724E0D47FF056F0C93</string>
+				<string>C8942338F2847F0BB8A7CA23</string>
+				<string>B70F7A3E35AF1FE5D5E44D3F</string>
+				<string>9E1B937CCADE01AB1BA1C2A8</string>
+				<string>C93D26A1277BCAF5ED9B1D37</string>
+				<string>5A34C2E93022F5F201244C17</string>
+				<string>A0B43CDBF422C57005E0FD12</string>
+				<string>044D627207D6600BB446F65F</string>
+				<string>B97B87678876C8031D2B58CA</string>
+				<string>5852C68EAAA77CAFD2B3ABF4</string>
+				<string>58E7F4E192ED71667A1A0722</string>
+				<string>3FD8CBC29CF9150355D69FBD</string>
+				<string>8534F8A3FD2997BCBDB100CC</string>
+				<string>3A57CE28ABAFAE6CFD6696A8</string>
+				<string>84ADA1E7875C23D5BCD6894C</string>
+				<string>7901622EC27D538305B2FD46</string>
+				<string>9B72FB20CB53D344331E1C90</string>
+				<string>B7F202C45A081483303EA9BC</string>
+				<string>0A7D7DB7E9021939BC4D86B9</string>
+				<string>4B23BC6FF181CB8E5578D58B</string>
 			</array>
 			<key>isa</key>
 			<string>PBXGroup</string>
 			<key>name</key>
-			<string>Frameworks</string>
+			<string>Charlotte</string>
+			<key>path</key>
+			<string>../..</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>CAC23C6910349BCAD115AE36</key>
+		<key>A469DDA8497604B703B5FC38</key>
+		<dict>
+			<key>baseConfigurationReference</key>
+			<string>C239E8728FC614358D937FA5</string>
+			<key>buildSettings</key>
+			<dict>
+				<key>ALWAYS_SEARCH_USER_PATHS</key>
+				<string>NO</string>
+				<key>COPY_PHASE_STRIP</key>
+				<string>YES</string>
+				<key>DSTROOT</key>
+				<string>/tmp/xcodeproj.dst</string>
+				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
+				<string>YES</string>
+				<key>GCC_PREFIX_HEADER</key>
+				<string>Target Support Files/Pods-Charlotte/Pods-Charlotte-prefix.pch</string>
+				<key>INSTALL_PATH</key>
+				<string>$(BUILT_PRODUCTS_DIR)</string>
+				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
+				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_LDFLAGS</key>
+				<string></string>
+				<key>OTHER_LIBTOOLFLAGS</key>
+				<string></string>
+				<key>PRODUCT_NAME</key>
+				<string>$(TARGET_NAME)</string>
+				<key>PUBLIC_HEADERS_FOLDER_PATH</key>
+				<string>$(TARGET_NAME)</string>
+				<key>SDKROOT</key>
+				<string>iphoneos</string>
+				<key>SKIP_INSTALL</key>
+				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
+			</dict>
+			<key>isa</key>
+			<string>XCBuildConfiguration</string>
+			<key>name</key>
+			<string>Release</string>
+		</dict>
+		<key>A5209BAA89483E8CFB7BCFDF</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1787,73 +1534,34 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>CE33CCC13FB50C4A0C7B0E91</key>
+		<key>A641395B4A30CB8DB8C5968F</key>
 		<dict>
 			<key>fileRef</key>
-			<string>C6DD9529EE3BFC142F209B05</string>
+			<string>243BC267E90103BD2C66DB9B</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>CE8AA240C68094EFE6C22503</key>
+		<key>A6F16A21A1F0C0F3E158CBD2</key>
 		<dict>
 			<key>fileRef</key>
-			<string>C6DD9529EE3BFC142F209B05</string>
+			<string>098F7753D00B7609410590DF</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>CFFA6BCB7CB0E56854531BBE</key>
+		<key>A709E049BDA047283AEA424C</key>
 		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
+			<key>children</key>
+			<array>
+				<string>CE78F1D6152D2934BAE2ED8B</string>
+			</array>
 			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
+			<string>PBXGroup</string>
 			<key>name</key>
-			<string>CHIntervalChartView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHIntervalChartView.h</string>
+			<string>iOS</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D0E996F2EB1F5924E0523C8C</key>
-		<dict>
-			<key>fileRef</key>
-			<string>B94A85042CF971AC32EFE43E</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>D3AEDD5A6E9B74A47A95582C</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHGridlineView.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHGridlineView.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D426D7EA896BF129725C86DA</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHHorizontalBarCell.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHHorizontalBarCell.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>D62897162788A058602BD5CB</key>
+		<key>A76E53D864E44469CBA48351</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1862,40 +1570,77 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>CHBarChartView.m</string>
+			<string>CHGridlineView.m</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHBarChartView.m</string>
+			<string>Charlotte/Charlotte/CHGridlineView.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D738B9D0498867E5169AEB9E</key>
+		<key>A8B43478646E24D4ABF6052A</key>
 		<dict>
-			<key>fileRef</key>
-			<string>5F411423AF0F247FE2B94F50</string>
+			<key>containerPortal</key>
+			<string>EBCDE79367E04687D79BEB29</string>
 			<key>isa</key>
-			<string>PBXBuildFile</string>
+			<string>PBXContainerItemProxy</string>
+			<key>proxyType</key>
+			<string>1</string>
+			<key>remoteGlobalIDString</key>
+			<string>52336BA314A94DB55BF7C4B3</string>
+			<key>remoteInfo</key>
+			<string>Pods-Charlotte</string>
 		</dict>
-		<key>D764B158429A2C7A27833561</key>
-		<dict>
-			<key>fileRef</key>
-			<string>D3AEDD5A6E9B74A47A95582C</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>D8FA4B97D7EFF9CE58BC4D1C</key>
+		<key>B110E5E3680E5B2C96C5F8AE</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
 			<key>isa</key>
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
-			<string>text.plist.xml</string>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHLineChartView.h</string>
 			<key>path</key>
-			<string>Pods-acknowledgements.plist</string>
+			<string>Charlotte/Charlotte/CHLineChartView.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>D90BB906900D9F7BC60C7DAF</key>
+		<key>B3AC4F4689252A0BBE441AA0</key>
+		<dict>
+			<key>fileRef</key>
+			<string>DF1C75A2518842553444C356</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B582C8330B9B2678AFAD0218</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>05012821DEC3F1F38A5FF4A0</string>
+				<string>1A5284A4156E3C4D9DBB8447</string>
+				<string>EA07689CD144186CC7EBD2FC</string>
+				<string>E9630B4A9B45DDEA97C25939</string>
+				<string>C79F0692E2493160EEC4B9B3</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>B58D394FB43C65298E6AC3DC</key>
+		<dict>
+			<key>fileRef</key>
+			<string>8534F8A3FD2997BCBDB100CC</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B6DED7766A21DE30C214F047</key>
+		<dict>
+			<key>fileRef</key>
+			<string>3A57CE28ABAFAE6CFD6696A8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>B70F7A3E35AF1FE5D5E44D3F</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1904,27 +1649,13 @@
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.objc</string>
 			<key>name</key>
-			<string>CHPagingLineChartFlowLayout.m</string>
+			<string>CHPagingChartFlowLayout.m</string>
 			<key>path</key>
-			<string>Charlotte/Charlotte/CHPagingLineChartFlowLayout.m</string>
+			<string>Charlotte/Charlotte/CHPagingChartFlowLayout.m</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>DB48BC72F732094FA1610CE1</key>
-		<dict>
-			<key>fileRef</key>
-			<string>CAC23C6910349BCAD115AE36</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>DBEF69F29B52D2168812F675</key>
-		<dict>
-			<key>fileRef</key>
-			<string>BA3DFAB0A866F8A2D54DD09B</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>E2184E6BECF0F2FDC187658E</key>
+		<key>B7F202C45A081483303EA9BC</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1939,7 +1670,7 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>E346B52271978D6A41FB34F6</key>
+		<key>B8B8158B237FF0B9CA5002A5</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -1947,49 +1678,381 @@
 			<string>PBXFileReference</string>
 			<key>lastKnownFileType</key>
 			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHGradientView.h</string>
 			<key>path</key>
-			<string>Pods-environment.h</string>
+			<string>Charlotte/Charlotte/CHGradientView.h</string>
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>E37F2001BFDB013783C78BB7</key>
+		<key>B97B87678876C8031D2B58CA</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHScatterPoint.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHScatterPoint.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BBFB6F5152869CF19C6638CE</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CGPointExtension.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CGPointExtension.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BF819C486EE97AE0A895F917</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHInteractivePoint.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHInteractivePoint.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>BFD774B8A8290E57E8CB115A</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods.debug.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C239E8728FC614358D937FA5</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.xcconfig</string>
+			<key>path</key>
+			<string>Pods-Charlotte-Private.xcconfig</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C251D9E2E9BD72ECDA742941</key>
 		<dict>
 			<key>fileRef</key>
-			<string>44067894460A29AC63EC26A3</string>
+			<string>761B63EF404147FE84429636</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
-		<key>E4EC99805845212E2ABA439E</key>
+		<key>C3482EAADDA087C20F66678D</key>
+		<dict>
+			<key>fileRef</key>
+			<string>000FAF1647C37E3045AE2463</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C79F0692E2493160EEC4B9B3</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>D0A7FCF2CA86C5038554ABF9</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Targets Support Files</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C7FD04160B51E27D6A3ECC14</key>
+		<dict>
+			<key>fileRef</key>
+			<string>528A888565852BBE1911623B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>C8942338F2847F0BB8A7CA23</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.h</string>
+			<key>name</key>
+			<string>CHPagingChartFlowLayout.h</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHPagingChartFlowLayout.h</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>C93D26A1277BCAF5ED9B1D37</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHPagingLineChartFlowLayout.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHPagingLineChartFlowLayout.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>CB19FFAAF1018B5234302187</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9B72FB20CB53D344331E1C90</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>CC6B60E160C9D499014D8241</key>
+		<dict>
+			<key>fileRef</key>
+			<string>CE78F1D6152D2934BAE2ED8B</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>CDA759ABD7B76D50F9FE5C80</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B110E5E3680E5B2C96C5F8AE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>CE2BC3476A9BC7E59C64E965</key>
+		<dict>
+			<key>fileRef</key>
+			<string>47E5EE29E3D64C176502BCDB</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>CE78F1D6152D2934BAE2ED8B</key>
+		<dict>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>wrapper.framework</string>
+			<key>name</key>
+			<string>Foundation.framework</string>
+			<key>path</key>
+			<string>Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.1.sdk/System/Library/Frameworks/Foundation.framework</string>
+			<key>sourceTree</key>
+			<string>DEVELOPER_DIR</string>
+		</dict>
+		<key>D0A7FCF2CA86C5038554ABF9</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>35B6E6D25B3CFC38E85F6C8B</string>
+				<string>DBA88994B2CCFEE6A6A05CDF</string>
+				<string>24B95B0800F7E3812688FCDF</string>
+				<string>83BE637C6678131DA58F4C20</string>
+				<string>E8B2591FBE00ED0CD7E3DCCD</string>
+				<string>BFD774B8A8290E57E8CB115A</string>
+				<string>15A3D5C9AEF2F1198ADE41B3</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Pods</string>
+			<key>path</key>
+			<string>Target Support Files/Pods</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>D3D375B2089DF8EBD376C18F</key>
+		<dict>
+			<key>fileRef</key>
+			<string>B97B87678876C8031D2B58CA</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>D509D05766FB53B42FB2EBCE</key>
+		<dict>
+			<key>buildActionMask</key>
+			<string>2147483647</string>
+			<key>files</key>
+			<array>
+				<string>A0525DF5F073D5302521A38E</string>
+			</array>
+			<key>isa</key>
+			<string>PBXFrameworksBuildPhase</string>
+			<key>runOnlyForDeploymentPostprocessing</key>
+			<string>0</string>
+		</dict>
+		<key>D56DB5B245B2479E8E6DF7E1</key>
+		<dict>
+			<key>fileRef</key>
+			<string>C8942338F2847F0BB8A7CA23</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>D916E43B6E7C2385B6BA362A</key>
+		<dict>
+			<key>fileRef</key>
+			<string>9E1B937CCADE01AB1BA1C2A8</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>DBA88994B2CCFEE6A6A05CDF</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.plist.xml</string>
+			<key>path</key>
+			<string>Pods-acknowledgements.plist</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>DF1C75A2518842553444C356</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>path</key>
+			<string>Pods-Charlotte-dummy.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E03EFEA122BB84A39B3F11C4</key>
+		<dict>
+			<key>buildConfigurations</key>
+			<array>
+				<string>9988CEE6AF39743EC6F40433</string>
+				<string>08025877DDB7228ACA7B15EF</string>
+			</array>
+			<key>defaultConfigurationIsVisible</key>
+			<string>0</string>
+			<key>defaultConfigurationName</key>
+			<string>Release</string>
+			<key>isa</key>
+			<string>XCConfigurationList</string>
+		</dict>
+		<key>E41057534515B3F7D12BCD54</key>
+		<dict>
+			<key>fileRef</key>
+			<string>25F994F8B154654434430BEE</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>E6DBA2878D09BD7B800C85DD</key>
+		<dict>
+			<key>fileRef</key>
+			<string>7901622EC27D538305B2FD46</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>E8B2591FBE00ED0CD7E3DCCD</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>text.script.sh</string>
+			<key>path</key>
+			<string>Pods-resources.sh</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>E9630B4A9B45DDEA97C25939</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>42F097EAD5F18404BEEF6CDF</string>
+				<string>92D450B3CBE83ED3C37F6C7D</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Products</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>EA07689CD144186CC7EBD2FC</key>
+		<dict>
+			<key>children</key>
+			<array>
+				<string>A709E049BDA047283AEA424C</string>
+			</array>
+			<key>isa</key>
+			<string>PBXGroup</string>
+			<key>name</key>
+			<string>Frameworks</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>EB2AB7AD0D2DD16B83BADB3E</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CHInteractivePoint.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CHInteractivePoint.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>EB6863AEF20E9ECA2A3EC8F7</key>
 		<dict>
 			<key>baseConfigurationReference</key>
-			<string>B70020CF839283EA707CED2C</string>
+			<string>15A3D5C9AEF2F1198ADE41B3</string>
 			<key>buildSettings</key>
 			<dict>
 				<key>ALWAYS_SEARCH_USER_PATHS</key>
 				<string>NO</string>
 				<key>COPY_PHASE_STRIP</key>
-				<string>NO</string>
+				<string>YES</string>
 				<key>DSTROOT</key>
 				<string>/tmp/xcodeproj.dst</string>
-				<key>GCC_DYNAMIC_NO_PIC</key>
-				<string>NO</string>
-				<key>GCC_OPTIMIZATION_LEVEL</key>
-				<string>0</string>
 				<key>GCC_PRECOMPILE_PREFIX_HEADER</key>
 				<string>YES</string>
-				<key>GCC_PREFIX_HEADER</key>
-				<string>Target Support Files/Pods-Charlotte/Pods-Charlotte-prefix.pch</string>
-				<key>GCC_PREPROCESSOR_DEFINITIONS</key>
-				<array>
-					<string>DEBUG=1</string>
-					<string>$(inherited)</string>
-				</array>
-				<key>GCC_SYMBOLS_PRIVATE_EXTERN</key>
-				<string>NO</string>
 				<key>INSTALL_PATH</key>
 				<string>$(BUILT_PRODUCTS_DIR)</string>
 				<key>IPHONEOS_DEPLOYMENT_TARGET</key>
 				<string>8.0</string>
+				<key>OTHER_CFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
+				<key>OTHER_CPLUSPLUSFLAGS</key>
+				<array>
+					<string>-DNS_BLOCK_ASSERTIONS=1</string>
+					<string>$(inherited)</string>
+				</array>
 				<key>OTHER_LDFLAGS</key>
 				<string></string>
 				<key>OTHER_LIBTOOLFLAGS</key>
@@ -2002,13 +2065,81 @@
 				<string>iphoneos</string>
 				<key>SKIP_INSTALL</key>
 				<string>YES</string>
+				<key>VALIDATE_PRODUCT</key>
+				<string>YES</string>
 			</dict>
 			<key>isa</key>
 			<string>XCBuildConfiguration</string>
 			<key>name</key>
-			<string>Debug</string>
+			<string>Release</string>
 		</dict>
-		<key>E728207CCF7C528C0557D503</key>
+		<key>EBCDE79367E04687D79BEB29</key>
+		<dict>
+			<key>attributes</key>
+			<dict>
+				<key>LastUpgradeCheck</key>
+				<string>0510</string>
+			</dict>
+			<key>buildConfigurationList</key>
+			<string>E03EFEA122BB84A39B3F11C4</string>
+			<key>compatibilityVersion</key>
+			<string>Xcode 3.2</string>
+			<key>developmentRegion</key>
+			<string>English</string>
+			<key>hasScannedForEncodings</key>
+			<string>0</string>
+			<key>isa</key>
+			<string>PBXProject</string>
+			<key>knownRegions</key>
+			<array>
+				<string>en</string>
+			</array>
+			<key>mainGroup</key>
+			<string>B582C8330B9B2678AFAD0218</string>
+			<key>productRefGroup</key>
+			<string>E9630B4A9B45DDEA97C25939</string>
+			<key>projectDirPath</key>
+			<string></string>
+			<key>projectReferences</key>
+			<array/>
+			<key>projectRoot</key>
+			<string></string>
+			<key>targets</key>
+			<array>
+				<string>165B9A66657132CD093A8714</string>
+				<string>52336BA314A94DB55BF7C4B3</string>
+			</array>
+		</dict>
+		<key>ED945714C4DF8483DFD63F94</key>
+		<dict>
+			<key>includeInIndex</key>
+			<string>1</string>
+			<key>isa</key>
+			<string>PBXFileReference</string>
+			<key>lastKnownFileType</key>
+			<string>sourcecode.c.objc</string>
+			<key>name</key>
+			<string>CGPointExtension.m</string>
+			<key>path</key>
+			<string>Charlotte/Charlotte/CGPointExtension.m</string>
+			<key>sourceTree</key>
+			<string>&lt;group&gt;</string>
+		</dict>
+		<key>F1FE76D4F4B1533B6D013004</key>
+		<dict>
+			<key>fileRef</key>
+			<string>06451BC88C4729741A3978ED</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F650B699549220420D197059</key>
+		<dict>
+			<key>fileRef</key>
+			<string>48BD079B78A3B297FBC2D466</string>
+			<key>isa</key>
+			<string>PBXBuildFile</string>
+		</dict>
+		<key>F7CB4856BE69EDAD047CAE6E</key>
 		<dict>
 			<key>includeInIndex</key>
 			<string>1</string>
@@ -2023,194 +2154,15 @@
 			<key>sourceTree</key>
 			<string>&lt;group&gt;</string>
 		</dict>
-		<key>EB1B63E2608B1C3994288F56</key>
-		<dict>
-			<key>explicitFileType</key>
-			<string>archive.ar</string>
-			<key>includeInIndex</key>
-			<string>0</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>path</key>
-			<string>libPods-Charlotte.a</string>
-			<key>sourceTree</key>
-			<string>BUILT_PRODUCTS_DIR</string>
-		</dict>
-		<key>EBE1943E4F850F58B696C4DD</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>C71BE4B9162BCE7B3BBF94A1</string>
-			</array>
-			<key>isa</key>
-			<string>PBXSourcesBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>EF9F58FAE888FDE15A090708</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHScatterChartView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHScatterChartView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>EFDC9BBDE8587B84C76D8E91</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>text.script.sh</string>
-			<key>path</key>
-			<string>Pods-resources.sh</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F06FCA2828E8EEAF26C803BD</key>
+		<key>F8F7114807574AA0F5D13402</key>
 		<dict>
 			<key>fileRef</key>
-			<string>E728207CCF7C528C0557D503</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F103957DA54625ACBF267471</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.objc</string>
-			<key>name</key>
-			<string>CHLineView.m</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHLineView.m</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F225DD2DFD0FC0B212B049AE</key>
-		<dict>
-			<key>buildActionMask</key>
-			<string>2147483647</string>
-			<key>files</key>
-			<array>
-				<string>ABF01060A0B2EAF204116F47</string>
-				<string>45245480DBB59A2C91C2F6B0</string>
-				<string>43D2217DFE6BBA629EFF74A3</string>
-				<string>F63B22BD19ADA6D772BA6B44</string>
-				<string>98901D7065794107F49FBECC</string>
-				<string>AEF0A84F2AB5EF17F61AA298</string>
-				<string>98C20F2A625B263C21276BD0</string>
-				<string>D764B158429A2C7A27833561</string>
-				<string>26C376931EC0A75A467B45D7</string>
-				<string>4E60C55D14EA9C471D950819</string>
-				<string>FE775685E47C0E7A663BBDEA</string>
-				<string>AC230DDBBA3229EDB7559EE2</string>
-				<string>C3A55E75732D4E6C955F06B7</string>
-				<string>475327CE74931386E0FB4585</string>
-				<string>7FE4B6D74ACDE70526CBD21B</string>
-				<string>D0E996F2EB1F5924E0523C8C</string>
-				<string>DB48BC72F732094FA1610CE1</string>
-				<string>496C1BA2235F063EC5010C38</string>
-				<string>675222D1A2FE05F7CE62D2AC</string>
-				<string>DBEF69F29B52D2168812F675</string>
-				<string>A94C55F520DF71922820C9CE</string>
-				<string>901527EF1DCE9BD467772931</string>
-				<string>BEED816A5CB4AEC73AC9947A</string>
-				<string>1A71407BD01803EB284B0D10</string>
-				<string>F9F6189DF37C4178F6DC9423</string>
-				<string>4736A75C7F50980D905A1B7F</string>
-				<string>B68E7D9F28C1A59B028F94E5</string>
-				<string>2E196094F94315FCC6D2947B</string>
-				<string>9483C0B15AB44EFA10731FED</string>
-			</array>
-			<key>isa</key>
-			<string>PBXHeadersBuildPhase</string>
-			<key>runOnlyForDeploymentPostprocessing</key>
-			<string>0</string>
-		</dict>
-		<key>F3925E64C77EABA658CCDF65</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHBarCell.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHBarCell.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>F63B22BD19ADA6D772BA6B44</key>
-		<dict>
-			<key>fileRef</key>
-			<string>6CFE1266D18ED4822ABA0357</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>F9F6189DF37C4178F6DC9423</key>
-		<dict>
-			<key>fileRef</key>
-			<string>59FDF09352C4B64569FB43EA</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>FAB1AA05C766A72D01E4FDFE</key>
-		<dict>
-			<key>isa</key>
-			<string>PBXTargetDependency</string>
-			<key>name</key>
-			<string>Pods-Charlotte</string>
-			<key>target</key>
-			<string>85F5154157B93B24C571B999</string>
-			<key>targetProxy</key>
-			<string>552D035E2A222EFD3475C254</string>
-		</dict>
-		<key>FBF544A9ED6F535CE20AE4E0</key>
-		<dict>
-			<key>includeInIndex</key>
-			<string>1</string>
-			<key>isa</key>
-			<string>PBXFileReference</string>
-			<key>lastKnownFileType</key>
-			<string>sourcecode.c.h</string>
-			<key>name</key>
-			<string>CHPointCellSubclass.h</string>
-			<key>path</key>
-			<string>Charlotte/Charlotte/CHPointCellSubclass.h</string>
-			<key>sourceTree</key>
-			<string>&lt;group&gt;</string>
-		</dict>
-		<key>FC4C4010252E971837C1A954</key>
-		<dict>
-			<key>fileRef</key>
-			<string>5A4ED699D59ED45710B72B32</string>
-			<key>isa</key>
-			<string>PBXBuildFile</string>
-		</dict>
-		<key>FE775685E47C0E7A663BBDEA</key>
-		<dict>
-			<key>fileRef</key>
-			<string>148AFD6411A72FA3C2328F5E</string>
+			<string>A5209BAA89483E8CFB7BCFDF</string>
 			<key>isa</key>
 			<string>PBXBuildFile</string>
 		</dict>
 	</dict>
 	<key>rootObject</key>
-	<string>0CDC4494CC26E109D44A9516</string>
+	<string>EBCDE79367E04687D79BEB29</string>
 </dict>
 </plist>

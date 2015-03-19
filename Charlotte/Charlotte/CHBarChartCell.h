@@ -10,7 +10,7 @@
 
 extern NSString *const CHPointCellReuseId;
 
-@interface CHPointCell : UICollectionViewCell
+@interface CHBarChartCell : UICollectionViewCell
 
 /// The cell's page
 @property (nonatomic, readwrite) NSInteger page;
@@ -38,6 +38,14 @@ extern NSString *const CHPointCellReuseId;
 
 /// The spring damping of cell animations
 @property (nonatomic, assign) CGFloat animationSpringDamping;
+
+@property (nonatomic, strong) UIColor *barColor;
+@property (nonatomic, strong) UIColor *borderColor;
+@property (nonatomic, assign) CGFloat borderWidth;
+@property (nonatomic, strong) NSArray *borderDashPattern;
+
+/// the width of the bar view relative to the cell's width
+@property (nonatomic, assign) CGFloat relativeBarWidth;
 
 /// Sets the cell's value
 - (void)setValue:(NSNumber *)value animated:(BOOL)animated completion:(void (^)(void))completion;

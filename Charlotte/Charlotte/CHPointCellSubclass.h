@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "CHPointCell.h"
+#import "CHBarChartCell.h"
 
-@interface CHPointCell (CHPointCellProtected)
+@interface CHBarChartCell (CHPointCellProtected)
 
 @property (nonatomic, readwrite) CGFloat value;
 @property (nonatomic, readwrite) CGFloat minValue;
