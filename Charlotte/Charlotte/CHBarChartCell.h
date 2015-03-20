@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CHBarValueLabelView.h"
 
 extern NSString *const CHPointCellReuseId;
 
@@ -22,30 +23,35 @@ extern NSString *const CHPointCellReuseId;
 @property (nonatomic, strong) UIView *xAxisLabelView;
 
 /// The class used to create the cell's x-axis label
+/// TODO: do the same for the value label view
 @property (nonatomic, strong) Class xAxisLabelViewClass;
 
-/// The cell's upper value label
-@property (nonatomic, strong) UILabel *upperValueLabel;
-
-/// The cell's lower value label
-@property (nonatomic, strong) UILabel *lowerValueLabel;
+/// The cell's value label view
+@property (nonatomic, strong) CHBarValueLabelView *valueLabelView;
 
 /// The cell's footer height
 @property (nonatomic, assign) CGFloat footerHeight;
+
+/// The bar's fill color
+@property (nonatomic, strong) UIColor *barColor;
+
+/// The bar's border color
+@property (nonatomic, strong) UIColor *borderColor;
+
+/// The bar's border width
+@property (nonatomic, assign) CGFloat borderWidth;
+
+/// The bar's border dash pattern
+@property (nonatomic, strong) NSArray *borderDashPattern;
+
+/// The width of the bar view relative to the cell's width
+@property (nonatomic, assign) CGFloat relativeBarWidth;
 
 /// The duration of cell animations
 @property (nonatomic, assign) CGFloat animationDuration;
 
 /// The spring damping of cell animations
 @property (nonatomic, assign) CGFloat animationSpringDamping;
-
-@property (nonatomic, strong) UIColor *barColor;
-@property (nonatomic, strong) UIColor *borderColor;
-@property (nonatomic, assign) CGFloat borderWidth;
-@property (nonatomic, strong) NSArray *borderDashPattern;
-
-/// the width of the bar view relative to the cell's width
-@property (nonatomic, assign) CGFloat relativeBarWidth;
 
 /// Sets the cell's value
 - (void)setValue:(NSNumber *)value animated:(BOOL)animated completion:(void (^)(void))completion;

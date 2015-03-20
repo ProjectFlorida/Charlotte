@@ -272,14 +272,14 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
             [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
                  usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                                    cell.lowerValueLabel.transform = CGAffineTransformIdentity;
+                                    cell.valueLabelView.transform = CGAffineTransformIdentity;
                                 } completion:nil];
         }
         else {
             [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
                  usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                                    cell.lowerValueLabel.transform = CGAffineTransformMakeScale(0.0, 0.0);
+                                    cell.valueLabelView.transform = CGAffineTransformMakeScale(0.0, 0.0);
                                 } completion:nil];
         }
     }
@@ -526,10 +526,10 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     cell.alpha = (cell.page == self.currentPage) ? 1 : self.pagingAlpha;
     if (self.hidesValueLabelsOnNonCurrentPages) {
         if (cell.page == self.currentPage) {
-            cell.lowerValueLabel.transform = CGAffineTransformIdentity;
+            cell.valueLabelView.transform = CGAffineTransformIdentity;
         }
         else {
-            cell.lowerValueLabel.transform = CGAffineTransformMakeScale(0, 0);
+            cell.valueLabelView.transform = CGAffineTransformMakeScale(0, 0);
         }
     }
     return cell;
