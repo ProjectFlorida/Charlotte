@@ -1,0 +1,20 @@
+{
+  "name": "Charlotte",
+  "version": "0.8.8",
+  "summary": "highly customizable interactive charts",
+  "description": "   Highly customizable interactive charts\n",
+  "homepage": "http://github.com/ProjectFlorida/Charlotte",
+  "license": "MIT",
+  "authors": {
+    "Ben Guo": "ben@projectfla.com"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source": {
+    "git": "git@github.com:ProjectFlorida/Charlotte.git",
+    "tag": "v0.8.8"
+  },
+  "source_files": "Charlotte/Charlotte/*.{h,m}",
+  "requires_arc": true
+}

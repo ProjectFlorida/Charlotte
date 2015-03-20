@@ -126,15 +126,17 @@
     }
 }
 
-- (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
-          atIndex:(NSInteger)index;
+- (void)chartView:(CHChartView *)chartView configureCell:(CHBarChartCell *)cell
+   forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     NSNumber *value = self.values[page][index];
-    label.text = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
-    label.font = [UIFont boldSystemFontOfSize:18];
-    label.alpha = ([value floatValue] == 0) ? 0 : 1;
-    label.textColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
-    [label sizeToFit];
+    cell.valueLabelView.upperLabelText = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
+    cell.valueLabelView.lowerLabelText = @"foo";
+    cell.valueLabelView.upperLabelFont = [UIFont boldSystemFontOfSize:18];
+    cell.valueLabelView.lowerLabelFont = [UIFont boldSystemFontOfSize:18];
+    cell.valueLabelView.upperLabelTextColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
+    cell.valueLabelView.lowerLabelTextColor = [UIColor grayColor];
+    [cell.valueLabelView sizeToFit];
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page

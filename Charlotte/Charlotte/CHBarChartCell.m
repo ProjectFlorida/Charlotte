@@ -45,9 +45,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
         _pointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
         _pointView = [[UIView alloc] initWithFrame:CGRectZero];
         _pointView.backgroundColor = [UIColor clearColor];
-        _pointView.backgroundColor = [UIColor clearColor];
-        _lowerValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _upperValueLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _valueLabelView = [[CHBarValueLabelView alloc] initWithFrame:CGRectZero];
         [_pointContainerView addSubview:_pointView];
 
         _borderLayer = [CAShapeLayer layer];
@@ -64,9 +62,8 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
         _gradientMaskLayer.colors = @[(id)[UIColor clearColor].CGColor, (id)[UIColor whiteColor].CGColor];
 
         _pointContainerView.layer.mask = _gradientMaskLayer;
-        [self addSubview:_pointContainerView];
-        [self addSubview:_lowerValueLabel];
-        [self addSubview:_upperValueLabel];
+        [self.contentView addSubview:_pointContainerView];
+        [self.contentView addSubview:_valueLabelView];
     }
     return self;
 }
@@ -101,8 +98,8 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 
 - (CGPoint)valueLabelCenter
 {
-    CGFloat valueLabelHeight = CGRectGetHeight(self.lowerValueLabel.frame);
-    CGFloat y = CGRectGetMinY(self.pointView.frame) - valueLabelHeight/2.0 - self.layoutMargins.bottom/2.0;
+    CGFloat valueLabelHeight = CGRectGetHeight(self.valueLabelView.frame);
+    CGFloat y = CGRectGetMinY(self.pointView.frame) - valueLabelHeight/2.0;
     CGFloat minY = CGRectGetMinY(self.bounds) + valueLabelHeight/2.0;
     y = MAX(y, minY);
     return CGPointMake(self.pointView.center.x, y);
@@ -119,7 +116,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
     self.pointView.frame = [self pointViewFrame];
     self.pointView.layer.cornerRadius = self.pointView.bounds.size.width / 2.0;
 
-    self.lowerValueLabel.center = [self valueLabelCenter];
+    self.valueLabelView.center = [self valueLabelCenter];
 
     self.gradientMaskLayer.frame = self.bounds;
     if (!CGRectEqualToRect(self.borderLayer.frame, self.pointView.bounds)) {
@@ -150,7 +147,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 - (void)reload
 {
     self.pointView.frame = [self pointViewFrame];
-    self.upperValueLabel.center = [self valueLabelCenter];
+    self.valueLabelView.center = [self valueLabelCenter];
     self.borderLayer.frame = self.pointView.bounds;
     self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
                                                        cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;

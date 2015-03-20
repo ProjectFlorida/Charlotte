@@ -50,7 +50,7 @@
                                    [CHInterval intervalWithRange:NSMakeRange(90, 10) color:self.darkColor],
                                    ]
                              max:100
-                        animated:NO];
+                        animated:YES];
 }
 
 - (void)viewDidLayoutSubviews
