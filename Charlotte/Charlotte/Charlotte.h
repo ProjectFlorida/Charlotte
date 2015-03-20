@@ -23,3 +23,4 @@ FOUNDATION_EXPORT const unsigned char CharlotteVersionString[];
 #import <Charlotte/CHHorizontalBarCell.h>
 #import <Charlotte/CHXAxisLabelView.h>
 #import <Charlotte/CHGridlineView.h>
+#import <Charlotte/CHBarChartCell.h>

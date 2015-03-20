@@ -1,1 +1,0 @@
-../../../../../Charlotte/Charlotte/CHBarCell.h

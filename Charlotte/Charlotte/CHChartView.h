@@ -12,7 +12,7 @@
 extern NSString *const CHSupplementaryElementKindHeader;
 extern NSString *const CHSupplementaryElementKindFooter;
 
-@class CHChartView;
+@class CHChartView, CHBarChartCell;
 @protocol CHChartViewDataSource <NSObject>
 
 /**
@@ -87,14 +87,14 @@ extern NSString *const CHSupplementaryElementKindFooter;
 - (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView;
 
 /**
- *  Asks the data source to configure the label displayed above the specified point.
+ *  Asks the data source to configure the cell at the given index
  *
  *  @param chartView The chart view providing the label
- *  @param label     The label to configure
+ *  @param cell      The cell to configure
  *  @param page      The point's page index in the chart view
  *  @param index     The point's index in the chart page
  */
-- (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
+- (void)chartView:(CHChartView *)chartView configureCell:(CHBarChartCell *)cell forPointInPage:(NSInteger)page
           atIndex:(NSInteger)index;
 
 /**

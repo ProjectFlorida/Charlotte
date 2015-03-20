@@ -11,7 +11,7 @@
 #import "CHFooterView.h"
 #import "CHPagingChartFlowLayout.h"
 #import "CHGridlineView.h"
-#import "CHPointCell.h"
+#import "CHBarChartCell.h"
 #import "CHXAxisLabelView.h"
 
 NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
@@ -110,7 +110,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 
     // When overriding initialize, subclasses may set cellClass and cellReuseId before calling super.
     if (!_cellClass) {
-        _cellClass = [CHPointCell class];
+        _cellClass = [CHBarChartCell class];
     }
     if (!_cellReuseId) {
         _cellReuseId = CHPointCellReuseId;
@@ -255,7 +255,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 - (void)updateRangeInVisibleCellsAnimated:(BOOL)animated {
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
-    for (CHPointCell *cell in self.collectionView.visibleCells) {
+    for (CHBarChartCell *cell in self.collectionView.visibleCells) {
         [cell setMinValue:min maxValue:max animated:animated completion:nil];
     }
 }
@@ -267,19 +267,19 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 
     NSInteger count = self.collectionView.visibleCells.count;
     for (int i = 0; i < count; i++) {
-        CHPointCell *cell = self.collectionView.visibleCells[i];
+        CHBarChartCell *cell = self.collectionView.visibleCells[i];
         if (cell.page == self.currentPage) {
             [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
                  usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseIn animations:^{
-                                    cell.valueLabel.transform = CGAffineTransformIdentity;
+                                    cell.valueLabelView.transform = CGAffineTransformIdentity;
                                 } completion:nil];
         }
         else {
             [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
                  usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseOut animations:^{
-                                    cell.valueLabel.transform = CGAffineTransformMakeScale(0.0, 0.0);
+                                    cell.valueLabelView.transform = CGAffineTransformMakeScale(0.0, 0.0);
                                 } completion:nil];
         }
     }
@@ -293,7 +293,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     CGFloat distanceFromLeftEdge = ABS((contentOffsetX - (pageWidth*self.currentPage))/pageWidth);
     NSInteger count = self.collectionView.visibleCells.count;
     for (int i = 0; i < count; i++) {
-        CHPointCell *cell = self.collectionView.visibleCells[i];
+        CHBarChartCell *cell = self.collectionView.visibleCells[i];
         CGFloat alpha;
         if (cell.page != self.currentPage) {
             if ((cell.page > self.currentPage + 1) || (cell.page < self.currentPage - 1)) {
@@ -492,7 +492,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CHPointCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
+    CHBarChartCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:self.cellReuseId
                                                                   forIndexPath:indexPath];
     cell.xAxisLabelViewClass = self.xAxisLabelViewClass;
     cell.animationDuration = self.pageTransitionAnimationDuration;
@@ -508,9 +508,9 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     CGFloat minValue = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat maxValue = [self.dataSource chartView:self maxValueForPage:self.currentPage];
 
-    if ([self.dataSource respondsToSelector:@selector(chartView:configureLabel:forPointInPage:atIndex:)]) {
+    if ([self.dataSource respondsToSelector:@selector(chartView:configureCell:forPointInPage:atIndex:)]) {
         [self.dataSource chartView:self
-                    configureLabel:cell.valueLabel
+                     configureCell:cell
                     forPointInPage:indexPath.section
                            atIndex:indexPath.row];
         [cell setNeedsLayout];
@@ -526,10 +526,10 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     cell.alpha = (cell.page == self.currentPage) ? 1 : self.pagingAlpha;
     if (self.hidesValueLabelsOnNonCurrentPages) {
         if (cell.page == self.currentPage) {
-            cell.valueLabel.transform = CGAffineTransformIdentity;
+            cell.valueLabelView.transform = CGAffineTransformIdentity;
         }
         else {
-            cell.valueLabel.transform = CGAffineTransformMakeScale(0, 0);
+            cell.valueLabelView.transform = CGAffineTransformMakeScale(0, 0);
         }
     }
     return cell;

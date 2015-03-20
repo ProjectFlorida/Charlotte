@@ -7,13 +7,13 @@
 //
 
 #import "CHLineChartView.h"
-#import "CHPointCellSubclass.h"
 #import "CHLineView.h"
 #import "CHChartViewSubclass.h"
 #import "CHPagingLineChartFlowLayout.h"
 #import "CHTouchGestureRecognizer.h"
 #import "CHGradientView.h"
 #import "CHFooterView.h"
+#import "CHBarChartCell.h"
 
 NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLine";
 
@@ -34,9 +34,6 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 
 - (void)initialize
 {
-    self.cellReuseId = CHPointCellReuseId;
-    self.cellClass = [CHPointCell class];
-
     [super initialize];
 
     _lineWidth = 2;
@@ -280,8 +277,10 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView
                   cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    CHPointCell *cell = (CHPointCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    cell.pointView.hidden = YES;
+    // TODO: remove collection view from CHLineChartView
+    CHBarChartCell *cell = (CHBarChartCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
+    cell.barColor = [UIColor clearColor];
+    cell.borderColor = [UIColor clearColor];
     cell.xAxisLabelView.hidden = YES;
     return cell;
 }

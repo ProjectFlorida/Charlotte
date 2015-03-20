@@ -118,7 +118,8 @@
     }
     if (labelText) {
         labelView.font = [UIFont systemFontOfSize:13];
-        labelView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        labelView.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        labelView.tickColor = labelView.textColor;
         labelView.text = labelText;
         labelView.hidden = NO;
     }
@@ -140,12 +141,6 @@
     else {
         return @(sin(index*3)*sin(index*2)*2 + 2);
     }
-}
-
-- (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
-          atIndex:(NSInteger)index
-{
-    label.hidden = YES;
 }
 
 - (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
