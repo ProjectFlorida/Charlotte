@@ -98,7 +98,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 
 - (CGPoint)valueLabelCenter
 {
-    CGFloat valueLabelHeight = CGRectGetHeight(self.valueLabelView.frame);
+    CGFloat valueLabelHeight = CGRectGetHeight(self.valueLabelView.bounds);
     CGFloat y = CGRectGetMinY(self.pointView.frame) - valueLabelHeight/2.0;
     CGFloat minY = CGRectGetMinY(self.bounds) + valueLabelHeight/2.0;
     y = MAX(y, minY);
