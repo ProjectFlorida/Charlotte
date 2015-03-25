@@ -21,6 +21,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        _spacingAboveUpperLabel = 2;
         _spacingBelowUpperLabel = 5;
         _spacingBelowLowerLabel = 0;
         _upperLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -37,7 +38,7 @@
 {
     [super layoutSubviews];
     CGFloat maxWidth = MAX(CGRectGetWidth(self.upperLabel.frame), CGRectGetWidth(self.lowerLabel.frame));
-    self.upperLabel.frame = CGRectMake(0, 0,
+    self.upperLabel.frame = CGRectMake(0, self.spacingAboveUpperLabel,
                                        maxWidth,
                                        CGRectGetHeight(self.upperLabel.frame));
     self.lowerLabel.center = CGPointMake(CGRectGetMidX(self.upperLabel.frame),
@@ -53,6 +54,24 @@
 }
 
 #pragma mark - Setters
+
+- (void)setSpacingAboveUpperLabel:(CGFloat)spacingAboveUpperLabel
+{
+    _spacingAboveUpperLabel = spacingAboveUpperLabel;
+    [self setNeedsLayout];
+}
+
+- (void)setSpacingBelowLowerLabel:(CGFloat)spacingBelowLowerLabel
+{
+    _spacingBelowLowerLabel = spacingBelowLowerLabel;
+    [self setNeedsLayout];
+}
+
+- (void)setSpacingBelowUpperLabel:(CGFloat)spacingBelowUpperLabel
+{
+    _spacingBelowUpperLabel = spacingBelowUpperLabel;
+    [self setNeedsLayout];
+}
 
 - (void)setUpperLabelText:(NSString *)text
 {

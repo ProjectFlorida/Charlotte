@@ -10,6 +10,9 @@
 
 @interface CHBarValueLabelView : UIView
 
+/// The spacing above the upper label
+@property (nonatomic, assign) CGFloat spacingAboveUpperLabel UI_APPEARANCE_SELECTOR;
+
 /// The spacing between the upper and lower labels
 @property (nonatomic, assign) CGFloat spacingBelowUpperLabel UI_APPEARANCE_SELECTOR;
 
