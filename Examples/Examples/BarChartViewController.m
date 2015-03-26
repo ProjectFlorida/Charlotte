@@ -130,8 +130,9 @@
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     NSNumber *value = self.values[page][index];
+    cell.glowRadius = 5;
     cell.valueLabelView.upperLabelText = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
-    cell.valueLabelView.lowerLabelText = @"foo";
+    cell.valueLabelView.lowerLabelText = cell.valueLabelView.upperLabelText;
     cell.valueLabelView.upperLabelFont = [UIFont boldSystemFontOfSize:18];
     cell.valueLabelView.lowerLabelFont = [UIFont boldSystemFontOfSize:18];
     cell.valueLabelView.upperLabelTextColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];

@@ -1,5 +1,5 @@
 //
-//  CHPointCell.h
+//  CHBarChartCell.h
 //  Charlotte
 //
 //  Created by Ben Guo on 10/15/14.
@@ -34,6 +34,9 @@ extern NSString *const CHPointCellReuseId;
 
 /// The bar's fill color
 @property (nonatomic, strong) UIColor *barColor;
+
+/// The radius of the bar's glow. Default is 0.
+@property (nonatomic, assign) CGFloat glowRadius;
 
 /// The bar's border color
 @property (nonatomic, strong) UIColor *borderColor;

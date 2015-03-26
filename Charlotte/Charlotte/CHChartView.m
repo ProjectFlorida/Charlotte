@@ -30,6 +30,10 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 @implementation CHGridlineContainer
 @end
 
+@interface CHBarChartCell (Internal)
+@property (nonatomic, strong) UIView *barView;
+@end
+
 @interface CHChartView () <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) UICollectionView *collectionView;
@@ -86,6 +90,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 
     _pageTransitionAnimationDuration = 0.5;
     _pageTransitionAnimationSpringDamping = 0.7;
+    _glowAppearanceAnimationDuration = 0.4;
 
     _pagingAlpha = 0.3;
     _pageInset = UIEdgeInsetsMake(0, 40, 0, 40);
@@ -217,6 +222,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     self.yAxisLabelView.center = CGPointMake(CGRectGetMidX(self.yAxisLabelView.frame),
                                              CGRectGetMidY(self.yAxisLabelView.frame));
     [self updateGridlinesAnimated:NO];
+    [self updateVisibleValueLabelsAndGlow];
 }
 
 - (void)didMoveToWindow
@@ -246,7 +252,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     visible.origin.x = self.scrollView.bounds.size.width*page;
     [self.scrollView scrollRectToVisible:visible animated:animateScrolling];
     self.currentPage = page;
-    [self updateVisibleValueLabels];
+    [self updateVisibleValueLabelsAndGlow];
     [self updateAlphaInVisibleCellsAnimated:animateRange];
     [self updateGridlinesAnimated:animateRange];
     [self updateRangeInVisibleCellsAnimated:animateRange];
@@ -260,7 +266,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     }
 }
 
-- (void)updateVisibleValueLabels {
+- (void)updateVisibleValueLabelsAndGlow {
     if (!self.hidesValueLabelsOnNonCurrentPages) {
         return;
     }
@@ -274,6 +280,12 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
                                 options:UIViewAnimationOptionCurveEaseIn animations:^{
                                     cell.valueLabelView.transform = CGAffineTransformIdentity;
                                 } completion:nil];
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+            animation.fromValue = @0;
+            animation.toValue = @1;
+            animation.duration = self.glowAppearanceAnimationDuration;
+            [cell.barView.layer addAnimation:animation forKey:@"shadowOpacity"];
+            cell.barView.layer.shadowOpacity = 1;
         }
         else {
             [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
@@ -281,6 +293,13 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
                                 options:UIViewAnimationOptionCurveEaseOut animations:^{
                                     cell.valueLabelView.transform = CGAffineTransformMakeScale(0.0, 0.0);
                                 } completion:nil];
+
+            CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
+            animation.fromValue = @1;
+            animation.toValue = @0;
+            animation.duration = self.glowAppearanceAnimationDuration;
+            [cell.barView.layer addAnimation:animation forKey:@"shadowOpacity"];
+            cell.barView.layer.shadowOpacity = 0;
         }
     }
 }
@@ -465,7 +484,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
         if (newCurrentPage != self.currentPage) {
             self.currentPage = newCurrentPage;
             [self updateRangeInVisibleCellsAnimated:YES];
-            [self updateVisibleValueLabels];
+            [self updateVisibleValueLabelsAndGlow];
             [self updateAlphaInVisibleCellsAnimated:YES];
             [self updateGridlinesAnimated:YES];
         }
@@ -498,6 +517,7 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     cell.animationDuration = self.pageTransitionAnimationDuration;
     cell.animationSpringDamping = self.pageTransitionAnimationSpringDamping;
     cell.footerHeight = self.footerHeight;
+    cell.barView.layer.shadowOpacity = 0;
 
     if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabelView:forPointInPage:atIndex:)]) {
         [self.dataSource chartView:self configureXAxisLabelView:cell.xAxisLabelView forPointInPage:indexPath.section

@@ -1,5 +1,5 @@
 //
-//  CHPointCell.m
+//  CHBarChartCell.m
 //  Charlotte
 //
 //  Created by Ben Guo on 10/15/14.
@@ -16,9 +16,14 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 @property (nonatomic, readwrite) NSNumber *value;
 @property (nonatomic, readwrite) CGFloat minValue;
 @property (nonatomic, readwrite) CGFloat maxValue;
-@property (nonatomic, strong) UIView *pointView;
-@property (nonatomic, strong) UIView *pointContainerView;
+
+@property (nonatomic, strong) UIView *barView;
+
+/// A gradient mask is applied to the container view
+@property (nonatomic, strong) UIView *barContainerView;
+
 @property (nonatomic, strong) CAShapeLayer *borderLayer;
+
 @property (nonatomic, strong) CAGradientLayer *gradientMaskLayer;
 
 @end
@@ -35,6 +40,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
         _minValue = 0;
         _maxValue = 1;
         _animationDuration = 0;
+        _glowRadius = 0;
 
         _relativeBarWidth = 0.5;
         _barColor = [UIColor whiteColor];
@@ -42,18 +48,22 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
         _borderWidth = 2;
         _borderDashPattern = @[@2, @2];
 
-        _pointContainerView = [[UIView alloc] initWithFrame:CGRectZero];
-        _pointView = [[UIView alloc] initWithFrame:CGRectZero];
-        _pointView.backgroundColor = [UIColor clearColor];
+        _barContainerView = [[UIView alloc] initWithFrame:CGRectZero];
+        _barView = [[UIView alloc] initWithFrame:CGRectZero];
+        _barView.layer.shadowColor = _barColor.CGColor;
+        _barView.layer.shadowRadius = _glowRadius;
+        _barView.layer.shadowOpacity = 0;
+        _barView.layer.shadowOffset = CGSizeZero;
+        _barView.backgroundColor = [UIColor clearColor];
         _valueLabelView = [[CHBarValueLabelView alloc] initWithFrame:CGRectZero];
-        [_pointContainerView addSubview:_pointView];
+        [_barContainerView addSubview:_barView];
 
         _borderLayer = [CAShapeLayer layer];
         _borderLayer.lineWidth = _borderWidth;
         _borderLayer.fillColor = nil;
         _borderLayer.strokeColor = _borderColor.CGColor;
         _borderLayer.lineDashPattern = _borderDashPattern;
-        [_pointView.layer addSublayer:_borderLayer];
+        [_barView.layer addSublayer:_borderLayer];
 
         _gradientMaskLayer = [CAGradientLayer layer];
         _gradientMaskLayer.startPoint = CGPointMake(0.5, 0);
@@ -61,14 +71,14 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
         _gradientMaskLayer.locations = @[@0, @(0.15)];
         _gradientMaskLayer.colors = @[(id)[UIColor clearColor].CGColor, (id)[UIColor whiteColor].CGColor];
 
-        _pointContainerView.layer.mask = _gradientMaskLayer;
-        [self.contentView addSubview:_pointContainerView];
+        _barContainerView.layer.mask = _gradientMaskLayer;
+        [self.contentView addSubview:_barContainerView];
         [self.contentView addSubview:_valueLabelView];
     }
     return self;
 }
 
-- (CGRect)pointViewFrame
+- (CGRect)barViewFrame
 {
     CGFloat height = self.bounds.size.height;
     CGFloat width = self.bounds.size.width;
@@ -99,10 +109,10 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 - (CGPoint)valueLabelCenter
 {
     CGFloat valueLabelHeight = CGRectGetHeight(self.valueLabelView.bounds);
-    CGFloat y = CGRectGetMinY(self.pointView.frame) - valueLabelHeight/2.0;
+    CGFloat y = CGRectGetMinY(self.barView.frame) - valueLabelHeight/2.0;
     CGFloat minY = CGRectGetMinY(self.bounds) + valueLabelHeight/2.0;
     y = MAX(y, minY);
-    return CGPointMake(self.pointView.center.x, y);
+    return CGPointMake(self.barView.center.x, y);
 }
 
 - (void)layoutSubviews
@@ -112,17 +122,17 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
     self.xAxisLabelView.frame = CGRectMake(0,
                                            CGRectGetHeight(self.bounds) - self.footerHeight,
                                            CGRectGetWidth(self.bounds), self.footerHeight);
-    self.pointContainerView.frame = self.bounds;
-    self.pointView.frame = [self pointViewFrame];
-    self.pointView.layer.cornerRadius = self.pointView.bounds.size.width / 2.0;
+    self.barContainerView.frame = self.bounds;
+    self.barView.frame = [self barViewFrame];
+    self.barView.layer.cornerRadius = self.barView.bounds.size.width / 2.0;
 
     self.valueLabelView.center = [self valueLabelCenter];
 
     self.gradientMaskLayer.frame = self.bounds;
-    if (!CGRectEqualToRect(self.borderLayer.frame, self.pointView.bounds)) {
-        self.borderLayer.frame = self.pointView.bounds;
-        self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
-                                                           cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;
+    if (!CGRectEqualToRect(self.borderLayer.frame, self.barView.bounds)) {
+        self.borderLayer.frame = self.barView.bounds;
+        self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.barView.bounds
+                                                           cornerRadius:self.barView.bounds.size.width/2.0].CGPath;
     }
 }
 
@@ -144,13 +154,13 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
     return denominator == 0 ? 0 : (value - self.minValue)/denominator;
 }
 
-- (void)reload
+- (void)performFrameUpdates
 {
-    self.pointView.frame = [self pointViewFrame];
+    self.barView.frame = [self barViewFrame];
     self.valueLabelView.center = [self valueLabelCenter];
-    self.borderLayer.frame = self.pointView.bounds;
-    self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.pointView.bounds
-                                                       cornerRadius:self.pointView.bounds.size.width/2.0].CGPath;
+    self.borderLayer.frame = self.barView.bounds;
+    self.borderLayer.path = [UIBezierPath bezierPathWithRoundedRect:self.barView.bounds
+                                                       cornerRadius:self.barView.bounds.size.width/2.0].CGPath;
 }
 
 - (void)updateAnimated:(BOOL)animated completion:(void (^)(void))completion
@@ -159,7 +169,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
         [UIView animateWithDuration:self.animationDuration delay:0
              usingSpringWithDamping:self.animationSpringDamping
               initialSpringVelocity:0 options:0 animations:^{
-                  [self reload];
+                  [self performFrameUpdates];
               } completion:^(BOOL finished) {
                   if (completion) {
                       completion();
@@ -167,7 +177,7 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
               }];
     }
     else {
-        [self reload];
+        [self performFrameUpdates];
         if (completion) {
             completion();
         }
@@ -212,7 +222,8 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 - (void)setBarColor:(UIColor *)barColor
 {
     _barColor = barColor;
-    self.pointView.backgroundColor = self.barColor;
+    self.barView.backgroundColor = barColor;
+    self.barView.layer.shadowColor = barColor.CGColor;
 }
 
 - (void)setBorderColor:(UIColor *)borderColor
@@ -231,6 +242,12 @@ NSString *const CHPointCellReuseId = @"CHPointCell";
 {
     _borderDashPattern = borderDashPattern;
     self.borderLayer.lineDashPattern = borderDashPattern;
+}
+
+- (void)setGlowRadius:(CGFloat)glowRadius
+{
+    _glowRadius = glowRadius;
+    self.barView.layer.shadowRadius = glowRadius;
 }
 
 @end

@@ -154,6 +154,10 @@ extern NSString *const CHSupplementaryElementKindFooter;
 /// The duration of the page transition animation
 @property (nonatomic, assign) CGFloat pageTransitionAnimationDuration UI_APPEARANCE_SELECTOR;
 
+/// The duration with which the bar's glow should fade in.
+/// Note that by default, bars will not glow. See CHBarChartViewCell for glow configuration options.
+@property (nonatomic, assign) CGFloat glowAppearanceAnimationDuration UI_APPEARANCE_SELECTOR;
+
 /// The spring damping of the page transition animation
 @property (nonatomic, assign) CGFloat pageTransitionAnimationSpringDamping UI_APPEARANCE_SELECTOR;
 
