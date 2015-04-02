@@ -7,6 +7,7 @@
 //
 
 #import "CHXAxisLabelView.h"
+#import "CHLabel.h"
 
 @interface CHXAxisLabelView ()
 
@@ -20,11 +21,11 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _spacingBelowTick = 6;
         _font = [UIFont systemFontOfSize:13];
-        _label = [[UILabel alloc] initWithFrame:CGRectZero];
+        _label = [[CHLabel alloc] initWithFrame:CGRectZero];
         _tickView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 6)];
         _tickView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5];
+        _tickPosition = CHRelativeTickPositionAbove;
         [self addSubview:_tickView];
         [self addSubview:_label];
     }
@@ -35,16 +36,25 @@
 {
     [super layoutSubviews];
     CGRect bounds = self.bounds;
-    self.tickView.center = CGPointMake(CGRectGetMidX(bounds),
-                                       CGRectGetMidY(self.tickView.bounds));
-    self.label.center = CGPointMake(CGRectGetMidX(bounds),
-                                    CGRectGetMaxY(self.tickView.frame) + self.spacingBelowTick + CGRectGetMidY(self.label.bounds));
+    if (self.tickPosition == CHRelativeTickPositionAbove) {
+        self.tickView.center = CGPointMake(CGRectGetMidX(bounds),
+                                           CGRectGetMidY(self.tickView.bounds));
+        self.label.center = CGPointMake(CGRectGetMidX(bounds),
+                                        CGRectGetMaxY(self.tickView.frame) + CGRectGetMidY(self.label.bounds));
+    }
+    else if (self.tickPosition == CHRelativeTickPositionBelow) {
+        self.label.center = CGPointMake(CGRectGetMidX(bounds),
+                                        CGRectGetMidY(self.label.bounds));
+        self.tickView.center = CGPointMake(CGRectGetMidX(bounds),
+                                           CGRectGetMaxY(self.label.frame) + CGRectGetMidY(self.tickView.bounds));
+    }
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
-    CGSize labelSize = [self.text sizeWithAttributes:@{NSFontAttributeName: self.font}];
-    CGSize sizeThatFits = CGSizeMake(labelSize.width, self.tickHeight + self.spacingBelowTick + labelSize.height);
+    [self layoutIfNeeded];
+    CGSize sizeThatFits = CGSizeMake(CGRectGetWidth(self.label.bounds),
+                                     CGRectGetHeight(self.tickView.bounds) + CGRectGetHeight(self.label.bounds));
     return sizeThatFits;
 }
 
@@ -105,12 +115,23 @@
     }
 }
 
-- (void)setSpacingBelowTick:(CGFloat)spacingBelowTick
+- (void)setTickPosition:(CHRelativeTickPosition)tickPosition
 {
-    if (_spacingBelowTick == spacingBelowTick) {
+    if (_tickPosition == tickPosition) {
         return;
     }
-    _spacingBelowTick = spacingBelowTick;
+    _tickPosition = tickPosition;
+    [self setNeedsLayout];
+}
+
+- (void)setLabelEdgeInsets:(UIEdgeInsets)labelEdgeInsets
+{
+    if (UIEdgeInsetsEqualToEdgeInsets(_labelEdgeInsets, labelEdgeInsets)) {
+        return;
+    }
+    _labelEdgeInsets = labelEdgeInsets;
+    self.label.edgeInsets = labelEdgeInsets;
+    [self.label sizeToFit];
     [self setNeedsLayout];
 }
 

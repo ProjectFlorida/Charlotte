@@ -8,8 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		5E3D11027877B559D03C14B0 /* libPods-CharlotteTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5B544B6CC759F0B28F9825 /* libPods-CharlotteTests.a */; };
+		961295101ACB465B0062A18E /* CHGaugeChartContentView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9612950E1ACB465B0062A18E /* CHGaugeChartContentView.h */; };
+		961295111ACB465B0062A18E /* CHGaugeChartContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9612950F1ACB465B0062A18E /* CHGaugeChartContentView.m */; };
+		9619BA331ACD88DE005E7F63 /* UIView+Charlotte.h in Headers */ = {isa = PBXBuildFile; fileRef = 9619BA311ACD88DE005E7F63 /* UIView+Charlotte.h */; };
+		9619BA341ACD88DE005E7F63 /* UIView+Charlotte.m in Sources */ = {isa = PBXBuildFile; fileRef = 9619BA321ACD88DE005E7F63 /* UIView+Charlotte.m */; };
+		9624660B1ACC3F0E002298BC /* CHGaugePointerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 962466091ACC3F0E002298BC /* CHGaugePointerView.h */; };
+		9624660C1ACC3F0E002298BC /* CHGaugePointerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9624660A1ACC3F0E002298BC /* CHGaugePointerView.m */; };
+		9629B6F21AC9F026008BB5A0 /* CHGaugeChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9629B6F01AC9F026008BB5A0 /* CHGaugeChartView.h */; };
+		9629B6F31AC9F026008BB5A0 /* CHGaugeChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9629B6F11AC9F026008BB5A0 /* CHGaugeChartView.m */; };
 		962BBDB619F03D290038597C /* CHLineView.h in Headers */ = {isa = PBXBuildFile; fileRef = 962BBDB419F03D290038597C /* CHLineView.h */; };
 		962BBDB719F03D290038597C /* CHLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 962BBDB519F03D290038597C /* CHLineView.m */; };
+		964023E41ACAF1A4003AC573 /* CHLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 964023E21ACAF1A4003AC573 /* CHLabel.h */; };
+		964023E51ACAF1A4003AC573 /* CHLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 964023E31ACAF1A4003AC573 /* CHLabel.m */; };
 		964D232A19E708FE0096F3FD /* CHChartView.h in Headers */ = {isa = PBXBuildFile; fileRef = 964D232819E708FE0096F3FD /* CHChartView.h */; };
 		964D232B19E708FE0096F3FD /* CHChartView.m in Sources */ = {isa = PBXBuildFile; fileRef = 964D232919E708FE0096F3FD /* CHChartView.m */; };
 		964D233219E71AE90096F3FD /* CHPagingChartFlowLayout.h in Headers */ = {isa = PBXBuildFile; fileRef = 964D233019E71AE90096F3FD /* CHPagingChartFlowLayout.h */; };
@@ -73,8 +83,18 @@
 
 /* Begin PBXFileReference section */
 		58113B0BC0B1A30968254A1C /* Pods-CharlotteTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CharlotteTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-CharlotteTests/Pods-CharlotteTests.release.xcconfig"; sourceTree = "<group>"; };
+		9612950E1ACB465B0062A18E /* CHGaugeChartContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGaugeChartContentView.h; sourceTree = "<group>"; };
+		9612950F1ACB465B0062A18E /* CHGaugeChartContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGaugeChartContentView.m; sourceTree = "<group>"; };
+		9619BA311ACD88DE005E7F63 /* UIView+Charlotte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Charlotte.h"; sourceTree = "<group>"; };
+		9619BA321ACD88DE005E7F63 /* UIView+Charlotte.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Charlotte.m"; sourceTree = "<group>"; };
+		962466091ACC3F0E002298BC /* CHGaugePointerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGaugePointerView.h; sourceTree = "<group>"; };
+		9624660A1ACC3F0E002298BC /* CHGaugePointerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGaugePointerView.m; sourceTree = "<group>"; };
+		9629B6F01AC9F026008BB5A0 /* CHGaugeChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHGaugeChartView.h; sourceTree = "<group>"; };
+		9629B6F11AC9F026008BB5A0 /* CHGaugeChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHGaugeChartView.m; sourceTree = "<group>"; };
 		962BBDB419F03D290038597C /* CHLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLineView.h; sourceTree = "<group>"; };
 		962BBDB519F03D290038597C /* CHLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLineView.m; sourceTree = "<group>"; };
+		964023E21ACAF1A4003AC573 /* CHLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHLabel.h; sourceTree = "<group>"; };
+		964023E31ACAF1A4003AC573 /* CHLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHLabel.m; sourceTree = "<group>"; };
 		964D232819E708FE0096F3FD /* CHChartView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHChartView.h; sourceTree = "<group>"; };
 		964D232919E708FE0096F3FD /* CHChartView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CHChartView.m; sourceTree = "<group>"; };
 		964D233019E71AE90096F3FD /* CHPagingChartFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CHPagingChartFlowLayout.h; sourceTree = "<group>"; };
@@ -281,6 +301,10 @@
 				96FFA1B51A018D610093BC8F /* CHLineChartViewSubclass.h */,
 				966CB0641A1A7E24001B32BE /* CHTooltipView.h */,
 				966CB0651A1A7E24001B32BE /* CHTooltipView.m */,
+				9612950E1ACB465B0062A18E /* CHGaugeChartContentView.h */,
+				9612950F1ACB465B0062A18E /* CHGaugeChartContentView.m */,
+				9619BA311ACD88DE005E7F63 /* UIView+Charlotte.h */,
+				9619BA321ACD88DE005E7F63 /* UIView+Charlotte.m */,
 			);
 			name = Internal;
 			sourceTree = "<group>";
@@ -290,6 +314,8 @@
 			children = (
 				96CEAAEA1A816A7700D6564E /* CHXAxisLabelView.h */,
 				96CEAAEB1A816A7700D6564E /* CHXAxisLabelView.m */,
+				962466091ACC3F0E002298BC /* CHGaugePointerView.h */,
+				9624660A1ACC3F0E002298BC /* CHGaugePointerView.m */,
 				96839AC619EEF59A0094AED9 /* CHChartViewSubclass.h */,
 				96839ABA19EEF23E0094AED9 /* CHBarChartView.h */,
 				96839ABB19EEF23E0094AED9 /* CHBarChartView.m */,
@@ -303,8 +329,12 @@
 				96D376781A7C2B1C00191411 /* CHIntervalView.m */,
 				96F071401A7C136100B13311 /* CHInterval.h */,
 				96F071411A7C136100B13311 /* CHInterval.m */,
+				9629B6F01AC9F026008BB5A0 /* CHGaugeChartView.h */,
+				9629B6F11AC9F026008BB5A0 /* CHGaugeChartView.m */,
 				964D232819E708FE0096F3FD /* CHChartView.h */,
 				964D232919E708FE0096F3FD /* CHChartView.m */,
+				964023E21ACAF1A4003AC573 /* CHLabel.h */,
+				964023E31ACAF1A4003AC573 /* CHLabel.m */,
 			);
 			name = Public;
 			sourceTree = "<group>";
@@ -331,7 +361,10 @@
 				96CEAAEC1A816A7700D6564E /* CHXAxisLabelView.h in Headers */,
 				964D233219E71AE90096F3FD /* CHPagingChartFlowLayout.h in Headers */,
 				96F071421A7C136100B13311 /* CHInterval.h in Headers */,
+				961295101ACB465B0062A18E /* CHGaugeChartContentView.h in Headers */,
 				96DDD67D19DC9CE8005CCD07 /* Charlotte.h in Headers */,
+				9624660B1ACC3F0E002298BC /* CHGaugePointerView.h in Headers */,
+				9619BA331ACD88DE005E7F63 /* UIView+Charlotte.h in Headers */,
 				9688C35219F57E19006D9096 /* CHTouchGestureRecognizer.h in Headers */,
 				96A1B8F81A00089F001C5001 /* CHScatterPoint.h in Headers */,
 				96EF748C19F6D28B004024EA /* CHGradientView.h in Headers */,
@@ -339,12 +372,14 @@
 				96839AC719EEF59A0094AED9 /* CHChartViewSubclass.h in Headers */,
 				964D232A19E708FE0096F3FD /* CHChartView.h in Headers */,
 				962BBDB619F03D290038597C /* CHLineView.h in Headers */,
+				964023E41ACAF1A4003AC573 /* CHLabel.h in Headers */,
 				96CC853D19F823C400C96582 /* CHFooterView.h in Headers */,
 				96D5AB161A7C05CF005096DC /* CHIntervalChartView.h in Headers */,
 				969E2A5919F1B1050036C0C2 /* UIBezierPath+Interpolation.h in Headers */,
 				96D376791A7C2B1C00191411 /* CHIntervalView.h in Headers */,
 				969E2A5D19F1B11E0036C0C2 /* CGPointExtension.h in Headers */,
 				96A1B8ED19FFD9F4001C5001 /* CHScatterChartView.h in Headers */,
+				9629B6F21AC9F026008BB5A0 /* CHGaugeChartView.h in Headers */,
 				96839AC419EEF3330094AED9 /* CHLineChartView.h in Headers */,
 				96BE53351ABC6F3B0065C662 /* CHBarValueLabelView.h in Headers */,
 				968E00001A01553300849561 /* CHInteractivePoint.h in Headers */,
@@ -497,12 +532,17 @@
 				969E2A5A19F1B1050036C0C2 /* UIBezierPath+Interpolation.m in Sources */,
 				969E2A5E19F1B11E0036C0C2 /* CGPointExtension.m in Sources */,
 				964D232B19E708FE0096F3FD /* CHChartView.m in Sources */,
+				961295111ACB465B0062A18E /* CHGaugeChartContentView.m in Sources */,
 				96F071431A7C136100B13311 /* CHInterval.m in Sources */,
 				968E00011A01553300849561 /* CHInteractivePoint.m in Sources */,
+				9624660C1ACC3F0E002298BC /* CHGaugePointerView.m in Sources */,
 				962BBDB719F03D290038597C /* CHLineView.m in Sources */,
 				968D2FB619E81EC40071306C /* CHHeaderView.m in Sources */,
 				96839AC119EEF3140094AED9 /* CHBarChartCell.m in Sources */,
+				9619BA341ACD88DE005E7F63 /* UIView+Charlotte.m in Sources */,
 				969ABDF919F04F72007D03C5 /* CHPagingLineChartFlowLayout.m in Sources */,
+				964023E51ACAF1A4003AC573 /* CHLabel.m in Sources */,
+				9629B6F31AC9F026008BB5A0 /* CHGaugeChartView.m in Sources */,
 				96CC853E19F823C400C96582 /* CHFooterView.m in Sources */,
 				96A1B8F91A00089F001C5001 /* CHScatterPoint.m in Sources */,
 				96CEAAED1A816A7700D6564E /* CHXAxisLabelView.m in Sources */,

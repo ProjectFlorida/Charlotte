@@ -12,6 +12,7 @@
 #import "ScatterChartViewController.h"
 #import "IntervalChartViewController.h"
 #import "HorizontalBarChartViewController.h"
+#import "GaugeChartViewController.h"
 
 @interface TableViewController ()
 
@@ -32,7 +33,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return 6;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,6 +54,9 @@
             break;
         case 4:
             cell.textLabel.text = @"CHHorizontalBarChartView";
+            break;
+        case 5:
+            cell.textLabel.text = @"CHGaugeChartView";
             break;
         default:
             break;
@@ -88,6 +92,11 @@
         }
         case 4: {
             HorizontalBarChartViewController *vc = [[HorizontalBarChartViewController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            break;
+        }
+        case 5: {
+            GaugeChartViewController *vc = [[GaugeChartViewController alloc] init];
             [self.navigationController pushViewController:vc animated:YES];
             break;
         }

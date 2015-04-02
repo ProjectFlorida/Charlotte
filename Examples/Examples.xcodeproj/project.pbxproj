@@ -11,6 +11,7 @@
 		96326E421A7FD10F00DEE36F /* HorizontalBarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96326E411A7FD10F00DEE36F /* HorizontalBarChartViewController.m */; };
 		96A1B8F119FFDAE3001C5001 /* ScatterChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */; };
 		96ABA3811A125BFE006F93D7 /* TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96ABA3801A125BFE006F93D7 /* TableViewController.m */; };
+		96C886E61ACB111100D2DB42 /* GaugeChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96C886E51ACB111100D2DB42 /* GaugeChartViewController.m */; };
 		96DDD69F19DC9DA9005CCD07 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD69E19DC9DA9005CCD07 /* main.m */; };
 		96DDD6A219DC9DA9005CCD07 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD6A119DC9DA9005CCD07 /* AppDelegate.m */; };
 		96DDD6A519DC9DA9005CCD07 /* BarChartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 96DDD6A419DC9DA9005CCD07 /* BarChartViewController.m */; };
@@ -39,6 +40,8 @@
 		96A1B8F019FFDAE3001C5001 /* ScatterChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScatterChartViewController.m; sourceTree = "<group>"; };
 		96ABA37F1A125BFE006F93D7 /* TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewController.h; sourceTree = "<group>"; };
 		96ABA3801A125BFE006F93D7 /* TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewController.m; sourceTree = "<group>"; };
+		96C886E41ACB111100D2DB42 /* GaugeChartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GaugeChartViewController.h; sourceTree = "<group>"; };
+		96C886E51ACB111100D2DB42 /* GaugeChartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GaugeChartViewController.m; sourceTree = "<group>"; };
 		96DDD69919DC9DA9005CCD07 /* Examples.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Examples.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		96DDD69D19DC9DA9005CCD07 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		96DDD69E19DC9DA9005CCD07 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 				96F0713E1A7C0ABA00B13311 /* IntervalChartViewController.m */,
 				96326E401A7FD10F00DEE36F /* HorizontalBarChartViewController.h */,
 				96326E411A7FD10F00DEE36F /* HorizontalBarChartViewController.m */,
+				96C886E41ACB111100D2DB42 /* GaugeChartViewController.h */,
+				96C886E51ACB111100D2DB42 /* GaugeChartViewController.m */,
 				96DDD6AC19DC9DA9005CCD07 /* Images.xcassets */,
 				96DDD6AE19DC9DA9005CCD07 /* LaunchScreen.xib */,
 				96DDD69C19DC9DA9005CCD07 /* Supporting Files */,
@@ -306,6 +311,7 @@
 				96DDD6A219DC9DA9005CCD07 /* AppDelegate.m in Sources */,
 				96DDD6A519DC9DA9005CCD07 /* BarChartViewController.m in Sources */,
 				96DDD69F19DC9DA9005CCD07 /* main.m in Sources */,
+				96C886E61ACB111100D2DB42 /* GaugeChartViewController.m in Sources */,
 				96A1B8F119FFDAE3001C5001 /* ScatterChartViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
