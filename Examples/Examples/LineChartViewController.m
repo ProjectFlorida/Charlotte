@@ -56,7 +56,7 @@
         _tooltipLabel.textAlignment = NSTextAlignmentCenter;
         _tooltipLabel.backgroundColor = [UIColor whiteColor];
 
-        _pointCount = 20;
+        _pointCount = 30;
         _currentIndex = 0;
         _xAxisLabels = @[@"M", @"T", @"W", @"Th", @"F", @"S", @"Su"];
     }

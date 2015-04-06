@@ -8,6 +8,7 @@
 
 #import "CHLineView.h"
 #import "CHChartViewSubclass.h"
+#import "CHLineChartViewSubclass.h"
 #import "UIBezierPath+Interpolation.h"
 #import "CHGradientView.h"
 
@@ -74,26 +75,13 @@
     [self drawInteractivePoint:self.interactivePoint animated:NO];
 }
 
-- (CGFloat)yPositionFromValue:(CGFloat)value
-{
-    CGFloat heightFromMinToMax = self.bounds.size.height;
-    return ((1 - value) * heightFromMinToMax);
-}
-
-- (CGFloat)heightFromValueDelta:(CGFloat)delta
-{
-    CGFloat heightFromMinToMax = self.bounds.size.height - self.footerHeight;
-    CGFloat minToMaxRange = self.maxValue - self.minValue;
-    CGFloat heightPerUnit = heightFromMinToMax/minToMaxRange;
-    return heightPerUnit*delta;
-}
-
-- (CGFloat)valueDeltaFromHeight:(CGFloat)height
+- (CGFloat)trueMinValue
 {
     CGFloat heightFromMinToMax = self.bounds.size.height - self.footerHeight;
     CGFloat minToMaxRange = self.maxValue - self.minValue;
     CGFloat unitPerPixel = minToMaxRange/heightFromMinToMax;
-    return unitPerPixel*height;
+    CGFloat footerHeightInUnits = unitPerPixel*self.footerHeight;
+    return self.minValue - footerHeightInUnits;
 }
 
 - (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
@@ -127,8 +115,7 @@
     // transform the values array (which may contain nulls) into an array of bezier paths
     NSMutableArray *paths = [NSMutableArray array];
     NSMutableArray *points = [NSMutableArray array];
-    // The actual min value is the value at the bottom of the footer view
-    CGFloat trueMinValue = self.minValue - [self valueDeltaFromHeight:self.footerHeight];
+    CGFloat trueMinValue = [self trueMinValue];
 
     NSUInteger i = 0;
     while (i < count) {
@@ -137,9 +124,8 @@
         if (!valueIsNull) {
             CGFloat x = [self xPositionWithIndex:i inCount:count];
             CGFloat floatValue = [value floatValue];
-
-            CGFloat scaledValue = [CHChartView scaledValue:floatValue minValue:trueMinValue maxValue:self.maxValue];
-            CGFloat y = [self yPositionFromValue:scaledValue];
+            CGFloat y = [CHLineChartView yPositionWithValue:floatValue min:trueMinValue
+                                                        max:self.maxValue height:CGRectGetHeight(self.bounds)];
             NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
             [points addObject:pointValue];
         }
@@ -186,15 +172,14 @@
 {
     [self resetScatterPoints];
     self.scatterPoints = points;
-    // The actual min value is the value at the bottom of the footer view
-    CGFloat trueMinValue = self.minValue - [self valueDeltaFromHeight:self.footerHeight];
+    CGFloat trueMinValue = [self trueMinValue];
     for (CHScatterPoint *point in points) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, point.radius, point.radius)];
         view.layer.cornerRadius = point.radius/2.0;
         view.backgroundColor = point.color;
-        CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:trueMinValue maxValue:self.maxValue];
         CGFloat x = self.bounds.size.width * point.relativeXPosition;
-        CGFloat y = [self yPositionFromValue:scaledValue];
+        CGFloat y = [CHLineChartView yPositionWithValue:point.value min:trueMinValue
+                                                    max:self.maxValue height:CGRectGetHeight(self.bounds)];
         view.center = CGPointMake(x, y);
         [self.scatterPointContainerView addSubview:view];
         [self.scatterPointViews addObject:view];
@@ -224,9 +209,9 @@
 {
     [self resetInteractivePoint];
     self.interactivePoint = point;
-    CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:self.minValue maxValue:self.maxValue];
     CGFloat x = self.bounds.size.width * point.relativeXPosition;
-    CGFloat y = [self yPositionFromValue:scaledValue];
+    CGFloat y = [CHLineChartView yPositionWithValue:point.value min:[self trueMinValue]
+                                                max:self.maxValue height:CGRectGetHeight(self.bounds)];
     self.interactivePoint.view.center = CGPointMake(x, y);
     self.interactivePoint.view.alpha = 0;
     [self addSubview:self.interactivePoint.view];

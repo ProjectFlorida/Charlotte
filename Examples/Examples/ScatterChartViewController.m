@@ -134,6 +134,16 @@ CHTooltipViewDelegate>
 
 #pragma mark - CHChartViewDataSource
 
+- (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
+{
+    gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
+    gridlineView.leftLabel.text = [NSString stringWithFormat:@"%.0f", value];
+    gridlineView.leftLabel.textColor = [UIColor whiteColor];
+    [gridlineView.leftLabel sizeToFit];
+    gridlineView.lineColor = [UIColor whiteColor];
+    [gridlineView setNeedsLayout];
+}
+
 - (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
@@ -173,7 +183,7 @@ CHTooltipViewDelegate>
 
 - (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
-    return @(pow(1.3, (index/20.0)));
+    return @(sin(index/20.0));
 }
 
 - (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page

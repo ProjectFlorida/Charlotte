@@ -136,6 +136,20 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [self.lineView drawLineWithValues:values animated:YES];
 }
 
+#pragma mark - value <-> position converters
+
++ (CGFloat)yPositionWithValue:(CGFloat)value min:(CGFloat)min max:(CGFloat)max height:(CGFloat)height
+{
+    CGFloat minToMaxRange = max - min;
+    if (minToMaxRange == 0) {
+        return 0;
+    }
+    CGFloat distancePerUnitValue = height/minToMaxRange;
+    CGFloat distanceFromZero = (-value) * distancePerUnitValue;
+    CGFloat zeroPosition = height - ((0 - min)*distancePerUnitValue);
+    return zeroPosition + distanceFromZero;
+}
+
 #pragma mark - Setters
 - (void)setLineWidth:(CGFloat)lineWidth
 {
@@ -199,16 +213,14 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat cellWidth = (self.bounds.size.width - sectionInsetWidth - pageInsetWidth)/pointCount;
     NSInteger index = (touchLocation.x - pageInset.left - sectionInset.left)/cellWidth;
 
-    CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
-    CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    CGFloat trueMinValue = [self.lineView trueMinValue];
     index = MIN(MAX(0, index), pointCount - 1);
     NSNumber *value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     BOOL isOnNullValue = !value || [value isKindOfClass:[NSNull class]];
-
-    CGFloat scaledValue = [CHChartView scaledValue:[value floatValue]
-                                          minValue:min maxValue:max];
-    CGFloat height = self.bounds.size.height;
-    CGFloat y = (1 - scaledValue)*(height - self.footerHeight);
+    CGFloat y = [CHLineChartView yPositionWithValue:[value floatValue]
+                                                min:trueMinValue
+                                                max:self.lineView.maxValue
+                                             height:CGRectGetHeight(self.bounds)];
     CGFloat x = (index * cellWidth) + cellWidth*0.5 + pageInset.left + sectionInset.left;
     CGPoint highlightPointPosition = CGPointMake(x, y);
 

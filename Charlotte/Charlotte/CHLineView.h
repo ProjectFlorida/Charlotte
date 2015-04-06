@@ -75,4 +75,7 @@
  */
 - (void)setMinValue:(CGFloat)minValue maxValue:(CGFloat)maxValue animated:(BOOL)animated completion:(void (^)(void))completion;
 
+/// Returns the true min value of the chart, taking into account the height of the footer.
+- (CGFloat)trueMinValue;
+
 @end
