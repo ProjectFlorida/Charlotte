@@ -14,6 +14,7 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
 @interface CHIntervalChartView ()
 
 @property (nonatomic, strong) NSArray *intervalViews;
+@property (nonatomic, strong) UIView *axisLineView;
 @property (nonatomic, assign) NSUInteger max;
 
 @end
@@ -25,10 +26,16 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
     self = [super initWithFrame:frame];
     if (self) {
         _intervalViews = @[];
-        _animationDuration = 0.4;
+        _animationDuration = 0.3;
         _animationDelay = 0.1;
         _animationSpringDamping = 0.7;
         _max = 0;
+        _axisLineStrokeWidth = 1;
+        _axisLineColor = [UIColor lightGrayColor];
+        _axisLineView = [[UIView alloc] initWithFrame:CGRectZero];
+        _axisLineView.alpha = 0;
+        _axisLineView.backgroundColor = _axisLineColor;
+        [self addSubview:_axisLineView];
     }
     return self;
 }
@@ -43,6 +50,8 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
         return;
     }
 
+    self.axisLineView.frame = CGRectMake(0, ceilf(CGRectGetMidY(bounds) - self.axisLineStrokeWidth/2.0),
+                                         CGRectGetWidth(bounds), ceilf(self.axisLineStrokeWidth));
     for (CHIntervalView *view in self.intervalViews) {
         CGFloat relativeX = view.interval.range.location/(CGFloat)self.max;
         CGFloat relativeWidth = view.interval.range.length/(CGFloat)self.max;
@@ -72,14 +81,26 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
         [self addSubview:view];
     }
 
+    self.axisLineView.alpha = 0;
     if (animated) {
         CGFloat delay = 0;
-        for (CHIntervalView *view in self.intervalViews) {
+        NSUInteger count = [self.intervalViews count];
+        for (int i=0; i < count; i++) {
+            CHIntervalView *view = self.intervalViews[i];
             [UIView animateWithDuration:self.animationDuration delay:delay
                  usingSpringWithDamping:self.animationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseIn animations:^{
                                     view.transform = CGAffineTransformIdentity;
-                                } completion:nil];
+                                } completion:^(BOOL finished) {
+                                    if (i == count - 1) {
+                                        [UIView animateWithDuration:self.animationDuration
+                                                              delay:0
+                                                            options:UIViewAnimationOptionCurveEaseIn
+                                                         animations:^{
+                                                             self.axisLineView.alpha = 1;
+                                        } completion:nil];
+                                    }
+                                }];
             delay += self.animationDelay;
         }
     }
@@ -87,7 +108,25 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
         for (CHIntervalView *view in self.intervalViews) {
             view.transform = CGAffineTransformIdentity;
         }
+        self.axisLineView.alpha = 1;
     }
+}
+
+#pragma mark - Setters
+
+- (void)setAxisLineColor:(UIColor *)axisLineColor
+{
+    _axisLineColor = axisLineColor;
+    self.axisLineView.backgroundColor = axisLineColor;
+}
+
+- (void)setAxisLineStrokeWidth:(CGFloat)axisLineStrokeWidth
+{
+    if (_axisLineStrokeWidth == axisLineStrokeWidth) {
+        return;
+    }
+    _axisLineStrokeWidth = axisLineStrokeWidth;
+    [self setNeedsLayout];
 }
 
 @end

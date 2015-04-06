@@ -166,7 +166,11 @@
     gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
     gridlineView.leftLabel.text = [NSString stringWithFormat:@"%.0f", value];
     gridlineView.leftLabel.textColor = [UIColor darkGrayColor];
+    gridlineView.leftLabel.font = [UIFont boldSystemFontOfSize:12];
     [gridlineView.leftLabel sizeToFit];
+    gridlineView.upperLeftLabel.text = @"foo";
+    gridlineView.upperLeftLabel.font = [UIFont boldSystemFontOfSize:12];
+    [gridlineView.upperLeftLabel sizeToFit];
     gridlineView.lineColor = [UIColor lightGrayColor];
     gridlineView.lineWidth = 1;
     [gridlineView setNeedsLayout];
