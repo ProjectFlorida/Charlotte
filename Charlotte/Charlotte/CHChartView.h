@@ -9,9 +9,6 @@
 #import "CHGridlineView.h"
 @import UIKit;
 
-extern NSString *const CHSupplementaryElementKindHeader;
-extern NSString *const CHSupplementaryElementKindFooter;
-
 @class CHChartView, CHBarChartCell;
 @protocol CHChartViewDataSource <NSObject>
 
@@ -132,9 +129,6 @@ extern NSString *const CHSupplementaryElementKindFooter;
 
 @property (nonatomic, weak) id<CHChartViewDataSource> dataSource;
 @property (nonatomic, weak) id<CHChartViewDelegate> delegate;
-
-/// The chart's header height
-@property (nonatomic, assign) CGFloat headerHeight UI_APPEARANCE_SELECTOR;
 
 /// The chart's footer height
 @property (nonatomic, assign) CGFloat footerHeight UI_APPEARANCE_SELECTOR;

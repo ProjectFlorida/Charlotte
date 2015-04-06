@@ -10,7 +10,6 @@
 
 @interface CHPagingChartFlowLayout : UICollectionViewFlowLayout
 
-@property (nonatomic, assign) CGFloat headerHeight;
 @property (nonatomic, assign) CGFloat footerHeight;
 @property (nonatomic, assign) UIEdgeInsets pageInset;
 

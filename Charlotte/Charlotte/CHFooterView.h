@@ -8,9 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString *const CHFooterViewReuseId;
-
-@interface CHFooterView : UICollectionReusableView
+@interface CHFooterView : UIView
 
 /**
  *  Displays the given x-axis label view at the given relative position. 

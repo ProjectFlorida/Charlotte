@@ -33,7 +33,6 @@
         _chartView.delegate = self;
         _chartView.lineChartDelegate = self;
         _chartView.backgroundColor = [UIColor clearColor];
-        _chartView.headerHeight = 30;
         _chartView.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
         _chartView.lineWidth = 3;
         _chartView.lineColor = [UIColor whiteColor];
@@ -44,7 +43,6 @@
                                     [UIColor colorWithRed:0.31 green:0.46 blue:0 alpha:1]
                                     ]
                         locations:@[@(1.5), @(2.5), @(3.5)]];
-
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = @"❤️";
@@ -107,13 +105,13 @@
 {
     CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
     NSString *labelText;
-    if (index == 2) {
+    if (index == 0) {
         labelText = @"11:24pm";
     }
     else if (index == 10) {
         labelText = @"2:58am";
     }
-    else if (index == 17) {
+    else if (index == 19) {
         labelText = @"7:04am";
     }
     if (labelText) {
@@ -139,7 +137,7 @@
         return nil;
     }
     else {
-        return @(sin(index*3)*sin(index*2)*2 + 2);
+        return @(sin(index*3)*sin(index*2)*2 + 1);
     }
 }
 
@@ -183,8 +181,7 @@
 
 #pragma mark CHLineChartViewDelegate
 
-- (void)chartView:(CHLineChartView *)chartView cursorAppearedInPage:(NSInteger)page
-          atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
+- (void)chartView:(CHLineChartView *)chartView cursorAppearedAtIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     [[CHTooltipView sharedView] setDefaults];
     [[CHTooltipView sharedView] setContentInset:UIEdgeInsetsZero];
@@ -193,15 +190,13 @@
     self.tooltipLabel.text = [NSString stringWithFormat:@"%.2f", value];
 }
 
-- (void)chartView:(CHLineChartView *)chartView cursorMovedInPage:(NSInteger)page
-          toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
+- (void)chartView:(CHLineChartView *)chartView cursorMovedToIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     [[CHTooltipView sharedView] showWithTargetRect:CGRectMake(position.x, 0, 0, 0) relativeToView:self.chartView inView:self.view];
     self.tooltipLabel.text = [NSString stringWithFormat:@"%.2f", value];
 }
 
-- (void)chartView:(CHLineChartView *)chartView cursorDisappearedInPage:(NSInteger)page
-          atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
+- (void)chartView:(CHLineChartView *)chartView cursorDisappearedAtIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position
 {
     [[CHTooltipView sharedView] dismiss];
 }

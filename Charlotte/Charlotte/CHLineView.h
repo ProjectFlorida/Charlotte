@@ -10,9 +10,7 @@
 #import "CHScatterPoint.h"
 #import "CHInteractivePoint.h"
 
-extern NSString *const CHLineViewReuseId;
-
-@interface CHLineView : UICollectionReusableView
+@interface CHLineView : UIView
 
 /// The line view's minimum displayable value
 @property (nonatomic, readonly) CGFloat minValue;

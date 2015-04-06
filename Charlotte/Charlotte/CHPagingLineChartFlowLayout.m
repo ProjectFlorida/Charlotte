@@ -58,8 +58,8 @@
         CGPoint origin = attributes.frame.origin;
         CGSize size = attributes.frame.size;
         origin.x = firstCellAttrs.frame.origin.x + self.pageInset.left;
-        origin.y = self.headerHeight;
-        size.height = firstCellAttrs.bounds.size.height - self.headerHeight;
+        origin.y = 0;
+        size.height = firstCellAttrs.bounds.size.height;
         size.width = (firstCellAttrs.size.width*numberOfItemsInSection);
         attributes.frame = (CGRect){ .origin = origin, .size = size };
         attributes.zIndex = firstCellAttrs.zIndex + 1;

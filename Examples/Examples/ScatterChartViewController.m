@@ -29,7 +29,6 @@ CHTooltipViewDelegate>
         _chartView.dataSource = self;
         _chartView.scatterChartDataSource = self;
         _chartView.scatterChartDelegate = self;
-        _chartView.headerHeight = 0;
         _chartView.pageInset = UIEdgeInsetsMake(0, 30, 0, 30);
 
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -69,27 +68,27 @@ CHTooltipViewDelegate>
 
 #pragma mark - CHScatterChartViewDataSource
 
-- (NSInteger)chartView:(CHScatterChartView *)chartView numberOfScatterPointsInPage:(NSInteger)page
+- (NSInteger)numberOfScatterPointsInChartView:(CHScatterChartView *)chartView
 {
     return 200;
 }
 
-- (CGFloat)chartView:(CHScatterChartView *)chartView valueOfScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (CGFloat)chartView:(CHScatterChartView *)chartView valueOfScatterPointAtIndex:(NSInteger)index
 {
     return sin(index)*2 + 2.5;
 }
 
-- (UIColor *)chartView:(CHScatterChartView *)chartView colorOfScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (UIColor *)chartView:(CHScatterChartView *)chartView colorOfScatterPointInPageAtIndex:(NSInteger)index
 {
     return [UIColor colorWithWhite:1.0 alpha:0.5];
 }
 
-- (CGFloat)chartView:(CHScatterChartView *)chartView radiusOfScatterPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (CGFloat)chartView:(CHScatterChartView *)chartView radiusOfScatterPointInPageAtIndex:(NSInteger)index
 {
     return 2;
 }
 
-- (UIView *)chartView:(CHScatterChartView *)chartView viewForInteractivePointInPage:(NSInteger)page
+- (UIView *)viewForInteractivePointInChartView:(CHScatterChartView *)chartView
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
     view.backgroundColor = [UIColor whiteColor];
@@ -107,19 +106,19 @@ CHTooltipViewDelegate>
     return view;
 }
 
-- (CGFloat)chartView:(CHScatterChartView *)chartView valueOfInteractivePointInPage:(NSInteger)page
+- (CGFloat)valueOfInteractivePointInChartView:(CHScatterChartView *)chartView
 {
     return 3.5;
 }
 
-- (NSInteger)chartView:(CHScatterChartView *)chartView indexOfInteractivePointInPage:(NSInteger)page
+- (NSInteger)indexOfInteractivePointInChartView:(CHScatterChartView *)chartView
 {
     return 150;
 }
 
 #pragma mark - CHScatterChartViewDelegate
 
-- (void)chartView:(CHScatterChartView *)chartView didSelectInteractivePointInPage:(NSInteger)page frame:(CGRect)frame
+- (void)chartView:(CHScatterChartView *)chartView didSelectInteractivePointWithFrame:(CGRect)frame
 {
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
     label.text = @"wide tooltip, prefersCenterX = YES";

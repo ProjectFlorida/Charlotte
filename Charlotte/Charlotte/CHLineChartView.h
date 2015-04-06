@@ -19,34 +19,31 @@ extern NSString *const CHSupplementaryElementKindLine;
  *  Tells the delegate that the chart view's cursor appeared
  *
  *  @param chartView The chart view containing the cursor
- *  @param page      The page of the point under the cursor
  *  @param index     The index of the point under the cursor
  *  @param value     The value of the point under the cursor
  *  @param position  The position of point under the cursor
  */
-- (void)chartView:(CHLineChartView *)chartView cursorAppearedInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView cursorAppearedAtIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 /**
  *  Tells the delegate that the chart view's cursor moved
  *
  *  @param chartView The chart view containing the cursor
- *  @param page      The page of the point under the cursor
  *  @param index     The index of the point under the cursor
  *  @param value     The value of the point under the cursor
  *  @param position  The position of point under the cursor
  */
-- (void)chartView:(CHLineChartView *)chartView cursorMovedInPage:(NSInteger)page toIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView cursorMovedToIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 /**
  *  Tells the delegate that the chart view's cursor disappeared
  *
  *  @param chartView The chart view containing the cursor
- *  @param page      The page of the point under the cursor
  *  @param index     The index of the point under the cursor
  *  @param value     The value of the point under the cursor
  *  @param position  The position of point under the cursor
  */
-- (void)chartView:(CHLineChartView *)chartView cursorDisappearedInPage:(NSInteger)page atIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
+- (void)chartView:(CHLineChartView *)chartView cursorDisappearedAtIndex:(NSInteger)index value:(CGFloat)value position:(CGPoint)position;
 
 @end
 

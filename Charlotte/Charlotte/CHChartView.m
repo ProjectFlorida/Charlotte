@@ -14,9 +14,6 @@
 #import "CHBarChartCell.h"
 #import "CHXAxisLabelView.h"
 
-NSString *const CHSupplementaryElementKindHeader = @"CHSupplementaryElementKindHeader";
-NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindFooter";
-
 @interface CHGridlineContainer : NSObject
 /// The line view containing the gridline's label
 @property (strong, nonatomic) CHGridlineView *labelGridlineView;
@@ -86,7 +83,6 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
 
     _currentPage = 0;
     _footerHeight = 30;
-    _headerHeight = 30;
 
     _pageTransitionAnimationDuration = 0.5;
     _pageTransitionAnimationSpringDamping = 0.7;
@@ -123,12 +119,6 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     _xAxisLabelViewClass = [CHXAxisLabelView class];
 
     [_collectionView registerClass:_cellClass forCellWithReuseIdentifier:_cellReuseId];
-    [_collectionView registerClass:[CHHeaderView class]
-        forSupplementaryViewOfKind:CHSupplementaryElementKindHeader
-               withReuseIdentifier:CHHeaderViewReuseId];
-    [_collectionView registerClass:[CHFooterView class]
-        forSupplementaryViewOfKind:CHSupplementaryElementKindFooter
-               withReuseIdentifier:CHFooterViewReuseId];
     [self addSubview:_collectionView];
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectZero];
@@ -210,10 +200,10 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
                                                   UIEdgeInsetsMake(0, self.collectionViewLayout.pageInset.left,
                                                                    0, self.collectionViewLayout.pageInset.right));
     self.backgroundView.frame = UIEdgeInsetsInsetRect(bounds,
-                                                      UIEdgeInsetsMake(self.collectionViewLayout.headerHeight, 0,
+                                                      UIEdgeInsetsMake(0, 0,
                                                                        self.collectionViewLayout.footerHeight, 0));
     self.overlayView.frame = UIEdgeInsetsInsetRect(bounds,
-                                                   UIEdgeInsetsMake(self.collectionViewLayout.headerHeight, 0,
+                                                   UIEdgeInsetsMake(0, 0,
                                                                     self.collectionViewLayout.footerHeight, 0));
     [self.scrollView setContentSize:self.collectionViewLayout.collectionViewContentSize];
     [self updateAlphaInVisibleCellsAnimated:NO];
@@ -426,15 +416,6 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
     [self.delegate chartView:self didTransitionToPage:currentPage];
 }
 
-- (void)setHeaderHeight:(CGFloat)headerHeight
-{
-    _headerHeight = headerHeight;
-    self.collectionViewLayout.headerHeight = headerHeight;
-    [self updateGridlinesAnimated:NO];
-    [self updateRangeInVisibleCellsAnimated:NO];
-    [self setNeedsLayout];
-}
-
 - (void)setFooterHeight:(CGFloat)footerHeight
 {
     _footerHeight = footerHeight;
@@ -553,26 +534,6 @@ NSString *const CHSupplementaryElementKindFooter = @"CHSupplementaryElementKindF
         }
     }
     return cell;
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView
-           viewForSupplementaryElementOfKind:(NSString *)kind
-                                 atIndexPath:(NSIndexPath *)indexPath
-{
-    UICollectionReusableView *view;
-    if (kind == CHSupplementaryElementKindHeader) {
-        CHHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindHeader
-                                                                      withReuseIdentifier:CHHeaderViewReuseId
-                                                                             forIndexPath:indexPath];
-        view = headerView;
-    }
-    else if (kind == CHSupplementaryElementKindFooter) {
-        CHFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:CHSupplementaryElementKindFooter
-                                                                      withReuseIdentifier:CHFooterViewReuseId
-                                                                             forIndexPath:indexPath];
-        view = footerView;
-    }
-    return view;
 }
 
 #pragma mark - UICollectionViewDelegateFlowLayout

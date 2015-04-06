@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) CHTouchGestureRecognizer *touchGR;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
-@property (nonatomic, strong) NSMapTable *visibleLineViews;
+@property (nonatomic, strong) CHLineView *lineView;
 
 @end
 

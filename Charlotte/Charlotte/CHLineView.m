@@ -11,8 +11,6 @@
 #import "UIBezierPath+Interpolation.h"
 #import "CHGradientView.h"
 
-NSString *const CHLineViewReuseId = @"CHLineView";
-
 @interface CHLineView ()
 
 @property (nonatomic, strong) NSArray *lineValues;
@@ -67,28 +65,35 @@ NSString *const CHLineViewReuseId = @"CHLineView";
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-
-    self.lineView.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds),
-                                     CGRectGetHeight(self.bounds) - self.footerHeight);
+    CGRect bounds = self.bounds;
+    self.lineView.frame = bounds;
     self.lineMaskLayer.frame = self.lineView.frame;
-    self.scatterPointContainerView.frame = self.bounds;
+    self.scatterPointContainerView.frame = bounds;
     [self drawLineWithValues:self.lineValues animated:NO];
     [self drawScatterPoints:self.scatterPoints animated:NO];
     [self drawInteractivePoint:self.interactivePoint animated:NO];
 }
 
-- (void)prepareForReuse
+- (CGFloat)yPositionFromValue:(CGFloat)value
 {
-    [super prepareForReuse];
-    [self resetScatterPoints];
-    [self resetInteractivePoint];
-    [self.lineMaskLayer setPath:nil];
+    CGFloat heightFromMinToMax = self.bounds.size.height;
+    return ((1 - value) * heightFromMinToMax);
 }
 
-- (CGFloat)yPositionWithRelativeValue:(CGFloat)value
+- (CGFloat)heightFromValueDelta:(CGFloat)delta
 {
-    CGFloat displayHeight = self.bounds.size.height - self.footerHeight;
-    return ((1 - value) * displayHeight);
+    CGFloat heightFromMinToMax = self.bounds.size.height - self.footerHeight;
+    CGFloat minToMaxRange = self.maxValue - self.minValue;
+    CGFloat heightPerUnit = heightFromMinToMax/minToMaxRange;
+    return heightPerUnit*delta;
+}
+
+- (CGFloat)valueDeltaFromHeight:(CGFloat)height
+{
+    CGFloat heightFromMinToMax = self.bounds.size.height - self.footerHeight;
+    CGFloat minToMaxRange = self.maxValue - self.minValue;
+    CGFloat unitPerPixel = minToMaxRange/heightFromMinToMax;
+    return unitPerPixel*height;
 }
 
 - (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
@@ -122,6 +127,9 @@ NSString *const CHLineViewReuseId = @"CHLineView";
     // transform the values array (which may contain nulls) into an array of bezier paths
     NSMutableArray *paths = [NSMutableArray array];
     NSMutableArray *points = [NSMutableArray array];
+    // The actual min value is the value at the bottom of the footer view
+    CGFloat trueMinValue = self.minValue - [self valueDeltaFromHeight:self.footerHeight];
+
     NSUInteger i = 0;
     while (i < count) {
         id value = values[i];
@@ -129,8 +137,9 @@ NSString *const CHLineViewReuseId = @"CHLineView";
         if (!valueIsNull) {
             CGFloat x = [self xPositionWithIndex:i inCount:count];
             CGFloat floatValue = [value floatValue];
-            CGFloat scaledValue = [CHChartView scaledValue:floatValue minValue:self.minValue maxValue:self.maxValue];
-            CGFloat y = [self yPositionWithRelativeValue:scaledValue];
+
+            CGFloat scaledValue = [CHChartView scaledValue:floatValue minValue:trueMinValue maxValue:self.maxValue];
+            CGFloat y = [self yPositionFromValue:scaledValue];
             NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
             [points addObject:pointValue];
         }
@@ -177,13 +186,15 @@ NSString *const CHLineViewReuseId = @"CHLineView";
 {
     [self resetScatterPoints];
     self.scatterPoints = points;
+    // The actual min value is the value at the bottom of the footer view
+    CGFloat trueMinValue = self.minValue - [self valueDeltaFromHeight:self.footerHeight];
     for (CHScatterPoint *point in points) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, point.radius, point.radius)];
         view.layer.cornerRadius = point.radius/2.0;
         view.backgroundColor = point.color;
-        CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:self.minValue maxValue:self.maxValue];
+        CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:trueMinValue maxValue:self.maxValue];
         CGFloat x = self.bounds.size.width * point.relativeXPosition;
-        CGFloat y = [self yPositionWithRelativeValue:scaledValue];
+        CGFloat y = [self yPositionFromValue:scaledValue];
         view.center = CGPointMake(x, y);
         [self.scatterPointContainerView addSubview:view];
         [self.scatterPointViews addObject:view];
@@ -215,7 +226,7 @@ NSString *const CHLineViewReuseId = @"CHLineView";
     self.interactivePoint = point;
     CGFloat scaledValue = [CHChartView scaledValue:point.value minValue:self.minValue maxValue:self.maxValue];
     CGFloat x = self.bounds.size.width * point.relativeXPosition;
-    CGFloat y = [self yPositionWithRelativeValue:scaledValue];
+    CGFloat y = [self yPositionFromValue:scaledValue];
     self.interactivePoint.view.center = CGPointMake(x, y);
     self.interactivePoint.view.alpha = 0;
     [self addSubview:self.interactivePoint.view];

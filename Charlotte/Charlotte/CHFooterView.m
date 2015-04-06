@@ -8,8 +8,6 @@
 
 #import "CHFooterView.h"
 
-NSString *const CHFooterViewReuseId = @"CHFooterView";
-
 @interface CHFooterView ()
 
 /// Keys are boxed NSNumbers representing relative x position. Values are UIViews.
