@@ -7,6 +7,7 @@
 //
 
 #import "CHGridlineView.h"
+#import "CHLabel.h"
 
 @interface CHGridlineView ()
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
@@ -21,9 +22,6 @@
     if (self) {
         _lineWidth = 1;
         _lineInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        _leftLabelInset = 5;
-        _rightLabelInset = 5;
-        _spacingBelowLeftLabel = 0;
 
         _lineDashPattern = nil;
         _lineLayer = [CAShapeLayer layer];
@@ -34,12 +32,19 @@
         _lineLayer.lineDashPattern = _lineDashPattern;
         [self.layer addSublayer:_lineLayer];
 
-        _leftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _lowerLeftLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        _rightLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        _leftLabel = [[CHLabel alloc] initWithFrame:CGRectZero];
+        _leftLabel.edgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
+        _lowerLeftLabel = [[CHLabel alloc] initWithFrame:CGRectZero];
+        _lowerLeftLabel.edgeInsets = UIEdgeInsetsMake(3, 5, 0, 0);
+        _upperLeftLabel = [[CHLabel alloc] initWithFrame:CGRectZero];
+        _upperLeftLabel.edgeInsets = UIEdgeInsetsMake(0, 5, 3, 0);
+        _rightLabel = [[CHLabel alloc] initWithFrame:CGRectZero];
+        _rightLabel.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 5);
         [self addSubview:_leftLabel];
         [self addSubview:_lowerLeftLabel];
+        [self addSubview:_upperLeftLabel];
         [self addSubview:_rightLabel];
+        self.clipsToBounds = NO;
     }
     return self;
 }
@@ -58,15 +63,18 @@
         self.lineLayer.path = path.CGPath;
     }
 
-    [self.leftLabel setCenter:CGPointMake(self.leftLabelInset + CGRectGetMidX(self.leftLabel.bounds), midY)];
+    [self.leftLabel setCenter:CGPointMake(CGRectGetMidX(self.leftLabel.bounds), midY)];
 
     CGFloat leftLabelMaxY = CGRectGetMaxY(self.leftLabel.frame);
-    [self.lowerLeftLabel setCenter:CGPointMake(self.leftLabelInset + CGRectGetMidX(self.lowerLeftLabel.bounds),
+    [self.lowerLeftLabel setCenter:CGPointMake(CGRectGetMidX(self.lowerLeftLabel.bounds),
                                                leftLabelMaxY + CGRectGetMidY(self.lowerLeftLabel.bounds))];
 
-    [self.rightLabel setCenter:CGPointMake(CGRectGetWidth(self.bounds) - CGRectGetMidX(self.rightLabel.bounds) - self.rightLabelInset,
-                                           midY)];
+    CGFloat leftLabelMinY = CGRectGetMinY(self.leftLabel.frame);
+    [self.upperLeftLabel setCenter:CGPointMake(CGRectGetMidX(self.upperLeftLabel.bounds),
+                                               leftLabelMinY - CGRectGetMinY(self.upperLeftLabel.bounds))];
 
+    [self.rightLabel setCenter:CGPointMake(CGRectGetWidth(self.bounds) - CGRectGetMidX(self.rightLabel.bounds),
+                                           midY)];
 }
 
 #pragma mark - Setters
@@ -93,33 +101,6 @@
 {
     _lineDashPattern = lineDashPattern;
     self.lineLayer.lineDashPattern = lineDashPattern;
-}
-
-- (void)setLeftLabelInset:(CGFloat)leftLabelInset
-{
-    if (_leftLabelInset == leftLabelInset) {
-        return;
-    }
-    _leftLabelInset = leftLabelInset;
-    [self setNeedsLayout];
-}
-
-- (void)setRightLabelInset:(CGFloat)rightLabelInset
-{
-    if (_rightLabelInset == rightLabelInset) {
-        return;
-    }
-    _rightLabelInset = rightLabelInset;
-    [self setNeedsLayout];
-}
-
-- (void)setSpacingBelowLeftLabel:(CGFloat)spacingBelowLeftLabel
-{
-    if (_spacingBelowLeftLabel == spacingBelowLeftLabel) {
-        return;
-    }
-    _spacingBelowLeftLabel = spacingBelowLeftLabel;
-    [self setNeedsLayout];
 }
 
 @end
