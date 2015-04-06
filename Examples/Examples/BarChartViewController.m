@@ -130,12 +130,15 @@
 {
     NSNumber *value = self.values[page][index];
     cell.glowRadius = 5;
-    cell.valueLabelView.upperLabelText = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
-    cell.valueLabelView.lowerLabelText = cell.valueLabelView.upperLabelText;
-    cell.valueLabelView.upperLabelFont = [UIFont boldSystemFontOfSize:18];
-    cell.valueLabelView.lowerLabelFont = [UIFont boldSystemFontOfSize:18];
-    cell.valueLabelView.upperLabelTextColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
-    cell.valueLabelView.lowerLabelTextColor = [UIColor grayColor];
+    cell.valueLabelView.upperLabel.text = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
+    cell.valueLabelView.lowerLabel.text = @"foo";
+    cell.valueLabelView.upperLabel.font = [UIFont boldSystemFontOfSize:18];
+    cell.valueLabelView.lowerLabel.font = [UIFont boldSystemFontOfSize:18];
+    cell.valueLabelView.upperLabel.textColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
+    cell.valueLabelView.lowerLabel.textColor = [UIColor grayColor];
+    [cell.valueLabelView.upperLabel sizeToFit];
+    [cell.valueLabelView.lowerLabel sizeToFit];
+    [cell.valueLabelView setNeedsLayout];
     [cell.valueLabelView sizeToFit];
 }
 

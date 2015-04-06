@@ -8,26 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class CHLabel;
 @interface CHBarValueLabelView : UIView
 
-/// The spacing above the upper label
-@property (nonatomic, assign) CGFloat spacingAboveUpperLabel UI_APPEARANCE_SELECTOR;
-
-/// The spacing between the upper and lower labels
-@property (nonatomic, assign) CGFloat spacingBelowUpperLabel UI_APPEARANCE_SELECTOR;
-
-/// The spacing below the lower label
-@property (nonatomic, assign) CGFloat spacingBelowLowerLabel UI_APPEARANCE_SELECTOR;
-
-@property (nonatomic, strong) UIFont *upperLabelFont UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *upperLabelTextColor UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIFont *lowerLabelFont UI_APPEARANCE_SELECTOR;
-@property (nonatomic, strong) UIColor *lowerLabelTextColor UI_APPEARANCE_SELECTOR;
-
-/// The upper label's text
-@property (nonatomic, strong) NSString *upperLabelText;
-
-/// The lower label's text
-@property (nonatomic, strong) NSString *lowerLabelText;
+@property (nonatomic, strong) CHLabel *upperLabel;
+@property (nonatomic, strong) CHLabel *lowerLabel;
 
 @end
