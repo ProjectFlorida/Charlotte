@@ -7,10 +7,10 @@
 //
 
 #import "CHLineView.h"
-#import "CHChartViewSubclass.h"
-#import "CHLineChartViewSubclass.h"
+#import "CHBarChartViewProtected.h"
 #import "UIBezierPath+Interpolation.h"
 #import "CHGradientView.h"
+#import "CHMathUtils.h"
 
 @interface CHLineView ()
 
@@ -124,8 +124,8 @@
         if (!valueIsNull) {
             CGFloat x = [self xPositionWithIndex:i inCount:count];
             CGFloat floatValue = [value floatValue];
-            CGFloat y = [CHLineChartView yPositionWithValue:floatValue min:trueMinValue
-                                                        max:self.maxValue height:CGRectGetHeight(self.bounds)];
+            CGFloat y = [CHMathUtils yPositionWithValue:floatValue min:trueMinValue
+                                                    max:self.maxValue height:CGRectGetHeight(self.bounds)];
             NSValue *pointValue = [NSValue valueWithCGPoint:CGPointMake(x, y)];
             [points addObject:pointValue];
         }
@@ -178,8 +178,8 @@
         view.layer.cornerRadius = point.radius/2.0;
         view.backgroundColor = point.color;
         CGFloat x = self.bounds.size.width * point.relativeXPosition;
-        CGFloat y = [CHLineChartView yPositionWithValue:point.value min:trueMinValue
-                                                    max:self.maxValue height:CGRectGetHeight(self.bounds)];
+        CGFloat y = [CHMathUtils yPositionWithValue:point.value min:trueMinValue
+                                                max:self.maxValue height:CGRectGetHeight(self.bounds)];
         view.center = CGPointMake(x, y);
         [self.scatterPointContainerView addSubview:view];
         [self.scatterPointViews addObject:view];
@@ -210,8 +210,8 @@
     [self resetInteractivePoint];
     self.interactivePoint = point;
     CGFloat x = self.bounds.size.width * point.relativeXPosition;
-    CGFloat y = [CHLineChartView yPositionWithValue:point.value min:[self trueMinValue]
-                                                max:self.maxValue height:CGRectGetHeight(self.bounds)];
+    CGFloat y = [CHMathUtils yPositionWithValue:point.value min:[self trueMinValue]
+                                            max:self.maxValue height:CGRectGetHeight(self.bounds)];
     self.interactivePoint.view.center = CGPointMake(x, y);
     self.interactivePoint.view.alpha = 0;
     [self addSubview:self.interactivePoint.view];
@@ -272,9 +272,9 @@
     }
     NSMutableArray *scaledLocations = [NSMutableArray array];
     for (NSNumber *location in self.gradientLocations) {
-        CGFloat scaledValue = [CHChartView scaledValue:[location floatValue]
-                                              minValue:self.minValue
-                                              maxValue:self.maxValue];
+        CGFloat scaledValue = [CHMathUtils relativeValue:[location floatValue]
+                                                     min:self.minValue
+                                                     max:self.maxValue];
         // Clamp between 0 and 1
         scaledValue = MIN(MAX(scaledValue, 0), 1);
         [scaledLocations addObject:@(scaledValue)];

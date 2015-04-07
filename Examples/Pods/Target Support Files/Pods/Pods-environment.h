@@ -10,5 +10,5 @@
 #define COCOAPODS_POD_AVAILABLE_Charlotte
 #define COCOAPODS_VERSION_MAJOR_Charlotte 0
 #define COCOAPODS_VERSION_MINOR_Charlotte 9
-#define COCOAPODS_VERSION_PATCH_Charlotte 0
+#define COCOAPODS_VERSION_PATCH_Charlotte 1
 

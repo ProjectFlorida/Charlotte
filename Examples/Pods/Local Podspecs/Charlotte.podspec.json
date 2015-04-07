@@ -1,6 +1,6 @@
 {
   "name": "Charlotte",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "summary": "highly customizable interactive charts",
   "description": "   Highly customizable interactive charts\n",
   "homepage": "http://github.com/ProjectFlorida/Charlotte",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "git@github.com:ProjectFlorida/Charlotte.git",
-    "tag": "v0.9.0"
+    "tag": "v0.9.1"
   },
   "source_files": "Charlotte/Charlotte/*.{h,m}",
   "requires_arc": true

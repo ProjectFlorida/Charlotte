@@ -7,7 +7,6 @@
 //
 
 #import "CHScatterChartView.h"
-#import "CHChartViewSubclass.h"
 #import "CHTouchGestureRecognizer.h"
 #import "CHLineView.h"
 #import "CHLineChartViewSubclass.h"
@@ -21,9 +20,26 @@
 
 @implementation CHScatterChartView
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self initialize];
+    }
+    return self;
+}
+
 - (void)initialize
 {
-    [super initialize];
     self.cursorEnabled = NO;
     self.touchGR.enabled = YES;
     self.longPressGR.enabled = NO;

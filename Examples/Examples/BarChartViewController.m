@@ -9,7 +9,7 @@
 #import "BarChartViewController.h"
 #import <Charlotte/Charlotte.h>
 
-@interface BarChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHBarChartViewDataSource>
+@interface BarChartViewController () <CHBarChartViewDataSource, CHBarChartViewDelegate>
 
 @property (nonatomic, strong) CHBarChartView *chartView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -38,7 +38,6 @@
         _chartView = [[CHBarChartView alloc] initWithFrame:CGRectZero];
         _chartView.delegate = self;
         _chartView.dataSource = self;
-        _chartView.barChartDataSource = self;
         _chartView.backgroundColor = [UIColor clearColor];
         _chartView.relativeBarWidth = 0.3;
 
@@ -90,12 +89,12 @@
 
 #pragma mark - CHChartViewDataSource
 
-- (NSInteger)numberOfPagesInChartView:(CHChartView *)chartView
+- (NSInteger)numberOfPagesInChartView:(CHBarChartView *)chartView
 {
     return self.minValues.count;
 }
 
-- (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
+- (void)chartView:(CHBarChartView *)chartView configureXAxisLabelView:(UIView *)view
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
@@ -109,12 +108,12 @@
     }
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
+- (NSInteger)chartView:(CHBarChartView *)chartView numberOfPointsInPage:(NSInteger)page
 {
     return [self.values[page] count];
 }
 
-- (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (NSNumber *)chartView:(CHBarChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     NSNumber *value = self.values[page][index];
     if ([value floatValue] == 0) {
@@ -125,39 +124,49 @@
     }
 }
 
-- (void)chartView:(CHChartView *)chartView configureCell:(CHBarChartCell *)cell
-   forPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (void)chartView:(CHBarChartView *)chartView configureBar:(CHBarChartCell *)barCell
+           inPage:(NSInteger)page atIndex:(NSInteger)index
 {
     NSNumber *value = self.values[page][index];
-    cell.glowRadius = 5;
-    cell.valueLabelView.upperLabel.text = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
-    cell.valueLabelView.lowerLabel.text = @"foo";
-    cell.valueLabelView.upperLabel.font = [UIFont boldSystemFontOfSize:18];
-    cell.valueLabelView.lowerLabel.font = [UIFont boldSystemFontOfSize:18];
-    cell.valueLabelView.upperLabel.textColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
-    cell.valueLabelView.lowerLabel.textColor = [UIColor grayColor];
-    [cell.valueLabelView.upperLabel sizeToFit];
-    [cell.valueLabelView.lowerLabel sizeToFit];
-    [cell.valueLabelView setNeedsLayout];
-    [cell.valueLabelView sizeToFit];
+    barCell.glowRadius = 5;
+    barCell.valueLabelView.upperLabel.text = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
+    barCell.valueLabelView.lowerLabel.text = @"foo";
+    barCell.valueLabelView.upperLabel.font = [UIFont boldSystemFontOfSize:18];
+    barCell.valueLabelView.lowerLabel.font = [UIFont boldSystemFontOfSize:18];
+    barCell.valueLabelView.upperLabel.textColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
+    barCell.valueLabelView.lowerLabel.textColor = [UIColor grayColor];
+    [barCell.valueLabelView.upperLabel sizeToFit];
+    [barCell.valueLabelView.lowerLabel sizeToFit];
+    [barCell.valueLabelView setNeedsLayout];
+    [barCell.valueLabelView sizeToFit];
+
+    if (index == 0) {
+        barCell.barColor = [[UIColor grayColor] colorWithAlphaComponent:0.5];
+    }
+    else if (index == 5) {
+        barCell.barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
+    }
+    else {
+        barCell.barColor = [[UIColor whiteColor] colorWithAlphaComponent:0.9];
+    }
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHBarChartView *)chartView minValueForPage:(NSInteger)page
 {
     return [self.minValues[page] floatValue];
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHBarChartView *)chartView maxValueForPage:(NSInteger)page
 {
     return [self.maxValues[page] floatValue];
 }
 
-- (NSInteger)numberOfGridlinesInChartView:(CHChartView *)chartView
+- (NSInteger)numberOfGridlinesInChartView:(CHBarChartView *)chartView
 {
     return self.gridlineValues.count;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
+- (CGFloat)chartView:(CHBarChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
 {
     if (index == 2) {
         return [self.averages[self.currentIndex] floatValue];
@@ -167,7 +176,7 @@
     }
 }
 
-- (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
+- (void)chartView:(CHBarChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
 {
     if (index != 2) {
         gridlineView.leftLabel.text = [NSString stringWithFormat:@"%d", (int)value];
@@ -192,54 +201,9 @@
     }
 }
 
-#pragma mark - CHBarChartDataSource
-
-- (UIColor *)chartView:(CHBarChartView *)chartView colorForBarInPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    if (index == 0) {
-        return [[UIColor grayColor] colorWithAlphaComponent:0.5];
-    }
-    else if (index == 5) {
-        return [UIColor clearColor];
-    }
-    else {
-        return [[UIColor whiteColor] colorWithAlphaComponent:0.9];
-    }
-}
-
-- (NSArray *)chartView:(CHBarChartView *)chartView borderDashPatternForBarInPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    if (index == 5) {
-        return @[@2, @2];
-    }
-    else {
-        return nil;
-    }
-}
-
-- (UIColor *)chartView:(CHBarChartView *)chartView borderColorForBarInPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    if (index == 5) {
-        return [UIColor colorWithWhite:0.5 alpha:1];
-    }
-    else {
-        return nil;
-    }
-}
-
-- (CGFloat)chartView:(CHChartView *)chartView borderWidthForBarInPage:(NSInteger)page atIndex:(NSInteger)index
-{
-    if (index == 5) {
-        return 2;
-    }
-    else {
-        return 0;
-    }
-}
-
 #pragma mark - CHChartViewDelegate
 
-- (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
+- (void)chartView:(CHBarChartView *)chartView didTransitionToPage:(NSInteger)page
 {
     self.currentIndex = page;
 }

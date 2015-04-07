@@ -15,7 +15,6 @@
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPressGR;
 @property (nonatomic, strong) CHLineView *lineView;
 
-+ (CGFloat)yPositionWithValue:(CGFloat)value min:(CGFloat)min max:(CGFloat)max height:(CGFloat)height;
 - (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer;
 
 @end
