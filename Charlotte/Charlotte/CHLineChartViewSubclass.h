@@ -16,6 +16,7 @@
 @property (nonatomic, strong) CHLineView *lineView;
 
 - (void)handleTouchGesture:(CHTouchGestureRecognizer *)gestureRecognizer;
+- (void)initialize;
 
 @end
 

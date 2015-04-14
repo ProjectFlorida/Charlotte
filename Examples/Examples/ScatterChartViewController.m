@@ -9,7 +9,7 @@
 #import "ScatterChartViewController.h"
 #import <Charlotte/Charlotte.h>
 
-@interface ScatterChartViewController () <CHChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate,
+@interface ScatterChartViewController () <CHBarChartViewDataSource, CHScatterChartViewDataSource, CHScatterChartViewDelegate,
 CHTooltipViewDelegate>
 
 @property (nonatomic, strong) CHScatterChartView *chartView;
@@ -134,7 +134,7 @@ CHTooltipViewDelegate>
 
 #pragma mark - CHChartViewDataSource
 
-- (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
+- (void)chartView:(CHBarChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
 {
     gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
     gridlineView.leftLabel.text = [NSString stringWithFormat:@"%.0f", value];
@@ -144,7 +144,7 @@ CHTooltipViewDelegate>
     [gridlineView setNeedsLayout];
 }
 
-- (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
+- (void)chartView:(CHBarChartView *)chartView configureXAxisLabelView:(UIView *)view
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
@@ -165,49 +165,52 @@ CHTooltipViewDelegate>
         labelText = @"July";
     }
     if (labelText) {
-        labelView.font = [UIFont boldSystemFontOfSize:13];
-        labelView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
-        labelView.text = labelText;
+        labelView.titleLabel.font = [UIFont boldSystemFontOfSize:13];
+        labelView.titleLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        labelView.titleLabel.text = labelText;
         labelView.hidden = NO;
         labelView.tickColor = [UIColor clearColor];
+        [labelView.titleLabel sizeToFit];
+        [labelView setNeedsLayout];
+        [labelView sizeToFit];
     }
     else {
         labelView.hidden = YES;
     }
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
+- (NSInteger)chartView:(CHBarChartView *)chartView numberOfPointsInPage:(NSInteger)page
 {
     return 60;
 }
 
-- (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (NSNumber *)chartView:(CHBarChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     return @(sin(index/20.0));
 }
 
-- (void)chartView:(CHChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
+- (void)chartView:(CHBarChartView *)chartView configureLabel:(UILabel *)label forPointInPage:(NSInteger)page
           atIndex:(NSInteger)index
 {
     label.hidden = YES;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHBarChartView *)chartView minValueForPage:(NSInteger)page
 {
     return 0;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHBarChartView *)chartView maxValueForPage:(NSInteger)page
 {
     return 6;
 }
 
-- (NSInteger)numberOfGridlinesInChartView:(CHChartView *)chartView
+- (NSInteger)numberOfGridlinesInChartView:(CHBarChartView *)chartView
 {
     return 5;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
+- (CGFloat)chartView:(CHBarChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
 {
     return index + 1;
 }

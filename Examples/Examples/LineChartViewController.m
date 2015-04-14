@@ -9,7 +9,7 @@
 #import "LineChartViewController.h"
 #import <Charlotte/Charlotte.h>
 
-@interface LineChartViewController () <CHChartViewDataSource, CHChartViewDelegate, CHLineChartViewDelegate>
+@interface LineChartViewController () <CHBarChartViewDataSource, CHBarChartViewDelegate, CHLineChartViewDelegate>
 
 @property (nonatomic, strong) CHLineChartView *chartView;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -37,6 +37,7 @@
         _chartView.lineWidth = 3;
         _chartView.lineColor = [UIColor whiteColor];
         _chartView.cursorColor = [UIColor colorWithRed:0.56 green:0.8 blue:0.07 alpha:1];
+        _chartView.footerHeight = 50;
         [_chartView setLineColors:@[
                                     [UIColor colorWithRed:0.56 green:0.8 blue:0.07 alpha:1],
                                     [UIColor colorWithRed:0.45 green:0.65 blue:0.04 alpha:1],
@@ -100,7 +101,7 @@
 
 #pragma mark CHChartViewDataSource
 
-- (void)chartView:(CHChartView *)chartView configureXAxisLabelView:(UIView *)view
+- (void)chartView:(CHLineChartView *)chartView configureXAxisLabelView:(UIView *)view
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
@@ -115,23 +116,30 @@
         labelText = @"7:04am";
     }
     if (labelText) {
-        labelView.font = [UIFont systemFontOfSize:13];
-        labelView.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
-        labelView.tickColor = labelView.textColor;
-        labelView.text = labelText;
         labelView.hidden = NO;
+        labelView.titleLabel.font = [UIFont systemFontOfSize:13];
+        labelView.subtitleLabel.font = [UIFont systemFontOfSize:13];
+        labelView.titleLabel.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        labelView.subtitleLabel.textColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+        labelView.tickColor = labelView.titleLabel.textColor;
+        labelView.titleLabel.text = labelText;
+        labelView.subtitleLabel.text = labelText;
+        [labelView.titleLabel sizeToFit];
+        [labelView.subtitleLabel sizeToFit];
+        [labelView setNeedsLayout];
+        [labelView sizeToFit];
     }
     else {
         labelView.hidden = YES;
     }
 }
 
-- (NSInteger)chartView:(CHChartView *)chartView numberOfPointsInPage:(NSInteger)page
+- (NSInteger)chartView:(CHLineChartView *)chartView numberOfPointsInPage:(NSInteger)page
 {
     return self.pointCount;
 }
 
-- (NSNumber *)chartView:(CHChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
+- (NSNumber *)chartView:(CHLineChartView *)chartView valueForPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     if (index == 5 || index == 10) {
         return nil;
@@ -141,27 +149,27 @@
     }
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView minValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHLineChartView *)chartView minValueForPage:(NSInteger)page
 {
     return 0;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView maxValueForPage:(NSInteger)page
+- (CGFloat)chartView:(CHLineChartView *)chartView maxValueForPage:(NSInteger)page
 {
     return 5.7;
 }
 
-- (NSInteger)numberOfGridlinesInChartView:(CHChartView *)chartView
+- (NSInteger)numberOfGridlinesInChartView:(CHLineChartView *)chartView
 {
     return 6;
 }
 
-- (CGFloat)chartView:(CHChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
+- (CGFloat)chartView:(CHLineChartView *)chartView valueForGridlineAtIndex:(NSInteger)index
 {
     return index;
 }
 
-- (void)chartView:(CHChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
+- (void)chartView:(CHLineChartView *)chartView configureGridlineView:(CHGridlineView *)gridlineView withValue:(CGFloat)value atIndex:(NSInteger)index
 {
     gridlineView.lineInset = UIEdgeInsetsMake(0, 30, 0, 0);
     gridlineView.leftLabel.text = [NSString stringWithFormat:@"%.0f", value];
@@ -178,7 +186,7 @@
 
 #pragma mark CHChartViewDelegate
 
-- (void)chartView:(CHChartView *)chartView didTransitionToPage:(NSInteger)page
+- (void)chartView:(CHLineChartView *)chartView didTransitionToPage:(NSInteger)page
 {
     self.currentIndex = page;
 }

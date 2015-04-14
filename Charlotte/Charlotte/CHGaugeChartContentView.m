@@ -54,7 +54,7 @@
     CGRect bounds = self.bounds;
     CGFloat height = CGRectGetHeight(bounds);
     CGFloat width = CGRectGetWidth(bounds);
-    CGFloat range = abs(self.maxValue - self.minValue);
+    CGFloat range = fabs(self.maxValue - self.minValue);
     CGFloat bufferWidth = width;
     self.gradientView.frame = CGRectMake(0, height - self.bandHeight, width, self.bandHeight);
     self.leftGradientBufferView.frame = CGRectMake(CGRectGetMinX(self.gradientView.frame) - bufferWidth,
@@ -93,7 +93,7 @@
 {
     // get current range
     CGFloat width = CGRectGetWidth(self.bounds);
-    CGFloat range = abs(self.maxValue - self.minValue);
+    CGFloat range = fabs(self.maxValue - self.minValue);
     CGFloat delta = (pointerValue - self.pointerValue)/range;
     CGFloat deltaX = delta*width;
     CGRect targetPointerFrame = CGRectOffset(self.pointerView.frame, deltaX, 0);

@@ -98,14 +98,17 @@
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
     CHXAxisLabelView *labelView = (CHXAxisLabelView *)view;
-    labelView.text = self.xAxisLabels[index];
-    labelView.font = [UIFont systemFontOfSize:13];
+    labelView.titleLabel.text = self.xAxisLabels[index];
+    labelView.titleLabel.font = [UIFont systemFontOfSize:13];
+    [labelView.titleLabel sizeToFit];
+    [labelView setNeedsLayout];
     if (index == 3) {
-        labelView.textColor = [UIColor whiteColor];
+        labelView.titleLabel.textColor = [UIColor whiteColor];
     }
     else {
-        labelView.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
+        labelView.titleLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.5];
     }
+    [labelView sizeToFit];
 }
 
 - (NSInteger)chartView:(CHBarChartView *)chartView numberOfPointsInPage:(NSInteger)page
