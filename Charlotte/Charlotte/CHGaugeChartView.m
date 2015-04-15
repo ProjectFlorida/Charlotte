@@ -125,8 +125,7 @@
     // add x axis labels
     NSUInteger numberOfXAxisLabels = [self.dataSource numberOfXAxisLabelsInChartView:self];
     for (int i=0; i<numberOfXAxisLabels; i++) {
-        CHXAxisLabelView *labelView = [[CHXAxisLabelView alloc] init];
-        labelView = [[CHXAxisLabelView alloc] initWithFrame:CGRectZero];
+        CHXAxisLabelView *labelView = [[CHXAxisLabelView alloc] initWithFrame:CGRectZero];
         labelView.tickPosition = CHRelativeTickPositionBelow;
         labelView.value = [self.dataSource chartView:self valueOfXAxisLabelAtIndex:i];
         [self.contentView addSubview:labelView];

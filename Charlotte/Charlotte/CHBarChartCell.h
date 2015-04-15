@@ -38,15 +38,6 @@ extern NSString *const CHPointCellReuseId;
 /// The radius of the bar's glow. Default is 0.
 @property (nonatomic, assign) CGFloat glowRadius;
 
-/// The bar's border color
-@property (nonatomic, strong) UIColor *borderColor;
-
-/// The bar's border width
-@property (nonatomic, assign) CGFloat borderWidth;
-
-/// The bar's border dash pattern
-@property (nonatomic, strong) NSArray *borderDashPattern;
-
 /// The width of the bar view relative to the cell's width
 @property (nonatomic, assign) CGFloat relativeBarWidth;
 

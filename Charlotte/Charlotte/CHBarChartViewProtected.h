@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "CHChartView.h"
+#import "CHBarChartView.h"
 
 @class CHPagingChartFlowLayout;
 
-@interface CHChartView (CHChartViewProtected) <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface CHBarChartView (CHBarChartViewProtected) <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (strong, nonatomic) NSString *cellReuseId;
 @property (strong, nonatomic) Class cellClass;
@@ -32,7 +32,5 @@
 - (void)initializeGridlines;
 - (void)updateRangeInVisibleCellsAnimated:(BOOL)animated;
 - (void)updateAlphaInVisibleCells;
-
-+ (CGFloat)scaledValue:(CGFloat)value minValue:(CGFloat)min maxValue:(CGFloat)max;
 
 @end

@@ -147,10 +147,12 @@
 - (void)chartView:(CHGaugeChartView *)chartView configureXAxisLabelView:(CHXAxisLabelView *)labelView
           atIndex:(NSUInteger)index withValue:(CGFloat)value
 {
-    labelView.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
-    labelView.labelEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    labelView.textColor = [UIColor grayColor];
+    labelView.titleLabel.text = [NSString stringWithFormat:@"%d", (int)roundf(value)];
+    labelView.titleLabel.edgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    labelView.titleLabel.textColor = [UIColor grayColor];
+    [labelView.titleLabel sizeToFit];
     labelView.tickColor = [UIColor grayColor];
+    [labelView setNeedsLayout];
     [labelView sizeToFit];
 }
 

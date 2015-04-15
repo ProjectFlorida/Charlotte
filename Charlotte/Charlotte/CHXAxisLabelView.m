@@ -21,13 +21,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _font = [UIFont systemFontOfSize:13];
-        _label = [[CHLabel alloc] initWithFrame:CGRectZero];
+        _titleLabel = [[CHLabel alloc] initWithFrame:CGRectZero];
+        _subtitleLabel = [[CHLabel alloc] initWithFrame:CGRectZero];
         _tickView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 6)];
         _tickView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.5];
         _tickPosition = CHRelativeTickPositionAbove;
         [self addSubview:_tickView];
-        [self addSubview:_label];
+        [self addSubview:_titleLabel];
+        [self addSubview:_subtitleLabel];
     }
     return self;
 }
@@ -39,51 +40,37 @@
     if (self.tickPosition == CHRelativeTickPositionAbove) {
         self.tickView.center = CGPointMake(CGRectGetMidX(bounds),
                                            CGRectGetMidY(self.tickView.bounds));
-        self.label.center = CGPointMake(CGRectGetMidX(bounds),
-                                        CGRectGetMaxY(self.tickView.frame) + CGRectGetMidY(self.label.bounds));
+        self.titleLabel.center = CGPointMake(CGRectGetMidX(bounds),
+                                             CGRectGetMaxY(self.tickView.frame) +
+                                             CGRectGetMidY(self.titleLabel.bounds));
+        self.subtitleLabel.center = CGPointMake(CGRectGetMidX(bounds),
+                                                CGRectGetMaxY(self.titleLabel.frame) +
+                                                CGRectGetMidY(self.subtitleLabel.bounds));
+
     }
     else if (self.tickPosition == CHRelativeTickPositionBelow) {
-        self.label.center = CGPointMake(CGRectGetMidX(bounds),
-                                        CGRectGetMidY(self.label.bounds));
+        self.titleLabel.center = CGPointMake(CGRectGetMidX(bounds),
+                                             CGRectGetMidY(self.titleLabel.bounds));
+        self.subtitleLabel.center = CGPointMake(CGRectGetMidX(bounds),
+                                                CGRectGetMaxY(self.titleLabel.frame) +
+                                                CGRectGetMidY(self.subtitleLabel.bounds));
         self.tickView.center = CGPointMake(CGRectGetMidX(bounds),
-                                           CGRectGetMaxY(self.label.frame) + CGRectGetMidY(self.tickView.bounds));
+                                           CGRectGetMaxY(self.subtitleLabel.frame) +
+                                           CGRectGetMidY(self.tickView.bounds));
     }
 }
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
     [self layoutIfNeeded];
-    CGSize sizeThatFits = CGSizeMake(CGRectGetWidth(self.label.bounds),
-                                     CGRectGetHeight(self.tickView.bounds) + CGRectGetHeight(self.label.bounds));
+    CGSize sizeThatFits = CGSizeMake(CGRectGetWidth(self.titleLabel.bounds),
+                                     CGRectGetHeight(self.tickView.bounds) +
+                                     CGRectGetHeight(self.titleLabel.bounds) +
+                                     CGRectGetHeight(self.subtitleLabel.bounds));
     return sizeThatFits;
 }
 
 #pragma mark - Setters
-- (void)setText:(NSString *)text
-{
-    _text = text;
-    if (![self.label.text isEqualToString:text]) {
-        self.label.text = text;
-        [self.label sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setFont:(UIFont *)font
-{
-    _font = font;
-    if (self.label.font != font) {
-        self.label.font = font;
-        [self.label sizeToFit];
-        [self setNeedsLayout];
-    }
-}
-
-- (void)setTextColor:(UIColor *)textColor
-{
-    _textColor = textColor;
-    self.label.textColor = textColor;
-}
 
 - (void)setTickColor:(UIColor *)tickColor
 {
@@ -121,17 +108,6 @@
         return;
     }
     _tickPosition = tickPosition;
-    [self setNeedsLayout];
-}
-
-- (void)setLabelEdgeInsets:(UIEdgeInsets)labelEdgeInsets
-{
-    if (UIEdgeInsetsEqualToEdgeInsets(_labelEdgeInsets, labelEdgeInsets)) {
-        return;
-    }
-    _labelEdgeInsets = labelEdgeInsets;
-    self.label.edgeInsets = labelEdgeInsets;
-    [self.label sizeToFit];
     [self setNeedsLayout];
 }
 

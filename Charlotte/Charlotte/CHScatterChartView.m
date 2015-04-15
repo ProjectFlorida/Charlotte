@@ -7,7 +7,6 @@
 //
 
 #import "CHScatterChartView.h"
-#import "CHChartViewSubclass.h"
 #import "CHTouchGestureRecognizer.h"
 #import "CHLineView.h"
 #import "CHLineChartViewSubclass.h"

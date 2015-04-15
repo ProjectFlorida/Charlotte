@@ -7,7 +7,7 @@
 //
 
 #import "CHPagingChartFlowLayout.h"
-#import "CHChartView.h"
+#import "CHBarChartView.h"
 #import "CHBarChartCell.h"
 
 @implementation CHPagingChartFlowLayout

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Project Florida. All rights reserved.
 //
 
-#import "CHChartView.h"
+#import "CHBarChartView.h"
 
 extern NSString *const CHSupplementaryElementKindLine;
 
@@ -47,7 +47,7 @@ extern NSString *const CHSupplementaryElementKindLine;
 
 @end
 
-@interface CHLineChartView : CHChartView
+@interface CHLineChartView : CHBarChartView
 
 /// The chart's cursor animates between points with this duration.
 @property (nonatomic, assign) CGFloat cursorMovementAnimationDuration UI_APPEARANCE_SELECTOR;
