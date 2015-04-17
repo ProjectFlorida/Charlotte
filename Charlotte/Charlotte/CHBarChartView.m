@@ -191,12 +191,8 @@
     self.scrollView.frame = UIEdgeInsetsInsetRect(bounds,
                                                   UIEdgeInsetsMake(0, self.collectionViewLayout.pageInset.left,
                                                                    0, self.collectionViewLayout.pageInset.right));
-    self.backgroundView.frame = UIEdgeInsetsInsetRect(bounds,
-                                                      UIEdgeInsetsMake(0, 0,
-                                                                       self.collectionViewLayout.footerHeight, 0));
-    self.overlayView.frame = UIEdgeInsetsInsetRect(bounds,
-                                                   UIEdgeInsetsMake(0, 0,
-                                                                    self.collectionViewLayout.footerHeight, 0));
+    self.backgroundView.frame = bounds;
+    self.overlayView.frame = bounds;
     [self.scrollView setContentSize:self.collectionViewLayout.collectionViewContentSize];
     [self updateAlphaInVisibleCellsAnimated:NO];
     self.scrollView.contentOffset = CGPointMake(self.currentPage*self.scrollView.bounds.size.width, 0);
@@ -326,12 +322,15 @@
 - (void)updateGridlinesAnimated:(BOOL)animated {
     CGFloat min = [self.dataSource chartView:self minValueForPage:self.currentPage];
     CGFloat max = [self.dataSource chartView:self maxValueForPage:self.currentPage];
+    CGFloat trueMinValue = [CHMathUtils trueMinValueWithMin:min max:max
+                                                     height:CGRectGetHeight(self.bounds)
+                                               footerHeight:self.footerHeight];
     NSInteger count = self.gridlines.count;
     CGRect backgroundViewBounds = self.backgroundView.bounds;
     for (int i = 0; i < count; i++) {
         CHGridlineContainer *gridline = self.gridlines[i];
         gridline.value = [self.dataSource chartView:self valueForGridlineAtIndex:i];
-        CGFloat scaledValue = [CHMathUtils relativeValue:gridline.value min:min max:max];
+        CGFloat scaledValue = [CHMathUtils relativeValue:gridline.value min:trueMinValue max:max];
         void(^layoutBlock)() = ^() {
             gridline.labelGridlineView.frame = CGRectMake(0, 0, CGRectGetWidth(backgroundViewBounds), 40);
             gridline.labelGridlineView.center = CGPointMake(CGRectGetMidX(backgroundViewBounds),

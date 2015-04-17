@@ -166,6 +166,12 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
     [[CHLineView appearance] setLineDrawingAnimationDuration:_lineDrawingAnimationDuration];
 }
 
+- (void)setFooterHeight:(CGFloat)footerHeight
+{
+    self.lineView.footerHeight = footerHeight;
+    [super setFooterHeight:footerHeight];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 
 // Make sure our gesture recognizer doesn't block other gesture recognizers
@@ -200,7 +206,9 @@ shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherG
     CGFloat cellWidth = (self.bounds.size.width - sectionInsetWidth - pageInsetWidth)/pointCount;
     NSInteger index = (touchLocation.x - pageInset.left - sectionInset.left)/cellWidth;
 
-    CGFloat trueMinValue = [self.lineView trueMinValue];
+    CGFloat trueMinValue = [CHMathUtils trueMinValueWithMin:self.lineView.minValue max:self.lineView.maxValue
+                                                     height:CGRectGetHeight(self.bounds)
+                                               footerHeight:self.footerHeight];
     index = MIN(MAX(0, index), pointCount - 1);
     NSNumber *value = [self.dataSource chartView:self valueForPointInPage:self.currentPage atIndex:index];
     BOOL isOnNullValue = !value || [value isKindOfClass:[NSNull class]];

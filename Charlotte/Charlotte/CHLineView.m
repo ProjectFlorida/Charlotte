@@ -68,21 +68,13 @@
     [super layoutSubviews];
     CGRect bounds = self.bounds;
     self.lineView.frame = bounds;
-    self.lineMaskLayer.frame = self.lineView.frame;
+    self.lineMaskLayer.frame = bounds;
     self.scatterPointContainerView.frame = bounds;
     [self drawLineWithValues:self.lineValues animated:NO];
     [self drawScatterPoints:self.scatterPoints animated:NO];
     [self drawInteractivePoint:self.interactivePoint animated:NO];
 }
 
-- (CGFloat)trueMinValue
-{
-    CGFloat heightFromMinToMax = self.bounds.size.height - self.footerHeight;
-    CGFloat minToMaxRange = self.maxValue - self.minValue;
-    CGFloat unitPerPixel = minToMaxRange/heightFromMinToMax;
-    CGFloat footerHeightInUnits = unitPerPixel*self.footerHeight;
-    return self.minValue - footerHeightInUnits;
-}
 
 - (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
 {
@@ -115,7 +107,9 @@
     // transform the values array (which may contain nulls) into an array of bezier paths
     NSMutableArray *paths = [NSMutableArray array];
     NSMutableArray *points = [NSMutableArray array];
-    CGFloat trueMinValue = [self trueMinValue];
+    CGFloat trueMinValue = [CHMathUtils trueMinValueWithMin:self.minValue max:self.maxValue
+                                                     height:CGRectGetHeight(self.bounds)
+                                               footerHeight:self.footerHeight];
 
     NSUInteger i = 0;
     while (i < count) {
@@ -172,7 +166,9 @@
 {
     [self resetScatterPoints];
     self.scatterPoints = points;
-    CGFloat trueMinValue = [self trueMinValue];
+    CGFloat trueMinValue = [CHMathUtils trueMinValueWithMin:self.minValue max:self.maxValue
+                                                     height:CGRectGetHeight(self.bounds)
+                                               footerHeight:self.footerHeight];
     for (CHScatterPoint *point in points) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, point.radius, point.radius)];
         view.layer.cornerRadius = point.radius/2.0;
@@ -209,8 +205,11 @@
 {
     [self resetInteractivePoint];
     self.interactivePoint = point;
+    CGFloat trueMinValue = [CHMathUtils trueMinValueWithMin:self.minValue max:self.maxValue
+                                                     height:CGRectGetHeight(self.bounds)
+                                               footerHeight:self.footerHeight];
     CGFloat x = self.bounds.size.width * point.relativeXPosition;
-    CGFloat y = [CHMathUtils yPositionWithValue:point.value min:[self trueMinValue]
+    CGFloat y = [CHMathUtils yPositionWithValue:point.value min:trueMinValue
                                             max:self.maxValue height:CGRectGetHeight(self.bounds)];
     self.interactivePoint.view.center = CGPointMake(x, y);
     self.interactivePoint.view.alpha = 0;
@@ -271,9 +270,12 @@
         return;
     }
     NSMutableArray *scaledLocations = [NSMutableArray array];
+    CGFloat trueMinValue = [CHMathUtils trueMinValueWithMin:self.minValue max:self.maxValue
+                                                     height:CGRectGetHeight(self.bounds)
+                                               footerHeight:self.footerHeight];
     for (NSNumber *location in self.gradientLocations) {
         CGFloat scaledValue = [CHMathUtils relativeValue:[location floatValue]
-                                                     min:self.minValue
+                                                     min:trueMinValue
                                                      max:self.maxValue];
         // Clamp between 0 and 1
         scaledValue = MIN(MAX(scaledValue, 0), 1);

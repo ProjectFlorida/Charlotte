@@ -40,10 +40,13 @@
         _chartView.footerHeight = 50;
         [_chartView setLineColors:@[
                                     [UIColor colorWithRed:0.56 green:0.8 blue:0.07 alpha:1],
+                                    [UIColor colorWithRed:0.56 green:0.8 blue:0.07 alpha:1],
                                     [UIColor colorWithRed:0.45 green:0.65 blue:0.04 alpha:1],
+                                    [UIColor colorWithRed:0.45 green:0.65 blue:0.04 alpha:1],
+                                    [UIColor colorWithRed:0.31 green:0.46 blue:0 alpha:1],
                                     [UIColor colorWithRed:0.31 green:0.46 blue:0 alpha:1]
                                     ]
-                        locations:@[@(1.5), @(2.5), @(3.5)]];
+                        locations:@[@(0), @(1), @(1.1), @(2), @(2.1), @(3)]];
 
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
         label.text = @"❤️";
