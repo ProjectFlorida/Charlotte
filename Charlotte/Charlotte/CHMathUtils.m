@@ -19,10 +19,7 @@
 + (CGFloat)yPositionWithValue:(CGFloat)value min:(CGFloat)min max:(CGFloat)max height:(CGFloat)height
 {
     CGFloat minToMaxRange = max - min;
-    if (minToMaxRange == 0) {
-        return 0;
-    }
-    CGFloat distancePerUnitValue = height/minToMaxRange;
+    CGFloat distancePerUnitValue = minToMaxRange == 0 ? 0 : height/minToMaxRange;
     CGFloat distanceFromZero = (-value) * distancePerUnitValue;
     CGFloat zeroPosition = height - ((0 - min)*distancePerUnitValue);
     return zeroPosition + distanceFromZero;
@@ -32,7 +29,7 @@
 {
     CGFloat heightFromMinToMax = height - footerHeight;
     CGFloat minToMaxRange = max - min;
-    CGFloat unitPerPixel = minToMaxRange/heightFromMinToMax;
+    CGFloat unitPerPixel = heightFromMinToMax == 0 ? 0 : minToMaxRange/heightFromMinToMax;
     CGFloat footerHeightInUnits = unitPerPixel*footerHeight;
     return min - footerHeightInUnits;
 }

@@ -53,8 +53,8 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
     self.axisLineView.frame = CGRectMake(0, ceilf(CGRectGetMidY(bounds) - self.axisLineStrokeWidth/2.0),
                                          CGRectGetWidth(bounds), ceilf(self.axisLineStrokeWidth));
     for (CHIntervalView *view in self.intervalViews) {
-        CGFloat relativeX = view.interval.range.location/(CGFloat)self.max;
-        CGFloat relativeWidth = view.interval.range.length/(CGFloat)self.max;
+        CGFloat relativeX = self.max == 0 ? 0 : view.interval.range.location/(CGFloat)self.max;
+        CGFloat relativeWidth = self.max == 0 ? 0 :view.interval.range.length/(CGFloat)self.max;
         view.frame = CGRectMake(relativeX*width, CGRectGetMinY(self.bounds), relativeWidth*width, height);
     }
 }
@@ -69,8 +69,8 @@ NSString *const CHIntervalChartCellId = @"CHIntervalChartCell";
         return i1.range.location > i2.range.location;
     }];
     for (CHInterval *interval in sortedIntervals) {
-        CGFloat relativeX = interval.range.location/(CGFloat)self.max;
-        CGFloat relativeWidth = interval.range.length/(CGFloat)self.max;
+        CGFloat relativeX = self.max == 0 ? 0 : interval.range.location/(CGFloat)self.max;
+        CGFloat relativeWidth = self.max == 0 ? 0 : interval.range.length/(CGFloat)self.max;
         CHIntervalView *view = [[CHIntervalView alloc] initWithFrame:CGRectZero];
         view.interval = interval;
         view.backgroundColor = interval.color;

@@ -78,7 +78,7 @@
 
 - (CGFloat)xPositionWithIndex:(NSInteger)index inCount:(NSInteger)count
 {
-    CGFloat cellWidth = self.bounds.size.width / count;
+    CGFloat cellWidth = count == 0 ? 0 : self.bounds.size.width / count;
     CGFloat leftMargin = cellWidth / 2.0;
     return leftMargin + cellWidth*index;
 }
