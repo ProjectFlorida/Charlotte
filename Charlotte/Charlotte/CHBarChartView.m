@@ -200,7 +200,7 @@
     self.yAxisLabelView.center = CGPointMake(CGRectGetMidX(self.yAxisLabelView.frame),
                                              CGRectGetMidY(self.yAxisLabelView.frame));
     [self updateGridlinesAnimated:NO];
-    [self updateVisibleValueLabelsAndGlow];
+    [self updateVisibleValueLabelsAndGlowAnimated:NO];
 }
 
 - (void)didMoveToWindow
@@ -221,6 +221,7 @@
         [self initializeGridlines];
     }
     [self updateGridlinesAnimated:NO];
+    [self updateVisibleValueLabelsAndGlowAnimated:NO];
     [self setNeedsLayout];
 }
 
@@ -230,7 +231,7 @@
     visible.origin.x = self.scrollView.bounds.size.width*page;
     [self.scrollView scrollRectToVisible:visible animated:animateScrolling];
     self.currentPage = page;
-    [self updateVisibleValueLabelsAndGlow];
+    [self updateVisibleValueLabelsAndGlowAnimated:animateRange];
     [self updateAlphaInVisibleCellsAnimated:animateRange];
     [self updateGridlinesAnimated:animateRange];
     [self updateRangeInVisibleCellsAnimated:animateRange];
@@ -244,16 +245,18 @@
     }
 }
 
-- (void)updateVisibleValueLabelsAndGlow {
+- (void)updateVisibleValueLabelsAndGlowAnimated:(BOOL)animated {
     if (!self.hidesValueLabelsOnNonCurrentPages) {
         return;
     }
 
     NSInteger count = self.collectionView.visibleCells.count;
+    CGFloat animationDuration = animated ? self.pageTransitionAnimationDuration : 0;
+    CGFloat glowAnimationDuration = animated ? self.glowAppearanceAnimationDuration : 0;
     for (int i = 0; i < count; i++) {
         CHBarChartCell *cell = self.collectionView.visibleCells[i];
         if (cell.page == self.currentPage) {
-            [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
+            [UIView animateWithDuration:animationDuration delay:0
                  usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseIn animations:^{
                                     cell.valueLabelView.transform = CGAffineTransformIdentity;
@@ -261,12 +264,12 @@
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
             animation.fromValue = @0;
             animation.toValue = @1;
-            animation.duration = self.glowAppearanceAnimationDuration;
+            animation.duration = glowAnimationDuration;
             [cell.barView.layer addAnimation:animation forKey:@"shadowOpacity"];
             cell.barView.layer.shadowOpacity = 1;
         }
         else {
-            [UIView animateWithDuration:self.pageTransitionAnimationDuration delay:0
+            [UIView animateWithDuration:animationDuration delay:0
                  usingSpringWithDamping:self.pageTransitionAnimationSpringDamping initialSpringVelocity:0
                                 options:UIViewAnimationOptionCurveEaseOut animations:^{
                                     cell.valueLabelView.transform = CGAffineTransformMakeScale(0.0, 0.0);
@@ -275,7 +278,7 @@
             CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"shadowOpacity"];
             animation.fromValue = @1;
             animation.toValue = @0;
-            animation.duration = self.glowAppearanceAnimationDuration;
+            animation.duration = glowAnimationDuration;
             [cell.barView.layer addAnimation:animation forKey:@"shadowOpacity"];
             cell.barView.layer.shadowOpacity = 0;
         }
@@ -456,7 +459,7 @@
         if (newCurrentPage != self.currentPage) {
             self.currentPage = newCurrentPage;
             [self updateRangeInVisibleCellsAnimated:YES];
-            [self updateVisibleValueLabelsAndGlow];
+            [self updateVisibleValueLabelsAndGlowAnimated:YES];
             [self updateAlphaInVisibleCellsAnimated:YES];
             [self updateGridlinesAnimated:YES];
         }
@@ -519,9 +522,11 @@
     cell.alpha = (cell.page == self.currentPage) ? 1 : self.pagingAlpha;
     if (self.hidesValueLabelsOnNonCurrentPages) {
         if (cell.page == self.currentPage) {
+            cell.barView.layer.shadowOpacity = 1;
             cell.valueLabelView.transform = CGAffineTransformIdentity;
         }
         else {
+            cell.barView.layer.shadowOpacity = 0;
             cell.valueLabelView.transform = CGAffineTransformMakeScale(0, 0);
         }
     }
