@@ -109,6 +109,8 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 {
     [super reloadData];
     NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:0];
+    // clamp to a reasonable range
+    pointCount = MIN(MAX(0, pointCount), 1000);
     if ([self.dataSource respondsToSelector:@selector(chartView:indicesOfXAxisLabelsInPage:)] &&
         [self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabelView:forPointInPage:atIndex:)]) {
         NSArray *indices = [self.dataSource chartView:self indicesOfXAxisLabelsInPage:0];
