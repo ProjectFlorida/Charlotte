@@ -95,7 +95,19 @@
            inPage:(NSInteger)page atIndex:(NSInteger)index;
 
 /**
+ *  Asks the data source for the indices at which x axis labels should be displayed.
+ *  Note: you must also implement `chartView:configureXAxisLabelView:forPointInPage:atIndex`.
+ *
+ *  @param chartView The chart view providing the label view
+ *  @param page      A page index in the chart view
+ *
+ *  @return An array of boxed NSUIntegers representing point indices at which an x axis label should be drawn.
+ */
+- (NSArray *)chartView:(CHBarChartView *)chartView indicesOfXAxisLabelsInPage:(NSInteger)page;
+
+/**
  *  Asks the data source to configure the label view to display on the x-axis below the specified point.
+ *  Note: you must also implement `chartView:indicesOfXAxisLabelsInPage:`.
  *
  *  @param chartView The chart view providing the label view
  *  @param view      The view to configure. 

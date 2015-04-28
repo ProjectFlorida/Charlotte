@@ -109,8 +109,11 @@ NSString *const CHSupplementaryElementKindLine = @"CHSupplementaryElementKindLin
 {
     [super reloadData];
     NSInteger pointCount = [self.dataSource chartView:self numberOfPointsInPage:0];
-    if ([self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabelView:forPointInPage:atIndex:)]) {
-        for (int i=0; i < pointCount; i++) {
+    if ([self.dataSource respondsToSelector:@selector(chartView:indicesOfXAxisLabelsInPage:)] &&
+        [self.dataSource respondsToSelector:@selector(chartView:configureXAxisLabelView:forPointInPage:atIndex:)]) {
+        NSArray *indices = [self.dataSource chartView:self indicesOfXAxisLabelsInPage:0];
+        for (NSNumber *index in indices) {
+            NSUInteger i = [index unsignedIntegerValue];
             UIView *labelView = [[self.xAxisLabelViewClass alloc] init];
             [self.dataSource chartView:self configureXAxisLabelView:labelView forPointInPage:0
                                atIndex:i];

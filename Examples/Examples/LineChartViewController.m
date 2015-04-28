@@ -104,6 +104,11 @@
 
 #pragma mark CHChartViewDataSource
 
+- (NSArray *)chartView:(CHBarChartView *)chartView indicesOfXAxisLabelsInPage:(NSInteger)page
+{
+    return @[@0, @10, @19];
+}
+
 - (void)chartView:(CHLineChartView *)chartView configureXAxisLabelView:(UIView *)view
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {

@@ -144,6 +144,11 @@ CHTooltipViewDelegate>
     [gridlineView setNeedsLayout];
 }
 
+- (NSArray *)chartView:(CHBarChartView *)chartView indicesOfXAxisLabelsInPage:(NSInteger)page
+{
+    return @[@10, @20, @30, @40, @50];
+}
+
 - (void)chartView:(CHBarChartView *)chartView configureXAxisLabelView:(UIView *)view
    forPointInPage:(NSInteger)page atIndex:(NSInteger)index
 {
