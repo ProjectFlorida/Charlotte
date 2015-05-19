@@ -3,7 +3,7 @@
 //  Charlotte
 //
 //  Created by Ben Guo on 10/28/14.
-//  Copyright 2014 Project Florida. All rights reserved.
+//  Copyright 2014 Sum Labs. All rights reserved.
 //
 
 #import <Kiwi/Kiwi.h>
