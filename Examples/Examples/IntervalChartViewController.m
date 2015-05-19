@@ -3,7 +3,7 @@
 //  Examples
 //
 //  Created by Ben Guo on 1/30/15.
-//  Copyright (c) 2015 Project Florida. All rights reserved.
+//  Copyright (c) 2015 Sum Labs. All rights reserved.
 //
 
 #import "IntervalChartViewController.h"

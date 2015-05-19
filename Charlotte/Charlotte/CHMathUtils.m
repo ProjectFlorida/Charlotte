@@ -3,7 +3,7 @@
 //  Charlotte
 //
 //  Created by Ben Guo on 4/7/15.
-//  Copyright (c) 2015 Project Florida. All rights reserved.
+//  Copyright (c) 2015 Sum Labs. All rights reserved.
 //
 
 #import "CHMathUtils.h"
