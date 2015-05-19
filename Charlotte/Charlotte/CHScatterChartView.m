@@ -3,7 +3,7 @@
 //  Charlotte
 //
 //  Created by Ben Guo on 10/28/14.
-//  Copyright (c) 2014 Project Florida. All rights reserved.
+//  Copyright (c) 2015 Sum Labs. All rights reserved.
 //
 
 #import "CHScatterChartView.h"
