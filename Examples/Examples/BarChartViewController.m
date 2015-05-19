@@ -139,9 +139,7 @@
     NSNumber *value = self.values[page][index];
     barCell.glowRadius = 5;
     barCell.valueLabelView.upperLabel.text = [NSString stringWithFormat:@"%d", (int)roundf([value floatValue])];
-    barCell.valueLabelView.lowerLabel.text = @"foo";
     barCell.valueLabelView.upperLabel.font = [UIFont boldSystemFontOfSize:18];
-    barCell.valueLabelView.lowerLabel.font = [UIFont boldSystemFontOfSize:18];
     barCell.valueLabelView.upperLabel.textColor = (index == 5) ? [UIColor colorWithWhite:0.5 alpha:1] : [UIColor whiteColor];
     barCell.valueLabelView.lowerLabel.textColor = [UIColor grayColor];
     [barCell.valueLabelView.upperLabel sizeToFit];
