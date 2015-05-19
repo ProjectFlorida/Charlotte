@@ -1,6 +1,6 @@
 # Charlotte
 
-Charts on iOS.
+Charlotte is a library for creating interactive charts on iOS.
 
 ## Development
 To contribute to the Charlotte framework or run unit tests, use the Charlotte framework workspace.
